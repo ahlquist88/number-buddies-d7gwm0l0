@@ -267,6 +267,40 @@ p{margin:0}
 .practice{display:flex;flex-direction:column;gap:18px}
 .pr-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .pdots{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.pd{width:24px;height:24px;padding:0;border-radius:50%;background:var(--card);border:3px solid var(--line)}
+.pd.cur{border-color:var(--tc);transform:scale(1.15)}
+.pd.ok,.pd.fixed{background:var(--good);border-color:var(--good)}
+.pd.fixed{box-shadow:0 0 0 3px var(--good-soft)}
+.pd.help{background:var(--sun);border-color:var(--sun);cursor:pointer;animation:nudge 2.4s ease-in-out infinite}
+.pd[aria-disabled="true"]{cursor:default}
+@keyframes nudge{0%,80%,100%{transform:scale(1)}90%{transform:scale(1.25)}}
+.res-dots{margin:0;justify-content:center}
+.res-dots .pd{width:30px;height:30px}
+.res-hint{color:var(--ink-soft);font-size:16px}
+.unlocked{display:inline-flex;align-items:center;gap:8px;background:var(--mul-soft);color:var(--mul);padding:8px 16px;border-radius:999px;font-family:var(--font-display);font-weight:600}
+.redo-card{background:var(--card);border:3px solid var(--sun);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow);text-align:left;max-width:640px}
+.qcard.redo{outline:4px dashed var(--sun);outline-offset:-4px}
+.story{font-size:clamp(20px,2.6vw,24px);line-height:1.45;text-align:center;max-width:36ch;text-wrap:pretty}
+.st-end{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto}
+.check-row{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);cursor:pointer}
+.check-row input{width:22px;height:22px;accent-color:var(--mul)}
+.groups{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:100%}
+.grp{display:grid;grid-template-columns:repeat(var(--c,5),20px);gap:4px;padding:8px;border:3px dashed var(--line);border-radius:16px;background:var(--card-2)}
+.grp.plate{border-style:solid;border-color:var(--dot-b);border-radius:999px;min-width:64px;min-height:64px;place-content:center;padding:12px 16px}
+.dot.sm{width:20px;height:20px}
+.pile{display:flex;flex-wrap:wrap;gap:4px;max-width:260px;justify-content:center}
+.arr{display:grid;grid-template-columns:repeat(var(--c),20px);gap:6px;padding:10px;border-radius:14px;background:var(--card-2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px}
+.chips span{min-width:48px;padding:8px 10px;border-radius:999px;background:var(--card-2);font-family:var(--font-display);font-weight:600;font-size:20px;text-align:center}
+.chips span.on{background:var(--good-soft);color:var(--good);outline:3px solid var(--good)}
+.chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;font-family:var(--font-display);font-weight:700}
+.chain span{font-size:32px;padding:4px 14px;border-radius:14px;background:var(--card-2)}
+.chain span.on{background:var(--good-soft);color:var(--good)}
+.chain em{font-style:normal;color:var(--tc);font-size:18px}
+.pv{display:grid;grid-template-columns:repeat(var(--n),56px);gap:4px;text-align:center;font-family:var(--font-display);font-weight:700}
+.pv-h{font-size:16px;color:var(--ink-soft)}
+.pv-d{font-size:38px;border-radius:12px;background:var(--card-2);padding:4px 0}
+.pv-d.hl{background:var(--sun);color:#2A1E00}
 .pdots i{width:20px;height:20px;border-radius:50%;background:var(--card);border:3px solid var(--line)}
 .pdots i.cur{border-color:var(--tc);transform:scale(1.2)}
 .pdots i.ok{background:var(--good);border-color:var(--good)}
@@ -359,6 +393,8 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
   .practice,.pr-left{gap:12px}
 }
 @media (max-width:520px){
+  .arr{grid-template-columns:repeat(var(--c),16px);gap:4px;padding:8px}
+  .arr .dot.sm{width:16px;height:16px}
   .brand-name{display:none}
   .lang{padding:3px}
   .lang button{height:34px;padding:0 8px;font-size:14px}
@@ -455,7 +491,8 @@ function mergeRemote(r) {
     name: newer ? (r.name || store.name || '') : (store.name || r.name || ''),
     lang: newer && (r.lang === 'en' || r.lang === 'da') ? r.lang : store.lang,
     sound: newer && typeof r.sound === 'boolean' ? r.sound : store.sound,
-    round: newer ? (r.round || null) : (store.round || null)
+    round: newer ? (r.round || null) : (store.round || null),
+    unlockAll: newer ? !!r.unlockAll : !!store.unlockAll
   };
 }
 async function connectCloud() {
@@ -911,8 +948,8 @@ const allLevels = () => TOPICS.flatMap(t => t.levels);
 const findLevel = id => allLevels().find(l => l.id === id);
 const lvlText = l => tr().levels[l.id];
 const topicTitle = t => tr().topics[t.id];
-const answerOf = p => p.missing ? p.b : p.op === '+' ? p.a + p.b : p.a - p.b;
-const teacherFor = p => p.op === '+' ? 'hoot' : 'daisy';
+const answerOf = p => p.missing ? p[p.missing] : resOf(p);
+const teacherFor = p => ({ '+': 'hoot', '-': 'daisy', x: 'whiskers', '÷': 'sparkle' })[p.op];
 
 /* ---------- pictures ---------- */
 function frames(cells) {
@@ -931,19 +968,29 @@ function numberLine(from, hops = [], opt = {}) {
   const lo = Math.min(...pts), hi = Math.max(...pts);
   let min = opt.min ?? Math.floor(lo / 10) * 10, max = opt.max ?? Math.ceil(hi / 10) * 10;
   if (max - min < 10) max = min + 10;
-  const W = 640, pad = 30, y = 118, sx = v => pad + (v - min) / (max - min) * (W - 2 * pad);
-  const dense = max - min <= 20;
+  const W = 640, pad = 30, y = 118;
+  const span = max - min, step = span <= 20 ? 1 : span <= 200 ? 10 : span <= 2000 ? 100 : 1000, big = step * 10;
+  if (step > 10) { min = Math.floor(min / step) * step; max = Math.ceil(max / step) * step; }
+  const nDig = String(Math.max(Math.abs(min), Math.abs(max))).length, numW = nDig * 10 + 8, markW = nDig * 13 + 6;
   const marks = [...new Set(pts)].sort((a, b) => a - b);
+  const lin = v => pad + (v - min) / (max - min) * (W - 2 * pad);
+  const gaps = marks.slice(1).map((v, i) => lin(v) - lin(marks[i]));
+  // big numbers with small jumps (5520 → 5620 → 5664) use an "empty number line": in order, not to scale
+  const empty = span > 20 && gaps.length > 0 && Math.min(...gaps) < markW + 4;
+  const sx = !empty ? lin : v => { const i = marks.indexOf(v), n = marks.length, l0 = marks[0], l1 = marks[n - 1];
+    return pad + 24 + (W - 2 * pad - 48) * (0.35 * (v - l0) / ((l1 - l0) || 1) + 0.65 * (n > 1 ? i / (n - 1) : 0.5)); };
   let s = `<svg class="nl" viewBox="0 0 ${W} 192" role="img" aria-label="${tr().numberLine} ${min}–${max}">`;
   s += `<line x1="${pad - 16}" y1="${y}" x2="${W - pad + 16}" y2="${y}" class="nl-axis"/>`;
-  for (let v = min; v <= max; v++) {
-    const ten = v % 10 === 0; if (!dense && !ten) continue;
+  for (let v = min; v <= max && !empty; v += step) {
+    const ten = step === 1 ? v % 10 === 0 : v % big === 0;
     const x = sx(v);
     s += `<line x1="${x}" y1="${y - (ten ? 11 : 6)}" x2="${x}" y2="${y + (ten ? 11 : 6)}" class="nl-tick"/>`;
-    if (!marks.includes(v) && !marks.some(m => Math.abs(sx(m) - x) < 30)) s += `<text x="${x}" y="${y + 34}" class="nl-num">${v}</text>`;
+    // longer numbers need more room: only label every 1st, 2nd, 5th or 10th tick so labels never touch
+    const every = [1, 2, 5, 10].find(e => e * (W - 2 * pad) * step / (max - min) >= numW) || 10;
+    if ((v / step) % every === 0 && !marks.includes(v) && !marks.some(m => Math.abs(sx(m) - x) < markW)) s += `<text x="${x}" y="${y + 34}" class="nl-num">${v}</text>`;
   }
   let lastX = -999, low = false;
-  marks.forEach(v => { const x = sx(v); low = x - lastX < 40 ? !low : false; lastX = x;
+  marks.forEach(v => { const x = sx(v); low = x - lastX < markW + 4 ? !low : false; lastX = x;
     s += `<circle cx="${x}" cy="${y}" r="6" class="nl-pt"/><text x="${x}" y="${y + (low ? 62 : 34)}" class="nl-mark">${v}</text>`; });
   let prevLab = null;
   H.forEach(h => {
@@ -955,8 +1002,9 @@ function numberLine(from, hops = [], opt = {}) {
     s += `<polygon points="${x2},${yy} ${p1} ${p2}" class="nl-head ${cls}"/>`;
     const d = h.b - h.a;
     let ly = yy - hh - 9;
-    if (prevLab && Math.abs(prevLab.x - mx) < 44 && Math.abs(prevLab.y - ly) < 22) ly = prevLab.y - 24;
-    prevLab = { x: mx, y: ly };
+    const lifted = !!(prevLab && !prevLab.lifted && Math.abs(prevLab.x - mx) < 44 && Math.abs(prevLab.y - ly) < 22);
+    if (lifted) ly = prevLab.y - 24;
+    prevLab = { x: mx, y: ly, lifted };
     s += `<text x="${mx}" y="${ly}" class="nl-lab ${cls}">${d > 0 ? '+' : M}${Math.abs(d)}</text>`;
   });
   return s + '</svg>';
@@ -996,21 +1044,37 @@ function colView(op, top, bot, o) {
 /* ---------- choosing how to explain a question ---------- */
 function chooseStrategy(p) {
   const { a, b } = p;
+  if (p.op === 'x') {
+    if (p.missing) return 'missingMul';
+    if (a >= 11 && b < 10) return 'partitionMul';
+    const T = { 2: 'groups', 10: 'tensMul', 5: 'fives', 3: 'threes', 4: 'fours', 8: 'eights' };
+    return T[b] || (T[a] && a !== b ? 'swapMul' : 'skipCount');
+  }
+  if (p.op === '÷') {
+    if (p.missing) return 'missingDiv';
+    const q = a / b;
+    if (q > 12) return 'partitionDiv';
+    if (b === 2 && a > 24) return 'halve';
+    return b === 4 ? 'quarter' : 'inverse';
+  }
   if (p.op === '+') {
-    if (p.missing) return 'bond10';
+    if (p.c != null) return 'threeAdd';
+    if (p.missing) return resOf(p) === 10 && a < 10 ? 'bond10' : resOf(p) === 100 ? 'bond100' : 'missingAdd';
     if (a >= 100 || b >= 100) return 'columnAdd';
     if (a % 10 === 0 && b % 10 === 0) return 'tensAdd';
     if (a < 10 && b < 10) return a + b === 10 ? 'bond10' : a + b < 10 ? 'countOn' : 'bridgeAdd';
     if (a < 10 || b < 10) { const big = Math.max(a, b), small = Math.min(a, b); return big % 10 + small < 10 ? 'onesAdd' : 'bridgeAdd'; }
     return 'placeAdd';
   }
+  if (p.missing) return 'missingSub';
+  if (a === 100 && b < 100) return 'from100';
   if (a >= 100) return 'columnSub';
   if (a <= 10) return 'takeAway';
   if (b % 10 === 0) return 'tensSub';
   if (b < 10) return a % 10 >= b ? 'onesSub' : 'bridgeSub';
   return 'placeSub';
 }
-function explain(p) { const s = chooseStrategy(p); return EXPLAIN[s](p, tr().ex[s]); }
+function explain(p) { return explainWith(p, stratOf(p)); }
 
 const EXPLAIN = {
   countOn({ a, b }, X) {
@@ -1030,10 +1094,12 @@ const EXPLAIN = {
     ], why: X.why };
   },
   bridgeAdd({ a, b }, X) {
-    const big = Math.max(a, b), small = Math.min(a, b), ten = Math.floor(big / 10) * 10 + 10, need = ten - big, rest = small - need, s = a + b;
+    const big = Math.max(a, b), small = Math.min(a, b), s = a + b;
+    // adding tens past a hundred (270 + 50) steps on the hundred; otherwise on the next ten
+    const ten = small % 10 === 0 && small >= 10 ? Math.floor(big / 100) * 100 + 100 : Math.floor(big / 10) * 10 + 10, need = ten - big, rest = small - need;
     const usesFrames = s <= 20;
     return { steps: [
-      { say: X.s1(a, b, ten, big, a < b), v: usesFrames ? frames(rep('a', big)) : row(blocks(big), opS('+'), blocks(small, { tint: 'b' })) },
+      { say: X.s1(a, b, ten, big, a < b), v: usesFrames ? frames(rep('a', big)) : big < 100 ? row(blocks(big), opS('+'), blocks(small, { tint: 'b' })) : numberLine(big, []) },
       { say: X.s2(big, need, ten, small, rest), v: split(small, need, rest) },
       { say: X.s3(big, need, ten), v: usesFrames ? frames([...rep('a', big), ...rep('b', need)]) : numberLine(big, [ten]) },
       { say: X.s4(ten, rest, s), v: usesFrames ? stack(frames([...rep('a', big), ...rep('b', small)]), numberLine(big, [ten, s], { min: 0, max: 20 })) : numberLine(big, [ten, s]) },
@@ -1087,7 +1153,7 @@ const EXPLAIN = {
     return { steps: [
       { say: X.s1(a, b), v: frames(rep('a', a)) },
       { say: X.s2(b), v: frames([...rep('a', d), ...rep('x', b)]) },
-      { say: d ? X.left(list(1, d), d) : X.none(a, b), v: numberLine(a, range(d, a - 1).reverse(), { min: 0, max: 10 }) },
+      { say: d ? X.left(list(1, d), d) : X.none(a, b), v: numberLine(a, range(d, a - 1).reverse(), { min: 0, max: a > 10 ? 20 : 10 }) },
       { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
     ], why: X.why };
   },
@@ -1100,7 +1166,8 @@ const EXPLAIN = {
     ], why: X.why };
   },
   bridgeSub({ a, b }, X) {
-    const ten = Math.floor(a / 10) * 10, down = a - ten, rest = b - down, d = a - b, opt = a <= 20 ? { min: 0, max: 20 } : {};
+    // taking tens back past a hundred (320 − 40) stops on the hundred; otherwise on the ten below
+    const ten = b % 10 === 0 ? Math.floor(a / 100) * 100 : Math.floor(a / 10) * 10, down = a - ten, rest = b - down, d = a - b, opt = a <= 20 ? { min: 0, max: 20 } : {};
     return { steps: [
       { say: X.s1(a, b, ten), v: numberLine(a, [], opt) },
       { say: X.s2(b, down, rest, ten), v: split(b, down, rest) },
@@ -1134,10 +1201,19 @@ const EXPLAIN = {
     const view = hl => colView('-', [...top], bot, { N, lenA: N, lenB, ans: [...ans], orig, hl });
     steps.push({ say: X.s1, v: view(-1) });
     for (let i = 0; i < N; i++) {
-      if (top[i] < bot[i]) {
+      if (top[i] < bot[i] && top[i + 1] > 0) {
         const was = top[i], before = top[i + 1];
         top[i + 1] -= 1; top[i] += 10;
         steps.push({ say: X.exchange(i, bot[i], was, before, top[i + 1], top[i]), v: view(i) });
+      } else if (top[i] < bot[i]) {
+        // a zero next door: find the first column that can give, then exchange step by step back down
+        let j = i + 1; while (top[j] === 0) j++;
+        steps.push({ say: X.noNext(i, bot[i], top[i], j), v: view(j) });
+        for (let k = j; k > i; k--) {
+          const before = top[k], low = top[k - 1];
+          top[k] -= 1; top[k - 1] += 10;
+          steps.push({ say: X.exch(k, before, top[k], low, top[k - 1]), v: view(k - 1) });
+        }
       }
       const r = top[i] - bot[i]; ans[i] = r;
       steps.push({ say: X.col(i, top[i], bot[i], r), v: view(i) });
@@ -1147,6 +1223,831 @@ const EXPLAIN = {
     return { steps, why: X.why };
   }
 };
+
+
+/* =====================================================================
+   MORE LEVELS (v2): 10 more levels for Adding and Taking away, 10 levels
+   each for Times tables and Sharing, generators that make "a question
+   like this one" for redo, and other ways to explain every question.
+   ===================================================================== */
+const XS = () => store.lang === 'da' ? '·' : '×';   // times sign as Danish/English schools write it
+const DS = () => store.lang === 'da' ? ':' : '÷';   // division sign
+function opSym(op) { return op === '+' ? '+' : op === '-' ? M : op === 'x' ? XS() : DS(); }
+function resOf(p) { return p.op === '+' ? p.a + p.b + (p.c || 0) : p.op === '-' ? p.a - p.b : p.op === 'x' ? p.a * p.b : p.a / p.b; }
+function fullEq(p) { return `${p.a} ${opSym(p.op)} ${p.b}${p.c != null ? ` + ${p.c}` : ''} = ${resOf(p)}`; }
+const stratOf = p => p.s || chooseStrategy(p);
+const qKey = p => [p.a, p.b, p.c ?? '', p.op, p.missing || '', p.story ?? ''].join('|');
+const multiples = (b, q) => range(1, q).map(k => k * b);
+
+/* deterministic random numbers, so every level always has the same 10 questions */
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const RI = (r, lo, hi) => lo + Math.floor(r() * (hi - lo + 1));
+const RP = (r, arr) => arr[Math.floor(r() * arr.length)];
+function makeList(gen, seed, n = 10) {
+  const r = rng(seed), out = [], seen = new Set(); let guard = 0;
+  while (out.length < n && guard++ < 5000) { const p = gen(r); if (p && !seen.has(qKey(p))) { seen.add(qKey(p)); out.push(p); } }
+  return out;
+}
+
+/* ---------- question makers, one per level ---------- */
+const GEN = {
+  a1: r => { const a = RI(r, 1, 8), b = RI(r, 1, 9 - a); return a + b >= 3 ? P(a, b, '+') : null; },
+  a2: r => { const a = RI(r, 1, 9); return P(a, 10 - a, '+', r() < .6 ? { missing: 'b' } : null); },
+  a3: r => { const a = RI(r, 2, 9), b = RI(r, 2, 9); return a + b > 10 ? P(a, b, '+') : null; },
+  a4: r => { const k = RI(r, 0, 3);
+    if (k === 0) { const a = RI(r, 21, 85), b = RI(r, 1, 9 - a % 10); return b > 0 ? P(a, b, '+') : null; }
+    if (k === 1) { const a = RI(r, 21, 88), b = RI(r, 10 - a % 10, 9); return a % 10 && b <= 9 ? P(a, b, '+') : null; }
+    if (k === 2) { const a = RI(r, 1, 7) * 10, b = RI(r, 1, 9 - a / 10) * 10; return P(a, b, '+'); }
+    const a = RI(r, 2, 6) * 10, b = RI(r, 11, 39); return a + b < 100 ? P(a, b, '+') : null; },
+  a5: r => r() < .5 ? (() => { const a = RI(r, 21, 68), b = RI(r, 15, 99 - a); return b >= 11 && a + b < 100 ? P(a, b, '+') : null; })()
+                      : (() => { const a = RI(r, 112, 589), b = RI(r, 111, 899 - a); return b >= 101 ? P(a, b, '+') : null; })(),
+  a6: r => { const x = RI(r, 3, 15); if (r() < .5) return P(x, x, '+', { s: 'doubles' }); return r() < .5 ? P(x, x + 1, '+', { s: 'nearDouble' }) : P(x + 1, x, '+', { s: 'nearDouble' }); },
+  a7: r => { const b = RP(r, [9, 9, 11, 11, 19, 21]), a = RI(r, 14, 78); return a % 10 ? P(a, b, '+', { s: 'compAdd' }) : null; },
+  a8: r => { const x = RI(r, 1, 9), z = RI(r, 2, 9), arr = [x, 10 - x, z]; for (let i = 2; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return P(arr[0], arr[1], '+', { c: arr[2], s: 'threeAdd' }); },
+  a9: r => { const a = r() < .5 ? RI(r, 1, 9) * 10 : RI(r, 1, 9) * 10 + 5; return P(a, 100 - a, '+', { missing: 'b', s: 'bond100' }); },
+  a10: r => { const a = RI(r, 101, 879);
+    if (r() < .5) { const t = RI(r, 1, 8) * 10; return a % 100 + t < 100 ? P(a, t, '+', { s: 'placeBig' }) : null; }
+    const h = RI(r, 1, 8) * 100; return a + h < 1000 ? P(a, h, '+', { s: 'placeBig' }) : null; },
+  a11: r => { const h = RI(r, 0, 8) * 100;
+    if (r() < .5) { const o = RI(r, 92, 98), b = RI(r, 101 - o, 9); return P(h + o, b, '+', { s: 'bridgeAdd' }); }
+    const t = RI(r, 6, 9), bt = RI(r, 11 - t, 9); return h ? P(h + t * 10, bt * 10, '+', { s: 'bridgeAdd' }) : null; },
+  a12: r => { const c = RI(r, 30, 99), x = RI(r, 11, c - 6), y = c - x; return r() < .5 ? P(x, y, '+', { missing: 'b', s: 'missingAdd' }) : P(y, x, '+', { missing: 'a', s: 'missingAdd' }); },
+  a13: r => { const a = RI(r, 250, 899), b = RI(r, 150, 899); return a % 10 + b % 10 >= 10 && Math.floor(a / 10) % 10 + Math.floor(b / 10) % 10 + 1 >= 10 ? P(a, b, '+', { s: 'columnAdd' }) : null; },
+  a14: r => { const a = RI(r, 12, 68), b = RI(r, 11, 95 - a); return b >= 11 ? P(a, b, '+', { story: RI(r, 0, 4) }) : null; },
+  a15: r => { const a = RI(r, 1200, 5999), b = RI(r, 1100, 3999); return a + b <= 9999 ? P(a, b, '+', { s: 'columnAdd' }) : null; },
+
+  s1: r => { const a = RI(r, 2, 10), b = RI(r, 1, a); return P(a, b, '-'); },
+  s2: r => { const a = RI(r, 11, 19), b = RI(r, 2, 9); return a - b >= 2 ? P(a, b, '-') : null; },
+  s3: r => { const k = RI(r, 0, 2), a = RI(r, 31, 98);
+    if (k === 0) { const b = RI(r, 1, 9); return a % 10 >= b ? P(a, b, '-') : null; }
+    if (k === 1) { const b = RI(r, 2, 9); return a % 10 < b ? P(a, b, '-') : null; }
+    const b = RI(r, 1, Math.floor(a / 10) - 1) * 10; return b ? P(a - a % 10 + (r() < .5 ? 0 : a % 10), b, '-') : null; },
+  s4: r => { const a = RI(r, 40, 99), b = RI(r, 11, a - 11); return b % 10 ? P(a, b, '-') : null; },
+  s5: r => { const a = RI(r, 300, 989), b = RI(r, 111, a - 60); return Math.floor(a / 10) % 10 ? P(a, b, '-') : null; },
+  s6: r => { const b = RI(r, 21, 94), a = b + RI(r, 3, 9); return Math.floor(a / 10) !== Math.floor(b / 10) && a < 100 ? P(a, b, '-', { s: 'countUpAny' }) : null; },
+  s7: r => { const b = RP(r, [9, 9, 11, 11, 19, 21]), a = RI(r, b + 12, 95); return a % 10 ? P(a, b, '-', { s: 'compSub' }) : null; },
+  s8: r => P(RI(r, 2, 9) * 10, RI(r, 2, 9), '-', { s: 'fromTen' }),
+  s9: r => { const b = RI(r, 12, 88); return b % 10 ? P(100, b, '-', { s: 'from100' }) : null; },
+  s10: r => { const a = RI(r, 120, 989);
+    if (r() < .5) { const t = RI(r, 1, 8) * 10; return a % 100 >= t ? P(a, t, '-', { s: 'placeBigSub' }) : null; }
+    const h = RI(r, 1, 8) * 100; return Math.floor(a / 100) * 100 > h ? P(a, h, '-', { s: 'placeBigSub' }) : null; },
+  s11: r => { const h = RI(r, 1, 9) * 100;
+    if (r() < .5) { const o = RI(r, 1, 7), b = RI(r, o + 1, 9); return P(h + o, b, '-', { s: 'bridgeSub' }); }
+    const t = RI(r, 1, 6), bt = RI(r, t + 1, 9); return P(h + t * 10, bt * 10, '-', { s: 'bridgeSub' }); },
+  s12: r => { if (r() < .5) { const a = RI(r, 30, 99), x = RI(r, 11, a - 10); return P(a, x, '-', { missing: 'b', s: 'missingSub' }); }
+    const b = RI(r, 11, 40), c = RI(r, 11, 50); return b + c <= 99 ? P(b + c, b, '-', { missing: 'a', s: 'missingSub' }) : null; },
+  s13: r => { const h = RI(r, 3, 9), o = r() < .3 ? 0 : RI(r, 0, 6), a = h * 100 + o, b = RI(r, 111, a - 100); return b % 10 > o && Math.floor(b / 10) % 10 ? P(a, b, '-', { s: 'columnSub' }) : null; },
+  s14: r => { const a = RI(r, 30, 95), b = RI(r, 11, a - 8); return P(a, b, '-', { story: RI(r, 0, 4) }); },
+  s15: r => { const a = RI(r, 3000, 9800), b = RI(r, 1100, a - 500); return P(a, b, '-', { s: 'columnSub' }); },
+
+  m1: r => P(RI(r, 1, 12), 2, 'x', { s: 'groups' }),
+  m2: r => P(RI(r, 1, 12), 10, 'x', { s: 'tensMul' }),
+  m3: r => P(RI(r, 2, 12), 5, 'x', { s: 'fives' }),
+  m4: r => { const a = RP(r, [2, 5, 10]), b = RI(r, 3, 9); return a !== b ? P(a, b, 'x', { s: 'array' }) : null; },
+  m5: r => P(RI(r, 2, 12), 3, 'x', { s: 'threes' }),
+  m6: r => P(RI(r, 2, 12), 4, 'x', { s: 'fours' }),
+  m7: r => P(RI(r, 2, 12), 8, 'x', { s: 'eights' }),
+  m8: r => { const b = RP(r, [3, 4, 8]); return P(RI(r, 2, 12), b, 'x', { s: { 3: 'threes', 4: 'fours', 8: 'eights' }[b] }); },
+  m9: r => { const b = RP(r, [2, 3, 4, 5, 8, 10]), a = RI(r, 2, 12); return P(a, b, 'x', { missing: r() < .5 ? 'a' : 'b', s: 'missingMul' }); },
+  m10: r => { const a = RI(r, 11, 25), b = RP(r, [2, 3, 4, 5]); return a % 10 ? P(a, b, 'x', { s: 'partitionMul' }) : null; },
+
+  d1: r => { const b = RP(r, [2, 3]), q = RI(r, 2, 6); return P(b * q, b, '÷', { s: 'share' }); },
+  d2: r => { const b = RP(r, [5, 10]), q = RI(r, 2, 10); return P(b * q, b, '÷', { s: 'group' }); },
+  d3: r => { const b = RP(r, [2, 5, 10]), q = RI(r, 2, 12); return P(b * q, b, '÷', { s: 'inverse' }); },
+  d4: r => P(RI(r, 6, 49) * 2, 2, '÷', { s: 'halve' }),
+  d5: r => { const q = RI(r, 2, 12); return P(3 * q, 3, '÷', { s: 'inverse' }); },
+  d6: r => { const q = RI(r, 2, 12); return P(4 * q, 4, '÷', { s: 'quarter' }); },
+  d7: r => { const q = RI(r, 2, 12); return P(8 * q, 8, '÷', { s: 'inverse' }); },
+  d8: r => { const b = RP(r, [3, 4, 8]), q = RI(r, 2, 12); return P(b * q, b, '÷', { s: b === 4 ? 'quarter' : 'inverse' }); },
+  d9: r => { const b = RP(r, [2, 3, 4, 5, 8, 10]), c = RI(r, 2, 12); return r() < .5 ? P(b * c, b, '÷', { missing: 'a', s: 'missingDiv' }) : P(b * c, b, '÷', { missing: 'b', s: 'missingDiv' }); },
+  d10: r => { const b = RP(r, [2, 3, 4, 5]), q = RI(r, 11, 24); return b * q <= 99 ? P(b * q, b, '÷', { s: 'partitionDiv' }) : null; }
+};
+const NEW_LEVELS = {
+  add: ['a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12', 'a13', 'a14', 'a15'],
+  sub: ['s6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14', 's15'],
+  mul: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10'],
+  div: ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10']
+};
+(function addLevels() {
+  let seed = 2026;
+  for (const t of TOPICS) {
+    for (const id of NEW_LEVELS[t.id] || []) {
+      seed += 101;
+      const problems = makeList(GEN[id], seed), examples = makeList(GEN[id], seed + 50, 3).filter(e => !problems.some(p => qKey(p) === qKey(e))).slice(0, 1);
+      t.levels.push({ id, problems, examples: examples.length ? examples : [problems[0]] });
+    }
+    if (t.id === 'mul' || t.id === 'div') { delete t.soon; t.requires = ['add', 'sub']; }
+    t.levels.forEach(l => { l.topic = t; l.gen = GEN[l.id]; l.problems.forEach(p => { p.lv = l.id; }); });
+  }
+})();
+
+/* "a question just like this one": same level, same kind of explanation, new numbers */
+function similarTo(p) {
+  const l = findLevel(p.lv), s = stratOf(p);
+  if (!l || !l.gen) return p;
+  for (let i = 0; i < 400; i++) {
+    const q = l.gen(Math.random);
+    if (q && qKey(q) !== qKey(p) && stratOf(q) === s && (q.missing || '') === (p.missing || '') && (q.story == null) === (p.story == null)) { q.lv = p.lv; return q; }
+  }
+  const q = l.gen(Math.random) || p; q.lv = p.lv; return q;
+}
+
+/* ---------- topic locking ---------- */
+function lockInfo(tp) {
+  if (!tp.requires || store.unlockAll) return null;
+  const need = tp.requires.flatMap(id => TOPICS.find(t => t.id === id).levels), done = need.filter(l => store.best[l.id]).length;
+  return done >= need.length ? null : { done, total: need.length };
+}
+const unlockedTopics = () => TOPICS.filter(t => !lockInfo(t));
+
+/* ---------- more pictures ---------- */
+const dotsOf = (n, tint = 'a') => rep(`<i class="dot dot-${tint} sm"></i>`, n).join('');
+function groupsVis(n, size, tint = 'a', cls = 'grp') {
+  return `<div class="groups" aria-hidden="true">${range(1, n).map(() => `<div class="${cls}" style="--c:${Math.max(1, Math.min(size, 5))}">${dotsOf(size, tint)}</div>`).join('')}</div>`;
+}
+const platesVis = (n, per) => groupsVis(n, per, 'b', 'grp plate');
+const pileVis = n => `<div class="pile" aria-hidden="true">${dotsOf(n)}</div>`;
+const arrayVis = (r, c) => `<div class="arr" style="--c:${c}" aria-hidden="true">${dotsOf(r * c)}</div>`;
+const chips = (nums, hl) => `<div class="chips">${nums.map(n => `<span class="${n === hl ? 'on' : ''}">${n}</span>`).join('')}</div>`;
+const chain = (vals, lab) => `<div class="chain">${vals.map((v, i) => `${i ? `<em>${lab}</em>` : ''}<span class="${i === vals.length - 1 ? 'on' : ''}">${v}</span>`).join('')}</div>`;
+function pvChart(n, hl, N = String(n).length) {
+  const d = digits(n, N), LAB = tr().lab, cols = range(0, N - 1).reverse();
+  return `<div class="pv" style="--n:${N}">${cols.map(i => `<span class="pv-h">${LAB[i]}</span>`).join('')}${cols.map(i => `<span class="pv-d${i === hl ? ' hl' : ''}">${d[i]}</span>`).join('')}</div>`;
+}
+const skipLine = (b, q) => numberLine(0, multiples(b, q), { min: 0, max: Math.max(10, Math.ceil(b * q / 10) * 10) });
+/* place-value parts of a number, biggest first: 2345 -> [2000, 300, 40, 5] */
+const partsOf = n => { const N = String(n).length; return range(0, N - 1).reverse().map(i => Math.floor(n / 10 ** i) % 10 * 10 ** i).filter(Boolean); };
+/* friendly jumps up from x to y: next ten, next hundred, ... then down to the exact number */
+function upJumps(x, y) {
+  const pts = [x]; let cur = x;
+  for (const step of [10, 100, 1000]) { const nxt = Math.ceil((cur + (cur % step ? 0 : 0)) / step) * step; if (cur % step && nxt <= y) { cur = nxt; pts.push(cur); } }
+  for (const step of [1000, 100, 10, 1]) { const t = Math.floor(y / step) * step; if (t > cur) { cur = t; pts.push(cur); } }
+  return pts;
+}
+
+/* ---------- new explanations ---------- */
+Object.assign(EXPLAIN, {
+  doubles({ a }, X) {
+    const s = 2 * a, steps = [{ say: X.s1(a), v: s <= 20 ? frames([...rep('a', a), ...rep('b', a)]) : row(blocks(a), opS('+'), blocks(a, { tint: 'b' })) }];
+    if (a >= 10) { const t = a - a % 10, o = a % 10; steps.push({ say: X.split(t, o), v: eq(`${2 * t} + ${2 * o} = ${mk(s)}`) }); }
+    else steps.push({ say: X.know(a, s), v: eq(`${a} + ${a} = ${mk(s)}`) });
+    steps.push({ say: X.end(a, s), v: eq(`${a} + ${a} = ${mk(s)}`) });
+    return { steps, why: X.why };
+  },
+  nearDouble({ a, b }, X) {
+    const sm = Math.min(a, b), s = a + b;
+    return { steps: [
+      { say: X.s1(a, b), v: s <= 20 ? frames([...rep('a', sm), ...rep('b', sm), 'x' === 'y' ? '' : 'b'].filter(Boolean)) : row(blocks(a), opS('+'), blocks(b, { tint: 'b' })) },
+      { say: X.s2(sm), v: eq(`${sm} + ${sm} = ${mk(2 * sm)}`) },
+      { say: X.s3(Math.max(a, b), sm, 2 * sm), v: eq(`${2 * sm} + 1 = ${mk(s)}`) },
+      { say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  compAdd({ a, b }, X) {
+    const ten = Math.round(b / 10) * 10, s = a + b;
+    return { steps: [
+      { say: X.s1(b, ten), v: numberLine(a, []) },
+      { say: X.s2(a, ten), v: numberLine(a, [a + ten]) },
+      { say: b < ten ? X.minus(a + ten, s) : X.plus(a + ten, s), v: numberLine(a, [a + ten, s]) },
+      { say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  threeAdd({ a, b, c }, X) {
+    const n = [a, b, c], pairs = [[0, 1], [0, 2], [1, 2]];
+    let pr = pairs.find(([i, j]) => n[i] + n[j] === 10), kind = 'ten';
+    if (!pr) { pr = pairs.find(([i, j]) => n[i] === n[j]); kind = 'double'; }
+    if (!pr) { pr = [0, 1]; kind = 'start'; }
+    const x = n[pr[0]], y = n[pr[1]], z = n[3 - pr[0] - pr[1]], xy = x + y, s = xy + z;
+    return { steps: [
+      { say: X.s1(a, b, c), v: eq(`${a} + ${b} + ${c}`) },
+      { say: X[kind](x, y, xy), v: eq(`${x} + ${y} = ${mk(xy)}`) },
+      { say: X.last(xy, z, s), v: s <= 20 ? frames([...rep('a', xy), ...rep('b', z)]) : eq(`${xy} + ${z} = ${mk(s)}`) },
+      { say: X.end(a, b, c, s), v: eq(`${a} + ${b} + ${c} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  threeLeft({ a, b, c }, X) {
+    const ab = a + b, s = ab + c;
+    return { steps: [
+      { say: X.s1(a, b, ab), v: eq(`${a} + ${b} = ${mk(ab)}`) },
+      { say: X.s2(ab, c, s), v: numberLine(ab, [s]) },
+      { say: X.end(a, b, c, s), v: eq(`${a} + ${b} + ${c} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  bond100({ a, b }, X) {
+    const nt = Math.ceil(a / 10) * 10, steps = [{ say: X.s1(a), v: numberLine(a, [], { min: Math.floor(a / 10) * 10, max: 100 }) }], hops = [];
+    if (nt !== a) { hops.push(nt); steps.push({ say: X.toTen(a, nt - a, nt), v: numberLine(a, [...hops], { min: Math.floor(a / 10) * 10, max: 100 }) }); }
+    if (nt < 100) { hops.push(100); steps.push({ say: X.toHundred(nt, 100 - nt), v: numberLine(a, [...hops], { min: Math.floor(a / 10) * 10, max: 100 }) }); }
+    if (nt !== a && nt < 100) steps.push({ say: X.add(nt - a, 100 - nt, b), v: eq(`${nt - a} + ${100 - nt} = ${mk(b)}`) });
+    steps.push({ say: X.end(a, b), v: eq(`${a} + ${mk(b)} = 100`) });
+    return { steps, why: X.why };
+  },
+  placeBig({ a, b }, X) {
+    const col = b % 100 === 0 ? 2 : 1, k = b / 10 ** col, s = a + b, dA = digits(a, 3)[col];
+    return { steps: [
+      { say: X.s1(b, k, col), v: pvChart(a, col, 3) },
+      { say: X.s2(dA, k, col), v: pvChart(s, col, 3) },
+      { say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  placeBigSub({ a, b }, X) {
+    const col = b % 100 === 0 ? 2 : 1, k = b / 10 ** col, d = a - b, dA = digits(a, 3)[col];
+    return { steps: [
+      { say: X.s1(b, k, col), v: pvChart(a, col, 3) },
+      { say: X.s2(dA, k, col), v: pvChart(d, col, 3) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+  missingAdd(p, X) {
+    const c = resOf(p), known = p.missing === 'a' ? p.b : p.a, ans = c - known, pts = upJumps(known, c), jumps = pts.slice(1).map((v, i) => v - pts[i]);
+    const steps = [{ say: X.s1(qText(p), known, c), v: numberLine(known, [], {}) }];
+    pts.slice(1).forEach((v, i) => steps.push({ say: X.jump(pts[i], v, jumps[i]), v: numberLine(known, pts.slice(1, i + 2)) }));
+    if (jumps.length > 1) steps.push({ say: X.add(jumps.join(' + '), ans), v: eq(`${jumps.join(' + ')} = ${mk(ans)}`) });
+    steps.push({ say: X.end(ans, fullEq(p)), v: eq(qHtmlStatic(p, ans)) });
+    return { steps, why: X.why(c, known, ans) };
+  },
+  missingSub(p, X) {
+    const c = resOf(p);
+    if (p.missing === 'b') {
+      const pts = upJumps(c, p.a), jumps = pts.slice(1).map((v, i) => v - pts[i]), ans = p.b;
+      const steps = [{ say: X.s1b(p.a, c), v: numberLine(c, [], {}) }];
+      pts.slice(1).forEach((v, i) => steps.push({ say: X.jump(pts[i], v, jumps[i]), v: numberLine(c, pts.slice(1, i + 2)) }));
+      if (jumps.length > 1) steps.push({ say: X.add(jumps.join(' + '), ans), v: eq(`${jumps.join(' + ')} = ${mk(ans)}`) });
+      steps.push({ say: X.end(ans, fullEq(p)), v: eq(qHtmlStatic(p, ans)) });
+      return { steps, why: X.why };
+    }
+    return { steps: [
+      { say: X.s1a(p.b, c), v: numberLine(c, []) },
+      { say: X.back(c, p.b, p.a), v: numberLine(c, [p.a]) },
+      { say: X.end(p.a, fullEq(p)), v: eq(qHtmlStatic(p, p.a)) }
+    ], why: X.why };
+  },
+  countUpAny({ a, b }, X) {
+    const pts = upJumps(b, a), jumps = pts.slice(1).map((v, i) => v - pts[i]), d = a - b;
+    const steps = [{ say: X.s1(a, b), v: numberLine(b, [], {}) }];
+    pts.slice(1).forEach((v, i) => steps.push({ say: X.jump(pts[i], v, jumps[i]), v: numberLine(b, pts.slice(1, i + 2)) }));
+    if (jumps.length > 1) steps.push({ say: X.add(jumps.join(' + '), d), v: eq(`${jumps.join(' + ')} = ${mk(d)}`) });
+    steps.push({ say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) });
+    return { steps, why: X.why };
+  },
+  compSub({ a, b }, X) {
+    const ten = Math.round(b / 10) * 10, d = a - b;
+    return { steps: [
+      { say: X.s1(b, ten), v: numberLine(a, []) },
+      { say: X.s2(a, ten), v: numberLine(a, [a - ten]) },
+      { say: b < ten ? X.plus(a - ten, d) : X.minus(a - ten, d), v: numberLine(a, [a - ten, d]) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+  fromTen({ a, b }, X) {
+    const d = a - b;
+    return { steps: [
+      { say: X.s1(a, b), v: split(a, a - 10, 10) },
+      { say: X.s2(b), v: frames([...rep('a', 10 - b), ...rep('x', b)]) },
+      { say: X.s3(a - 10, 10 - b, d), v: eq(`${a - 10} + ${10 - b} = ${mk(d)}`) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+  from100({ b }, X) {
+    const d = 100 - b, pts = upJumps(b, 100), jumps = pts.slice(1).map((v, i) => v - pts[i]);
+    const steps = [{ say: X.s1(b), v: numberLine(b, [], {}) }];
+    pts.slice(1).forEach((v, i) => steps.push({ say: X.jump(pts[i], v, jumps[i]), v: numberLine(b, pts.slice(1, i + 2)) }));
+    if (jumps.length > 1) steps.push({ say: X.add(jumps.join(' + '), d), v: eq(`${jumps.join(' + ')} = ${mk(d)}`) });
+    steps.push({ say: X.end(b, d), v: eq(`100 ${M} ${b} = ${mk(d)}`, chk(d, b, 100)) });
+    return { steps, why: X.why };
+  },
+  countAll({ a, b }, X) {
+    const s = a + b;
+    return { steps: [
+      { say: X.s1(a, b), v: frames([...rep('a', a), ...rep('b', b)]) },
+      { say: X.s2(list(1, s)), v: frames([...rep('a', a), ...rep('b', b)]) },
+      { say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  jumpAdd({ a, b }, X) {
+    const parts = partsOf(b), s = a + b, pts = [];
+    let cur = a; parts.forEach(pt => { cur += pt; pts.push(cur); });
+    const steps = [{ say: X.s1(a, b, parts.join(' + ')), v: numberLine(a, []) }];
+    parts.forEach((pt, i) => steps.push({ say: X.jump(pt, pts[i]), v: numberLine(a, pts.slice(0, i + 1)) }));
+    steps.push({ say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) });
+    return { steps, why: X.why };
+  },
+  jumpSub({ a, b }, X) {
+    const parts = partsOf(b), d = a - b, pts = [];
+    let cur = a; parts.forEach(pt => { cur -= pt; pts.push(cur); });
+    const steps = [{ say: X.s1(a, b, parts.join(' + ')), v: numberLine(a, []) }];
+    parts.forEach((pt, i) => steps.push({ say: X.jump(pt, pts[i]), v: numberLine(a, pts.slice(0, i + 1)) }));
+    steps.push({ say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) });
+    return { steps, why: X.why };
+  },
+  partitionAdd({ a, b }, X) {
+    const N = String(Math.max(a, b)).length, da = digits(a, N), db = digits(b, N), s = a + b, steps = [], sums = [];
+    steps.push({ say: X.s1(a, partsOf(a).join(' + '), b, partsOf(b).join(' + ')), v: eq(`${partsOf(a).join(' + ')}<small>${partsOf(b).join(' + ')}</small>`) });
+    range(0, N - 1).reverse().forEach(i => { const x = da[i] * 10 ** i, y = db[i] * 10 ** i; if (x || y) { sums.push(x + y); steps.push({ say: X.place(i, x, y, x + y), v: eq(`${x} + ${y} = ${mk(x + y)}`, tr().place[i]) }); } });
+    steps.push({ say: X.join(sums.join(' + '), s), v: eq(`${sums.join(' + ')} = ${mk(s)}`) });
+    steps.push({ say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) });
+    return { steps, why: X.why };
+  },
+  countBack({ a, b }, X) {
+    const d = a - b, hops = range(d, a - 1).reverse();
+    return { steps: [
+      { say: X.s1(a, b, hops.join(', ')), v: numberLine(a, hops, { min: 0, max: a > 10 ? 20 : 10 }) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+
+  /* times tables */
+  groups({ a, b }, X) {
+    const r = a * b, x = XS();
+    return { steps: [
+      { say: X.s1(a, b, x), v: groupsVis(a, b) },
+      { say: X.s2(b, multiples(b, a).join(', ')), v: skipLine(b, a) },
+      { say: X.end(a, b, r, x), v: eq(`${a} ${x} ${b} = ${mk(r)}`) }
+    ], why: X.why(a, b, x) };
+  },
+  tensMul({ a }, X) {
+    const r = a * 10, x = XS();
+    return { steps: [
+      { say: X.s1(a, x), v: r <= 120 ? blocks(r) : pvChart(r, 1) },
+      { say: X.s2(a, r), v: row(pvChart(a, 0, String(r).length), opS('→'), pvChart(r, 0)) },
+      { say: X.end(a, r, x), v: eq(`${a} ${x} 10 = ${mk(r)}`) }
+    ], why: X.why };
+  },
+  fives({ a }, X) {
+    const r = a * 5, x = XS();
+    return { steps: [
+      { say: X.s1(a, x, multiples(5, a).join(', ')), v: skipLine(5, a) },
+      { say: X.trick(a, 10 * a, r, x), v: eq(`${a} ${x} 10 = ${10 * a} → ${mk(r)}`) },
+      { say: X.end(a, r, x), v: eq(`${a} ${x} 5 = ${mk(r)}`) }
+    ], why: X.why };
+  },
+  array({ a, b }, X) {
+    const r = a * b, x = XS();
+    return { steps: [
+      { say: X.s1(a, b, x), v: arrayVis(a, b) },
+      { say: X.s2(a, b, x), v: arrayVis(b, a) },
+      { say: X.s3(a, b, multiples(a, b).join(', ')), v: skipLine(a, b) },
+      { say: X.end(a, b, r, x), v: eq(`${a} ${x} ${b} = ${mk(r)}`) }
+    ], why: X.why };
+  },
+  threes({ a }, X) {
+    const x = XS();
+    return { steps: [
+      { say: X.s1(a, x), v: groupsVis(3, a) },
+      { say: X.s2(a, 2 * a, 3 * a, x), v: eq(`${2 * a} + ${a} = ${mk(3 * a)}`) },
+      { say: X.end(a, 3 * a, x), v: eq(`${a} ${x} 3 = ${mk(3 * a)}`) }
+    ], why: X.why };
+  },
+  fours({ a }, X) {
+    const x = XS();
+    return { steps: [
+      { say: X.s1(a, x), v: arrayVis(4, a) },
+      { say: X.s2(a, 2 * a, x), v: chain([a, 2 * a], '×2') },
+      { say: X.s3(2 * a, 4 * a, a, x), v: chain([a, 2 * a, 4 * a], '×2') },
+      { say: X.end(a, 4 * a, x), v: eq(`${a} ${x} 4 = ${mk(4 * a)}`) }
+    ], why: X.why };
+  },
+  eights({ a }, X) {
+    const x = XS();
+    return { steps: [
+      { say: X.s1(a, x), v: chain([a], '×2') },
+      { say: X.d1(a, 2 * a), v: chain([a, 2 * a], '×2') },
+      { say: X.d2(2 * a, 4 * a), v: chain([a, 2 * a, 4 * a], '×2') },
+      { say: X.d3(4 * a, 8 * a), v: chain([a, 2 * a, 4 * a, 8 * a], '×2') },
+      { say: X.end(a, 8 * a, x), v: eq(`${a} ${x} 8 = ${mk(8 * a)}`) }
+    ], why: X.why };
+  },
+  skipCount({ a, b }, X) {
+    const r = a * b, x = XS();
+    return { steps: [
+      { say: X.s1(a, b, x), v: skipLine(b, Math.min(a, 12)) },
+      { say: X.s2(b, multiples(b, a).join(', ')), v: chips(multiples(b, a), r) },
+      { say: X.end(a, b, r, x), v: eq(`${a} ${x} ${b} = ${mk(r)}`) }
+    ], why: X.why };
+  },
+  repeatAdd({ a, b }, X) {
+    const r = a * b, x = XS(), sum = rep(b, a).join(' + ');
+    return { steps: [
+      { say: X.s1(a, b, x, sum), v: groupsVis(a, b) },
+      { say: X.s2(multiples(b, a).join(', ')), v: chips(multiples(b, a), r) },
+      { say: X.end(a, b, r, x), v: eq(`${sum} = ${mk(r)}`) }
+    ], why: X.why };
+  },
+  partitionMul({ a, b }, X) {
+    const T = a - a % 10, O = a % 10, r = a * b, x = XS();
+    return { steps: [
+      { say: X.s1(a, b, T, O, x), v: split(a, T, O) },
+      { say: X.part(T, b, T * b, x), v: eq(`${T} ${x} ${b} = ${mk(T * b)}`) },
+      { say: X.part(O, b, O * b, x), v: eq(`${O} ${x} ${b} = ${mk(O * b)}`) },
+      { say: X.add(T * b, O * b, r), v: eq(`${T * b} + ${O * b} = ${mk(r)}`) },
+      { say: X.end(a, b, r, x), v: eq(`${a} ${x} ${b} = ${mk(r)}`) }
+    ], why: X.why };
+  },
+  missingMul(p, X) {
+    const c = resOf(p), known = p.missing === 'a' ? p.b : p.a, ans = c / known, x = XS(), dv = DS();
+    return { steps: [
+      { say: X.s1(qText(p), known, c), v: eq(qHtmlStatic(p)) },
+      { say: X.s2(known, c, multiples(known, ans).join(', ')), v: skipLine(known, ans) },
+      { say: X.s3(ans), v: chips(multiples(known, ans), c) },
+      { say: X.end(ans, fullEq(p)), v: eq(qHtmlStatic(p, ans)) }
+    ], why: X.why(c, known, ans, dv) };
+  },
+
+  /* sharing */
+  share({ a, b }, X) {
+    const q = a / b, dv = DS(), x = XS();
+    return { steps: [
+      { say: X.s1(a, b, dv), v: pileVis(a) },
+      { say: X.s2(b), v: platesVis(b, q) },
+      { say: X.end(a, b, q, dv), v: eq(`${a} ${dv} ${b} = ${mk(q)}`, `${b} ${x} ${q} = ${a}`) }
+    ], why: X.why(b, q, a, x) };
+  },
+  group({ a, b }, X) {
+    const q = a / b, dv = DS();
+    return { steps: [
+      { say: X.s1(a, b, dv), v: q * b <= 60 ? groupsVis(q, b) : pileVis(Math.min(a, 60)) },
+      { say: X.s2(b, a, multiples(b, q).join(', ')), v: skipLine(b, q) },
+      { say: X.end(a, b, q, dv), v: eq(`${a} ${dv} ${b} = ${mk(q)}`) }
+    ], why: X.why(b) };
+  },
+  inverse({ a, b }, X) {
+    const q = a / b, dv = DS(), x = XS();
+    return { steps: [
+      { say: X.s1(a, b, dv, x), v: eq(`? ${x} ${b} = ${a}`) },
+      { say: X.s2(b, multiples(b, q).join(', '), a, q), v: chips(multiples(b, q), a) },
+      { say: X.end(a, b, q, dv, x), v: eq(`${q} ${x} ${b} = ${a}`, `${a} ${dv} ${b} = ${q}`) }
+    ], why: X.why };
+  },
+  halve({ a }, X) {
+    const O = a % 10, T = a - O, dv = DS(), h = a / 2;
+    if (!O || T === 0) return { steps: [
+      { say: X.s1(a, dv), v: split(a, h, h) },
+      { say: X.whole(a, h), v: eq(`${a} ${dv} 2 = ${mk(h)}`) }
+    ], why: X.why };
+    return { steps: [
+      { say: X.s1(a, dv), v: split(a, T, O) },
+      { say: X.s2(T, O), v: row(split(T, T / 2, T / 2), split(O, O / 2, O / 2)) },
+      { say: X.s3(T / 2, O / 2, h), v: eq(`${T / 2} + ${O / 2} = ${mk(h)}`) },
+      { say: X.end(a, h, dv), v: eq(`${a} ${dv} 2 = ${mk(h)}`) }
+    ], why: X.why };
+  },
+  quarter({ a }, X) {
+    const dv = DS();
+    return { steps: [
+      { say: X.s1(a, dv), v: chain([a], '÷2') },
+      { say: X.h1(a, a / 2), v: chain([a, a / 2], '÷2') },
+      { say: X.h2(a / 2, a / 4), v: chain([a, a / 2, a / 4], '÷2') },
+      { say: X.end(a, a / 4, dv), v: eq(`${a} ${dv} 4 = ${mk(a / 4)}`) }
+    ], why: X.why };
+  },
+  eighth({ a }, X) {
+    const dv = DS();
+    return { steps: [
+      { say: X.s1(a, dv), v: chain([a], '÷2') },
+      { say: X.h1(a, a / 2), v: chain([a, a / 2], '÷2') },
+      { say: X.h2(a / 2, a / 4), v: chain([a, a / 2, a / 4], '÷2') },
+      { say: X.h3(a / 4, a / 8), v: chain([a, a / 2, a / 4, a / 8], '÷2') },
+      { say: X.end(a, a / 8, dv), v: eq(`${a} ${dv} 8 = ${mk(a / 8)}`) }
+    ], why: X.why };
+  },
+  partitionDiv({ a, b }, X) {
+    const chunk = Math.floor(a / (10 * b)) * 10 * b, rest = a - chunk, q = a / b, dv = DS();
+    return { steps: [
+      { say: X.s1(a, b, chunk, rest, dv), v: split(a, chunk, rest) },
+      { say: X.part(chunk, b, chunk / b, dv), v: eq(`${chunk} ${dv} ${b} = ${mk(chunk / b)}`) },
+      { say: X.part(rest, b, rest / b, dv), v: eq(`${rest} ${dv} ${b} = ${mk(rest / b)}`) },
+      { say: X.add(chunk / b, rest / b, q), v: eq(`${chunk / b} + ${rest / b} = ${mk(q)}`) },
+      { say: X.end(a, b, q, dv), v: eq(`${a} ${dv} ${b} = ${mk(q)}`) }
+    ], why: X.why };
+  },
+  missingDiv(p, X) {
+    const dv = DS(), x = XS(), c = resOf(p);
+    if (p.missing === 'a') return { steps: [
+      { say: X.s1a(p.b, c, dv), v: c * p.b <= 60 ? groupsVis(p.b, c) : eq(qHtmlStatic(p)) },
+      { say: X.s2a(p.b, c, p.a, x), v: eq(`${p.b} ${x} ${c} = ${mk(p.a)}`) },
+      { say: X.end(p.a, fullEq(p)), v: eq(qHtmlStatic(p, p.a)) }
+    ], why: X.why };
+    return { steps: [
+      { say: X.s1b(p.a, c, dv), v: eq(qHtmlStatic(p)) },
+      { say: X.s2b(c, p.a, multiples(c, p.b).join(', '), p.b), v: skipLine(c, p.b) },
+      { say: X.end(p.b, fullEq(p)), v: eq(qHtmlStatic(p, p.b)) }
+    ], why: X.why };
+  },
+
+  /* other ways that re-use the explanations above */
+  swapMul({ a, b }, X) {
+    const inner = explainWith(P(b, a, 'x'), chooseStrategy(P(b, a, 'x')));
+    return { steps: [{ say: X.s1(a, b, XS()), v: row(arrayVis(Math.min(a, 10), Math.min(b, 10)), opS('='), arrayVis(Math.min(b, 10), Math.min(a, 10))) }, ...inner.steps], why: X.why };
+  },
+  missingTurn(p, X) {
+    const c = resOf(p), x = XS(), dv = DS();
+    let q, ans;
+    if (p.op === '+') { const known = p.missing === 'a' ? p.b : p.a; q = P(c, known, '-'); ans = c - known; }
+    else if (p.op === '-') { if (p.missing === 'b') { q = P(p.a, c, '-'); ans = p.b; } else { q = P(c, p.b, '+'); ans = p.a; } }
+    else if (p.op === 'x') { const known = p.missing === 'a' ? p.b : p.a; q = P(c, known, '÷'); ans = c / known; }
+    else { if (p.missing === 'a') { q = P(c, p.b, 'x'); ans = p.a; } else { q = P(p.a, c, '÷'); ans = p.b; } }
+    const inner = explainWith(q, chooseStrategy(q));
+    return { steps: [{ say: X.s1(qText(p), qText(q)), v: eq(`${qText(q)} = □`) }, ...inner.steps, { say: X.end(ans, fullEq(p)), v: eq(qHtmlStatic(p, ans)) }], why: inner.why };
+  }
+});
+
+/* a fixed equation with the missing number shown (or a box) for pictures */
+function qHtmlStatic(p, fill) {
+  const v = n => fill != null ? mk(fill) : '□';
+  const A = p.missing === 'a' ? v() : p.a, B = p.missing === 'b' ? v() : p.b;
+  return `${A} ${opSym(p.op)} ${B}${p.c != null ? ` + ${p.c}` : ''} = ${p.missing ? resOf(p) : fill != null ? mk(fill) : '□'}`;
+}
+
+/* story questions: find the maths in the story, then explain the sum */
+function storyWrap(p, inner) {
+  const X = tr().ex.story, q = qText({ ...p, story: null });
+  return { steps: [{ say: X.intro(p.op, q), v: eq(`${q} = □`) }, ...inner.steps, { say: X.end(resOf(p)), v: eq(`${q} = ${mk(resOf(p))}`) }], why: inner.why };
+}
+function explainWith(p, s) {
+  const base = { ...p }; delete base.story;
+  const e = EXPLAIN[s](base, tr().ex[s] || {});
+  return p.story != null ? storyWrap(p, e) : e;
+}
+
+/* other ways to explain the same question, in the order a teacher would try them */
+function altsFor(p) {
+  const s = stratOf(p), { a, b } = p, r = resOf(p), out = [];
+  const add = x => { if (x && x !== s && EXPLAIN[x] && !out.includes(x)) out.push(x); };
+  if (p.missing) add('missingTurn');
+  else if (p.op === '+') {
+    if (p.c != null) add('threeLeft');
+    else {
+      if (r <= 20) add('countAll');
+      if (r <= 20 && Math.min(a, b) <= 9 && r > 10) add('bridgeAdd');
+      if (a >= 10 || b >= 10) add('jumpAdd');
+      if (a >= 10 && b >= 10) { add('partitionAdd'); add('columnAdd'); }
+    }
+  } else if (p.op === '-') {
+    if (a <= 20 && b <= 10) { add('takeAway'); add('countBack'); }
+    add('countUpAny');
+    if (a >= 10 && b >= 10) add('jumpSub');
+    if (a >= 100) add('columnSub');
+  } else if (p.op === 'x') {
+    if (a <= 10 && b <= 10 && a * b <= 60) { add('groups'); add('array'); }
+    if (a <= 12 && b <= 12) add('skipCount');
+    if (a <= 5) add('repeatAdd');
+    if (a >= 11) add('partitionMul');
+    if (a !== b && a <= 12 && b <= 12 && b !== 1) add('swapMul');
+  } else {
+    const q = a / b;
+    if (a <= 30 && b <= 5) add('share');
+    if (q <= 12) { add('inverse'); add('group'); }
+    if (b === 2 && a >= 12) add('halve');
+    if (b === 4) add('quarter');
+    if (b === 8) add('eighth');
+    if (q > 12) add('partitionDiv');
+  }
+  return out;
+}
+
+/* ---------- text for the new levels and features (merged into I18N) ---------- */
+(function addText() {
+  const EN = I18N.en.place, DA = I18N.da.place, DD = I18N.da.def;
+  const en = {
+    gu: ['There are 500 questions in 50 levels. Adding and Taking away have 15 levels each, from small sums up to 4-digit column methods. Times tables and Sharing have 10 levels each and unlock when every Adding and Taking away level has at least one star.',
+      'Each level starts with a short lesson that shows <b>what</b> to do and <b>why</b> it works. During practice, a wrong answer gets one more try; after the second, the teacher walks through the steps, and "I still don\'t understand" explains it another way. Stars count answers right on the first try (9+ = 3 stars, 7+ = 2 stars). Tapping a yellow circle gives a new question like it; getting that right turns the circle green.',
+      'Turn on the voice (speaker button, top right) so the teachers read everything aloud. Switch between English and Danish with the EN/DA button.'],
+    mixedText: '10 surprise questions from everything you have unlocked.',
+    topicIntro: { mul: 'Meow! Times tables are a quick way to add equal groups. Start at level 1 and work your way up.',
+      div: "Hello, I'm Sparkle! Sharing means splitting things into equal groups. Start at level 1." },
+    startOver: 'Start over', startOverAsk: 'Start this round again from question 1?', startOverYes: 'Yes, start over', startOverNo: 'Keep going',
+    stillStuck: "I still don't understand", otherWayTitle: 'Another way',
+    otherWayIntro: ["No problem! Let's look at it a different way.", "That's okay! Here's another way to think about it.", "Let's try it a new way."],
+    noMoreWays: "That's okay, this one is tricky! Ask a grown-up to try it with you, or watch the first way again.", firstWayAgain: 'Watch the first way again',
+    redoText: e => `You needed some help with ${e}. Want to try one just like it?`, redoBtn: 'Try a new one', redoNo: 'Not now',
+    redoLabel: k => `New try for question ${k}`, redoBack: 'Back to the round', redoBackResults: 'Back to my stars',
+    fixedPraise: ['Brilliant! That circle is green now.', 'You fixed it! Green circle!', 'Yes! You can do this one now.'],
+    redoHint: 'Tap a yellow circle to try a question like it again.', dotOk: 'You got this one right first time!',
+    lockedText: (d, t) => `Finish Adding and Taking away to unlock (${d} of ${t} levels)`,
+    lockedToast: n => `${n} is waiting for you! First finish all the Adding and Taking away levels.`,
+    unlockedNow: 'You unlocked Times tables and Sharing!', unlockAllLabel: 'Unlock all subjects now',
+    dotLabel: (k, st) => `Question ${k}: ${st}`, dotStates: { ok: 'right first time', help: 'needed help, tap to try again', fixed: 'fixed on a new try', cur: 'now', '': 'not yet' },
+    stories: {
+      '+': [(a, b) => `Professor Hoot has ${a} acorns. He finds ${b} more. How many acorns does he have now?`,
+        (a, b) => `There are ${a} children on the bus. ${b} more get on. How many children are on the bus?`,
+        (a, b) => `Miss Daisy reads ${a} pages on Monday and ${b} pages on Tuesday. How many pages does she read altogether?`,
+        (a, b) => `A shop has ${a} red balloons and ${b} blue balloons. How many balloons are there in total?`,
+        (a, b) => `Sparkle collects ${a} shells in the morning and ${b} in the afternoon. How many shells does she have?`],
+      '-': [(a, b) => `Mr Whiskers has ${a} fish treats. He eats ${b}. How many are left?`,
+        (a, b) => `There are ${a} birds in a tree. ${b} fly away. How many birds are still in the tree?`,
+        (a, b) => `Miss Daisy had ${a} stickers. She gave ${b} to a friend. How many stickers does she have now?`,
+        (a, b) => `A bag has ${a} sweets. ${b} are eaten. How many sweets are left in the bag?`,
+        (a, b) => `Sparkle needs ${a} stars for her necklace. She has ${b}. How many more stars does she need?`]
+    },
+    levels: {
+      a6: { title: 'Doubles and near doubles', goal: 'Add a number to itself, or one more', what: 'A double is a number added to itself, like 7 + 7. A near double uses next-door numbers, like 7 + 8.', why: 'Doubles are easy to remember. Once you know them, a near double is just a double plus 1.' },
+      a7: { title: 'Adding 9 and 11', goal: 'Use a ten, then fix it', what: 'To add 9, add 10 and take 1 away. To add 11, add 10 and add 1 more.', why: 'Adding a whole ten is quick. Fixing the answer by 1 is much easier than adding 9 in your head.' },
+      a8: { title: 'Three numbers', goal: 'Add three numbers', what: 'When you add three numbers, look for two that make 10 first.', why: 'You can add numbers in any order and the answer stays the same. So pick the easiest pair first.' },
+      a9: { title: 'Friends of 100', goal: 'Pairs that make 100', what: 'Friends of 100 are pairs like 30 and 70, or 45 and 55. Count up to the next ten, then in tens to 100.', why: 'Friends of 100 work like friends of 10: 3 + 7 = 10, so 30 + 70 = 100.' },
+      a10: { title: 'Adding tens and hundreds', goal: 'Add 10s and 100s to 3-digit numbers', what: 'When you add only tens, only the tens digit changes. When you add only hundreds, only the hundreds digit changes.', why: 'Each digit has its own place. Adding to one place leaves the others alone, as long as it does not go past 9.' },
+      a11: { title: 'Over the hundred', goal: 'Sums that cross 100, 200, 300 …', what: 'When a sum goes past a hundred, jump to the hundred first, then add the rest.', why: 'Hundreds are friendly numbers, just like tens. Stopping at the hundred breaks one big jump into two easy ones.' },
+      a12: { title: 'Missing numbers', goal: 'Find the missing part', what: 'In a sum like 38 + □ = 50, count up from 38 to 50 to find the missing number.', why: 'Adding and taking away are opposites. The missing part is the gap between the numbers.' },
+      a13: { title: 'Carry twice', goal: '3-digit sums with two carries', what: 'Line up the columns and start with the ones. This time you will carry more than once.', why: 'Each column can only hold up to 9. Every extra ten moves to the next column, even into the thousands.' },
+      a14: { title: 'Word problems', goal: 'Adding in stories', what: 'Read the story carefully. If amounts are put together, or more are added, you add.', why: 'Maths is everywhere in real life. Finding the sum inside a story is a real superpower.' },
+      a15: { title: 'Thousands', goal: '4-digit column adding', what: 'Big numbers work just like 3-digit ones: line up thousands, hundreds, tens and ones, and start with the ones.', why: 'The column method works for any size of number, because every column follows the same rule.' },
+      s6: { title: 'Count up', goal: 'Find the difference', what: 'When two numbers are close, count up from the smaller number to the bigger one.', why: 'Taking away also means finding the difference. Counting up a small gap is quicker than counting back.' },
+      s7: { title: 'Taking away 9 and 11', goal: 'Use a ten, then fix it', what: 'To take away 9, take away 10 and give 1 back. To take away 11, take away 10 and 1 more.', why: 'Taking away a whole ten is easy. Then you only need to fix the answer by 1.' },
+      s8: { title: 'From a whole ten', goal: 'Like 40 − 7', what: 'To take a small number from a whole ten, split off a 10 and use your friends of 10.', why: '10 − 7 = 3, so 40 − 7 is 30 and 3, which is 33. Friends of 10 do the work.' },
+      s9: { title: 'Taking from 100', goal: 'Like 100 − 37', what: 'To take away from 100, count up from the small number to 100.', why: 'The answer is the number\'s friend of 100. Counting up in friendly jumps is the easiest way to find it.' },
+      s10: { title: 'Taking tens and hundreds', goal: 'Take 10s and 100s from 3-digit numbers', what: 'When you take away only tens, only the tens digit changes. The same goes for hundreds.', why: 'Each digit has its own place. Taking from one place leaves the others alone, as long as there are enough.' },
+      s11: { title: 'Back over the hundred', goal: 'Like 203 − 5', what: 'When you take away past a hundred, jump back to the hundred first, then the rest.', why: 'Stopping at the hundred breaks one tricky jump into two easy jumps, just like stopping at a ten.' },
+      s12: { title: 'Missing numbers', goal: 'Find the missing part', what: 'In 62 − □ = 40, count up from 40 to 62. In □ − 15 = 30, add 30 and 15.', why: 'Adding and taking away are opposites, so you can turn the question around.' },
+      s13: { title: 'Zeros in the way', goal: 'Exchanging across a zero', what: 'If the next column has a 0, you cannot exchange from it. Go one more column along, then exchange step by step.', why: '400 is the same as 3 hundreds and 10 tens, which is the same as 3 hundreds, 9 tens and 10 ones. The number never changes.' },
+      s14: { title: 'Word problems', goal: 'Taking away in stories', what: 'Read the story. If something is taken away or used up, or you need to find how many more, you subtract.', why: 'Spotting the maths in a story is a skill you will use every day.' },
+      s15: { title: 'Thousands', goal: '4-digit column subtraction', what: 'Line up thousands, hundreds, tens and ones. Start with the ones and exchange when the top digit is too small.', why: 'The column method works for any size of number, because every column follows the same rule.' },
+      m1: { title: 'Equal groups', goal: 'The 2 times table', what: 'Times means equal groups. 4 × 2 means 4 groups of 2. Count in 2s to find the answer.', why: 'Multiplying is a fast way of adding the same number again and again.' },
+      m2: { title: 'The 10 times table', goal: 'Count in 10s', what: 'Times 10 means groups of ten. 6 × 10 is 6 tens, which is 60.', why: 'When you multiply by 10, every digit moves one place to the left and a 0 fills the ones.' },
+      m3: { title: 'The 5 times table', goal: 'Count in 5s', what: 'Count in 5s: 5, 10, 15, 20 … Or use the 10s and take half.', why: '5 is half of 10, so 5 times a number is half of 10 times it. Fives always end in 5 or 0.' },
+      m4: { title: 'Arrays and swapping', goal: 'Turn it around', what: 'An array is rows of dots. 5 × 7 is 5 rows of 7, and it is also 7 rows of 5.', why: 'You can swap the numbers in a times sum and get the same answer. Choose the way that is easier.' },
+      m5: { title: 'The 3 times table', goal: 'Count in 3s', what: '3 groups is 2 groups and one more. Double the number, then add it once more.', why: 'If you know your doubles, you can work out any 3 times fact.' },
+      m6: { title: 'The 4 times table', goal: 'Double the 2s', what: '4 is double 2. To times by 4, double the number, then double again.', why: 'The 4 times table is double the 2 times table.' },
+      m7: { title: 'The 8 times table', goal: 'Double the 4s', what: '8 is double 4. To times by 8, double three times.', why: 'Each double makes it twice as big: 2s, 4s, 8s.' },
+      m8: { title: 'Mixed tables', goal: '3s, 4s and 8s', what: 'Look at the number you times by and choose your trick: one more group for 3s, double double for 4s, double double double for 8s.', why: 'Knowing a trick for each table means you can always work it out, even if you forget.' },
+      m9: { title: 'Missing numbers', goal: 'Like □ × 4 = 20', what: 'Count in the times table until you reach the answer. The number of jumps is the missing number.', why: 'A missing number in a times sum is really a sharing question. Times and sharing are opposites.' },
+      m10: { title: 'Bigger times', goal: '2-digit × 1-digit', what: 'Split the bigger number into tens and ones. Times each part, then add.', why: 'Splitting turns one hard times sum into two easy ones that use the tables you know.' },
+      d1: { title: 'Sharing equally', goal: 'Share between 2 and 3', what: 'Sharing means giving everyone the same amount. Hand them out one at a time.', why: 'Fair sharing makes equal groups. You can check with a times sum.' },
+      d2: { title: 'Making groups', goal: 'How many 5s or 10s?', what: '20 ÷ 5 can mean: how many groups of 5 fit into 20? Count in 5s and count the jumps.', why: 'Division is the opposite of multiplication, so counting in steps finds the answer.' },
+      d3: { title: 'Use your tables', goal: 'Divide by 2, 5 and 10', what: 'To work out 35 ÷ 5, think: what times 5 makes 35?', why: 'Every times fact gives you a division fact for free. 7 × 5 = 35, so 35 ÷ 5 = 7.' },
+      d4: { title: 'Halving', goal: 'Half of bigger numbers', what: 'Dividing by 2 means halving. Halve the tens and the ones separately, then add.', why: 'Halves of tens and ones are easy, and putting them back together gives half of the whole number.' },
+      d5: { title: 'Dividing by 3', goal: 'Use the 3 times table', what: 'To work out 24 ÷ 3, count in 3s to 24 and count the jumps.', why: 'The 3 times table, used backwards, shares into 3 equal groups.' },
+      d6: { title: 'Dividing by 4', goal: 'Halve, then halve again', what: 'Dividing by 4 is the same as halving twice.', why: '4 is 2 × 2, so two halvings make 4 equal parts.' },
+      d7: { title: 'Dividing by 8', goal: 'Use the 8 times table', what: 'To work out 56 ÷ 8, think: what times 8 makes 56? Or halve three times.', why: '8 is 2 × 2 × 2, so halving three times gives 8 equal parts.' },
+      d8: { title: 'Mixed sharing', goal: 'Divide by 3, 4 and 8', what: 'Look at the number you divide by and pick your trick: the 3s table, halve twice for 4, or the 8s table.', why: 'Every division can be checked with a times sum.' },
+      d9: { title: 'Missing numbers', goal: 'Like □ ÷ 4 = 6', what: 'Turn it around with a times sum: □ ÷ 4 = 6 means 6 × 4 = □.', why: 'Sharing and times are opposites, so one can always undo the other.' },
+      d10: { title: 'Bigger sharing', goal: '2-digit ÷ 1-digit', what: 'Split the number into parts that are easy to share, like 40 and 8. Share each part, then add.', why: 'Splitting into friendly parts lets you use the tables you already know.' }
+    },
+    ex: {
+      story: { intro: (op, q) => op === '+' ? `Let's find the maths in the story. Amounts are put together, so we add: ${q}.` : `Let's find the maths in the story. Some are taken away, or we find what is missing, so we subtract: ${q}.`, end: n => `So the answer to the story is ${n}.` },
+      columnSub: { noNext: (i, bot, was, j) => `${cap(EN[i])}: we can't take ${bot} from ${was}, and there are no ${EN[i + 1]} to exchange. So first we go to the ${EN[j]}.`,
+        exch: (k, before, after, low, lowAfter) => `Exchange 1 ${I18N.en.one[k]} for 10 ${EN[k - 1]}. The ${EN[k]} go from ${before} to ${after}, and the ${EN[k - 1]} go from ${low} to ${lowAfter}.` },
+      doubles: { s1: a => `${a} + ${a} is a double: the same number twice.`, split: (t, o) => `Double the tens and double the ones: double ${t} is ${2 * t}, and double ${o} is ${2 * o}.`, know: (a, s) => `If you know your doubles, you know it straight away: double ${a} is ${s}.`, end: (a, s) => `So ${a} + ${a} = ${s}.`, why: 'Doubles are easy to remember, and they help with lots of other sums, like near doubles.' },
+      nearDouble: { s1: (a, b) => `${a} and ${b} are next-door numbers, so this is a near double.`, s2: sm => `Double the smaller one: ${sm} + ${sm} = ${2 * sm}.`, s3: (big, sm, d) => `${big} is one more than ${sm}, so add 1 more: ${d} + 1 = ${d + 1}.`, end: (a, b, s) => `So ${a} + ${b} = ${s}.`, why: 'If you know your doubles, a near double is just a double plus one.' },
+      compAdd: { s1: (b, ten) => `${b} is very close to ${ten}, and adding ${ten} is easy!`, s2: (a, ten) => `First add ${ten}: ${a} + ${ten} = ${a + ten}.`, minus: (x, s) => `But we added 1 too many, so take 1 away: ${x} − 1 = ${s}.`, plus: (x, s) => `We still need to add 1 more: ${x} + 1 = ${s}.`, end: (a, b, s) => `So ${a} + ${b} = ${s}.`, why: 'Adding a whole ten is quick. Then you just fix it by 1. This trick works for 9, 11, 19 and 21.' },
+      threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. With three numbers, look for two that are easy to add first.`, ten: (x, y) => `${x} and ${y} are friends of 10! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} and ${y} are a double: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Start with the first two: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Now add the last number: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `So ${a} + ${b} + ${c} = ${s}.`, why: 'You can add numbers in any order. Finding a pair that makes 10 first makes the rest easy.' },
+      threeLeft: { s1: (a, b, ab) => `Let's go from left to right. First: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Then add the last number: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `So ${a} + ${b} + ${c} = ${s}.`, why: 'Adding two numbers at a time always works, whichever order you choose.' },
+      bond100: { s1: a => `${a} + □ = 100. How far is it from ${a} to 100?`, toTen: (a, up, nt) => `First jump to the next ten: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Then jump in tens up to 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Add the jumps together: ${j1} + ${j2} = ${b}.`, end: (a, b) => `So ${a} + ${b} = 100. ${a} and ${b} are friends of 100!`, why: 'Friends of 100 work like friends of 10. 30 + 70 = 100 because 3 + 7 = 10.' },
+      placeBig: { s1: (b, k, col) => `${b} is ${k} ${EN[col]}, so only the ${EN[col]} digit changes.`, s2: (d, k, col) => `${d} ${EN[col]} + ${k} ${EN[col]} = ${d + k} ${EN[col]}. The other digits stay the same.`, end: (a, b, s) => `So ${a} + ${b} = ${s}.`, why: 'When you add only tens or only hundreds, the other digits stay the same, as long as nothing goes past 9.' },
+      placeBigSub: { s1: (b, k, col) => `${b} is ${k} ${EN[col]}, so only the ${EN[col]} digit changes.`, s2: (d, k, col) => `${d} ${EN[col]} − ${k} ${EN[col]} = ${d - k} ${EN[col]}. The other digits stay the same.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'When you take away only tens or only hundreds, the other digits stay the same, as long as there are enough.' },
+      missingAdd: { s1: (q, known, c) => `${q}. To find the missing number, think: what do we add to ${known} to make ${c}?`, jump: (x, y, j) => `Count up from ${x} to ${y}: that's ${j}.`, add: (js, ans) => `Add the jumps: ${js} = ${ans}.`, end: (ans, e) => `The missing number is ${ans}. Check: ${e}.`, why: (c, known, ans) => `Adding and taking away are opposites. You could also take away: ${c} − ${known} = ${ans}.` },
+      missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Something was taken from ${a} and ${c} was left. Count up from ${c} to ${a} to find it.`, s1a: (b, c) => `□ − ${b} = ${c}. We took ${b} away and ${c} was left.`, back: (c, b, a) => `So the start number is what was left plus what was taken: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Count up from ${x} to ${y}: that's ${j}.`, add: (js, ans) => `Add the jumps: ${js} = ${ans}.`, end: (ans, e) => `The missing number is ${ans}. Check: ${e}.`, why: 'Taking away and adding are opposites, so you can always turn a missing number question around.' },
+      countUpAny: { s1: (a, b) => `${a} − ${b}: let's count up from ${b} to ${a}, using friendly numbers.`, jump: (x, y, j) => `From ${x} up to ${y}: that's ${j}.`, add: (js, d) => `Add the jumps: ${js} = ${d}.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'Taking away also means finding the difference. Counting up the gap in friendly jumps always works.' },
+      compSub: { s1: (b, ten) => `${b} is very close to ${ten}, and taking away ${ten} is easy!`, s2: (a, ten) => `First take away ${ten}: ${a} − ${ten} = ${a - ten}.`, plus: (x, d) => `But we took away 1 too many, so give 1 back: ${x} + 1 = ${d}.`, minus: (x, d) => `We still need to take away 1 more: ${x} − 1 = ${d}.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'Taking away a whole ten is quick. Then fix it by 1: give 1 back for 9, take 1 more for 11.' },
+      fromTen: { s1: (a, b) => `${a} − ${b}. Split ${a} into ${a - 10} and 10.`, s2: b => `Use your friends of 10: 10 − ${b} = ${10 - b}.`, s3: (r, f, d) => `Put it back together: ${r} + ${f} = ${d}.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'Taking a small number from a whole ten uses your friends of 10: the ones digit of the answer is the friend of the number you took away.' },
+      from100: { s1: b => `100 − ${b}. Count up from ${b} to 100 in friendly jumps.`, jump: (x, y, j) => `From ${x} up to ${y}: that's ${j}.`, add: (js, d) => `Add the jumps: ${js} = ${d}.`, end: (b, d) => `So 100 − ${b} = ${d}. ${b} and ${d} are friends of 100!`, why: 'Taking away from 100 is the same as finding the friend of 100.' },
+      countAll: { s1: (a, b) => `Let's count them all. Here are ${a} orange counters and ${b} blue counters.`, s2: l => `Point to each counter and count: ${l}.`, end: (a, b, s) => `There are ${s} altogether. So ${a} + ${b} = ${s}.`, why: 'Counting everything always works. It is slower, but it is a great way to check.' },
+      jumpAdd: { s1: (a, b, parts) => `Start at ${a} on the number line. Split ${b} into ${parts} and jump one part at a time.`, jump: (pt, at) => `Jump +${pt}: we land on ${at}.`, end: (a, b, s) => `We landed on ${s}. So ${a} + ${b} = ${s}.`, why: 'Jumping in hundreds, tens and ones keeps big sums easy to follow.' },
+      jumpSub: { s1: (a, b, parts) => `Start at ${a} on the number line. Split ${b} into ${parts} and jump back one part at a time.`, jump: (pt, at) => `Jump back ${pt}: we land on ${at}.`, end: (a, b, d) => `We landed on ${d}. So ${a} − ${b} = ${d}.`, why: 'Jumping back in hundreds, tens and ones breaks a big take-away into small easy steps.' },
+      partitionAdd: { s1: (a, pa, b, pb) => `Split both numbers into their parts: ${a} = ${pa} and ${b} = ${pb}.`, place: (i, x, y, s) => `Add the ${EN[i]}: ${x} + ${y} = ${s}.`, join: (parts, s) => `Now add the parts together: ${parts} = ${s}.`, end: (a, b, s) => `So ${a} + ${b} = ${s}.`, why: 'Adding each place on its own, then putting them together, is like the column method said out loud.' },
+      countBack: { s1: (a, b, l) => `Start at ${a} and count back ${b}: ${l}.`, end: (a, b, d) => `We landed on ${d}. So ${a} − ${b} = ${d}.`, why: 'Counting back one at a time is slow but always works for small numbers.' },
+      groups: { s1: (a, b, x) => `${a} ${x} ${b} means ${a} groups of ${b}.`, s2: (b, l) => `Count in ${b}s, one group at a time: ${l}.`, end: (a, b, r, x) => `So ${a} ${x} ${b} = ${r}.`, why: (a, b, x) => `Multiplying is a quick way of adding equal groups. ${a} ${x} ${b} is ${b} added ${a} times.` },
+      tensMul: { s1: (a, x) => `${a} ${x} 10 means ${a} groups of ten. That's ${a} tens.`, s2: (a, r) => `${a} tens is ${r}. Each digit moves one place to the left, and a 0 fills the ones.`, end: (a, r, x) => `So ${a} ${x} 10 = ${r}.`, why: 'Times 10 makes every digit worth ten times more, so each digit moves one place to the left.' },
+      fives: { s1: (a, x, l) => `${a} ${x} 5: count in 5s, ${a} times: ${l}.`, trick: (a, t, r, x) => `Here's a trick: ${a} ${x} 10 = ${t}, and 5 is half of 10, so take half of ${t}. That's ${r}.`, end: (a, r, x) => `So ${a} ${x} 5 = ${r}.`, why: '5 is half of 10, so the 5 times table is half of the 10 times table. Fives always end in 5 or 0.' },
+      array: { s1: (a, b, x) => `${a} ${x} ${b} can be drawn as an array: ${a} rows with ${b} dots in each row.`, s2: (a, b, x) => `Turn it around and you get ${b} rows of ${a}. It's the same dots! So ${a} ${x} ${b} = ${b} ${x} ${a}.`, s3: (a, b, l) => `Use the ${a} times table: count in ${a}s, ${b} times: ${l}.`, end: (a, b, r, x) => `So ${a} ${x} ${b} = ${r}.`, why: 'You can swap the numbers in a times sum and the answer stays the same. Pick the order that is easier for you.' },
+      threes: { s1: (a, x) => `${a} ${x} 3 is the same as 3 groups of ${a}.`, s2: (a, d, r, x) => `Trick: 2 groups of ${a} is double ${a}, which is ${d}. One more group of ${a}: ${d} + ${a} = ${r}.`, end: (a, r, x) => `So ${a} ${x} 3 = ${r}.`, why: 'Three groups is two groups plus one more group. If you know your doubles, you can find any 3 times fact.' },
+      fours: { s1: (a, x) => `${a} ${x} 4: four is double 2, so we can double twice.`, s2: (a, d, x) => `Double ${a}: that's ${d}. That is ${a} ${x} 2.`, s3: (d, r, a, x) => `Double it again: ${d} + ${d} = ${r}. That is ${a} ${x} 4.`, end: (a, r, x) => `So ${a} ${x} 4 = ${r}.`, why: 'The 4 times table is double the 2 times table.' },
+      eights: { s1: (a, x) => `${a} ${x} 8: eight is double double double, so we double three times!`, d1: (a, d) => `Double ${a}: ${d}.`, d2: (d, e) => `Double again: ${e}.`, d3: (e, r) => `And once more: ${r}.`, end: (a, r, x) => `So ${a} ${x} 8 = ${r}.`, why: 'Each double makes it twice as big: 2s, then 4s, then 8s.' },
+      skipCount: { s1: (a, b, x) => `${a} ${x} ${b}: jump in ${b}s along the number line, ${a} times.`, s2: (b, l) => `Say the ${b}s out loud as you jump: ${l}.`, end: (a, b, r, x) => `We landed on ${r}. So ${a} ${x} ${b} = ${r}.`, why: 'Counting in jumps of the same size is what times tables are made of.' },
+      repeatAdd: { s1: (a, b, x, sum) => `${a} ${x} ${b} means adding ${b}, ${a} times: ${sum}.`, s2: l => `Add them one at a time: ${l}.`, end: (a, b, r, x) => `So ${a} ${x} ${b} = ${r}.`, why: 'Times is a short way of writing the same number added again and again.' },
+      partitionMul: { s1: (a, b, T, O, x) => `${a} ${x} ${b}. Split ${a} into ${T} and ${O}.`, part: (n, b, r, x) => `${n} ${x} ${b} = ${r}.`, add: (x1, x2, r) => `Add the two answers: ${x1} + ${x2} = ${r}.`, end: (a, b, r, x) => `So ${a} ${x} ${b} = ${r}.`, why: 'Splitting a big number into tens and ones turns one hard times sum into two easy ones.' },
+      missingMul: { s1: (q, k, c) => `${q}. Which number times ${k} makes ${c}?`, s2: (k, c, l) => `Count in ${k}s until you reach ${c}: ${l}.`, s3: ans => `That's ${ans} jumps, so the missing number is ${ans}.`, end: (ans, e) => `Check: ${e}.`, why: (c, k, ans, dv) => `A missing number in a times sum is really a sharing sum: ${c} ${dv} ${k} = ${ans}.` },
+      share: { s1: (a, b, dv) => `${a} ${dv} ${b} means share ${a} equally between ${b}.`, s2: b => `Give one to each of the ${b}, again and again, until they are all gone.`, end: (a, b, q, dv) => `Each one gets ${q}. So ${a} ${dv} ${b} = ${q}.`, why: (b, q, a, x) => `Sharing fairly means everyone gets the same. Check with a times sum: ${b} ${x} ${q} = ${a}.` },
+      group: { s1: (a, b, dv) => `${a} ${dv} ${b} can mean: how many groups of ${b} fit into ${a}?`, s2: (b, a, l) => `Jump in ${b}s from 0 to ${a} and count the jumps: ${l}.`, end: (a, b, q, dv) => `That's ${q} jumps. So ${a} ${dv} ${b} = ${q}.`, why: b => `Division is the opposite of multiplication. Counting jumps of ${b} is the ${b} times table backwards.` },
+      inverse: { s1: (a, b, dv, x) => `${a} ${dv} ${b}: think of the ${b} times table. Which number times ${b} makes ${a}?`, s2: (b, l, a, q) => `Count in ${b}s: ${l}. ${a} is number ${q}.`, end: (a, b, q, dv, x) => `${q} ${x} ${b} = ${a}, so ${a} ${dv} ${b} = ${q}.`, why: 'If you know your times tables, you know your division facts too. They are opposites.' },
+      halve: { s1: (a, dv) => `${a} ${dv} 2 means half of ${a}. Split ${a} into tens and ones.`, s2: (T, O) => `Half of ${T} is ${T / 2}, and half of ${O} is ${O / 2}.`, s3: (x, y, h) => `Put the halves together: ${x} + ${y} = ${h}.`, whole: (a, h) => `Half of ${a} is ${h}.`, end: (a, h, dv) => `So ${a} ${dv} 2 = ${h}.`, why: 'Halving the tens and the ones separately makes big numbers easy to halve.' },
+      quarter: { s1: (a, dv) => `${a} ${dv} 4: dividing by 4 is the same as halving twice.`, h1: (a, h) => `Half of ${a} is ${h}.`, h2: (h, q) => `Half of ${h} is ${q}.`, end: (a, q, dv) => `So ${a} ${dv} 4 = ${q}.`, why: '4 is 2 × 2, so halving twice is the same as sharing into 4 equal parts.' },
+      eighth: { s1: (a, dv) => `${a} ${dv} 8: dividing by 8 is the same as halving three times.`, h1: (a, h) => `Half of ${a} is ${h}.`, h2: (h, q) => `Half of ${h} is ${q}.`, h3: (q, e) => `And half of ${q} is ${e}.`, end: (a, e, dv) => `So ${a} ${dv} 8 = ${e}.`, why: '8 is 2 × 2 × 2, so halving three times shares into 8 equal parts.' },
+      partitionDiv: { s1: (a, b, ch, rest, dv) => `${a} ${dv} ${b}. Split ${a} into parts that are easy to share: ${ch} and ${rest}.`, part: (n, b, r, dv) => `${n} ${dv} ${b} = ${r}.`, add: (x, y, q) => `Add the answers: ${x} + ${y} = ${q}.`, end: (a, b, q, dv) => `So ${a} ${dv} ${b} = ${q}.`, why: 'Splitting a big number into easy parts lets you use the times tables you already know.' },
+      missingDiv: { s1a: (b, c, dv) => `□ ${dv} ${b} = ${c}. A number was shared into ${b} groups of ${c}.`, s2a: (b, c, a, x) => `So the number is ${b} groups of ${c}: ${b} ${x} ${c} = ${a}.`, s1b: (a, c, dv) => `${a} ${dv} □ = ${c}. ${a} is split into groups of ${c}. How many groups?`, s2b: (c, a, l, ans) => `Count in ${c}s up to ${a}: ${l}. That's ${ans} groups.`, end: (ans, e) => `The missing number is ${ans}. Check: ${e}.`, why: 'Division and multiplication are opposites, so you can turn the question around.' },
+      swapMul: { s1: (a, b, x) => `Let's swap the numbers: ${b} ${x} ${a} has the same answer as ${a} ${x} ${b}, because the dots are the same.`, why: 'You can swap the numbers in a times sum, so choose the order you find easier.' },
+      missingTurn: { s1: (q, q2) => `Let's turn it around. ${q} is the same question as ${q2}.`, end: (ans, e) => `So the missing number is ${ans}: ${e}.` }
+    }
+  };
+  const da = {
+    gu: ['Der er 500 opgaver fordelt på 50 niveauer. Plus og Minus har 15 niveauer hver, fra små regnestykker til opstilling med firecifrede tal. Gangetabeller og Division har 10 niveauer hver og låses op, når alle niveauer i Plus og Minus har mindst én stjerne.',
+      'Hvert niveau starter med en kort lektion, der viser, <b>hvad</b> man skal gøre, og <b>hvorfor</b> det virker. Ved et forkert svar får barnet et forsøg mere; efter andet forkerte svar gennemgår læreren trinene, og "Jeg forstår det stadig ikke" forklarer det på en anden måde. Stjerner gives for svar, der er rigtige i første forsøg (9+ = 3 stjerner, 7+ = 2 stjerner). Et tryk på en gul cirkel giver en ny opgave, der ligner; et rigtigt svar gør cirklen grøn.',
+      'Tænd for stemmen (højttalerknappen øverst til højre), så lærerne læser alt højt. Skift mellem engelsk og dansk med EN/DA-knappen.'],
+    mixedText: 'Ti overraskelsesopgaver fra alt det, du har låst op.',
+    topicIntro: { mul: 'Miav! Gangetabeller er en hurtig måde at lægge lige store grupper sammen på. Start på niveau 1, og arbejd dig op.',
+      div: 'Hej, jeg er Glimmer! Division betyder at dele noget op i lige store grupper. Start på niveau 1.' },
+    startOver: 'Start forfra', startOverAsk: 'Vil du starte runden forfra fra opgave 1?', startOverYes: 'Ja, start forfra', startOverNo: 'Fortsæt',
+    stillStuck: 'Jeg forstår det stadig ikke', otherWayTitle: 'En anden måde',
+    otherWayIntro: ['Ingen problem! Lad os se på det på en anden måde.', 'Det er helt okay! Her er en anden måde at tænke på det.', 'Lad os prøve på en ny måde.'],
+    noMoreWays: 'Det er helt okay, den her er svær! Bed en voksen om at prøve den sammen med dig, eller se den første måde igen.', firstWayAgain: 'Se den første måde igen',
+    redoText: e => `Du fik lidt hjælp til ${e}. Vil du prøve en, der ligner?`, redoBtn: 'Prøv en ny', redoNo: 'Ikke nu',
+    redoLabel: k => `Nyt forsøg til opgave ${k}`, redoBack: 'Tilbage til runden', redoBackResults: 'Tilbage til mine stjerner',
+    fixedPraise: ['Flot! Den cirkel er grøn nu.', 'Du rettede den! Grøn cirkel!', 'Ja! Nu kan du den her.'],
+    redoHint: 'Tryk på en gul cirkel for at prøve en opgave, der ligner, igen.', dotOk: 'Den her havde du rigtig i første forsøg!',
+    lockedText: (d, t) => `Bliv færdig med Plus og Minus for at låse op (${d} af ${t} niveauer)`,
+    lockedToast: n => `${n} venter på dig! Bliv først færdig med alle niveauer i Plus og Minus.`,
+    unlockedNow: 'Du har låst op for Gangetabeller og Division!', unlockAllLabel: 'Lås alle emner op nu',
+    dotLabel: (k, st) => `Opgave ${k}: ${st}`, dotStates: { ok: 'rigtig i første forsøg', help: 'fik hjælp, tryk for at prøve igen', fixed: 'rettet i et nyt forsøg', cur: 'nu', '': 'ikke endnu' },
+    stories: {
+      '+': [(a, b) => `Professor Uhu har ${a} agern. Han finder ${b} mere. Hvor mange agern har han nu?`,
+        (a, b) => `Der sidder ${a} børn i bussen. ${b} mere stiger på. Hvor mange børn er der i bussen?`,
+        (a, b) => `Frøken Daisy læser ${a} sider mandag og ${b} sider tirsdag. Hvor mange sider læser hun i alt?`,
+        (a, b) => `En butik har ${a} røde balloner og ${b} blå balloner. Hvor mange balloner er der i alt?`,
+        (a, b) => `Glimmer samler ${a} muslingeskaller om formiddagen og ${b} om eftermiddagen. Hvor mange skaller har hun?`],
+      '-': [(a, b) => `Hr. Knurhår har ${a} fiskegodbidder. Han spiser ${b}. Hvor mange er der tilbage?`,
+        (a, b) => `Der sidder ${a} fugle i et træ. ${b} flyver væk. Hvor mange fugle sidder der stadig i træet?`,
+        (a, b) => `Frøken Daisy havde ${a} klistermærker. Hun gav ${b} til en ven. Hvor mange klistermærker har hun nu?`,
+        (a, b) => `En pose har ${a} stykker slik. ${b} bliver spist. Hvor mange stykker slik er der tilbage i posen?`,
+        (a, b) => `Glimmer skal bruge ${a} stjerner til sin halskæde. Hun har ${b}. Hvor mange stjerner mangler hun?`]
+    },
+    levels: {
+      a6: { title: 'Dobbelt og næsten dobbelt', goal: 'Læg et tal til sig selv, eller én mere', what: 'Dobbelt er et tal lagt til sig selv, som 7 + 7. Næsten dobbelt er to nabotal, som 7 + 8.', why: 'Dobbelttal er lette at huske. Når du kan dem, er næsten dobbelt bare dobbelt plus 1.' },
+      a7: { title: 'Plus 9 og 11', goal: 'Brug en tier, og ret til', what: 'For at lægge 9 til lægger du 10 til og trækker 1 fra. For at lægge 11 til lægger du 10 til og 1 mere.', why: 'Det er hurtigt at lægge en hel tier til. Det er meget lettere at rette svaret med 1 end at lægge 9 til i hovedet.' },
+      a8: { title: 'Tre tal', goal: 'Læg tre tal sammen', what: 'Når du lægger tre tal sammen, så kig først efter to, der giver 10.', why: 'Du kan lægge tal sammen i hvilken som helst rækkefølge, og svaret er det samme. Så tag det letteste par først.' },
+      a9: { title: '100-venner', goal: 'Par der giver 100', what: '100-venner er par som 30 og 70 eller 45 og 55. Tæl op til næste tier, og så i tiere op til 100.', why: '100-venner virker ligesom tiervenner: 3 + 7 = 10, så 30 + 70 = 100.' },
+      a10: { title: 'Plus tiere og hundreder', goal: 'Læg tiere og hundreder til trecifrede tal', what: 'Når du kun lægger tiere til, er det kun tiercifferet, der ændrer sig. Når du kun lægger hundreder til, er det kun hundredcifferet.', why: 'Hvert ciffer har sin egen plads. Når du lægger til én plads, er de andre de samme, så længe den ikke går over 9.' },
+      a11: { title: 'Over hundrede', goal: 'Regnestykker forbi 100, 200, 300 …', what: 'Når et regnestykke går forbi et hundrede, hopper du først til hundredet og lægger så resten til.', why: 'Hundreder er venlige tal ligesom tiere. Når du stopper ved hundredet, bliver ét stort hop til to lette.' },
+      a12: { title: 'Manglende tal', goal: 'Find den manglende del', what: 'I et regnestykke som 38 + □ = 50 tæller du op fra 38 til 50 for at finde det manglende tal.', why: 'Plus og minus er hinandens modsætninger. Den manglende del er afstanden mellem tallene.' },
+      a13: { title: 'To gange i mente', goal: 'Trecifrede tal med to menter', what: 'Stil kolonnerne op, og start med enerne. Denne gang får du 1 i mente mere end én gang.', why: 'Hver kolonne kan kun rumme op til 9. Hver ekstra tier flytter til næste kolonne, helt op til tusinderne.' },
+      a14: { title: 'Regnehistorier', goal: 'Plus i historier', what: 'Læs historien grundigt. Hvis mængder lægges sammen, eller der kommer flere til, skal du bruge plus.', why: 'Matematik er overalt i hverdagen. At finde regnestykket i en historie er en rigtig superkraft.' },
+      a15: { title: 'Tusinder', goal: 'Plus med firecifrede tal', what: 'Store tal virker ligesom trecifrede: Stil tusinder, hundreder, tiere og enere op, og start med enerne.', why: 'Opstilling virker for tal i alle størrelser, fordi hver kolonne følger den samme regel.' },
+      s6: { title: 'Tæl op', goal: 'Find forskellen', what: 'Når to tal ligger tæt, tæller du op fra det mindste tal til det største.', why: 'Minus betyder også at finde forskellen. Det er hurtigere at tælle op over et lille hul end at tælle tilbage.' },
+      s7: { title: 'Minus 9 og 11', goal: 'Brug en tier, og ret til', what: 'For at trække 9 fra trækker du 10 fra og lægger 1 tilbage. For at trække 11 fra trækker du 10 fra og 1 mere.', why: 'Det er let at trække en hel tier fra. Så skal du bare rette svaret med 1.' },
+      s8: { title: 'Fra et helt tiertal', goal: 'Som 40 − 7', what: 'For at trække et lille tal fra et helt tiertal deler du en tier af og bruger dine tiervenner.', why: '10 − 7 = 3, så 40 − 7 er 30 og 3, altså 33. Tiervennerne gør arbejdet.' },
+      s9: { title: 'Træk fra 100', goal: 'Som 100 − 37', what: 'For at trække fra 100 tæller du op fra det lille tal til 100.', why: 'Svaret er tallets 100-ven. Det letteste er at tælle op i venlige hop.' },
+      s10: { title: 'Minus tiere og hundreder', goal: 'Træk tiere og hundreder fra trecifrede tal', what: 'Når du kun trækker tiere fra, er det kun tiercifferet, der ændrer sig. Det samme gælder hundreder.', why: 'Hvert ciffer har sin egen plads. Når du trækker fra én plads, er de andre de samme, så længe der er nok.' },
+      s11: { title: 'Tilbage over hundrede', goal: 'Som 203 − 5', what: 'Når du trækker fra forbi et hundrede, hopper du først tilbage til hundredet og så resten.', why: 'Når du stopper ved hundredet, bliver ét svært hop til to lette, ligesom når du stopper ved en tier.' },
+      s12: { title: 'Manglende tal', goal: 'Find den manglende del', what: 'I 62 − □ = 40 tæller du op fra 40 til 62. I □ − 15 = 30 lægger du 30 og 15 sammen.', why: 'Plus og minus er hinandens modsætninger, så du kan vende spørgsmålet om.' },
+      s13: { title: 'Nuller i vejen', goal: 'Veksling over et nul', what: 'Hvis der står et 0 i næste kolonne, kan du ikke veksle fra det. Gå en kolonne længere, og veksl så trin for trin.', why: '400 er det samme som 3 hundreder og 10 tiere, som igen er 3 hundreder, 9 tiere og 10 enere. Tallet ændrer sig aldrig.' },
+      s14: { title: 'Regnehistorier', goal: 'Minus i historier', what: 'Læs historien. Hvis noget bliver taget væk eller brugt, eller du skal finde ud af, hvor mange der mangler, bruger du minus.', why: 'At finde matematikken i en historie er noget, du kan bruge hver dag.' },
+      s15: { title: 'Tusinder', goal: 'Minus med firecifrede tal', what: 'Stil tusinder, hundreder, tiere og enere op. Start med enerne, og veksl, når det øverste ciffer er for lille.', why: 'Opstilling virker for tal i alle størrelser, fordi hver kolonne følger den samme regel.' },
+      m1: { title: 'Lige store grupper', goal: '2-tabellen', what: 'Gange betyder lige store grupper. 4 · 2 betyder 4 grupper med 2. Tæl i 2\'ere for at finde svaret.', why: 'At gange er en hurtig måde at lægge det samme tal sammen igen og igen.' },
+      m2: { title: '10-tabellen', goal: 'Tæl i 10\'ere', what: 'Gange 10 betyder grupper med ti. 6 · 10 er 6 tiere, altså 60.', why: 'Når du ganger med 10, flytter hvert ciffer én plads til venstre, og et 0 kommer ind på enernes plads.' },
+      m3: { title: '5-tabellen', goal: 'Tæl i 5\'ere', what: 'Tæl i 5\'ere: 5, 10, 15, 20 … Eller brug 10-tabellen, og tag det halve.', why: '5 er det halve af 10, så 5 gange et tal er det halve af 10 gange tallet. 5-tabellen ender altid på 5 eller 0.' },
+      m4: { title: 'Rækker og bytning', goal: 'Vend det om', what: 'Et array er rækker af prikker. 5 · 7 er 5 rækker med 7, og det er også 7 rækker med 5.', why: 'Du kan bytte om på tallene i et gangestykke og få det samme svar. Vælg den måde, der er lettest.' },
+      m5: { title: '3-tabellen', goal: 'Tæl i 3\'ere', what: '3 grupper er 2 grupper og én mere. Tag det dobbelte af tallet, og læg tallet til én gang mere.', why: 'Hvis du kan dine dobbelttal, kan du regne alle tal i 3-tabellen ud.' },
+      m6: { title: '4-tabellen', goal: 'Det dobbelte af 2-tabellen', what: '4 er det dobbelte af 2. For at gange med 4 tager du det dobbelte og så det dobbelte igen.', why: '4-tabellen er det dobbelte af 2-tabellen.' },
+      m7: { title: '8-tabellen', goal: 'Det dobbelte af 4-tabellen', what: '8 er det dobbelte af 4. For at gange med 8 tager du det dobbelte tre gange.', why: 'Hver gang du tager det dobbelte, bliver det dobbelt så stort: 2\'ere, 4\'ere, 8\'ere.' },
+      m8: { title: 'Blandede tabeller', goal: '3-, 4- og 8-tabellen', what: 'Se på det tal, du ganger med, og vælg dit trick: én gruppe mere for 3, dobbelt dobbelt for 4, dobbelt dobbelt dobbelt for 8.', why: 'Når du har et trick til hver tabel, kan du altid regne det ud, også hvis du glemmer det.' },
+      m9: { title: 'Manglende tal', goal: 'Som □ · 4 = 20', what: 'Tæl i tabellen, til du når svaret. Antallet af hop er det manglende tal.', why: 'Et manglende tal i et gangestykke er i virkeligheden et divisionsstykke. Gange og division er hinandens modsætninger.' },
+      m10: { title: 'Større gangestykker', goal: 'Tocifret gange etcifret', what: 'Del det store tal op i tiere og enere. Gang hver del, og læg så sammen.', why: 'Når du deler op, bliver ét svært gangestykke til to lette, der bruger de tabeller, du kan.' },
+      d1: { title: 'Del ligeligt', goal: 'Del mellem 2 og 3', what: 'At dele betyder at give alle lige mange. Del ud én ad gangen.', why: 'Retfærdig deling giver lige store grupper. Du kan tjekke med et gangestykke.' },
+      d2: { title: 'Lav grupper', goal: 'Hvor mange 5\'ere eller 10\'ere?', what: '20 : 5 kan betyde: Hvor mange grupper med 5 er der i 20? Tæl i 5\'ere, og tæl hoppene.', why: 'Division er det modsatte af gange, så når du tæller i spring, finder du svaret.' },
+      d3: { title: 'Brug dine tabeller', goal: 'Divider med 2, 5 og 10', what: 'For at regne 35 : 5 tænker du: Hvad gange 5 giver 35?', why: 'Hvert gangestykke giver dig et divisionsstykke gratis. 7 · 5 = 35, så 35 : 5 = 7.' },
+      d4: { title: 'Halvering', goal: 'Det halve af større tal', what: 'At dividere med 2 er at halvere. Halvér tierne og enerne hver for sig, og læg dem sammen.', why: 'Det er let at halvere tiere og enere, og når du sætter dem sammen igen, har du det halve af hele tallet.' },
+      d5: { title: 'Divider med 3', goal: 'Brug 3-tabellen', what: 'For at regne 24 : 3 tæller du i 3\'ere op til 24 og tæller hoppene.', why: '3-tabellen baglæns deler i 3 lige store grupper.' },
+      d6: { title: 'Divider med 4', goal: 'Halvér, og halvér igen', what: 'At dividere med 4 er det samme som at halvere to gange.', why: '4 er 2 · 2, så to halveringer giver 4 lige store dele.' },
+      d7: { title: 'Divider med 8', goal: 'Brug 8-tabellen', what: 'For at regne 56 : 8 tænker du: Hvad gange 8 giver 56? Eller halvér tre gange.', why: '8 er 2 · 2 · 2, så tre halveringer giver 8 lige store dele.' },
+      d8: { title: 'Blandet division', goal: 'Divider med 3, 4 og 8', what: 'Se på det tal, du dividerer med, og vælg dit trick: 3-tabellen, halvér to gange for 4 eller 8-tabellen.', why: 'Alle divisionsstykker kan tjekkes med et gangestykke.' },
+      d9: { title: 'Manglende tal', goal: 'Som □ : 4 = 6', what: 'Vend det om med et gangestykke: □ : 4 = 6 betyder 6 · 4 = □.', why: 'Division og gange er hinandens modsætninger, så det ene kan altid gøre det andet om.' },
+      d10: { title: 'Større division', goal: 'Tocifret divideret med etcifret', what: 'Del tallet op i dele, der er lette at dele, som 40 og 8. Del hver del, og læg så sammen.', why: 'Når du deler op i venlige dele, kan du bruge de tabeller, du allerede kan.' }
+    },
+    ex: {
+      story: { intro: (op, q) => op === '+' ? `Lad os finde regnestykket i historien. Mængder lægges sammen, så vi bruger plus: ${q}.` : `Lad os finde regnestykket i historien. Noget bliver taget væk, eller vi skal finde det, der mangler, så vi bruger minus: ${q}.`, end: n => `Så svaret på historien er ${n}.` },
+      columnSub: { noNext: (i, bot, was, j) => `${cap(DD[i])}: Vi kan ikke tage ${bot} fra ${was}, og der er ingen ${DA[i + 1]} at veksle. Så vi går først til ${DD[j]}.`,
+        exch: (k, before, after, low, lowAfter) => `Veksl 1 ${I18N.da.one[k]} til 10 ${DA[k - 1]}. ${cap(DD[k])} går fra ${before} til ${after}, og ${DD[k - 1]} går fra ${low} til ${lowAfter}.` },
+      doubles: { s1: a => `${a} + ${a} er dobbelt: det samme tal to gange.`, split: (t, o) => `Tag det dobbelte af tierne og af enerne: Det dobbelte af ${t} er ${2 * t}, og det dobbelte af ${o} er ${2 * o}.`, know: (a, s) => `Hvis du kan dine dobbelttal, ved du det med det samme: Det dobbelte af ${a} er ${s}.`, end: (a, s) => `Så er ${a} + ${a} = ${s}.`, why: 'Dobbelttal er lette at huske, og de hjælper med mange andre regnestykker, som næsten dobbelt.' },
+      nearDouble: { s1: (a, b) => `${a} og ${b} er nabotal, så det her er næsten dobbelt.`, s2: sm => `Tag det dobbelte af det mindste: ${sm} + ${sm} = ${2 * sm}.`, s3: (big, sm, d) => `${big} er én mere end ${sm}, så læg 1 mere til: ${d} + 1 = ${d + 1}.`, end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`, why: 'Hvis du kan dine dobbelttal, er næsten dobbelt bare dobbelt plus én.' },
+      compAdd: { s1: (b, ten) => `${b} ligger meget tæt på ${ten}, og det er let at lægge ${ten} til!`, s2: (a, ten) => `Læg først ${ten} til: ${a} + ${ten} = ${a + ten}.`, minus: (x, s) => `Men vi lagde 1 for meget til, så træk 1 fra: ${x} − 1 = ${s}.`, plus: (x, s) => `Vi mangler stadig at lægge 1 til: ${x} + 1 = ${s}.`, end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`, why: 'Det er hurtigt at lægge en hel tier til. Så retter du bare med 1. Tricket virker for 9, 11, 19 og 21.' },
+      threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. Med tre tal kigger du først efter to, der er lette at lægge sammen.`, ten: (x, y) => `${x} og ${y} er tiervenner! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} og ${y} er dobbelt: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Start med de to første: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Læg nu det sidste tal til: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `Så er ${a} + ${b} + ${c} = ${s}.`, why: 'Du kan lægge tal sammen i hvilken som helst rækkefølge. Når du først finder et par, der giver 10, bliver resten let.' },
+      threeLeft: { s1: (a, b, ab) => `Lad os regne fra venstre mod højre. Først: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Læg så det sidste tal til: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `Så er ${a} + ${b} + ${c} = ${s}.`, why: 'Det virker altid at lægge to tal sammen ad gangen, uanset hvilken rækkefølge du vælger.' },
+      bond100: { s1: a => `${a} + □ = 100. Hvor langt er der fra ${a} til 100?`, toTen: (a, up, nt) => `Hop først til næste tier: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Hop så i tiere op til 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Læg hoppene sammen: ${j1} + ${j2} = ${b}.`, end: (a, b) => `Så er ${a} + ${b} = 100. ${a} og ${b} er 100-venner!`, why: '100-venner virker ligesom tiervenner. 30 + 70 = 100, fordi 3 + 7 = 10.' },
+      placeBig: { s1: (b, k, col) => `${b} er ${k} ${DA[col]}, så det er kun ${['ener', 'tier', 'hundred'][col]}cifferet, der ændrer sig.`, s2: (d, k, col) => `${d} ${DA[col]} + ${k} ${DA[col]} = ${d + k} ${DA[col]}. De andre cifre er de samme.`, end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`, why: 'Når du kun lægger tiere eller kun hundreder til, er de andre cifre de samme, så længe intet går over 9.' },
+      placeBigSub: { s1: (b, k, col) => `${b} er ${k} ${DA[col]}, så det er kun ${['ener', 'tier', 'hundred'][col]}cifferet, der ændrer sig.`, s2: (d, k, col) => `${d} ${DA[col]} − ${k} ${DA[col]} = ${d - k} ${DA[col]}. De andre cifre er de samme.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Når du kun trækker tiere eller kun hundreder fra, er de andre cifre de samme, så længe der er nok.' },
+      missingAdd: { s1: (q, known, c) => `${q}. Tænk: Hvad skal vi lægge til ${known} for at få ${c}?`, jump: (x, y, j) => `Tæl op fra ${x} til ${y}: det er ${j}.`, add: (js, ans) => `Læg hoppene sammen: ${js} = ${ans}.`, end: (ans, e) => `Det manglende tal er ${ans}. Tjek: ${e}.`, why: (c, known, ans) => `Plus og minus er hinandens modsætninger. Du kan også trække fra: ${c} − ${known} = ${ans}.` },
+      missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Der blev taget noget fra ${a}, og der var ${c} tilbage. Tæl op fra ${c} til ${a} for at finde det.`, s1a: (b, c) => `□ − ${b} = ${c}. Vi tog ${b} væk, og der var ${c} tilbage.`, back: (c, b, a) => `Så starttallet er det, der var tilbage, plus det, der blev taget: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Tæl op fra ${x} til ${y}: det er ${j}.`, add: (js, ans) => `Læg hoppene sammen: ${js} = ${ans}.`, end: (ans, e) => `Det manglende tal er ${ans}. Tjek: ${e}.`, why: 'Minus og plus er hinandens modsætninger, så du kan altid vende et spørgsmål med et manglende tal om.' },
+      countUpAny: { s1: (a, b) => `${a} − ${b}: Lad os tælle op fra ${b} til ${a} med venlige tal.`, jump: (x, y, j) => `Fra ${x} op til ${y}: det er ${j}.`, add: (js, d) => `Læg hoppene sammen: ${js} = ${d}.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Minus betyder også at finde forskellen. Det virker altid at tælle afstanden op i venlige hop.' },
+      compSub: { s1: (b, ten) => `${b} ligger meget tæt på ${ten}, og det er let at trække ${ten} fra!`, s2: (a, ten) => `Træk først ${ten} fra: ${a} − ${ten} = ${a - ten}.`, plus: (x, d) => `Men vi trak 1 for meget fra, så læg 1 tilbage: ${x} + 1 = ${d}.`, minus: (x, d) => `Vi mangler stadig at trække 1 fra: ${x} − 1 = ${d}.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Det er hurtigt at trække en hel tier fra. Ret så med 1: Læg 1 tilbage for 9, træk 1 mere fra for 11.' },
+      fromTen: { s1: (a, b) => `${a} − ${b}. Del ${a} op i ${a - 10} og 10.`, s2: b => `Brug dine tiervenner: 10 − ${b} = ${10 - b}.`, s3: (r, f, d) => `Sæt det sammen igen: ${r} + ${f} = ${d}.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Når du trækker et lille tal fra et helt tiertal, bruger du dine tiervenner: Svarets enerciffer er tiervennen til det tal, du trak fra.' },
+      from100: { s1: b => `100 − ${b}. Tæl op fra ${b} til 100 i venlige hop.`, jump: (x, y, j) => `Fra ${x} op til ${y}: det er ${j}.`, add: (js, d) => `Læg hoppene sammen: ${js} = ${d}.`, end: (b, d) => `Så er 100 − ${b} = ${d}. ${b} og ${d} er 100-venner!`, why: 'At trække fra 100 er det samme som at finde 100-vennen.' },
+      countAll: { s1: (a, b) => `Lad os tælle dem alle. Her er ${a} orange brikker og ${b} blå brikker.`, s2: l => `Peg på hver brik, og tæl: ${l}.`, end: (a, b, s) => `Der er ${s} i alt. Så er ${a} + ${b} = ${s}.`, why: 'Det virker altid at tælle det hele. Det tager længere tid, men det er en god måde at tjekke på.' },
+      jumpAdd: { s1: (a, b, parts) => `Start ved ${a} på tallinjen. Del ${b} op i ${parts}, og hop én del ad gangen.`, jump: (pt, at) => `Hop +${pt}: vi lander på ${at}.`, end: (a, b, s) => `Vi landede på ${s}. Så er ${a} + ${b} = ${s}.`, why: 'Når du hopper i hundreder, tiere og enere, er store regnestykker lette at følge.' },
+      jumpSub: { s1: (a, b, parts) => `Start ved ${a} på tallinjen. Del ${b} op i ${parts}, og hop én del tilbage ad gangen.`, jump: (pt, at) => `Hop ${pt} tilbage: vi lander på ${at}.`, end: (a, b, d) => `Vi landede på ${d}. Så er ${a} − ${b} = ${d}.`, why: 'Når du hopper tilbage i hundreder, tiere og enere, bliver et stort minusstykke til små lette trin.' },
+      partitionAdd: { s1: (a, pa, b, pb) => `Del begge tal op i deres dele: ${a} = ${pa} og ${b} = ${pb}.`, place: (i, x, y, s) => `Læg ${DD[i]} sammen: ${x} + ${y} = ${s}.`, join: (parts, s) => `Læg nu delene sammen: ${parts} = ${s}.`, end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`, why: 'At lægge hver plads sammen for sig og så samle dem er ligesom opstilling, bare sagt højt.' },
+      countBack: { s1: (a, b, l) => `Start ved ${a}, og tæl ${b} tilbage: ${l}.`, end: (a, b, d) => `Vi landede på ${d}. Så er ${a} − ${b} = ${d}.`, why: 'At tælle tilbage én ad gangen tager tid, men det virker altid for små tal.' },
+      groups: { s1: (a, b, x) => `${a} ${x} ${b} betyder ${a} grupper med ${b}.`, s2: (b, l) => `Tæl i ${b}'ere, én gruppe ad gangen: ${l}.`, end: (a, b, r, x) => `Så er ${a} ${x} ${b} = ${r}.`, why: (a, b, x) => `At gange er en hurtig måde at lægge lige store grupper sammen. ${a} ${x} ${b} er ${b} lagt sammen ${a} gange.` },
+      tensMul: { s1: (a, x) => `${a} ${x} 10 betyder ${a} grupper med ti. Det er ${a} tiere.`, s2: (a, r) => `${a} tiere er ${r}. Hvert ciffer flytter én plads til venstre, og et 0 kommer ind på enernes plads.`, end: (a, r, x) => `Så er ${a} ${x} 10 = ${r}.`, why: 'Gange 10 gør hvert ciffer ti gange mere værd, så hvert ciffer flytter én plads til venstre.' },
+      fives: { s1: (a, x, l) => `${a} ${x} 5: Tæl i 5'ere, ${a} gange: ${l}.`, trick: (a, t, r, x) => `Her er et trick: ${a} ${x} 10 = ${t}, og 5 er det halve af 10, så tag det halve af ${t}. Det er ${r}.`, end: (a, r, x) => `Så er ${a} ${x} 5 = ${r}.`, why: '5 er det halve af 10, så 5-tabellen er det halve af 10-tabellen. 5-tabellen ender altid på 5 eller 0.' },
+      array: { s1: (a, b, x) => `${a} ${x} ${b} kan tegnes som et array: ${a} rækker med ${b} prikker i hver.`, s2: (a, b, x) => `Vend det om, så får du ${b} rækker med ${a}. Det er de samme prikker! Så ${a} ${x} ${b} = ${b} ${x} ${a}.`, s3: (a, b, l) => `Brug ${a}-tabellen: Tæl i ${a}'ere, ${b} gange: ${l}.`, end: (a, b, r, x) => `Så er ${a} ${x} ${b} = ${r}.`, why: 'Du kan bytte om på tallene i et gangestykke, og svaret er det samme. Vælg den rækkefølge, der er lettest for dig.' },
+      threes: { s1: (a, x) => `${a} ${x} 3 er det samme som 3 grupper med ${a}.`, s2: (a, d, r, x) => `Trick: 2 grupper med ${a} er det dobbelte af ${a}, altså ${d}. Én gruppe mere med ${a}: ${d} + ${a} = ${r}.`, end: (a, r, x) => `Så er ${a} ${x} 3 = ${r}.`, why: 'Tre grupper er to grupper plus én gruppe mere. Hvis du kan dine dobbelttal, kan du regne alle tal i 3-tabellen ud.' },
+      fours: { s1: (a, x) => `${a} ${x} 4: Fire er det dobbelte af 2, så vi kan tage det dobbelte to gange.`, s2: (a, d, x) => `Det dobbelte af ${a} er ${d}. Det er ${a} ${x} 2.`, s3: (d, r, a, x) => `Tag det dobbelte igen: ${d} + ${d} = ${r}. Det er ${a} ${x} 4.`, end: (a, r, x) => `Så er ${a} ${x} 4 = ${r}.`, why: '4-tabellen er det dobbelte af 2-tabellen.' },
+      eights: { s1: (a, x) => `${a} ${x} 8: Otte er dobbelt dobbelt dobbelt, så vi tager det dobbelte tre gange!`, d1: (a, d) => `Det dobbelte af ${a}: ${d}.`, d2: (d, e) => `Det dobbelte igen: ${e}.`, d3: (e, r) => `Og én gang til: ${r}.`, end: (a, r, x) => `Så er ${a} ${x} 8 = ${r}.`, why: 'Hver gang du tager det dobbelte, bliver det dobbelt så stort: 2\'ere, så 4\'ere, så 8\'ere.' },
+      skipCount: { s1: (a, b, x) => `${a} ${x} ${b}: Hop i ${b}'ere langs tallinjen, ${a} gange.`, s2: (b, l) => `Sig ${b}'erne højt, mens du hopper: ${l}.`, end: (a, b, r, x) => `Vi landede på ${r}. Så er ${a} ${x} ${b} = ${r}.`, why: 'At tælle i lige store hop er det, gangetabellerne er lavet af.' },
+      repeatAdd: { s1: (a, b, x, sum) => `${a} ${x} ${b} betyder at lægge ${b} sammen ${a} gange: ${sum}.`, s2: l => `Læg dem sammen én ad gangen: ${l}.`, end: (a, b, r, x) => `Så er ${a} ${x} ${b} = ${r}.`, why: 'Gange er en kort måde at skrive det samme tal lagt sammen igen og igen.' },
+      partitionMul: { s1: (a, b, T, O, x) => `${a} ${x} ${b}. Del ${a} op i ${T} og ${O}.`, part: (n, b, r, x) => `${n} ${x} ${b} = ${r}.`, add: (x1, x2, r) => `Læg de to svar sammen: ${x1} + ${x2} = ${r}.`, end: (a, b, r, x) => `Så er ${a} ${x} ${b} = ${r}.`, why: 'Når du deler et stort tal op i tiere og enere, bliver ét svært gangestykke til to lette.' },
+      missingMul: { s1: (q, k, c) => `${q}. Hvilket tal gange ${k} giver ${c}?`, s2: (k, c, l) => `Tæl i ${k}'ere, til du når ${c}: ${l}.`, s3: ans => `Det er ${ans} hop, så det manglende tal er ${ans}.`, end: (ans, e) => `Tjek: ${e}.`, why: (c, k, ans, dv) => `Et manglende tal i et gangestykke er i virkeligheden et divisionsstykke: ${c} ${dv} ${k} = ${ans}.` },
+      share: { s1: (a, b, dv) => `${a} ${dv} ${b} betyder: Del ${a} ligeligt mellem ${b}.`, s2: b => `Giv én til hver af de ${b}, igen og igen, til der ikke er flere.`, end: (a, b, q, dv) => `Hver får ${q}. Så er ${a} ${dv} ${b} = ${q}.`, why: (b, q, a, x) => `Når man deler retfærdigt, får alle lige mange. Tjek med et gangestykke: ${b} ${x} ${q} = ${a}.` },
+      group: { s1: (a, b, dv) => `${a} ${dv} ${b} kan betyde: Hvor mange grupper med ${b} er der plads til i ${a}?`, s2: (b, a, l) => `Hop i ${b}'ere fra 0 til ${a}, og tæl hoppene: ${l}.`, end: (a, b, q, dv) => `Det er ${q} hop. Så er ${a} ${dv} ${b} = ${q}.`, why: b => `Division er det modsatte af gange. At tælle hop på ${b} er ${b}-tabellen baglæns.` },
+      inverse: { s1: (a, b, dv, x) => `${a} ${dv} ${b}: Tænk på ${b}-tabellen. Hvilket tal gange ${b} giver ${a}?`, s2: (b, l, a, q) => `Tæl i ${b}'ere: ${l}. ${a} er nummer ${q}.`, end: (a, b, q, dv, x) => `${q} ${x} ${b} = ${a}, så ${a} ${dv} ${b} = ${q}.`, why: 'Hvis du kan dine gangetabeller, kan du også din division. De er hinandens modsætninger.' },
+      halve: { s1: (a, dv) => `${a} ${dv} 2 betyder det halve af ${a}. Del ${a} op i tiere og enere.`, s2: (T, O) => `Det halve af ${T} er ${T / 2}, og det halve af ${O} er ${O / 2}.`, s3: (x, y, h) => `Sæt halvdelene sammen: ${x} + ${y} = ${h}.`, whole: (a, h) => `Det halve af ${a} er ${h}.`, end: (a, h, dv) => `Så er ${a} ${dv} 2 = ${h}.`, why: 'Når du halverer tierne og enerne hver for sig, er store tal lette at halvere.' },
+      quarter: { s1: (a, dv) => `${a} ${dv} 4: At dividere med 4 er det samme som at halvere to gange.`, h1: (a, h) => `Det halve af ${a} er ${h}.`, h2: (h, q) => `Det halve af ${h} er ${q}.`, end: (a, q, dv) => `Så er ${a} ${dv} 4 = ${q}.`, why: '4 er 2 · 2, så to halveringer er det samme som at dele i 4 lige store dele.' },
+      eighth: { s1: (a, dv) => `${a} ${dv} 8: At dividere med 8 er det samme som at halvere tre gange.`, h1: (a, h) => `Det halve af ${a} er ${h}.`, h2: (h, q) => `Det halve af ${h} er ${q}.`, h3: (q, e) => `Og det halve af ${q} er ${e}.`, end: (a, e, dv) => `Så er ${a} ${dv} 8 = ${e}.`, why: '8 er 2 · 2 · 2, så tre halveringer deler i 8 lige store dele.' },
+      partitionDiv: { s1: (a, b, ch, rest, dv) => `${a} ${dv} ${b}. Del ${a} op i dele, der er lette at dele: ${ch} og ${rest}.`, part: (n, b, r, dv) => `${n} ${dv} ${b} = ${r}.`, add: (x, y, q) => `Læg svarene sammen: ${x} + ${y} = ${q}.`, end: (a, b, q, dv) => `Så er ${a} ${dv} ${b} = ${q}.`, why: 'Når du deler et stort tal op i lette dele, kan du bruge de gangetabeller, du allerede kan.' },
+      missingDiv: { s1a: (b, c, dv) => `□ ${dv} ${b} = ${c}. Et tal blev delt i ${b} grupper med ${c}.`, s2a: (b, c, a, x) => `Så tallet er ${b} grupper med ${c}: ${b} ${x} ${c} = ${a}.`, s1b: (a, c, dv) => `${a} ${dv} □ = ${c}. ${a} er delt op i grupper med ${c}. Hvor mange grupper?`, s2b: (c, a, l, ans) => `Tæl i ${c}'ere op til ${a}: ${l}. Det er ${ans} grupper.`, end: (ans, e) => `Det manglende tal er ${ans}. Tjek: ${e}.`, why: 'Division og gange er hinandens modsætninger, så du kan vende spørgsmålet om.' },
+      swapMul: { s1: (a, b, x) => `Lad os bytte om på tallene: ${b} ${x} ${a} giver det samme som ${a} ${x} ${b}, fordi prikkerne er de samme.`, why: 'Du kan bytte om på tallene i et gangestykke, så vælg den rækkefølge, du synes er lettest.' },
+      missingTurn: { s1: (q, q2) => `Lad os vende det om. ${q} er det samme spørgsmål som ${q2}.`, end: (ans, e) => `Så det manglende tal er ${ans}: ${e}.` }
+    }
+  };
+  const merge = (t, s) => { for (const [k, v] of Object.entries(s)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
+  merge(I18N.en, en); merge(I18N.da, da);
+})();
 
 /* ---------- speech ---------- */
 let lastSaid = { text: '', tid: 'hoot' };
@@ -1178,6 +2079,7 @@ function toSpeech(t) {
     .replace(/−/g, ' minus ').replace(/\+/g, ' plus ')
     .replace(/=/g, da ? ' er lig med ' : ' equals ').replace(/□/g, da ? ' hvad ' : ' blank ')
     .replace(/×/g, da ? ' gange ' : ' times ').replace(/÷/g, da ? ' divideret med ' : ' divided by ')
+    .replace(/\s·\s/g, da ? ' gange ' : ' times ').replace(/\s:\s/g, da ? ' divideret med ' : ' divided by ')
     .replace(/\((H|T|O|E)\)/g, '');
 }
 function speak(text, tid) {
@@ -1273,6 +2175,7 @@ const SCREENS = {
           <div class="row"><select id="voice-select"></select><button class="btn btn-small btn-soft" type="button" data-act="voice-test">${t.voiceTry}</button></div>
           <p id="voice-none" hidden>${t.voiceNone}</p>
         </div>
+        <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
         <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
       </div>
     </details>`;
@@ -1317,17 +2220,19 @@ const SCREENS = {
     </div>`;
     const ex = l.examples.map(explain);
     const steps = ex.flatMap((e, i) => i === 0 ? e.steps : [{ say: t.biggerOne, v: eq(qText(l.examples[i])) }, ...e.steps]);
-    mountStepper({ title: t.tryTogether, steps, why: null, tid, onDone: () => $('#lesson-go')?.classList.add('ready') });
+    mountStepper({ title: t.tryTogether, steps, why: null, tid, onDone: () => $('#lesson-go')?.classList.add('ready'), problem: l.examples[l.examples.length - 1] });
     if (keepStep) { ST.i = Math.min(keepStep, steps.length - 1); renderStepper(false); }
     else speak(lt.what, tid);
   },
-  practice({ id }) {
-    const r = savedRound();
+  practice({ id, fresh }) {
+    const r = fresh ? null : savedRound();
     if (r && r.id === id) {
-      S = { id, list: r.list.map(([a, b, op, m]) => P(a, b, op, m ? { missing: 'b' } : null)), i: r.i, input: '', tries: 0, helped: false, first: r.first, marks: r.marks.slice(), done: false };
+      // older saves stored [a, b, op, missing]; newer ones store the whole question
+      const list = r.list.map(q => Array.isArray(q) ? P(q[0], q[1], q[2], q[3] ? { missing: 'b' } : null) : { ...q });
+      S = { id, list, i: r.i, input: '', tries: 0, helped: false, first: r.first, marks: r.marks.slice(), done: false };
     } else {
       let list;
-      if (id === 'mixed') list = shuffle(allLevels().flatMap(l => l.problems)).slice(0, 10);
+      if (id === 'mixed') list = shuffle(unlockedTopics().flatMap(t => t.levels.flatMap(l => l.problems))).slice(0, 10);
       else list = shuffle(findLevel(id).problems);
       S = { id, list, i: 0, input: '', tries: 0, helped: false, first: 0, marks: [], done: false };
     }
@@ -1346,6 +2251,10 @@ const SCREENS = {
       <div class="big-stars" aria-label="${t.starsOf(n)}">${stars(n)}</div>
       <h1 style="font-size:clamp(34px,6vw,52px)">${head}</h1>
       <p style="max-width:52ch">${msg}${S.improved && l ? t.newBest : ''}</p>
+      ${S.unlocked ? `<p class="unlocked">${LOCK_SVG} ${t.unlockedNow}</p>` : ''}
+      <div class="pdots res-dots" role="group">${dotsHtml()}</div>
+      ${S.marks.includes('help') ? `<p class="res-hint">${t.redoHint}</p>` : ''}
+      <section class="redo-card" id="redo-card" hidden></section>
       <div class="res-actions">
         ${next && n >= 2 ? `<button class="btn btn-big" data-act="lesson" data-id="${next.id}">${t.nextLevel}</button>` : ''}
         <button class="btn ${next && n >= 2 ? 'btn-soft' : 'btn-big'}" data-act="practice" data-id="${id}">${t.playAgain}</button>
@@ -1353,7 +2262,8 @@ const SCREENS = {
         <button class="btn btn-soft" data-act="home">${t.home}</button>
       </div>
     </section>`;
-    if (!S.quiet) { confetti(n * 18); speak(`${head} ${msg}`, tid); }
+    if (!S.quiet) { confetti(n * 18); speak(`${head} ${msg}${S.unlocked ? ' ' + t.unlockedNow : ''}`, tid); }
+    S.quiet = false;
   }
 };
 
@@ -1368,8 +2278,18 @@ function resumeCard() {
   </section>`;
 }
 
+const LOCK_SVG = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z"/></svg>';
 function topicCard(tp) {
-  const t = tr(), st = tp.levels.reduce((s, l) => s + (store.best[l.id] || 0), 0);
+  const t = tr(), st = tp.levels.reduce((s, l) => s + (store.best[l.id] || 0), 0), lk = lockInfo(tp);
+  if (lk) return `<button class="topic soon" data-act="locked" data-id="${tp.id}" style="${tcStyle(tp.teacher)}">
+    <span class="topic-sign" aria-hidden="true">${tp.sign}</span>
+    <span class="topic-art">${charSvg(tp.teacher)}</span>
+    <span class="topic-text">
+      <span class="topic-title">${topicTitle(tp)}</span>
+      <span class="topic-teacher">${t.withTeacher(tName(tp.teacher))}</span>
+      <span class="lock">${LOCK_SVG} ${t.lockedText(lk.done, lk.total)}</span>
+    </span>
+  </button>`;
   return `<button class="topic${tp.soon ? ' soon' : ''}" data-act="${tp.soon ? 'soon' : 'topic'}" data-id="${tp.id}" style="${tcStyle(tp.teacher)}">
     <span class="topic-sign" aria-hidden="true">${tp.sign}</span>
     <span class="topic-art">${charSvg(tp.teacher)}</span>
@@ -1382,15 +2302,35 @@ function topicCard(tp) {
 }
 
 function qText(p) {
-  const op = p.op === '+' ? '+' : M;
-  return p.missing ? `${p.a} ${op} □ = ${p.a + p.b}` : `${p.a} ${op} ${p.b}`;
+  const A = p.missing === 'a' ? '□' : p.a, B = p.missing === 'b' ? '□' : p.b;
+  return `${A} ${opSym(p.op)} ${B}${p.c != null ? ` + ${p.c}` : ''}${p.missing ? ` = ${resOf(p)}` : ''}`;
 }
+const storyText = p => tr().stories[p.op][p.story](p.a, p.b);
 
 /* ---------- step-by-step explainer ---------- */
 let ST = null;
-function mountStepper({ title, steps, why, tid, onDone, el, backToQ }) {
-  ST = { title, steps, why, tid, onDone, backToQ, i: 0, el: el || $('#stepper') };
+function mountStepper({ title, steps, why, tid, onDone, el, backToQ, problem }) {
+  ST = { title, steps, why, tid, onDone, backToQ, problem, alt: 0, i: 0, el: el || $('#stepper') };
   renderStepper(false);
+}
+/* "I still don't understand": explain the same question another way, then another, then suggest a grown-up */
+function otherWay(restart) {
+  if (!ST || !ST.problem) return;
+  const t = tr(), p = ST.problem, alts = altsFor(p);
+  ST.alt = restart ? 0 : ST.alt + 1;
+  ST.i = 0;
+  if (ST.alt === 0) {
+    const e = explain(p); ST.steps = e.steps; ST.why = e.why; ST.title = ST.title0 || ST.title;
+  } else if (ST.alt > alts.length) {
+    ST.steps = [{ say: t.noMoreWays, v: eq(qText(p)), end: true }]; ST.why = null;
+  } else {
+    const e = explainWith(p, alts[ST.alt - 1]);
+    ST.title0 = ST.title0 || ST.title; ST.title = t.otherWayTitle;
+    ST.steps = [{ say: t.otherWayIntro[(ST.alt - 1) % t.otherWayIntro.length], v: eq(qText(p)) }, ...e.steps]; ST.why = e.why;
+  }
+  if (screen === 'practice') S.helped = true;
+  renderStepper(true);
+  ST.el.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
 }
 function renderStepper(talk = true) {
   if (!ST || !ST.el) return;
@@ -1402,7 +2342,9 @@ function renderStepper(talk = true) {
     ${last && ST.why ? `<div class="st-why"><b>${t.whyWorks}</b><p>${ST.why}</p></div>` : ''}
     <div class="st-nav">
       <button class="btn btn-soft btn-small" data-act="st-prev" ${i === 0 ? 'disabled' : ''}>${t.back}</button>
-      ${!last ? `<button class="btn btn-small" data-act="st-next">${t.nextStep}</button>` : ST.backToQ ? `<button class="btn btn-small" data-act="back-to-q">${t.typeAnswer}</button>` : ''}
+      ${!last ? `<button class="btn btn-small" data-act="st-next">${t.nextStep}</button>` : `<span class="st-end">
+        ${ST.problem ? (s.end ? `<button class="btn btn-small btn-soft" data-act="first-way">${t.firstWayAgain}</button>` : `<button class="btn btn-small btn-soft" data-act="still">${t.stillStuck}</button>`) : ''}
+        ${ST.backToQ ? `<button class="btn btn-small" data-act="back-to-q">${t.typeAnswer}</button>` : ''}</span>`}
     </div>`;
   lastSaid = { text: s.say, tid };
   if (talk) speak(s.say, tid);
@@ -1410,25 +2352,37 @@ function renderStepper(talk = true) {
 }
 
 /* ---------- practice ---------- */
+// The question on screen: the round's current question, or a "try again" question for a yellow circle.
+const cur = () => S.mode === 'redo' ? S.rp : S.list[S.i];
+function dotsHtml() {
+  const t = tr();
+  return S.list.map((_, k) => {
+    const m = S.marks[k] || '', now = S.mode === 'redo' ? k === S.rk : k === S.i && !S.finished, st = m || (now ? 'cur' : '');
+    return `<button class="pd ${m}${now ? ' cur' : ''}" data-act="dot" data-i="${k}"${m === 'help' ? '' : ' aria-disabled="true"'} aria-label="${t.dotLabel(k + 1, t.dotStates[st])}"></button>`;
+  }).join('');
+}
 function renderPractice(fresh) {
-  const t = tr(), p = S.list[S.i], tid = teacherFor(p);
+  const t = tr(), p = cur(), tid = teacherFor(p), redo = S.mode === 'redo';
   if (fresh) { S.input = ''; S.tries = 0; S.helped = false; S.done = false; }
   const title = S.id === 'mixed' ? t.mixedTitle : lvlText(findLevel(S.id)).title;
-  const greet = S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') : pick(t.greetNext);
+  const greet = redo ? t.redoLabel(S.rk + 1) : S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') : pick(t.greetNext);
   app.innerHTML = `${topbar()}
   <div class="practice" style="${tcStyle(tid)}">
     <div class="pr-top">
       <button class="btn-link" data-act="${S.id === 'mixed' ? 'home' : 'topic'}" data-id="${S.id === 'mixed' ? '' : findLevel(S.id).topic.id}">${t.stop}</button>
       <b style="font-family:var(--font-display)">${title}</b>
-      <div class="pdots" aria-label="${t.questionN(S.i + 1, S.list.length)}">${S.list.map((_, k) => `<i class="${S.marks[k] || (k === S.i ? 'cur' : '')}"></i>`).join('')}</div>
+      ${redo || S.finished ? '' : `<button class="btn-link" data-act="restart-ask">${t.startOver}</button>`}
+      <div class="pdots" role="group" aria-label="${t.questionN(S.i + 1, S.list.length)}">${dotsHtml()}</div>
     </div>
+    <div class="confirm-row" id="restart-row" hidden></div>
     <div class="pr-grid">
       <div class="pr-left">
+        <section class="redo-card" id="redo-card" hidden></section>
         <section class="talk" id="pr-talk">
           ${charWrap(tid, S.done ? 'joy' : 'happy', 'md')}
           <div class="bubble"><p class="bubble-who">${tName(tid)}</p><div class="say-row"><p id="pr-say">${greet}</p>${replayBtn()}</div></div>
         </section>
-        <div class="qcard"><span class="q-label">${t.questionN(S.i + 1, S.list.length)}</span><div class="q" id="q" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
+        <div class="qcard${redo ? ' redo' : ''}"><span class="q-label">${redo ? t.redoLabel(S.rk + 1) : t.questionN(S.i + 1, S.list.length)}</span>${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q" id="q" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
         <section class="explain" id="explain" hidden><div id="stepper" class="stepper"></div></section>
       </div>
       <div class="pr-right">
@@ -1446,25 +2400,27 @@ function renderPractice(fresh) {
     </div>
   </div>`;
   if (S.done) markDone();
-  if (fresh) speak(`${greet} ${t.askQ(qText(p), p.missing)}`, tid);
-  lastSaid = { text: `${greet} ${qText(p)}`, tid };
+  const ask = p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
+  if (fresh) speak(`${greet} ${ask}`, tid);
+  lastSaid = { text: `${greet} ${ask}`, tid };
 }
 function qHtml(p, state = '') {
-  const op = p.op === '+' ? '+' : M;
   const box = `<span class="ans-box${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${S.input || (S.done ? '' : '<i class="caret"></i>')}</span>`;
-  return p.missing
-    ? `<span>${p.a}</span><span class="op">${op}</span>${box}<span>=</span><span>${p.a + p.b}</span>`
-    : `<span>${p.a}</span><span class="op">${op}</span><span>${p.b}</span><span>=</span>${box}`;
+  if (p.story != null) return box;
+  const op = `<span class="op">${opSym(p.op)}</span>`, A = p.missing === 'a' ? box : `<span>${p.a}</span>`, B = p.missing === 'b' ? box : `<span>${p.b}</span>`;
+  const C = p.c != null ? `<span class="op">+</span><span>${p.c}</span>` : '';
+  return `${A}${op}${B}${C}<span>=</span>${p.missing ? `<span>${resOf(p)}</span>` : box}`;
 }
-function updateQ(state) { $('#q').innerHTML = qHtml(S.list[S.i], state); }
+function updateQ(state) { $('#q').innerHTML = qHtml(cur(), state); }
 function teacherSay(text, mood) {
-  const tid = teacherFor(S.list[S.i]);
+  const tid = teacherFor(cur());
   $('#pr-say').innerHTML = text; setMood($('#pr-talk'), mood); speak(text, tid);
   if (mood === 'joy') setTimeout(() => { const el = $('#pr-talk'); if (el) setMood(el, 'happy'); }, 1600);
 }
 function markDone() {
   const t = tr(), btn = $('#check-btn');
-  btn.textContent = S.i === S.list.length - 1 ? t.seeStars : t.nextQ; btn.style.setProperty('--tc', 'var(--good)');
+  btn.textContent = S.mode === 'redo' ? (S.fromResults ? t.redoBackResults : t.redoBack) : S.i === S.list.length - 1 ? t.seeStars : t.nextQ;
+  btn.style.setProperty('--tc', 'var(--good)');
 }
 function pressKey(k) {
   if (S.done) return;
@@ -1475,6 +2431,7 @@ function pressKey(k) {
 }
 /* ---------- unfinished rounds & stars ---------- */
 const starsFor = first => first >= 9 ? 3 : first >= 7 ? 2 : 1;
+const plainQ = p => { const o = { a: p.a, b: p.b, op: p.op }; for (const k of ['c', 'missing', 'story', 's', 'lv']) if (p[k] != null) o[k] = p[k]; return o; };
 function savedRound() {
   const r = store.round;
   if (!r || !Array.isArray(r.list) || !r.list.length || !(r.i > 0) || r.i >= r.list.length) return null;
@@ -1482,16 +2439,25 @@ function savedRound() {
   return r;
 }
 function saveRound() {
-  store.round = { id: S.id, list: S.list.map(p => [p.a, p.b, p.op, p.missing ? 1 : 0]), i: S.i + 1, first: S.first, marks: S.marks.slice(0, S.i + 1) };
+  if (S.finished) return;
+  const next = S.done && S.mode !== 'redo' ? S.i + 1 : S.i;
+  if (next >= S.list.length) return;
+  store.round = { id: S.id, list: S.list.map(plainQ), i: next, first: S.first, marks: S.marks.slice(0, next) };
   save();
 }
 function finishRound() {
   S.finished = true;
-  const n = starsFor(S.first);
-  if (S.id !== 'mixed' && n > (store.best[S.id] || 0)) { store.best[S.id] = n; S.improved = true; }
+  const was = lockedNow();
+  recordStars();
   store.round = null;
   save();
+  S.unlocked = was && !lockedNow();
 }
+function recordStars() {
+  const n = starsFor(S.first);
+  if (S.id !== 'mixed' && n > (store.best[S.id] || 0)) { store.best[S.id] = n; S.improved = true; }
+}
+const lockedNow = () => TOPICS.some(tp => lockInfo(tp));
 function refreshAfterSync(prevLang) {
   if (store.lang !== prevLang) { const l = store.lang; store.lang = prevLang; switchLang(l); return; }
   if (screen === 'home' || screen === 'topic') SCREENS[screen](S);
@@ -1499,22 +2465,27 @@ function refreshAfterSync(prevLang) {
 }
 
 function check() {
-  if (S.done) return nextQ();
-  const t = tr(), p = S.list[S.i];
+  if (S.done) return S.mode === 'redo' ? exitRedo() : nextQ();
+  const t = tr(), p = cur();
   if (S.input === '') { teacherSay(t.typeFirst, 'think'); return; }
   if (Number(S.input) === answerOf(p)) {
     S.done = true;
     const firstTry = S.tries === 0 && !S.helped;
-    if (firstTry) S.first++;
-    S.marks[S.i] = firstTry ? 'ok' : 'help';
     updateQ('right');
-    const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
-    const sum = p.missing ? `${p.a} + ${p.b} = ${p.a + p.b}` : `${qText(p)} = ${answerOf(p)}`;
-    teacherSay(firstTry ? `${pick(t.praise(nm))} ${sum}.` : pick(t.praiseHelp), 'joy');
     confetti(firstTry ? 28 : 14);
+    if (S.mode === 'redo') {
+      if (firstTry) { S.marks[S.rk] = 'fixed'; S.first++; }
+      teacherSay(firstTry ? pick(t.fixedPraise) : pick(t.praiseHelp), 'joy');
+      if (S.finished) { recordStars(); save(); } else saveRound();
+    } else {
+      if (firstTry) S.first++;
+      S.marks[S.i] = firstTry ? 'ok' : 'help';
+      const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
+      teacherSay(firstTry ? `${pick(t.praise(nm))} ${fullEq(p)}.` : pick(t.praiseHelp), 'joy');
+      if (S.i === S.list.length - 1) finishRound(); else saveRound();
+    }
     markDone();
-    $('.pdots').children[S.i].className = S.marks[S.i];
-    if (S.i === S.list.length - 1) finishRound(); else saveRound();
+    $('.pdots').innerHTML = dotsHtml();
   } else {
     S.tries++;
     updateQ('wrong');
@@ -1525,10 +2496,10 @@ function check() {
   }
 }
 function openHowTo(keepStep) {
-  const p = S.list[S.i], e = explain(p), box = $('#explain');
+  const p = cur(), e = explain(p), box = $('#explain');
   S.helped = true;
   box.hidden = false;
-  mountStepper({ title: tr().howTitle(qText(p)), steps: e.steps, why: e.why, tid: teacherFor(p), el: $('#stepper'), onDone: null, backToQ: true });
+  mountStepper({ title: tr().howTitle(p.story != null ? qText({ ...p, story: null }) : qText(p)), steps: e.steps, why: e.why, tid: teacherFor(p), el: $('#stepper'), onDone: null, backToQ: true, problem: p });
   if (keepStep != null) { ST.i = Math.min(keepStep, e.steps.length - 1); renderStepper(false); return; }
   renderStepper(true);
   box.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
@@ -1536,6 +2507,30 @@ function openHowTo(keepStep) {
 function nextQ() {
   if (S.i >= S.list.length - 1) { show('results', S); return; }
   S.i++; renderPractice(true);
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- yellow circles: try a question like it again ---------- */
+function askRedo(k) {
+  const t = tr(), card = $('#redo-card'), p = S.list[k];
+  if (!card) return;
+  card.hidden = false;
+  card.innerHTML = `<p>${t.redoText(`<b>${p.story != null ? storyText(p) + ' ' : ''}${fullEq(p)}</b>`)}</p>
+    <div class="confirm-row"><button class="btn btn-small" data-act="redo-go" data-i="${k}">${t.redoBtn}</button><button class="btn btn-small btn-soft" data-act="redo-no">${t.redoNo}</button></div>`;
+  card.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'nearest' });
+  speak(card.querySelector('p').textContent, teacherFor(p));
+}
+function enterRedo(k) {
+  S.saved = { input: S.input, tries: S.tries, helped: S.helped, done: S.done };
+  S.mode = 'redo'; S.rk = k; S.rp = similarTo(S.list[k]);
+  screen = 'practice';
+  renderPractice(true);
+  window.scrollTo({ top: 0 });
+}
+function exitRedo() {
+  Object.assign(S, S.saved || {}); S.mode = null; S.rp = null;
+  if (S.fromResults) { S.fromResults = false; S.quiet = true; show('results', S); return; }
+  renderPractice(false);
   window.scrollTo({ top: 0 });
 }
 
@@ -1556,7 +2551,7 @@ function switchLang(l) {
 /* ---------- events ---------- */
 const ACTIONS = {
   home: () => show('home'),
-  topic: d => show('topic', { id: d.id }),
+  topic: d => { const tp = TOPICS.find(x => x.id === d.id); if (lockInfo(tp)) return ACTIONS.locked(d); show('topic', { id: d.id }); },
   lesson: d => show('lesson', { id: d.id }),
   practice: d => show('practice', { id: d.id }),
   soon: d => { const tp = TOPICS.find(x => x.id === d.id); toast(tr().soonToast(tName(tp.teacher), topicTitle(tp))); },
@@ -1578,6 +2573,20 @@ const ACTIONS = {
   howto: () => openHowTo(),
   'reset-ask': () => { const t = tr(); $('#reset-row').innerHTML = `<span>${t.resetAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="reset-yes">${t.resetYes}</button><button class="btn btn-small btn-soft" data-act="reset-no">${t.resetNo}</button>`; },
   'reset-no': () => show('home'),
+  locked: d => { const tp = TOPICS.find(x => x.id === d.id); toast(tr().lockedToast(tName(tp.teacher))); },
+  still: () => otherWay(false),
+  'first-way': () => otherWay(true),
+  dot: d => {
+    const k = +d.i, m = S.marks && S.marks[k];
+    if (S.mode === 'redo') return;
+    if (m === 'help') askRedo(k);
+    else if (m === 'ok' || m === 'fixed') toast(tr().dotOk);
+  },
+  'redo-go': d => { if (screen === 'results') S.fromResults = true; enterRedo(+d.i); },
+  'redo-no': () => { const c = $('#redo-card'); if (c) c.hidden = true; },
+  'restart-ask': () => { const t = tr(), r = $('#restart-row'); r.hidden = false; r.innerHTML = `<span>${t.startOverAsk}</span><button class="btn btn-small" data-act="restart-yes">${t.startOverYes}</button><button class="btn btn-small btn-soft" data-act="restart-no">${t.startOverNo}</button>`; },
+  'restart-no': () => { const r = $('#restart-row'); r.hidden = true; r.innerHTML = ''; },
+  'restart-yes': () => { store.round = null; save(); show('practice', { id: S.id, fresh: true }); },
   'voice-test': () => { const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s; },
   'reset-yes': () => { store = { name: '', best: {}, sound: store.sound, lang: store.lang, round: null, resetAt: Date.now() }; save(); show('home'); toast(tr().resetDone); }
 };
@@ -1586,6 +2595,7 @@ app.addEventListener('click', e => {
   const fn = ACTIONS[b.dataset.act]; if (fn) fn(b.dataset, b);
 });
 app.addEventListener('change', e => {
+  if (e.target.id === 'unlock-all') { store.unlockAll = e.target.checked; save(); const g = $('.grownups'); show('home'); const g2 = $('.grownups'); if (g && g2) g2.open = true; return; }
   if (e.target.id !== 'voice-select') return;
   store.voice = { ...(store.voice || {}), [store.lang]: e.target.value || null }; save();
   const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s;
