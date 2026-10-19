@@ -925,7 +925,7 @@ const TOPICS = [
       problems: [P(8,5,'+'),P(9,4,'+'),P(7,6,'+'),P(8,7,'+'),P(6,5,'+'),P(9,6,'+'),P(7,5,'+'),P(4,8,'+'),P(9,8,'+'),P(5,7,'+')] },
     { id: 'a4', examples: [P(46, 7, '+')],
       problems: [P(34,5,'+'),P(40,30,'+'),P(23,6,'+'),P(47,8,'+'),P(50,20,'+'),P(36,7,'+'),P(28,5,'+'),P(60,25,'+'),P(59,4,'+'),P(45,9,'+')] },
-    { id: 'a5', examples: [P(26, 37, '+'), P(236, 158, '+')],
+    { id: 'a5', examples: [P(26, 37, '+'), P(248, 175, '+')],
       problems: [P(34,25,'+'),P(38,45,'+'),P(56,27,'+'),P(63,29,'+'),P(47,36,'+'),P(125,243,'+'),P(236,158,'+'),P(347,285,'+'),P(409,326,'+'),P(568,267,'+')] }
   ]},
   { id: 'sub', sign: M, teacher: 'daisy', levels: [
@@ -1311,7 +1311,7 @@ const GEN = {
   m9: r => { const b = RP(r, [2, 3, 4, 5, 8, 10]), a = RI(r, 2, 12); return P(a, b, 'x', { missing: r() < .5 ? 'a' : 'b', s: 'missingMul' }); },
   m10: r => { const a = RI(r, 11, 25), b = RP(r, [2, 3, 4, 5]); return a % 10 ? P(a, b, 'x', { s: 'partitionMul' }) : null; },
 
-  d1: r => { const b = RP(r, [2, 3]), q = RI(r, 2, 6); return P(b * q, b, '÷', { s: 'share' }); },
+  d1: r => { const b = RP(r, [2, 3]), q = RI(r, 2, 8); return P(b * q, b, '÷', { s: 'share' }); },
   d2: r => { const b = RP(r, [5, 10]), q = RI(r, 2, 10); return P(b * q, b, '÷', { s: 'group' }); },
   d3: r => { const b = RP(r, [2, 5, 10]), q = RI(r, 2, 12); return P(b * q, b, '÷', { s: 'inverse' }); },
   d4: r => P(RI(r, 6, 49) * 2, 2, '÷', { s: 'halve' }),
@@ -1333,7 +1333,7 @@ const NEW_LEVELS = {
   for (const t of TOPICS) {
     for (const id of NEW_LEVELS[t.id] || []) {
       seed += 101;
-      const problems = makeList(GEN[id], seed), examples = makeList(GEN[id], seed + 50, 3).filter(e => !problems.some(p => qKey(p) === qKey(e))).slice(0, 1);
+      const problems = makeList(GEN[id], seed), examples = makeList(GEN[id], seed + 50, 40).filter(e => !problems.some(p => qKey(p) === qKey(e))).slice(0, 1);
       t.levels.push({ id, problems, examples: examples.length ? examples : [problems[0]] });
     }
     if (t.id === 'mul' || t.id === 'div') { delete t.soon; t.requires = ['add', 'sub']; }
