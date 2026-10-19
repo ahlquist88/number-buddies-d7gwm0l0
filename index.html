@@ -27,6 +27,7 @@
   --sub:#D2407F; --sub-soft:#FBDDEB;
   --mul:#118F84; --mul-soft:#D2F3EF;
   --div:#4F5FE0; --div-soft:#E0E3FD;
+  --spen:#C7451F; --spen-soft:#FDE3D8; --spda:#2C8A4E; --spda-soft:#DDF3E5;
   --sun:#FFB400; --good:#1C9150; --good-soft:#D7F5E3; --oops:#D93A3F; --oops-soft:#FDE1E1;
   --dot-a:#F07C2A; --dot-b:#2D8CE0;
   --shadow:0 5px 0 rgba(31,45,71,.07), 0 14px 30px rgba(31,45,71,.10);
@@ -41,6 +42,7 @@
     --ink:#EEF3FF; --ink-soft:#A8B7D6; --line:#344A75;
     --add:#FF9B52; --add-soft:#47301F; --sub:#F06AA8; --sub-soft:#47223A;
     --mul:#3CC9BC; --mul-soft:#173F3D; --div:#8C98FF; --div-soft:#262D5C;
+  --spen:#FF8A5C; --spen-soft:#4A2A1F; --spda:#5BD18A; --spda-soft:#183E28;
     --sun:#FFC83D; --good:#45C97C; --good-soft:#173E2A; --oops:#FF6B6F; --oops-soft:#4A1F24;
     --dot-a:#FF9B52; --dot-b:#5CB0FF;
     --shadow:0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.30);
@@ -53,6 +55,7 @@
   --ink:#EEF3FF; --ink-soft:#A8B7D6; --line:#344A75;
   --add:#FF9B52; --add-soft:#47301F; --sub:#F06AA8; --sub-soft:#47223A;
   --mul:#3CC9BC; --mul-soft:#173F3D; --div:#8C98FF; --div-soft:#262D5C;
+  --spen:#FF8A5C; --spen-soft:#4A2A1F; --spda:#5BD18A; --spda-soft:#183E28;
   --sun:#FFC83D; --good:#45C97C; --good-soft:#173E2A; --oops:#FF6B6F; --oops-soft:#4A1F24;
   --dot-a:#FF9B52; --dot-b:#5CB0FF;
   --shadow:0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.30);
@@ -301,6 +304,53 @@ p{margin:0}
 .pv-h{font-size:16px;color:var(--ink-soft)}
 .pv-d{font-size:38px;border-radius:12px;background:var(--card-2);padding:4px 0}
 .pv-d.hl{background:var(--sun);color:#2A1E00}
+/* spelling */
+.lang-fixed{font-size:15px;letter-spacing:.5px}
+.qcard.spell{gap:12px}
+.sp-prompt{font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--tc)}
+.gap{display:inline-block;width:4.5em;height:1.1em;vertical-align:-.2em;border-bottom:4px dashed var(--tc);margin:0 .15em}
+.hear-btn{gap:10px}
+.q-spell{font-size:clamp(34px,6vw,52px);width:100%}
+.opt{width:100%}
+.ans-box.word{min-width:5em;padding:0 .35em;font-family:var(--font-display);letter-spacing:.04em;text-transform:none}
+.opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.opt{border:3px solid var(--line);border-radius:20px;background:var(--card-2);padding:14px 18px;font-family:var(--font-display);font-weight:600;font-size:clamp(28px,4.5vw,38px);color:var(--ink);letter-spacing:.03em}
+.opt.right{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.opt.wrong{border-color:var(--oops);background:var(--oops-soft);color:var(--oops);text-decoration:line-through;text-decoration-thickness:3px}
+.opt:disabled{cursor:default}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.tile{display:grid;place-items:center;min-width:46px;height:58px;padding:0 6px;border-radius:12px;background:var(--card-2);font-family:var(--font-display);font-weight:700;font-size:36px}
+.tile.hl{background:var(--sun);color:#2A1E00}
+.tile.blank{border:4px dashed var(--tc);background:var(--card)}
+.tile.blank.filled{border-style:solid;color:var(--ink)}
+.fill-wrap.wrong .tile.blank{border-color:var(--oops);background:var(--oops-soft);animation:shake .4s}
+.chunks{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:40px}
+.chunks span{padding:4px 14px;border-radius:14px;background:var(--card-2)}
+.chunks span.hl{background:var(--sun);color:#2A1E00}
+.lpad{display:flex;flex-direction:column;gap:8px;width:100%;order:3}
+.pad{width:100%}
+.lrow{display:flex;gap:6px;justify-content:center}
+.lkey{flex:1 1 0;min-width:0;max-width:56px;height:58px;border-radius:14px;border:0;background:var(--card);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:26px}
+.lkey:active{background:var(--card-2);box-shadow:none}
+.lkey-wide{max-width:80px;flex-grow:1.5;font-size:22px}
+.lkey-clear{max-width:200px;font-size:18px}
+.lkey{padding:0}
+@media (min-width:761px){
+  .practice.spelling .pr-grid{grid-template-columns:1fr}
+  .practice.spelling .pr-right{position:static;max-width:760px;width:100%;margin:0 auto}
+  .practice.spelling .lkey{max-width:66px;height:66px;font-size:30px}
+  .practice.spelling .lkey-wide{max-width:96px}
+  .practice.spelling .pr-actions{max-width:520px;width:100%;margin:0 auto}
+}
+.st-nav>*{min-width:0}
+.st-end{flex:1 1 200px;justify-content:flex-end}
+.st-end .btn{white-space:normal;text-align:center}
+@media (max-width:420px){
+  .lrow{gap:4px}
+  .lpad{gap:6px}
+  .lkey{height:52px;font-size:21px;border-radius:10px}
+  .lkey-wide{font-size:18px}
+}
 .pdots i{width:20px;height:20px;border-radius:50%;background:var(--card);border:3px solid var(--line)}
 .pdots i.cur{border-color:var(--tc);transform:scale(1.2)}
 .pdots i.ok{background:var(--good);border-color:var(--good)}
@@ -420,6 +470,9 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
     <radialGradient id="g-uni" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".65" stop-color="#F6F0FF"/><stop offset="1" stop-color="#D6C9EE"/></radialGradient>
     <linearGradient id="g-horn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF3B0"/><stop offset="1" stop-color="#F2B52A"/></linearGradient>
     <linearGradient id="g-beak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27E"/><stop offset="1" stop-color="#F29A1F"/></linearGradient>
+    <radialGradient id="g-fox" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#FFB27A"/><stop offset=".6" stop-color="#EE6A2C"/><stop offset="1" stop-color="#A9401A"/></radialGradient>
+    <radialGradient id="g-hog" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="#9C6A45"/><stop offset="1" stop-color="#4E2D19"/></radialGradient>
+    <radialGradient id="g-hogface" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFEBD2"/><stop offset="1" stop-color="#E7BF92"/></radialGradient>
     <radialGradient id="g-cheek"><stop offset="0" stop-color="#FF7FA6" stop-opacity=".65"/><stop offset="1" stop-color="#FF7FA6" stop-opacity="0"/></radialGradient>
   </defs>
 </svg>
@@ -799,7 +852,9 @@ const I18N = {
     }
   }
 };
-const tr = () => I18N[store.lang];
+let forced = null;   // set while inside a spelling topic: the whole app uses that topic's language
+const curLang = () => forced || store.lang;
+const tr = () => I18N[curLang()];
 
 /* ---------- teachers ---------- */
 function eye(cx, cy, r, iris) {
@@ -948,8 +1003,8 @@ const allLevels = () => TOPICS.flatMap(t => t.levels);
 const findLevel = id => allLevels().find(l => l.id === id);
 const lvlText = l => tr().levels[l.id];
 const topicTitle = t => tr().topics[t.id];
-const answerOf = p => p.missing ? p[p.missing] : resOf(p);
-const teacherFor = p => ({ '+': 'hoot', '-': 'daisy', x: 'whiskers', '÷': 'sparkle' })[p.op];
+const answerOf = p => p.sp ? p.w : p.missing ? p[p.missing] : resOf(p);
+const teacherFor = p => p.sp ? findLevel(p.lv).topic.teacher : ({ '+': 'hoot', '-': 'daisy', x: 'whiskers', '÷': 'sparkle' })[p.op];
 
 /* ---------- pictures ---------- */
 function frames(cells) {
@@ -1230,13 +1285,13 @@ const EXPLAIN = {
    each for Times tables and Sharing, generators that make "a question
    like this one" for redo, and other ways to explain every question.
    ===================================================================== */
-const XS = () => store.lang === 'da' ? '·' : '×';   // times sign as Danish/English schools write it
-const DS = () => store.lang === 'da' ? ':' : '÷';   // division sign
+const XS = () => curLang() === 'da' ? '·' : '×';   // times sign as Danish/English schools write it
+const DS = () => curLang() === 'da' ? ':' : '÷';   // division sign
 function opSym(op) { return op === '+' ? '+' : op === '-' ? M : op === 'x' ? XS() : DS(); }
 function resOf(p) { return p.op === '+' ? p.a + p.b + (p.c || 0) : p.op === '-' ? p.a - p.b : p.op === 'x' ? p.a * p.b : p.a / p.b; }
-function fullEq(p) { return `${p.a} ${opSym(p.op)} ${p.b}${p.c != null ? ` + ${p.c}` : ''} = ${resOf(p)}`; }
+function fullEq(p) { if (p.sp) return p.w; return `${p.a} ${opSym(p.op)} ${p.b}${p.c != null ? ` + ${p.c}` : ''} = ${resOf(p)}`; }
 const stratOf = p => p.s || chooseStrategy(p);
-const qKey = p => [p.a, p.b, p.c ?? '', p.op, p.missing || '', p.story ?? ''].join('|');
+const qKey = p => [p.a, p.b, p.c ?? '', p.op, p.missing || '', p.story ?? '', p.w || '', p.fmt || ''].join('|');
 const multiples = (b, q) => range(1, q).map(k => k * b);
 
 /* deterministic random numbers, so every level always has the same 10 questions */
@@ -1345,6 +1400,7 @@ const NEW_LEVELS = {
 function similarTo(p) {
   const l = findLevel(p.lv), s = stratOf(p);
   if (!l || !l.gen) return p;
+  if (p.sp) { const others = l.words.filter(x => x.w !== p.w); return spItem(others[Math.floor(Math.random() * others.length)], p.fmt, p.lv); }
   for (let i = 0; i < 400; i++) {
     const q = l.gen(Math.random);
     if (q && qKey(q) !== qKey(p) && stratOf(q) === s && (q.missing || '') === (p.missing || '') && (q.story == null) === (p.story == null)) { q.lv = p.lv; return q; }
@@ -1358,7 +1414,7 @@ function lockInfo(tp) {
   const need = tp.requires.flatMap(id => TOPICS.find(t => t.id === id).levels), done = need.filter(l => store.best[l.id]).length;
   return done >= need.length ? null : { done, total: need.length };
 }
-const unlockedTopics = () => TOPICS.filter(t => !lockInfo(t));
+const unlockedTopics = () => TOPICS.filter(t => t.kind !== 'spell' && !lockInfo(t));
 
 /* ---------- more pictures ---------- */
 const dotsOf = (n, tint = 'a') => rep(`<i class="dot dot-${tint} sm"></i>`, n).join('');
@@ -1770,6 +1826,7 @@ function explainWith(p, s) {
 
 /* other ways to explain the same question, in the order a teacher would try them */
 function altsFor(p) {
+  if (p.sp) return ['spellChunks', 'spellFamily', 'spellLook'];
   const s = stratOf(p), { a, b } = p, r = resOf(p), out = [];
   const add = x => { if (x && x !== s && EXPLAIN[x] && !out.includes(x)) out.push(x); };
   if (p.missing) add('missingTurn');
@@ -2049,6 +2106,477 @@ function altsFor(p) {
   merge(I18N.en, en); merge(I18N.da, da);
 })();
 
+
+/* =====================================================================
+   SPELLING — word lists. One line per word:
+   word | sentence with ___ for the word | two wrong spellings | the tricky letters | memory trick (optional)
+   ===================================================================== */
+const SPELL_LEVELS = {
+  en: [
+    { id: 'e1', title: 'Tricky words', goal: 'Words that break the rules',
+      what: 'Some words do not follow the usual rules, so we learn how they look.', why: 'These words are used all the time. Knowing them by heart makes all your writing easier.',
+      words: `friend | My best ___ lives next door. | frend, freind | ie | A friend is your friend to the END.
+because | I am happy ___ it is sunny. | becos, becuase | au | Big Elephants Can Always Understand Small Elephants.
+people | Lots of ___ came to the party. | peeple, pepole | eo |
+said | Mum ___ it was time for bed. | sed, siad | ai |
+could | I ___ hear the birds singing. | cud, coud | oul | O U Lucky Duck: c-OU-L-d.
+would | ___ you like some juice? | wood, wuld | oul | O U Lucky Duck: w-OU-L-d.
+should | You ___ brush your teeth. | shud, shoud | oul | O U Lucky Duck: sh-OU-L-d.
+again | Can we play that game ___? | agen, agian | ai |
+once | ___ upon a time there was a king. | wunce, onse | o |
+water | Please can I have some ___? | warter, watter | a |` },
+    { id: 'e2', title: 'The -tion ending', goal: 'Words that end in "shun"',
+      what: 'Many words end with a "shun" sound. At the end of a word, it is usually spelled -tion.', why: '-tion is the most common way to write "shun" at the end of a word, so when you hear "shun", try -tion first.',
+      words: `station | The train is waiting at the ___. | stashun, stasion | tion |
+action | The film was full of ___. | akshun, acsion | tion |
+nation | The whole ___ watched the match. | nashun, nasion | tion |
+potion | The witch made a magic ___. | poshun, posion | tion |
+lotion | Put some sun ___ on your arms. | loshun, losion | tion |
+question | Can I ask a ___? | queschun, questshun | tion |
+invention | The phone was a great ___. | invenshun, invension | tion |
+fraction | A half is a ___. | frakshun, fracsion | tion |
+section | Read the first ___ of the book. | secshun, secsion | tion |
+direction | Which ___ is the park? | direkshun, diresion | tion |` },
+    { id: 'e3', title: 'Adding -ly', goal: 'Words like quickly and happily',
+      what: 'To turn quick into quickly, just add -ly. If the word ends in -y, change the y to i first: happy → happily.', why: '-ly tells us how something is done. Changing y to i makes the word easier to read.',
+      words: `quickly | The rabbit ran ___. | quikly, quickley | ly |
+sadly | The dog looked at me ___. | sadley, sadlly | ly |
+slowly | The snail moved ___. | slowley, slowlee | ly |
+kindly | She ___ helped me up. | kindley, kindlee | ly |
+happily | The children played ___. | happyly, happly | ily | happy loses its y: happ + ily.
+easily | I won the race ___. | easyly, easly | ily | easy loses its y: eas + ily.
+angrily | He shouted ___. | angryly, angrly | ily |
+loudly | The baby cried ___. | loudley, lowdly | ly |
+quietly | Close the door ___. | quitely, quietley | ly | quiet + ly: the e stays.
+finally | We ___ got home. | finaly, finnally | lly | final + ly = finally, with two l's.` },
+    { id: 'e4', title: 'un- and dis-', goal: 'Words that mean "not"',
+      what: 'un- and dis- mean "not". Glue them to the front of a word without changing the word.', why: 'Because the word stays the same, you never lose or add letters: dis + appear = disappear.',
+      words: `unhappy | The lost puppy was ___. | unhapy, onhappy | un |
+undo | Can you ___ this knot? | undoo, ondo | un |
+unkind | It is ___ to tease people. | unkinde, onkind | un |
+unlock | Use the key to ___ the door. | unlok, onlock | un |
+unfair | That game was ___! | unfare, onfair | un |
+disagree | I ___ with you. | disagre, desagree | dis |
+dislike | I ___ cold soup. | dislik, desslike | dis |
+disappear | The magician made the coin ___. | dissapear, disapear | sapp | dis + appear: one s, two p's.
+dishonest | It is ___ to cheat. | disonest, dishonnest | h | dis + honest: the h stays, even though you cannot hear it.
+unusual | A purple cat is very ___. | unusal, unuseual | ual | un + usual.` },
+    { id: 'e5', title: 'Doubling letters', goal: 'hop → hopping',
+      what: 'When a short word ends with one vowel and one consonant, double the last letter before adding -ing or -ed: hop → hopping.', why: 'The double letter keeps the vowel sound short. Without it, hoping would be about hope, not hop!',
+      words: `hopping | The frog is ___ on the lily pad. | hoping, hoppin | pp |
+running | We are ___ in the park. | runing, runnin | nn |
+swimming | I love ___ in the sea. | swiming, swimmimg | mm |
+sitting | The cat is ___ on the mat. | siting, sittin | tt |
+stopped | The bus ___ at the corner. | stoped, stopt | pp |
+clapped | Everyone ___ at the end. | claped, clapt | pp |
+shopping | Mum went ___ for food. | shoping, shoppin | pp |
+skipping | The girls were ___ with a rope. | skiping, skippin | pp |
+planned | We ___ a picnic. | planed, plannd | nn |
+dropped | Oops, I ___ my ice cream! | droped, dropt | pp |` },
+    { id: 'e6', title: 'Sound-alike words', goal: 'there, their, two, too …',
+      what: 'Some words sound the same but are spelled differently and mean different things. The sentence tells you which one you need.', why: 'Using the right spelling makes your meaning clear. Little tricks help you remember which is which.',
+      words: `their | The children got ___ coats. | there, they're | eir | Their has "heir" inside: something that belongs to someone.
+there | Put the box over ___. | their, they're | ere | There has "here" inside: here and there are places.
+two | I have ___ cats. | to, too | wo | Two, twin and twelve all have a w.
+too | I want to come ___. | to, two | oo | Too has too many o's!
+here | Come over ___! | hear, heer | ere |
+hear | Can you ___ the music? | here, heer | ear | You hear with your EAR.
+sea | We swam in the ___. | see, sae | ea |
+night | The stars come out at ___. | knight, nite | igh |
+witch | The ___ flew on her broom. | which, wich | tch |
+won | Our team ___ the match. | one, wun | o |` },
+    { id: 'e7', title: 'The ey, ei and eigh sound', goal: 'they, eight, neighbour',
+      what: 'The "ay" sound can also be spelled ey, ei or eigh, like in they, vein and eight.', why: 'These spellings come from old English words. They are less common, so we practise them until they look right.',
+      words: `they | ___ went to the park. | thay, thei | ey |
+obey | Dogs can learn to ___. | obay, obei | ey |
+grey | The sky is ___ today. | grai, grei | ey |
+eight | Spiders have ___ legs. | ate, eigt | eigh |
+weigh | Let's ___ the apples. | way, wey | eigh |
+neighbour | Our ___ has a dog. | naybour, neibour | eigh |
+sleigh | Santa rides in a ___. | slay, sley | eigh |
+vein | Blood flows in a ___. | vayn, vien | ei |
+reindeer | A ___ pulls the sleigh. | raindeer, reindear | ei |
+weight | What is the ___ of the box? | wait, weigt | eigh |` },
+    { id: 'e8', title: 'Silent letters', goal: 'kn, wr, mb and gn',
+      what: 'Some words have a letter you cannot hear, like the k in knee or the b in lamb.', why: 'Long ago people said these letters out loud. The sound has gone, but the letter has stayed.',
+      words: `knee | I fell and hurt my ___. | nee, knea | kn |
+knife | Cut the bread with a ___. | nife, knif | kn |
+know | I ___ the answer! | no, kno | kn |
+write | Please ___ your name. | rite, wright | wr |
+wrong | That answer is ___. | rong, wronge | wr |
+wrist | I wear a watch on my ___. | rist, wriste | wr |
+lamb | The baby sheep is a ___. | lam, lamm | mb |
+thumb | I hurt my ___. | thum, thumm | mb |
+climb | Monkeys love to ___ trees. | clime, clim | mb |
+gnome | A ___ sat in the garden. | nome, gnom | gn |` },
+    { id: 'e9', title: 'Year 3 words 1', goal: 'Words from the Year 3 list',
+      what: 'These are words from the Year 3 and 4 spelling list. Look carefully at the tricky part of each one.', why: 'You will use these words a lot in your writing. Learning the tricky part means you only have to remember a few letters.',
+      words: `believe | I ___ in you! | beleive, belive | ie | Never beLIEve a LIE.
+build | Let's ___ a sandcastle. | bild, biuld | ui |
+busy | The shop was very ___. | bizzy, buisy | u |
+calendar | Look at the ___ for the date. | calender, calandar | ar |
+centre | We met in the town ___. | senter, centr | re |
+different | Each snowflake is ___. | diffrent, differant | ere |
+early | I woke up ___. | erly, earley | ear |
+favourite | Blue is my ___ colour. | favrite, favourit | our |
+guard | The ___ stood at the gate. | gard, guarde | ua |
+heart | My ___ beats fast. | hart, heatr | ea | There is an EAR in your hEARt.` },
+    { id: 'e10', title: 'Year 3 words 2', goal: 'More words from the Year 3 list',
+      what: 'More words from the Year 3 and 4 list. Each one has a part that is easy to get wrong.', why: 'Spotting the tricky part first is the best way to learn a new word.',
+      words: `island | An ___ has water all around it. | iland, ieland | s | An island IS LAND.
+library | We borrow books from the ___. | libary, libery | rar |
+minute | Wait a ___, please. | minit, minut | ute |
+natural | Wood is a ___ material. | nacheral, naturel | tur |
+often | We ___ go to the beach. | offen, oftun | t |
+popular | That song is very ___. | populer, poppular | ar |
+surprise | We had a ___ party. | suprise, serprise | sur |
+though | It was cold, even ___ it was sunny. | tho, thogh | ough |
+thought | I ___ about you. | thort, thougt | ough |
+weird | That is a ___ noise! | wierd, weerd | ei | Weird is weird: it breaks the "i before e" rule.` }
+  ],
+  da: [
+    { id: 'k1', title: 'Stumt d', goal: 'mand, land og bord',
+      what: 'I mange ord skriver vi et d, som vi ikke kan høre, fx i mand, land og bord.', why: 'Det stumme d er en rest fra gamle dage, hvor man sagde det højt. Læg mærke til, at det tit kommer efter l, n og r.',
+      words: `mand | Der står en ___ ved døren. | man, mann | nd |
+land | Danmark er et lille ___. | lan, lannd | nd |
+hund | Min ___ hedder Bob. | hun, hunn | nd |
+bord | Vi spiser ved et stort ___. | bor, boord | rd |
+jord | Planten vokser i ___. | jor, jorr | rd |
+kold | Vandet er meget ___. | kol, koll | ld |
+guld | Ringen er lavet af ___. | gul, gull | ld |
+sand | Vi bygger et slot af ___. | san, sann | nd |
+vand | Fisken svømmer i ___. | van, vann | nd |
+ord | Hvor mange ___ kan du stave? | or, orrd | rd |` },
+    { id: 'k2', title: 'Hv-ord', goal: 'hvad, hvor og hvem',
+      what: 'Mange spørgeord starter med hv, selv om vi kun hører v: hvad, hvor, hvem.', why: 'h\'et kan ikke høres, men det hører til ordet. Husk: Når du spørger om noget, starter ordet tit med hv.',
+      words: `hvad | ___ hedder du? | vad, hvat | hv |
+hvor | ___ bor du? | vor, hvorr | hv |
+hvem | ___ har taget min blyant? | vem, hvæm | hv |
+hvorfor | ___ er himlen blå? | vorfor, hvorfore | hv |
+hvordan | ___ laver man en drage? | vordan, hvorden | hv |
+hvid | Sneen er ___. | vid, hvit | hv |
+hval | En ___ er et stort dyr i havet. | val, hvall | hv |
+hvalp | Vores hund har fået en ___. | valp, hvalb | hv |
+hvis | ___ det regner, bliver vi inde. | vis, hviss | hv |
+hvile | Vi skal ___ os efter turen. | vile, hvilee | hv |` },
+    { id: 'k3', title: 'Dobbeltkonsonant', goal: 'kat – katte',
+      what: 'Efter en kort vokal skriver vi tit to ens konsonanter, når der kommer mere efter: kat – katte.', why: 'De to konsonanter viser, at vokalen før er kort. Sammenlign pile (langt i) og pille (kort i).',
+      words: `katte | Vi har to ___. | kate, kattee | tt |
+hoppe | Frøen kan ___ højt. | hope, hopppe | pp |
+sidde | Du må gerne ___ her. | side, sidd | dd |
+komme | Hvornår vil du ___? | kome, kommme | mm |
+ligge | Katten kan lide at ___ i solen. | lige, ligg | gg |
+glemme | Du må ikke ___ din taske. | gleme, glæmme | mm |
+pille | Han vil ___ en appelsin. | pile, pill | ll |
+sommer | Jeg elsker ___ og sol. | somer, sommmer | mm |
+hammer | Far slår sømmet i med en ___. | hamer, hammar | mm |
+klappe | Vi skal ___ i hænderne. | klape, klapppe | pp |` },
+    { id: 'k4', title: 'Endelsen -ig og -lig', goal: 'hurtig og dejlig',
+      what: 'Når et ord ender på en i-lyd, skriver vi tit -ig eller -lig: hurtig, dejlig.', why: 'Ord, der fortæller, hvordan noget er, ender tit på -ig eller -lig. g\'et er stumt, men det skal med.',
+      words: `hurtig | Geparden er meget ___. | hurti, hurtij | ig |
+billig | Is er ___ i dag. | billi, bilig | ig |
+vigtig | Det er en ___ dag. | vigti, viktig | ig |
+dejlig | Sikke en ___ dag! | dejli, daijlig | ig |
+farlig | Vejen er ___. | farli, falig | lig |
+venlig | Hun er altid ___. | venli, vendlig | lig |
+rolig | Vær ___, det går nok. | roli, rollig | lig |
+tidlig | Det er ___ morgen. | tidli, tilig | lig |
+mærkelig | Det var en ___ lyd. | mærkeli, merkelig | lig |
+lykkelig | Prinsessen var ___. | lykkeli, lykelig | lig |` },
+    { id: 'k5', title: 'Hj-ord', goal: 'hjem, hjul og hjerte',
+      what: 'Nogle ord starter med hj, selv om vi kun hører j: hjem, hjul, hjerte.', why: 'h\'et er stumt, men det hører til ordet. Der er ikke så mange hj-ord, så de er gode at lære udenad.',
+      words: `hjem | Vi går ___ nu. | jem, hjæm | hj |
+hjul | En cykel har to ___. | jul, hjull | hj |
+hjerte | Mit ___ banker hurtigt. | jerte, hjærte | hj |
+hjælpe | Kan du ___ mig? | jælpe, hjelpe | hj |
+hjelm | Husk din ___, når du cykler. | jelm, hjælm | hj |
+hjort | En ___ har store gevirer. | jort, hjordt | hj |
+hjørne | Bolden røg ud i et ___. | jørne, hjørnne | hj |
+hjemme | Er din mor ___? | jemme, hjemmme | hj |
+hjerne | Din ___ tænker hele tiden. | jerne, hjærne | hj |
+hjemve | Jeg fik ___ på lejren. | jemve, hjemvee | hj |` },
+    { id: 'k6', title: 'Æ, ø og å', goal: 'De tre ekstra vokaler',
+      what: 'Dansk har tre ekstra vokaler: æ, ø og å. Lyt godt efter, hvilken du hører.', why: 'Hvis du skriver den forkerte vokal, kan det blive et helt andet ord. Træ og tre betyder ikke det samme!',
+      words: `æble | Jeg spiser et rødt ___. | eble, æbble | æ |
+ræv | En ___ har en lang hale. | rev, ræw | æ |
+sø | Vi bader i en ___. | sö, søø | ø |
+brød | Vi bager ___. | brod, brøød | ø |
+blå | Himlen er ___. | bla, blaa | å |
+få | Må jeg ___ en is? | fa, faa | å |
+gå | Vi skal ___ en tur. | ga, gaa | å |
+søster | Min ___ er fem år. | soster, sööster | ø |
+fløde | Jordbær med ___. | flode, fløøde | ø |
+træ | Fuglen sidder i et ___. | tre, træe | æ |` },
+    { id: 'k7', title: 'Blødt g', goal: 'pige, kage og dag',
+      what: 'I mange ord skriver vi et g, der lyder blødt eller næsten ikke kan høres: pige, kage, dag.', why: 'Det bløde g kan lyde som et j eller et i, men vi skriver g. Når ordet bøjes, er g\'et der stadig: pige – piger.',
+      words: `pige | Der leger en ___ i parken. | pie, pije | g |
+kage | Vi spiser ___ til fødselsdagen. | kae, kaje | g |
+sige | Hvad vil du ___? | sie, sije | g |
+dag | I ___ skinner solen. | da, dah | g |
+bog | Jeg læser en spændende ___. | bo, boug | g |
+mig | Kan du se ___? | mi, mej | g |
+dig | Jeg kan godt lide ___. | di, dej | g |
+uge | Om en ___ har jeg ferie. | ue, uje | g |
+lege | Skal vi ___ tagfat? | lee, leje | g |
+regn | Der kommer ___ fra skyerne. | ren, rejn | g |` },
+    { id: 'k8', title: 'Svære småord', goal: 'jeg, de, det og også',
+      what: 'Nogle små ord bruger vi hele tiden, men de staves ikke, som de lyder: jeg, de, det, også.', why: 'Fordi vi skriver dem så tit, er det godt at kunne dem udenad. Så går det hurtigere at skrive alt det andet.',
+      words: `jeg | ___ kan godt lide is. | jaj, jei | eg |
+de | ___ leger i haven. | di, dee | e |
+det | ___ regner i dag. | de, dett | et |
+også | Jeg vil ___ med! | osse, ogsaa | og |
+meget | Jeg er ___ glad. | meje, meeget | g |
+nogle | Jeg har ___ kugler. | noule, nogel | gl |
+sammen | Vi leger ___. | samen, sammmen | mm |
+havde | Jeg ___ en kat. | hade, havd | v |
+sjov | Det var en ___ dag. | sjou, chov | sj |
+lille | Musen er meget ___. | lile, lillle | ll |` },
+    { id: 'k9', title: 'Lange ord', goal: 'fod + bold = fodbold',
+      what: 'Mange lange danske ord er bygget af to korte ord: fod + bold = fodbold. De skrives i ét ord.', why: 'Når du deler ordet op, er hver del let at stave. Til sidst sætter du delene sammen uden mellemrum.',
+      words: `fodbold | Vi spiller ___ i frikvarteret. | fodbol, fotbold | db | fod + bold.
+legeplads | Skolen har en stor ___. | legeplas, legeplats | pl | lege + plads.
+sommerferie | Vi holder ___ i Spanien. | somerferie, sommerferje | rf | sommer + ferie.
+isbjørn | En ___ bor på Nordpolen. | isbjørrn, isbjörn | sb | is + bjørn.
+skoletaske | Jeg har madpakken i min ___. | skoletasse, skolletaske | et | skole + taske.
+regnbue | Efter regnen kom der en ___. | rejnbue, regnbu | nb | regn + bue.
+julemand | En ___ har en rød hue. | julemann, julleman | em | jule + mand.
+fødselsdag | I dag har jeg ___. | fødseldag, føselsdag | lsd | fødsels + dag.
+tandbørste | Husk din ___ på turen. | tandbørrste, tanbørste | db | tand + børste.
+sandkasse | Vi har en ___ i haven. | sankasse, sandkase | dk | sand + kasse.` },
+    { id: 'k10', title: 'Blødt d', goal: 'glad, rød og mad',
+      what: 'Mange ord ender på et d, der lyder blødt eller næsten ikke kan høres: glad, rød, mad.', why: 'Det bløde d er typisk for dansk. Når ordet bøjes, er d\'et der stadig: glad – glade.',
+      words: `glad | Jeg er så ___ i dag. | gla, glað | d |
+rød | Tomaten er ___. | rø, røð | d |
+mad | Hunden vil have ___. | ma, madd | d |
+god | Det var en ___ film. | go, godd | d |
+med | Vil du lege ___ mig? | me, mæd | d |
+sød | Kagen er meget ___. | sø, søð | d |
+tid | Det er ___ til at gå. | ti, tidd | d |
+hud | Solcreme beskytter din ___. | hu, hudd | d |
+bad | Jeg tager et ___ hver aften. | ba, badd | d |
+gade | Vi bor på en stille ___. | gae, gadde | d |` }
+  ]
+};
+
+/* ---------- the spelling teachers ---------- */
+function hogSpikes() {
+  // a ring of spikes behind the hedgehog's head
+  const pts = [];
+  for (let k = 0; k <= 26; k++) {
+    const a = Math.PI * (0.92 + 1.16 * k / 26), r = k % 2 ? 66 : 84;
+    pts.push(`${(100 + r * Math.cos(a)).toFixed(1)},${(118 + r * Math.sin(a) * 0.92).toFixed(1)}`);
+  }
+  return pts.join(' ');
+}
+Object.assign(ART, {
+  /* Fox: English spelling */
+  fern: () => `${shadow}<g class="bob">
+    <path d="M136 188 C196 196 198 120 160 122 C178 146 168 172 136 176Z" fill="url(#g-fox)"/>
+    <path d="M176 134 C188 124 184 116 170 120 C174 126 175 130 176 134Z" fill="#FFF5EA"/>
+    <ellipse cx="100" cy="182" rx="46" ry="25" fill="url(#g-fox)"/>
+    <ellipse cx="100" cy="188" rx="22" ry="15" fill="#FFF5EA"/>
+    <ellipse cx="80" cy="203" rx="13" ry="6" fill="#3A2418"/><ellipse cx="120" cy="203" rx="13" ry="6" fill="#3A2418"/>
+    <path d="M48 94 L54 32 L94 70 Z" fill="url(#g-fox)"/><path d="M57 84 L60 48 L83 70Z" fill="#3A2418"/>
+    <path d="M152 94 L146 32 L106 70 Z" fill="url(#g-fox)"/><path d="M143 84 L140 48 L117 70Z" fill="#3A2418"/>
+    <ellipse cx="100" cy="112" rx="63" ry="52" fill="url(#g-fox)"/>
+    <path d="M40 116 C56 150 82 162 100 162 C118 162 144 150 160 116 C142 130 120 136 100 152 C80 136 58 130 40 116Z" fill="#FFF5EA"/>
+    <ellipse cx="100" cy="142" rx="22" ry="16" fill="#FFF5EA"/>
+    ${eye(78, 106, 18, 'green')}${eye(122, 106, 18, 'green')}
+    <path d="M62 94 l-7 -6 M64 88 l-4 -8 M138 94 l7 -6 M136 88 l4 -8" stroke="#3A2418" stroke-width="3" stroke-linecap="round"/>
+    ${cheeks(60, 140, 128)}
+    <ellipse cx="100" cy="133" rx="8" ry="6" fill="#2A1B14"/><ellipse cx="97" cy="131" rx="3" ry="2" fill="#fff" opacity=".7"/>
+    <path class="mouth-calm" d="M100 139 L100 144 M92 146 Q96 151 100 144 Q104 151 108 146" stroke="#4A2A1A" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path class="mouth-joy" d="M90 144 Q100 162 110 144Z" fill="#7A2033"/>
+    <g transform="rotate(-38 146 58)"><rect x="141" y="30" width="11" height="46" rx="2" fill="#FFC83D"/><rect x="141" y="26" width="11" height="8" rx="2" fill="#FF8FB3"/><path d="M141 76 L146.5 88 L152 76Z" fill="#F6D29E"/><path d="M144.5 84 L146.5 88 L148.5 84Z" fill="#3A2418"/></g>
+  </g>`,
+  /* Hedgehog: Danish spelling */
+  pjuske: () => `${shadow}<g class="bob">
+    <polygon points="${hogSpikes()}" fill="url(#g-hog)"/>
+    <ellipse cx="100" cy="182" rx="48" ry="25" fill="#E8C9A6"/>
+    <ellipse cx="80" cy="203" rx="12" ry="6" fill="#5A3520"/><ellipse cx="120" cy="203" rx="12" ry="6" fill="#5A3520"/>
+    <circle cx="60" cy="86" r="13" fill="#EBC69C"/><circle cx="60" cy="86" r="7" fill="#F3A9B8"/>
+    <circle cx="140" cy="86" r="13" fill="#EBC69C"/><circle cx="140" cy="86" r="7" fill="#F3A9B8"/>
+    <ellipse cx="100" cy="122" rx="54" ry="48" fill="url(#g-hogface)"/>
+    ${eye(81, 114, 16, 'brown')}${eye(119, 114, 16, 'brown')}
+    ${cheeks(64, 136, 136)}
+    <ellipse cx="100" cy="142" rx="18" ry="13" fill="#F6DDBF"/>
+    <circle cx="100" cy="135" r="7" fill="#2A1B14"/><circle cx="97.5" cy="133" r="2.2" fill="#fff" opacity=".7"/>
+    <path class="mouth-calm" d="M93 147 Q100 153 107 147" stroke="#4A2A1A" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path class="mouth-joy" d="M91 145 Q100 160 109 145Z" fill="#7A2033"/>
+    <g transform="translate(150 54)"><circle r="11" fill="#E5484D"/><path d="M0 -10 Q2 -16 6 -18" stroke="#5A3520" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M3 -15 Q12 -20 14 -12 Q6 -10 3 -15Z" fill="#5BBF6A"/><ellipse cx="-4" cy="-3" rx="3" ry="2" fill="#fff" opacity=".6"/></g>
+  </g>`
+});
+TEACHERS.fern = { pitch: 1.15, color: 'spen' };
+TEACHERS.pjuske = { pitch: 1.3, color: 'spda' };
+
+/* ---------- spelling: topics, questions, pictures and explanations ---------- */
+const SPELL_FORMATS = i => i < 3 ? 'pick' : i < 6 ? 'fill' : 'type';   // easy → hard within a round
+const spItem = (wd, fmt, lv) => ({ sp: true, op: 'sp', w: wd.w, fmt, lv, s: 'spellRule' });
+const wordInfo = p => findLevel(p.lv).words.find(x => x.w === p.w);
+(function addSpelling() {
+  for (const [lang, id, teacher] of [['en', 'spen', 'fern'], ['da', 'spda', 'pjuske']]) {
+    const levels = SPELL_LEVELS[lang].map(L => {
+      const words = L.words.split('\n').map(line => {
+        const [w, s, wrong, focus, tip] = line.split('|').map(x => x.trim());
+        return { w, s, wrong: wrong.split(',').map(x => x.trim()), focus, tip: tip || '' };
+      });
+      // the level's texts are only shown in the spelling language, so both I18N tables get the same words
+      for (const L2 of ['en', 'da']) I18N[L2].levels[L.id] = { title: L.title, goal: L.goal, what: L.what, why: L.why };
+      const lvl = { id: L.id, words, problems: words.map((wd, i) => spItem(wd, SPELL_FORMATS(i), L.id)) };
+      lvl.examples = [spItem(words[0], 'type', L.id)];
+      lvl.gen = r => spItem(RP(r, words), 'type', L.id);
+      return lvl;
+    });
+    const t = { id, kind: 'spell', lang, sign: 'Aa', teacher, levels };
+    levels.forEach(l => { l.topic = t; });
+    TOPICS.push(t);
+  }
+})();
+const isSpellTopic = t => t && t.kind === 'spell';
+const mathTopics = () => TOPICS.filter(t => !isSpellTopic(t));
+
+/* letter tiles: the tricky letters in yellow, blanks as empty boxes */
+function wordVis(w, focus, { blank = false, hidden = false, filled = '' } = {}) {
+  const i0 = focus ? w.indexOf(focus) : -1, i1 = i0 + (focus || '').length;
+  let k = 0;
+  return `<div class="tiles" aria-label="${esc(w)}">${[...w].map((ch, i) => {
+    const hl = i >= i0 && i < i1;
+    if (hidden) return '<span class="tile blank"></span>';
+    if (blank && hl) { const c = filled[k++] || ''; return `<span class="tile blank${c ? ' filled' : ''}">${esc(c)}</span>`; }
+    return `<span class="tile${hl ? ' hl' : ''}">${esc(ch)}</span>`;
+  }).join('')}</div>`;
+}
+const spelledOut = w => [...w].join(', ');
+const sentenceWith = (wd, fill) => esc(wd.s).replace('___', fill);
+
+Object.assign(EXPLAIN, {
+  spellRule(p, X) {
+    const wd = wordInfo(p), lt = lvlText(findLevel(p.lv)), steps = [];
+    steps.push({ say: X.look(p.w), v: wordVis(p.w) });
+    steps.push({ say: lt.what, v: wordVis(p.w, wd.focus) });
+    steps.push({ say: X.tricky(p.w, wd.focus), v: wordVis(p.w, wd.focus) });
+    if (wd.tip) steps.push({ say: X.tip(wd.tip), v: wordVis(p.w, wd.focus) });
+    steps.push({ say: X.spell(spelledOut(p.w)), v: wordVis(p.w, wd.focus) });
+    steps.push({ say: X.end(p.w), v: `<div class="eq">${mk(esc(p.w))}</div>` });
+    return { steps, why: lt.why };
+  },
+  spellChunks(p, X) {
+    const wd = wordInfo(p), i0 = p.w.indexOf(wd.focus), parts = [p.w.slice(0, i0), wd.focus, p.w.slice(i0 + wd.focus.length)].filter(Boolean);
+    return { steps: [
+      { say: X.s1(p.w, parts.join(' – ')), v: `<div class="chunks">${parts.map(x => `<span class="${x === wd.focus ? 'hl' : ''}">${esc(x)}</span>`).join('')}</div>` },
+      { say: X.s2(parts.map(x => spelledOut(x)).join('. ')), v: wordVis(p.w, wd.focus) },
+      { say: X.end(p.w), v: `<div class="eq">${mk(esc(p.w))}</div>` }
+    ], why: X.why };
+  },
+  spellFamily(p, X) {
+    const l = findLevel(p.lv), others = l.words.filter(x => x.w !== p.w).slice(0, 3), wd = wordInfo(p);
+    return { steps: [
+      { say: X.s1(p.w, others.map(o => o.w).join(', ')), v: stack(...[wd, ...others].map(o => wordVis(o.w, o.focus))) },
+      { say: X.s2(lvlText(l).what), v: wordVis(p.w, wd.focus) },
+      { say: X.end(p.w), v: `<div class="eq">${mk(esc(p.w))}</div>` }
+    ], why: X.why };
+  },
+  spellLook(p, X) {
+    const wd = wordInfo(p);
+    return { steps: [
+      { say: X.look(p.w), v: wordVis(p.w, wd.focus) },
+      { say: X.say(spelledOut(p.w)), v: wordVis(p.w, wd.focus) },
+      { say: X.cover(), v: wordVis(p.w, '', { hidden: true }) },
+      { say: X.write(), v: wordVis(p.w, '', { hidden: true }) },
+      { say: X.check(p.w), v: `<div class="eq">${mk(esc(p.w))}</div>` }
+    ], why: X.why };
+  }
+});
+
+/* spelling text in both languages (the spelling screens always use the topic's own language) */
+(function addSpellText() {
+  const merge = (t, s) => { for (const [k, v] of Object.entries(s)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
+  merge(I18N.en, {
+    teachers: { fern: 'Fern the Fox', pjuske: 'Pjuske the Hedgehog' },
+    topics: { spen: 'English spelling', spda: 'Danish spelling' },
+    mathsSection: 'Maths', spellSection: 'Spelling',
+    topicIntro: { spen: "Hi, I'm Fern! Let's learn how English words are spelled, and why. Start at level 1.", spda: "Hej, I'm Pjuske! Let's learn Danish spelling. Start at level 1." },
+    langFixed: 'English',
+    spPrompt: { pick: 'Which spelling is right?', fill: 'Fill in the missing letters.', type: 'Listen, then type the word.' },
+    hearWord: 'Hear the word', pickFirst: 'Tap the spelling you think is right.', fillFirst: 'Fill in all the missing letters first.', typeFirst2: 'Type the word with the letter keys first.',
+    spelledAs: w => `${w}: ${spelledOut(w)}.`,
+    gu4: 'In the Spelling section, the whole app switches to that language, including the voice, so English spelling is all in English and Danish spelling is all in Danish.',
+    ex: {
+      spellRule: { look: w => `Let's look at the word "${w}".`, tricky: (w, f) => `The tricky part of ${w} is "${f}". That's the bit to remember.`, tip: t => `Here's a trick: ${t}`, spell: l => `Let's spell it together: ${l}.`, end: w => `So it is spelled ${w}.` },
+      spellChunks: { s1: (w, parts) => `Let's split ${w} into chunks: ${parts}.`, s2: l => `Spell one chunk at a time: ${l}.`, end: w => `Put the chunks together: ${w}.`, why: 'Short chunks are easier to remember than a whole long word.' },
+      spellFamily: { s1: (w, others) => `${w} belongs to a family of words that follow the same rule: ${others}.`, s2: what => `They all follow this rule: ${what}`, end: w => `So ${w} is spelled like its family: ${w}.`, why: 'When you know one word in a family, the others are easier.' },
+      spellLook: { look: w => `Look carefully at ${w}. Notice the yellow letters.`, say: l => `Say the letters out loud: ${l}.`, cover: () => 'Now cover the word and picture it in your head.', write: () => 'Write it from memory, letter by letter.', check: w => `Check: is it ${w}? Well done if it matches!`, why: 'Look, say, cover, write, check is how lots of children learn their spelling words at school.' }
+    }
+  });
+  merge(I18N.da, {
+    teachers: { fern: 'Ræven Fern', pjuske: 'Pindsvinet Pjuske' },
+    topics: { spen: 'Engelsk stavning', spda: 'Dansk stavning' },
+    mathsSection: 'Matematik', spellSection: 'Stavning',
+    topicIntro: { spen: "Hi, I'm Fern! Let's learn how English words are spelled, and why. Start at level 1.", spda: 'Hej, jeg er Pjuske! Vi skal lære at stave danske ord, og hvorfor de staves sådan. Start på niveau 1.' },
+    langFixed: 'Dansk',
+    spPrompt: { pick: 'Hvilken stavemåde er rigtig?', fill: 'Skriv de bogstaver, der mangler.', type: 'Lyt, og skriv så ordet.' },
+    hearWord: 'Hør ordet', pickFirst: 'Tryk på den stavemåde, du tror er rigtig.', fillFirst: 'Skriv først alle de bogstaver, der mangler.', typeFirst2: 'Skriv først ordet med bogstavtasterne.',
+    spelledAs: w => `${w}: ${spelledOut(w)}.`,
+    gu4: 'I Stavning skifter hele appen til det sprog, også stemmen, så engelsk stavning er på engelsk og dansk stavning er på dansk.',
+    ex: {
+      spellRule: { look: w => `Lad os se på ordet "${w}".`, tricky: (w, f) => `Det svære i ${w} er "${f}". Det er den del, du skal huske.`, tip: t => `Her er et trick: ${t}`, spell: l => `Lad os stave det sammen: ${l}.`, end: w => `Så staves det ${w}.` },
+      spellChunks: { s1: (w, parts) => `Lad os dele ${w} op i stykker: ${parts}.`, s2: l => `Stav ét stykke ad gangen: ${l}.`, end: w => `Sæt stykkerne sammen: ${w}.`, why: 'Korte stykker er lettere at huske end et helt langt ord.' },
+      spellFamily: { s1: (w, others) => `${w} hører til en familie af ord, der følger den samme regel: ${others}.`, s2: what => `De følger alle denne regel: ${what}`, end: w => `Så ${w} staves ligesom resten af familien: ${w}.`, why: 'Når du kan ét ord i en familie, bliver de andre lettere.' },
+      spellLook: { look: w => `Se godt på ${w}. Læg mærke til de gule bogstaver.`, say: l => `Sig bogstaverne højt: ${l}.`, cover: () => 'Dæk nu ordet til, og se det for dig inde i hovedet.', write: () => 'Skriv det udenad, bogstav for bogstav.', check: w => `Tjek: Står der ${w}? Flot, hvis det passer!`, why: 'Se, sig, dæk, skriv, tjek er en måde, mange børn lærer deres staveord på i skolen.' }
+    }
+  });
+})();
+
+
+/* ---------- spelling practice: question card, letter keyboard, answers ---------- */
+const SPEAKER_SVG = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M3 9h4l5-4.5v15L7 15H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+function spellCardTop(p) {
+  const t = tr(), wd = wordInfo(p);
+  return `<p class="sp-prompt">${t.spPrompt[p.fmt]}</p>
+    <p class="story">${sentenceWith(wd, '<span class="gap"></span>')}</p>
+    ${p.fmt === 'type' ? `<button class="btn btn-soft hear-btn" data-act="hear">${SPEAKER_SVG} ${t.hearWord}</button>` : ''}`;
+}
+function spellQHtml(p, state) {
+  const wd = wordInfo(p);
+  if (p.fmt === 'pick') {
+    if (!p.opts) p.opts = shuffle([p.w, ...wd.wrong]);
+    return `<div class="opts">${p.opts.map(o => {
+      const cls = S.done && o === p.w ? ' right' : (S.badPicks || []).includes(o) || (state === 'wrong' && o === S.input) ? ' wrong' : '';
+      return `<button class="opt${cls}" data-act="pick" data-v="${esc(o)}"${S.done ? ' disabled' : ''}>${esc(o)}</button>`;
+    }).join('')}</div>`;
+  }
+  if (p.fmt === 'fill') return `<div class="fill-wrap${state ? ' ' + state : ''}">${S.done ? wordVis(p.w, wd.focus) : wordVis(p.w, wd.focus, { blank: true, filled: S.input })}</div>`;
+  return `<span class="ans-box word${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${esc(S.input) || (S.done ? '' : '<i class="caret"></i>')}</span>`;
+}
+function letterPad() {
+  const t = tr(), rows = curLang() === 'da' ? ['qwertyuiopå', 'asdfghjklæø', 'zxcvbnm'] : ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  return `<div class="lpad" id="pad">${rows.map((r, i) => `<div class="lrow">${[...r].map(ch => `<button class="lkey" data-act="lkey" data-k="${ch}">${ch}</button>`).join('')}${i === 2 ? `<button class="lkey lkey-wide" data-act="lkey" data-k="back" aria-label="${t.delLast}">⌫</button>` : ''}</div>`).join('')}
+    <div class="lrow"><button class="lkey lkey-clear" data-act="lkey" data-k="clear">${t.clear}</button></div></div>`;
+}
+function pressLetter(k) {
+  if (S.done) return;
+  const p = cur(); if (!p || !p.sp || p.fmt === 'pick') return;
+  if (k === 'clear') S.input = '';
+  else if (k === 'back') S.input = S.input.slice(0, -1);
+  else if (S.input.length < (p.fmt === 'fill' ? wordInfo(p).focus.length : 20)) S.input += k;
+  updateQ();
+}
+function spellReady(p) {
+  if (p.fmt === 'fill') return S.input.length === wordInfo(p).focus.length;
+  return S.input.length > 0;
+}
+function spellAttempt(p) {
+  if (p.fmt === 'fill') { const f = wordInfo(p).focus, i0 = p.w.indexOf(f); return p.w.slice(0, i0) + S.input + p.w.slice(i0 + f.length); }
+  return S.input.trim().toLowerCase();
+}
+function spellAsk(p, hearOnly) {
+  const t = tr(), wd = wordInfo(p), full = wd.s.replace('___', p.w);
+  if (hearOnly) return `${p.w}. ${full}`;
+  return p.fmt === 'type' ? `${t.spPrompt.type} ${p.w}. ${full} ${p.w}.` : `${t.spPrompt[p.fmt]} ${full}`;
+}
+I18N.en.howSpell = w => `How to spell ${w}`;
+I18N.da.howSpell = w => `Sådan staves ${w}`;
+
 /* ---------- speech ---------- */
 let lastSaid = { text: '', tid: 'hoot' };
 // Best voice first: Premium, then Enhanced/natural voices (any accent), then UK English or Danish.
@@ -2074,11 +2602,12 @@ function fillVoicePicker() {
   const none = document.getElementById('voice-none'); if (none) none.hidden = list.length > 0;
 }
 function toSpeech(t) {
-  const da = store.lang === 'da';
+  const da = curLang() === 'da';
   return t.replace(/<[^>]+>/g, ' ')
     .replace(/−/g, ' minus ').replace(/\+/g, ' plus ')
     .replace(/=/g, da ? ' er lig med ' : ' equals ').replace(/□/g, da ? ' hvad ' : ' blank ')
     .replace(/×/g, da ? ' gange ' : ' times ').replace(/÷/g, da ? ' divideret med ' : ' divided by ')
+    .replace(/_{2,}/g, da ? ' tom plads ' : ' blank ')
     .replace(/\s·\s/g, da ? ' gange ' : ' times ').replace(/\s:\s/g, da ? ' divideret med ' : ' divided by ')
     .replace(/\((H|T|O|E)\)/g, '');
 }
@@ -2089,8 +2618,8 @@ function speak(text, tid) {
     // iPad Safari drops an utterance queued right after cancel(), so wait a moment when something was playing
     const busy = speechSynthesis.speaking || speechSynthesis.pending;
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(toSpeech(text)), v = voiceFor(store.lang);
-    u.lang = v ? v.lang : store.lang === 'da' ? 'da-DK' : 'en-GB'; if (v) u.voice = v;
+    const u = new SpeechSynthesisUtterance(toSpeech(text)), v = voiceFor(curLang());
+    u.lang = v ? v.lang : curLang() === 'da' ? 'da-DK' : 'en-GB'; if (v) u.voice = v;
     u.rate = .9; u.pitch = TEACHERS[tid]?.pitch || 1;
     if (busy) setTimeout(() => speechSynthesis.speak(u), 120); else speechSynthesis.speak(u);
   } catch (e) {}
@@ -2115,10 +2644,10 @@ function topbar() {
     <button class="brand" data-act="home" aria-label="${t.brand}"><span class="brand-mark"><b>+</b></span><span class="brand-name">${t.brand}</span></button>
     <span class="spacer"></span>
     <span class="pill" aria-label="${t.starsAria(totalStars())}">${ICON.star(true)} ${totalStars()}</span>
-    <div class="lang" role="group" aria-label="${t.language}">
+    ${forced ? `<span class="pill lang-fixed" lang="${forced}">${t.langFixed}</span>` : `<div class="lang" role="group" aria-label="${t.language}">
       <button data-act="lang" data-l="en" lang="en" aria-pressed="${store.lang === 'en'}" aria-label="English">EN</button>
       <button data-act="lang" data-l="da" lang="da" aria-pressed="${store.lang === 'da'}" aria-label="Dansk">DA</button>
-    </div>
+    </div>`}
     <button class="icon-btn" data-act="sound" aria-pressed="${store.sound}" aria-label="${store.sound ? t.voiceOffLabel : t.voiceOnLabel}">${ICON.sound(store.sound)}</button>
   </header>`;
 }
@@ -2137,12 +2666,19 @@ function confetti(n = 26) {
     fx.appendChild(p); setTimeout(() => p.remove(), 1800);
   }
 }
-function applyLang() { document.documentElement.lang = store.lang; document.title = tr().brand; }
+function applyLang() { document.documentElement.lang = curLang(); document.title = tr().brand; }
 
 /* ---------- screens ---------- */
 const app = $('#app');
 let screen = 'home', S = {};
-function show(name, params = {}) { hush(); screen = name; S = params; SCREENS[name](params); window.scrollTo({ top: 0 }); }
+function spellLangFor(name, params) {
+  const id = params && params.id;
+  let tp = null;
+  if (name === 'topic') tp = TOPICS.find(t => t.id === id);
+  else if (['lesson', 'practice', 'results'].includes(name) && id && id !== 'mixed') tp = findLevel(id)?.topic;
+  return isSpellTopic(tp) ? tp.lang : null;
+}
+function show(name, params = {}) { hush(); screen = name; S = params; forced = spellLangFor(name, params); applyLang(); SCREENS[name](params); window.scrollTo({ top: 0 }); }
 
 const SCREENS = {
   home() {
@@ -2158,17 +2694,20 @@ const SCREENS = {
       </div>
     </section>
     ${resumeCard()}
-    <h2 class="section-title">${t.chooseSubject}</h2>
-    <section class="topics">${TOPICS.map(topicCard).join('')}</section>
+    <h2 class="section-title">${t.mathsSection}</h2>
+    <section class="topics">${mathTopics().map(topicCard).join('')}</section>
     <section class="mixed">
       ${charWrap('sparkle', 'happy', 'sm')}
       <div class="mixed-text"><h3>${t.mixedTitle}</h3><p>${t.mixedText}</p></div>
       <button class="btn" data-act="practice" data-id="mixed" style="--tc:var(--div)">${t.letsGo}</button>
     </section>
+    <h2 class="section-title">${t.spellSection}</h2>
+    <section class="topics">${TOPICS.filter(isSpellTopic).map(topicCard).join('')}</section>
     <details class="grownups">
       <summary>${t.grownups}</summary>
       <div class="grownups-body">
         ${t.gu.map(x => `<p>${x}</p>`).join('')}
+        <p>${t.gu4}</p>
         <p id="sync-note">${cloud ? t.syncCloud : t.syncLocal}</p>
         <div class="voice-row">
           <label for="voice-select">${t.voiceLabel}</label>
@@ -2233,6 +2772,7 @@ const SCREENS = {
     } else {
       let list;
       if (id === 'mixed') list = shuffle(unlockedTopics().flatMap(t => t.levels.flatMap(l => l.problems))).slice(0, 10);
+      else if (findLevel(id).words) { const l = findLevel(id); list = shuffle(l.words).slice(0, 10).map((wd, i) => spItem(wd, SPELL_FORMATS(i), l.id)); }
       else list = shuffle(findLevel(id).problems);
       S = { id, list, i: 0, input: '', tries: 0, helped: false, first: 0, marks: [], done: false };
     }
@@ -2302,6 +2842,7 @@ function topicCard(tp) {
 }
 
 function qText(p) {
+  if (p.sp) return p.w;
   const A = p.missing === 'a' ? '□' : p.a, B = p.missing === 'b' ? '□' : p.b;
   return `${A} ${opSym(p.op)} ${B}${p.c != null ? ` + ${p.c}` : ''}${p.missing ? ` = ${resOf(p)}` : ''}`;
 }
@@ -2363,11 +2904,11 @@ function dotsHtml() {
 }
 function renderPractice(fresh) {
   const t = tr(), p = cur(), tid = teacherFor(p), redo = S.mode === 'redo';
-  if (fresh) { S.input = ''; S.tries = 0; S.helped = false; S.done = false; }
+  if (fresh) { S.input = ''; S.tries = 0; S.helped = false; S.done = false; S.badPicks = []; }
   const title = S.id === 'mixed' ? t.mixedTitle : lvlText(findLevel(S.id)).title;
   const greet = redo ? t.redoLabel(S.rk + 1) : S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') : pick(t.greetNext);
   app.innerHTML = `${topbar()}
-  <div class="practice" style="${tcStyle(tid)}">
+  <div class="practice${p.sp ? ' spelling' : ''}" style="${tcStyle(tid)}">
     <div class="pr-top">
       <button class="btn-link" data-act="${S.id === 'mixed' ? 'home' : 'topic'}" data-id="${S.id === 'mixed' ? '' : findLevel(S.id).topic.id}">${t.stop}</button>
       <b style="font-family:var(--font-display)">${title}</b>
@@ -2382,16 +2923,16 @@ function renderPractice(fresh) {
           ${charWrap(tid, S.done ? 'joy' : 'happy', 'md')}
           <div class="bubble"><p class="bubble-who">${tName(tid)}</p><div class="say-row"><p id="pr-say">${greet}</p>${replayBtn()}</div></div>
         </section>
-        <div class="qcard${redo ? ' redo' : ''}"><span class="q-label">${redo ? t.redoLabel(S.rk + 1) : t.questionN(S.i + 1, S.list.length)}</span>${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q" id="q" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
+        <div class="qcard${redo ? ' redo' : ''}${p.sp ? ' spell' : ''}"><span class="q-label">${redo ? t.redoLabel(S.rk + 1) : t.questionN(S.i + 1, S.list.length)}</span>${p.sp ? spellCardTop(p) : p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q${p.sp ? ' q-spell' : ''}" id="q" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
         <section class="explain" id="explain" hidden><div id="stepper" class="stepper"></div></section>
       </div>
       <div class="pr-right">
-        <div class="pad" id="pad">
+        ${p.sp ? (p.fmt === 'pick' ? '' : letterPad()) : `<div class="pad" id="pad">
           ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" data-act="key" data-k="${n}">${n}</button>`).join('')}
           <button class="key key-sm" data-act="key" data-k="clear">${t.clear}</button>
           <button class="key" data-act="key" data-k="0">0</button>
           <button class="key key-sm" data-act="key" data-k="back" aria-label="${t.delLast}">⌫</button>
-        </div>
+        </div>`}
         <div class="pr-actions">
           <button class="btn btn-soft" data-act="howto">${t.showHow}</button>
           <button class="btn" id="check-btn" data-act="check">${t.check}</button>
@@ -2400,11 +2941,12 @@ function renderPractice(fresh) {
     </div>
   </div>`;
   if (S.done) markDone();
-  const ask = p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
+  const ask = p.sp ? spellAsk(p) : p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
   if (fresh) speak(`${greet} ${ask}`, tid);
   lastSaid = { text: `${greet} ${ask}`, tid };
 }
 function qHtml(p, state = '') {
+  if (p.sp) return spellQHtml(p, state);
   const box = `<span class="ans-box${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${S.input || (S.done ? '' : '<i class="caret"></i>')}</span>`;
   if (p.story != null) return box;
   const op = `<span class="op">${opSym(p.op)}</span>`, A = p.missing === 'a' ? box : `<span>${p.a}</span>`, B = p.missing === 'b' ? box : `<span>${p.b}</span>`;
@@ -2431,7 +2973,7 @@ function pressKey(k) {
 }
 /* ---------- unfinished rounds & stars ---------- */
 const starsFor = first => first >= 9 ? 3 : first >= 7 ? 2 : 1;
-const plainQ = p => { const o = { a: p.a, b: p.b, op: p.op }; for (const k of ['c', 'missing', 'story', 's', 'lv']) if (p[k] != null) o[k] = p[k]; return o; };
+const plainQ = p => { const o = { a: p.a, b: p.b, op: p.op }; for (const k of ['c', 'missing', 'story', 's', 'lv', 'sp', 'w', 'fmt']) if (p[k] != null) o[k] = p[k]; return o; };
 function savedRound() {
   const r = store.round;
   if (!r || !Array.isArray(r.list) || !r.list.length || !(r.i > 0) || r.i >= r.list.length) return null;
@@ -2467,8 +3009,9 @@ function refreshAfterSync(prevLang) {
 function check() {
   if (S.done) return S.mode === 'redo' ? exitRedo() : nextQ();
   const t = tr(), p = cur();
-  if (S.input === '') { teacherSay(t.typeFirst, 'think'); return; }
-  if (Number(S.input) === answerOf(p)) {
+  if (p.sp && !spellReady(p)) { teacherSay(p.fmt === 'pick' ? t.pickFirst : p.fmt === 'fill' ? t.fillFirst : t.typeFirst2, 'think'); return; }
+  if (!p.sp && S.input === '') { teacherSay(t.typeFirst, 'think'); return; }
+  if (p.sp ? spellAttempt(p) === p.w : Number(S.input) === answerOf(p)) {
     S.done = true;
     const firstTry = S.tries === 0 && !S.helped;
     updateQ('right');
@@ -2481,13 +3024,14 @@ function check() {
       if (firstTry) S.first++;
       S.marks[S.i] = firstTry ? 'ok' : 'help';
       const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
-      teacherSay(firstTry ? `${pick(t.praise(nm))} ${fullEq(p)}.` : pick(t.praiseHelp), 'joy');
+      teacherSay(firstTry ? `${pick(t.praise(nm))} ${p.sp ? t.spelledAs(p.w) : fullEq(p) + '.'}` : pick(t.praiseHelp), 'joy');
       if (S.i === S.list.length - 1) finishRound(); else saveRound();
     }
     markDone();
     $('.pdots').innerHTML = dotsHtml();
   } else {
     S.tries++;
+    if (p.sp && p.fmt === 'pick') (S.badPicks = S.badPicks || []).push(S.input);
     updateQ('wrong');
     if (S.tries === 1) teacherSay(pick(t.retry) + t.orShow, 'think');
     else { teacherSay(t.together, 'think'); openHowTo(); }
@@ -2499,7 +3043,7 @@ function openHowTo(keepStep) {
   const p = cur(), e = explain(p), box = $('#explain');
   S.helped = true;
   box.hidden = false;
-  mountStepper({ title: tr().howTitle(p.story != null ? qText({ ...p, story: null }) : qText(p)), steps: e.steps, why: e.why, tid: teacherFor(p), el: $('#stepper'), onDone: null, backToQ: true, problem: p });
+  mountStepper({ title: p.sp ? tr().howSpell(p.w) : tr().howTitle(p.story != null ? qText({ ...p, story: null }) : qText(p)), steps: e.steps, why: e.why, tid: teacherFor(p), el: $('#stepper'), onDone: null, backToQ: true, problem: p });
   if (keepStep != null) { ST.i = Math.min(keepStep, e.steps.length - 1); renderStepper(false); return; }
   renderStepper(true);
   box.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
@@ -2536,7 +3080,7 @@ function exitRedo() {
 
 /* ---------- switching language keeps your place ---------- */
 function switchLang(l) {
-  if (l === store.lang) return;
+  if (forced || l === store.lang) return;
   store.lang = l; save(); applyLang(); hush();
   const step = ST && ST.el && document.contains(ST.el) ? ST.i : null;
   if (screen === 'practice') {
@@ -2569,6 +3113,9 @@ const ACTIONS = {
   'st-next': () => { if (ST.i < ST.steps.length - 1) { ST.i++; renderStepper(); } },
   'st-prev': () => { if (ST.i > 0) { ST.i--; renderStepper(); } },
   key: d => pressKey(d.k),
+  lkey: d => pressLetter(d.k),
+  pick: d => { if (S.done) return; S.input = d.v; check(); },
+  hear: () => { const p = cur(); speak(spellAsk(p, true), teacherFor(p)); },
   check: () => check(),
   howto: () => openHowTo(),
   'reset-ask': () => { const t = tr(); $('#reset-row').innerHTML = `<span>${t.resetAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="reset-yes">${t.resetYes}</button><button class="btn btn-small btn-soft" data-act="reset-no">${t.resetNo}</button>`; },
@@ -2610,8 +3157,10 @@ app.addEventListener('submit', e => {
 });
 document.addEventListener('keydown', e => {
   if (screen !== 'practice' || e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey || e.altKey) return;
-  if (/^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
-  else if (e.key === 'Backspace') { pressKey('back'); e.preventDefault(); }
+  const sp = cur() && cur().sp;
+  if (sp && /^[a-zæøå]$/i.test(e.key) && cur().fmt !== 'pick') { pressLetter(e.key.toLowerCase()); e.preventDefault(); }
+  else if (!sp && /^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
+  else if (e.key === 'Backspace') { sp ? pressLetter('back') : pressKey('back'); e.preventDefault(); }
   else if (e.key === 'Enter') {
     const t = e.target;
     if (t !== document.body && t !== document && !t.classList?.contains('key') && t.id !== 'check-btn') return;
