@@ -1,0 +1,1580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Number Buddies">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+</head>
+<body>
+<title>Number Buddies</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+/* Layout: one centred column (max 980px) on a sky backdrop; each screen swaps inside #app. */
+:root{
+  --sky:#DCEFFF; --sky-deep:#C4E2FB; --cloud:#F4FAFF;
+  --card:#FFFFFF; --card-2:#EEF6FF;
+  --ink:#1F2D47; --ink-soft:#56688A; --line:#C3D8EE;
+  --add:#E8701F; --add-soft:#FFE6D1;
+  --sub:#D2407F; --sub-soft:#FBDDEB;
+  --mul:#118F84; --mul-soft:#D2F3EF;
+  --div:#4F5FE0; --div-soft:#E0E3FD;
+  --sun:#FFB400; --good:#1C9150; --good-soft:#D7F5E3; --oops:#D93A3F; --oops-soft:#FDE1E1;
+  --dot-a:#F07C2A; --dot-b:#2D8CE0;
+  --shadow:0 5px 0 rgba(31,45,71,.07), 0 14px 30px rgba(31,45,71,.10);
+  --font-display:"Fredoka","Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Andika","Comic Sans MS","Segoe UI",system-ui,sans-serif;
+  --r:24px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sky:#101A31; --sky-deep:#0A1224; --cloud:#16233F;
+    --card:#1C2948; --card-2:#24345A;
+    --ink:#EEF3FF; --ink-soft:#A8B7D6; --line:#344A75;
+    --add:#FF9B52; --add-soft:#47301F; --sub:#F06AA8; --sub-soft:#47223A;
+    --mul:#3CC9BC; --mul-soft:#173F3D; --div:#8C98FF; --div-soft:#262D5C;
+    --sun:#FFC83D; --good:#45C97C; --good-soft:#173E2A; --oops:#FF6B6F; --oops-soft:#4A1F24;
+    --dot-a:#FF9B52; --dot-b:#5CB0FF;
+    --shadow:0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.30);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --sky:#101A31; --sky-deep:#0A1224; --cloud:#16233F;
+  --card:#1C2948; --card-2:#24345A;
+  --ink:#EEF3FF; --ink-soft:#A8B7D6; --line:#344A75;
+  --add:#FF9B52; --add-soft:#47301F; --sub:#F06AA8; --sub-soft:#47223A;
+  --mul:#3CC9BC; --mul-soft:#173F3D; --div:#8C98FF; --div-soft:#262D5C;
+  --sun:#FFC83D; --good:#45C97C; --good-soft:#173E2A; --oops:#FF6B6F; --oops-soft:#4A1F24;
+  --dot-a:#FF9B52; --dot-b:#5CB0FF;
+  --shadow:0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.30);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background-color:var(--sky);
+  background-image:
+    radial-gradient(ellipse 140px 46px at 8% 90px, var(--cloud) 98%, transparent 100%),
+    radial-gradient(ellipse 90px 40px at 14% 70px, var(--cloud) 98%, transparent 100%),
+    radial-gradient(ellipse 160px 50px at 92% 210px, var(--cloud) 98%, transparent 100%),
+    radial-gradient(ellipse 90px 44px at 86% 190px, var(--cloud) 98%, transparent 100%),
+    linear-gradient(var(--sky), var(--sky-deep));
+  background-attachment:fixed;
+  color:var(--ink); font-family:var(--font-body); font-size:18px; line-height:1.5;
+  min-height:100vh;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid var(--div);outline-offset:3px;border-radius:12px}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-block:12px 48px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:22px}
+
+/* top bar */
+.topbar{display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px;font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:.2px}
+.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--add);color:#fff;font-size:26px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15);transform:rotate(-6deg)}
+.brand-mark b{transform:rotate(6deg)}
+.spacer{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--card);border-radius:999px;padding:6px 14px;font-family:var(--font-display);font-weight:600;box-shadow:var(--shadow)}
+.icon-btn{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:0;background:var(--card);box-shadow:var(--shadow)}
+.icon-btn svg{width:24px;height:24px;fill:currentColor}
+.lang{display:flex;padding:4px;gap:2px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.lang button{border:0;background:none;border-radius:999px;padding:0 10px;height:38px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink-soft);letter-spacing:.5px}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.star{width:22px;height:22px;fill:var(--line)}
+.star.on{fill:var(--sun)}
+
+/* characters */
+.cw{flex:none;display:block}
+.cw svg{display:block;width:100%;height:auto;overflow:visible}
+.cw-lg{width:min(190px,40vw)} .cw-md{width:min(140px,30vw)} .cw-sm{width:84px}
+.cw .bob{animation:bob 3.2s ease-in-out infinite;transform-origin:50% 100%}
+.char .eye-joy,.char .mouth-joy{display:none}
+.char.mood-joy .eye-open,.char.mood-joy .mouth-calm{display:none}
+.char.mood-joy .eye-joy,.char.mood-joy .mouth-joy{display:inline}
+.char .eye-open{transform-box:fill-box;transform-origin:center;animation:blink 5.2s infinite}
+.char .pupil{transition:transform .35s ease}
+.char.mood-think .pupil{transform:translate(4px,-5px)}
+.char.mood-joy .bob{animation:hop .55s ease-in-out 2}
+.char .glow{animation:glow 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-4px) scale(1.01,.99)}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-16px) scale(.98,1.03)}70%{transform:translateY(0) scale(1.04,.96)}}
+@keyframes blink{0%,95%,100%{transform:scaleY(1)}97%{transform:scaleY(.08)}}
+@keyframes glow{50%{opacity:.55}}
+
+/* speech bubble */
+.talk{display:flex;align-items:flex-end;gap:14px}
+.bubble{position:relative;flex:1;min-width:0;background:var(--card);border-radius:var(--r);padding:18px 22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.bubble::before{content:"";position:absolute;left:-12px;bottom:28px;border:12px solid transparent;border-right-color:var(--card);border-left:0}
+.bubble-who{font-family:var(--font-display);font-weight:600;font-size:14px;letter-spacing:.6px;text-transform:uppercase;color:var(--tc,var(--add))}
+.bubble h1{font-size:clamp(30px,5vw,44px)}
+.bubble h2{font-size:clamp(24px,4vw,32px)}
+.say-row{display:flex;align-items:flex-start;gap:10px}
+.say-row p{flex:1;min-width:0}
+.replay{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--card-2);display:grid;place-items:center}
+.replay svg{width:18px;height:18px;fill:currentColor}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:18px;padding:14px 26px;font-family:var(--font-display);font-weight:600;font-size:20px;background:var(--tc,var(--add));color:#fff;box-shadow:inset 0 -5px 0 rgba(0,0,0,.18);transition:transform .1s}
+.btn:active{transform:translateY(2px)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn-big{font-size:24px;padding:16px 34px}
+.btn-small{font-size:17px;padding:10px 18px;border-radius:14px}
+.btn-soft{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.btn-link{background:none;border:0;padding:6px 4px;font-family:var(--font-display);font-weight:600;color:var(--ink-soft);text-decoration:underline;text-underline-offset:4px}
+
+/* home */
+.hero{display:flex;align-items:flex-end;gap:16px}
+.hero-cast{display:flex;align-items:flex-end;gap:0}
+.hero-cast .cw:last-child{margin-left:-26px}
+.name-form{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.name-form label{font-weight:700}
+.name-form .row{display:flex;gap:8px;flex-wrap:wrap}
+.name-form input{flex:1;min-width:0;font:inherit;font-size:20px;padding:10px 14px;border-radius:14px;border:3px solid var(--line);background:var(--card-2);color:var(--ink)}
+.section-title{font-size:22px;color:var(--ink-soft);font-weight:600}
+.topics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.topic{position:relative;display:flex;align-items:center;gap:14px;text-align:left;border:0;background:var(--card);border-radius:28px;padding:16px 18px 20px;box-shadow:var(--shadow);overflow:hidden;transition:transform .15s}
+@media (hover:hover){.topic:hover{transform:translateY(-3px)}}
+.topic::after{content:"";position:absolute;inset:auto 0 0 0;height:8px;background:var(--tc)}
+.topic-art{flex:none;width:104px;padding:10px;border-radius:24px;background:var(--tc-soft)}
+.topic-art svg{display:block;width:100%;height:auto}
+.topic-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.topic-title{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.1}
+.topic-teacher{color:var(--ink-soft);font-size:16px}
+.topic-meta{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--tc);margin-top:6px}
+.topic-sign{position:absolute;right:14px;top:6px;font-family:var(--font-display);font-weight:700;font-size:58px;line-height:1;color:var(--tc);opacity:.22}
+.topic.soon{cursor:default}
+.topic.soon:hover{transform:none}
+.topic.soon .topic-art{filter:saturate(.55)}
+.lock{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;margin-top:6px;padding:3px 10px;border-radius:999px;background:var(--card-2);color:var(--ink-soft);font-family:var(--font-display);font-weight:600;font-size:14px}
+.mixed{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--card);border-radius:28px;padding:18px 22px;box-shadow:var(--shadow)}
+.resume{outline:4px solid var(--tc);outline-offset:-4px}
+.mixed-text{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px}
+.mixed-text h3{font-size:24px}
+.mixed-text p{color:var(--ink-soft)}
+.grownups{background:var(--card-2);border-radius:20px;padding:6px 20px;color:var(--ink-soft);font-size:16px}
+.grownups summary{font-family:var(--font-display);font-weight:600;font-size:17px;padding:10px 0;cursor:pointer;color:var(--ink)}
+.grownups-body{display:flex;flex-direction:column;gap:10px;padding-bottom:16px;max-width:68ch}
+.confirm-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* topic levels */
+.crumbs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--ink-soft);font-family:var(--font-display);font-weight:600}
+.levels{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:lvl}
+.level{display:flex;align-items:center;gap:16px;background:var(--card);border-radius:24px;padding:14px 16px;box-shadow:var(--shadow);flex-wrap:wrap}
+.lvl-num{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--tc-soft);color:var(--tc);font-family:var(--font-display);font-weight:700;font-size:26px}
+.level.done .lvl-num{background:var(--tc);color:#fff}
+.lvl-text{flex:1;min-width:160px;display:flex;flex-direction:column}
+.lvl-text b{font-family:var(--font-display);font-weight:600;font-size:22px}
+.lvl-text span{color:var(--ink-soft);font-size:16px}
+.lvl-stars{display:flex;gap:2px}
+.lvl-actions{display:flex;gap:8px;align-items:center;margin-left:auto}
+.tag{display:inline-block;align-self:flex-start;margin-top:4px;padding:2px 10px;border-radius:999px;background:var(--sun);color:#3A2A00;font-family:var(--font-display);font-weight:600;font-size:13px;letter-spacing:.4px;text-transform:uppercase}
+
+/* lesson */
+.why-card{background:var(--tc-soft);border-radius:var(--r);padding:16px 20px;display:flex;flex-direction:column;gap:4px}
+.why-card h3{font-size:18px;color:var(--tc);text-transform:uppercase;letter-spacing:.8px}
+.lesson-go{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.lesson-go.ready .btn-big{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+
+/* stepper (worked explanation) */
+.stepper{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px}
+.st-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.st-title{font-family:var(--font-display);font-weight:700;font-size:22px;flex:1;min-width:0}
+.st-dots{display:flex;gap:6px}
+.st-dots i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.st-dots i.on{background:var(--tc)}
+.st-say{display:flex;gap:12px;align-items:flex-start;background:var(--card-2);border-radius:20px;padding:12px 14px;font-size:20px}
+.st-say .cw-sm{width:64px}
+.st-say p{flex:1;min-width:0;align-self:center}
+.st-visual{display:flex;justify-content:center;align-items:center;min-height:120px;overflow-x:auto;padding:6px 0}
+.st-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.st-why{border-top:3px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.st-why b{font-family:var(--font-display);color:var(--tc)}
+
+/* visuals */
+.frames{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.frame{display:grid;grid-template-columns:repeat(5,44px);grid-template-rows:repeat(2,44px);gap:4px;padding:6px;border-radius:14px;background:var(--card);border:3px solid var(--line)}
+.cell{display:grid;place-items:center;border-radius:8px;background:var(--card-2)}
+.dot{width:32px;height:32px;border-radius:50%;display:block;position:relative;box-shadow:inset -3px -4px 0 rgba(0,0,0,.15), inset 3px 3px 0 rgba(255,255,255,.35)}
+.dot-a{background:var(--dot-a)}
+.dot-b{background:var(--dot-b);animation:pop .4s ease-out backwards}
+.dot-e{background:none;box-shadow:none;border:3px dashed var(--dot-b)}
+.dot-x{background:var(--dot-a);opacity:.35}
+.dot-x::before,.dot-x::after{content:"";position:absolute;left:50%;top:-4px;width:5px;height:40px;margin-left:-2.5px;background:var(--oops);border-radius:3px;transform:rotate(45deg)}
+.dot-x::after{transform:rotate(-45deg)}
+@keyframes pop{from{transform:scale(0)}}
+.nl{width:100%;max-width:660px;height:auto;display:block}
+.nl-axis{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.nl-tick{stroke:var(--ink);stroke-width:2}
+.nl-pt{fill:var(--ink)}
+.nl text{font-family:var(--font-display);text-anchor:middle}
+.nl-num{fill:var(--ink-soft);font-size:17px;font-weight:500}
+.nl-mark{fill:var(--ink);font-size:22px;font-weight:700}
+.nl-hop{fill:none;stroke-width:4;stroke-linecap:round}
+.nl-hop.nl-add{stroke:var(--add)} .nl-hop.nl-sub{stroke:var(--sub)}
+.nl-head.nl-add{fill:var(--add)} .nl-head.nl-sub{fill:var(--sub)}
+.nl-lab{font-size:20px;font-weight:700}
+.nl-lab.nl-add{fill:var(--add)} .nl-lab.nl-sub{fill:var(--sub)}
+.vis-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.vis-op{font-family:var(--font-display);font-weight:700;font-size:40px;color:var(--ink-soft)}
+.vis-stack{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+.blocks{display:flex;flex-direction:column;align-items:center;gap:6px}
+.b-set{display:flex;align-items:flex-end;gap:5px;min-height:100px}
+.b-rod{display:block;width:12px;height:100px;border-radius:3px;background:repeating-linear-gradient(to bottom,var(--bc) 0 9px,rgba(0,0,0,.25) 9px 10px);box-shadow:inset -2px 0 0 rgba(0,0,0,.15)}
+.b-ones{display:grid;grid-template-rows:repeat(5,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:3px;margin-left:6px}
+.b-cube{display:block;width:12px;height:12px;border-radius:2px;background:var(--bc);box-shadow:inset -2px -2px 0 rgba(0,0,0,.18)}
+.b-flat{display:block;width:100px;height:100px;border-radius:4px;background:repeating-linear-gradient(to bottom,transparent 0 9px,rgba(0,0,0,.22) 9px 10px),repeating-linear-gradient(to right,var(--bc) 0 9px,rgba(0,0,0,.22) 9px 10px)}
+.tint-a{--bc:var(--dot-a)} .tint-b{--bc:var(--dot-b)}
+.b-rod.x,.b-cube.x{opacity:.25;outline:2px solid var(--oops)}
+.b-cap{font-family:var(--font-display);font-weight:700;font-size:24px}
+.split{display:flex;flex-direction:column;align-items:center;font-family:var(--font-display);font-weight:700;font-size:30px}
+.split span{display:grid;place-items:center;min-width:64px;height:64px;padding:0 10px;border-radius:32px;background:var(--card-2);border:3px solid var(--tc)}
+.sp-legs{width:150px;height:44px}
+.sp-legs path{stroke:var(--tc);stroke-width:4;stroke-linecap:round;fill:none}
+.sp-parts{display:flex;gap:56px}
+.eq{font-family:var(--font-display);font-weight:700;font-size:clamp(34px,7vw,52px);text-align:center;font-variant-numeric:tabular-nums}
+.eq mark{background:var(--good-soft);color:var(--good);border-radius:14px;padding:0 12px}
+.eq small{display:block;font-size:20px;font-weight:600;color:var(--ink-soft)}
+.col{display:grid;grid-template-columns:40px repeat(var(--n),54px);align-items:end;font-family:var(--font-display);font-weight:700;font-size:38px;text-align:center;font-variant-numeric:tabular-nums}
+.col-h{font-size:16px;color:var(--ink-soft);font-weight:600;letter-spacing:.5px;padding-bottom:2px}
+.col-c{font-size:20px;color:var(--add);height:26px;line-height:26px}
+.col-d{height:56px;line-height:56px;border-radius:10px}
+.col-op{font-size:34px;color:var(--ink-soft);height:56px;line-height:56px}
+.col-rule{grid-column:1/-1;height:4px;border-radius:2px;background:var(--ink);margin:4px 0}
+.col-ans{color:var(--good)}
+.col .hl{background:var(--sun);color:#2A1E00}
+.col-h.hl{background:none;color:var(--ink)}
+.ex{position:relative;display:inline-block;line-height:1}
+.ex s{color:var(--ink-soft);text-decoration-color:var(--oops);text-decoration-thickness:4px}
+.ex em{position:absolute;left:50%;top:-24px;transform:translateX(-50%);font-style:normal;font-size:19px;color:var(--sub);white-space:nowrap}
+.col .hl .ex s{color:#5B4A1A}
+
+/* practice */
+.practice{display:flex;flex-direction:column;gap:18px}
+.pr-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pdots{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.pdots i{width:20px;height:20px;border-radius:50%;background:var(--card);border:3px solid var(--line)}
+.pdots i.cur{border-color:var(--tc);transform:scale(1.2)}
+.pdots i.ok{background:var(--good);border-color:var(--good)}
+.pdots i.help{background:var(--sun);border-color:var(--sun)}
+.pr-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
+.pr-left{display:flex;flex-direction:column;gap:18px;min-width:0}
+.qcard{background:var(--card);border-radius:30px;box-shadow:var(--shadow);padding:30px 16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.q-label{font-family:var(--font-display);font-weight:600;color:var(--ink-soft);font-size:16px;letter-spacing:.6px;text-transform:uppercase}
+.q{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-family:var(--font-display);font-weight:700;font-size:clamp(46px,9vw,76px);line-height:1;font-variant-numeric:tabular-nums}
+.q .op{color:var(--tc)}
+.ans-box{display:inline-grid;place-items:center;min-width:1.6em;height:1.25em;padding:0 .2em;border-radius:20px;border:5px dashed var(--tc);background:var(--card-2);color:var(--ink)}
+.ans-box.filled{border-style:solid}
+.ans-box.right{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.ans-box.wrong{border-color:var(--oops);background:var(--oops-soft);animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.caret{display:inline-block;width:4px;height:.8em;background:var(--tc);animation:caret 1s steps(1) infinite;border-radius:2px}
+@keyframes caret{50%{opacity:0}}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.key{height:66px;border-radius:18px;border:0;background:var(--card);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:32px}
+.key:active{transform:translateY(2px)}
+.key-sm{font-size:18px}
+.pr-actions{display:grid;grid-template-columns:1fr 1.3fr;gap:10px}
+.pr-actions .btn{width:100%}
+.explain{display:flex;flex-direction:column;gap:12px}
+
+/* results */
+.results{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.big-stars{display:flex;gap:8px;justify-content:center}
+.big-stars .star{width:64px;height:64px;animation:pop .5s ease-out backwards}
+.big-stars .star:nth-child(2){animation-delay:.2s}.big-stars .star:nth-child(3){animation-delay:.4s}
+.res-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.conf{position:absolute;top:55%;width:12px;height:16px;border-radius:3px;animation:fly 1.5s cubic-bezier(.2,.7,.4,1) forwards}
+@keyframes fly{0%{transform:translate(0,0) rotate(0)}40%{transform:translate(calc(var(--dx)*.6),var(--dy)) rotate(calc(var(--rot)*.5))}100%{transform:translate(var(--dx),45vh) rotate(var(--rot));opacity:0}}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--sky);padding:12px 20px;border-radius:16px;font-family:var(--font-display);font-weight:600;z-index:30;max-width:calc(100% - 32px);text-align:center}
+
+/* touch screens (iPad): no double-tap zoom on fast taps, no grey tap flash, no text selection on buttons */
+button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+.cw,.char,.topic-art{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.key:active{background:var(--card-2);box-shadow:none}
+.topic:active{transform:scale(.98)}
+@media (hover:none){body{background-attachment:scroll}}
+
+/* practice: number pad stays in view while the explanation scrolls under the question */
+.pr-right{display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(env(safe-area-inset-top, 0px) + 12px);align-self:start}
+@media (min-width:761px){
+  .key{height:74px;font-size:36px}
+  .key-sm{font-size:19px}
+  .pr-actions .btn{min-height:62px}
+}
+
+/* lesson: side-by-side on wide screens such as an iPad in landscape */
+.lesson-grid{display:flex;flex-direction:column;gap:22px}
+.lesson-side,.lesson-main{display:flex;flex-direction:column;gap:22px;min-width:0}
+@media (min-width:1000px){
+  .lesson-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);align-items:start}
+  .lesson-side{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 12px)}
+  .lesson-side .talk{flex-direction:column;align-items:flex-start}
+  .lesson-side .bubble{width:100%}
+  .lesson-side .bubble::before{display:none}
+}
+
+@media (max-width:760px){
+  .pr-grid{display:flex;flex-direction:column;gap:12px}
+  .pr-left,.pr-right{display:contents}
+  #pr-talk{order:1} .qcard{order:2} .pad{order:3} .pr-actions{order:4} #explain{order:5}
+  .topics{grid-template-columns:1fr}
+  .pr-grid{grid-template-columns:1fr}
+  .hero{flex-direction:column;align-items:stretch}
+  .hero-cast{justify-content:center}
+  .bubble::before{display:none}
+  .talk{flex-direction:column;align-items:center}
+  .talk .bubble{width:100%}
+  .frame{grid-template-columns:repeat(5,34px);grid-template-rows:repeat(2,34px)}
+  .dot{width:26px;height:26px}
+  .dot-x::before,.dot-x::after{height:32px}
+  .col{grid-template-columns:32px repeat(var(--n),44px);font-size:32px}
+  .lvl-actions{margin-left:68px}
+  .topbar{gap:6px}
+  .brand{font-size:19px;white-space:nowrap;gap:8px;padding:2px}
+  .brand-mark{width:34px;height:34px;font-size:21px}
+  .pill{padding:5px 10px}
+  .icon-btn{width:40px;height:40px}
+  #pr-talk{flex-direction:row;align-items:center}
+  #pr-talk .cw-md{width:80px}
+  #pr-talk .bubble{padding:12px 16px}
+  .qcard{padding:18px 12px}
+  .key{height:58px}
+  .practice,.pr-left{gap:12px}
+}
+@media (max-width:520px){
+  .brand-name{display:none}
+  .lang{padding:3px}
+  .lang button{height:34px;padding:0 8px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="g-eye" cx="42%" cy="38%" r="65%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".75" stop-color="#F2F5FB"/><stop offset="1" stop-color="#C7D1E4"/></radialGradient>
+    <radialGradient id="g-iris-amber" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#FFE08A"/><stop offset=".55" stop-color="#E8962E"/><stop offset="1" stop-color="#7A3E0C"/></radialGradient>
+    <radialGradient id="g-iris-green" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#B8F0A6"/><stop offset=".55" stop-color="#3FAE5B"/><stop offset="1" stop-color="#1B5E33"/></radialGradient>
+    <radialGradient id="g-iris-brown" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#D9A574"/><stop offset=".55" stop-color="#8A5428"/><stop offset="1" stop-color="#3E2210"/></radialGradient>
+    <radialGradient id="g-iris-purple" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#E3C8FF"/><stop offset=".55" stop-color="#9A5CF0"/><stop offset="1" stop-color="#4A1F8F"/></radialGradient>
+    <radialGradient id="g-owl" cx="40%" cy="28%" r="75%"><stop offset="0" stop-color="#FFC48C"/><stop offset=".55" stop-color="#F08A3E"/><stop offset="1" stop-color="#B0531C"/></radialGradient>
+    <radialGradient id="g-owl-belly" cx="45%" cy="30%" r="70%"><stop offset="0" stop-color="#FFF6E6"/><stop offset="1" stop-color="#F6D29E"/></radialGradient>
+    <radialGradient id="g-dog" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#FFE3B8"/><stop offset=".6" stop-color="#E9B572"/><stop offset="1" stop-color="#B9773A"/></radialGradient>
+    <radialGradient id="g-dog-ear" cx="40%" cy="20%" r="90%"><stop offset="0" stop-color="#A8673A"/><stop offset="1" stop-color="#5E3218"/></radialGradient>
+    <radialGradient id="g-dog-muzzle" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F6E3CB"/></radialGradient>
+    <radialGradient id="g-cat" cx="40%" cy="26%" r="78%"><stop offset="0" stop-color="#D5DCEB"/><stop offset=".6" stop-color="#9AA6C0"/><stop offset="1" stop-color="#606C88"/></radialGradient>
+    <radialGradient id="g-uni" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".65" stop-color="#F6F0FF"/><stop offset="1" stop-color="#D6C9EE"/></radialGradient>
+    <linearGradient id="g-horn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF3B0"/><stop offset="1" stop-color="#F2B52A"/></linearGradient>
+    <linearGradient id="g-beak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27E"/><stop offset="1" stop-color="#F29A1F"/></linearGradient>
+    <radialGradient id="g-cheek"><stop offset="0" stop-color="#FF7FA6" stop-opacity=".65"/><stop offset="1" stop-color="#FF7FA6" stop-opacity="0"/></radialGradient>
+  </defs>
+</svg>
+
+<div id="app" class="wrap"></div>
+<div id="fx" aria-hidden="true"></div>
+<div id="toast" role="status" hidden></div>
+
+<script>
+/* =====================================================================
+   NUMBER BUDDIES / TALVENNERNE
+   How to extend later (times tables, sharing/division, ...):
+   1. In TOPICS, remove `soon:true` from a topic and give it `levels`
+      (each level: { id, examples:[problem], problems:[...] }).
+      A problem is { a, b, op } (op is '+', '-', 'x' or '÷'), optional missing:'b'.
+   2. Add the level texts (title, goal, what, why) to I18N.en.levels and
+      I18N.da.levels under the same id.
+   3. Add an explainer in EXPLAIN (keyed by strategy name), its sentences in
+      I18N.<lang>.ex, and teach chooseStrategy() when to use it.
+   ===================================================================== */
+
+const M = '−';
+const $ = (s, r = document) => r.querySelector(s);
+const rep = (c, n) => Array.from({ length: Math.max(0, n) }, () => c);
+const range = (a, b) => { const r = []; for (let i = a; i <= b; i++) r.push(i); return r; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cap = s => s[0].toUpperCase() + s.slice(1);
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const shuffle = arr => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const digits = (n, N) => Array.from({ length: N }, (_, i) => Math.floor(n / 10 ** i) % 10);
+const P = (a, b, op, extra) => ({ a, b, op, ...(extra || {}) });
+const list = (a, b) => range(a, b).join(', ');
+
+/* ---------- saved progress (this device only) ---------- */
+const KEY = 'numberBuddies.v1';
+let store = { name: '', best: {}, sound: true, lang: '' };
+try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) store = { ...store, ...s }; } catch (e) {}
+if (store.lang !== 'en' && store.lang !== 'da') store.lang = /^da\b/i.test(navigator.language || '') ? 'da' : 'en';
+/* Progress lives in two places: this browser (instant, works offline) and, when the page runs
+   on claude.ai, a private document in the signed-in account (survives cleared Safari data and
+   follows the account to other devices). Only this viewer can read their own document. */
+let cloud = null, cloudBusy = false, cloudDirty = false, cloudTimer = null;
+function save() {
+  store.savedAt = Date.now();
+  try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
+  if (cloud) { clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 600); }
+}
+async function pushCloud() {
+  if (!cloud) return;
+  if (cloudBusy) { cloudDirty = true; return; }
+  cloudBusy = true;
+  try { await cloud.set(JSON.parse(JSON.stringify(store))); }
+  catch (e) {
+    const c = e && e.code;
+    if (c === 'unavailable') { cloudDirty = true; await new Promise(r => setTimeout(r, 1500 + Math.random() * 1000)); }
+    else if (c !== 'resource_exhausted') cloud = null; // no write access in this view: keep using this device only
+  }
+  cloudBusy = false;
+  if (cloudDirty && cloud) { cloudDirty = false; pushCloud(); }
+}
+function mergeRemote(r) {
+  if ((r.resetAt || 0) > (store.savedAt || 0)) { store = { ...store, ...r }; return; }
+  if ((store.resetAt || 0) > (r.savedAt || 0)) return;
+  const best = { ...(r.best || {}) };
+  for (const [k, v] of Object.entries(store.best || {})) best[k] = Math.max(best[k] || 0, v);
+  const newer = (r.savedAt || 0) > (store.savedAt || 0);
+  store = {
+    ...store, best,
+    name: newer ? (r.name || store.name || '') : (store.name || r.name || ''),
+    lang: newer && (r.lang === 'en' || r.lang === 'da') ? r.lang : store.lang,
+    sound: newer && typeof r.sound === 'boolean' ? r.sound : store.sound,
+    round: newer ? (r.round || null) : (store.round || null)
+  };
+}
+async function connectCloud() {
+  try {
+    if (!window.claude || !window.claude.use) return;
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    const uid = user ? await user.id() : null;
+    if (!db || !uid) return;
+    const ref = db.doc('data/users/' + uid + '/progress');
+    const snap = await ref.get();
+    const before = JSON.stringify(store);
+    if (snap.exists) mergeRemote(snap.data());
+    cloud = ref;
+    save();
+    if (JSON.stringify({ ...store, savedAt: 0 }) !== JSON.stringify({ ...JSON.parse(before), savedAt: 0 })) refreshAfterSync(JSON.parse(before).lang);
+    const note = document.getElementById('sync-note'); if (note) note.textContent = tr().syncCloud;
+  } catch (e) {}
+}
+
+/* =====================================================================
+   TEXT — English and Danish
+   ===================================================================== */
+const I18N = {
+  en: {
+    brand: 'Number Buddies',
+    teachers: { hoot: 'Professor Hoot', daisy: 'Miss Daisy', whiskers: 'Mr Whiskers', sparkle: 'Sparkle' },
+    topics: { add: 'Adding', sub: 'Taking away', mul: 'Times tables', div: 'Sharing' },
+    helloName: n => `Hello, ${n}!`, helloAnon: 'Hello, maths explorer!',
+    heroIntro: "We'll show you <b>what</b> to do and <b>why</b> it works. Pick a subject to begin.",
+    askName: "What's your name?", namePh: 'Type your name', save: 'Save', helloSpoken: n => `Hello ${n}! Pick a subject to begin.`,
+    chooseSubject: 'Choose a subject', withTeacher: n => `with ${n}`, soon: 'Coming soon',
+    topicMeta: (s, m, n) => `${s} of ${m} stars · ${n} levels`,
+    mixedTitle: 'Mixed challenge', mixedText: '10 surprise questions, adding and taking away.', letsGo: "Let's go",
+    grownups: 'For grown-ups',
+    gu: ['There are 100 questions in 10 levels, matched to Year 3: adding and taking away within 10 and 20, then 2-digit numbers, then 3-digit column methods with carrying and exchanging.',
+      'Each level starts with a short lesson that shows <b>what</b> to do and <b>why</b> it works. During practice, a wrong answer gets one more try; after the second, the teacher walks through the steps. Stars count answers right on the first try (9+ = 3 stars, 7+ = 2 stars).',
+      'Turn on the voice (speaker button, top right) so the teachers read everything aloud. Switch between English and Danish with the EN/DA button.'],
+    syncCloud: 'Progress is saved to your Claude account, so it is kept even if browser data is cleared, and it follows the account to other devices. An unfinished round carries on where it stopped.',
+    syncLocal: 'Progress is saved in this browser on this device. An unfinished round carries on where it stopped.',
+    resumeTitle: 'Carry on where you stopped', resumeText: (t, i, n) => `${t}: question ${i} of ${n}.`, resumeBtn: 'Continue',
+    resetBtn: 'Reset progress', resetAsk: 'Clear all stars and the saved name?', resetYes: 'Yes, reset', resetNo: 'Keep progress', resetDone: 'Progress reset.',
+    allSubjects: 'All subjects',
+    topicIntro: { add: 'Hoot hoot! Adding is putting groups together. Start at level 1, then climb up when you feel ready.',
+      sub: 'Woof! Taking away means finding what is left. Start at level 1 and work your way up.' },
+    startHere: 'Start here', learn: 'Learn', practise: 'Practise', levelN: n => `Level ${n}`, starsOf: n => `${n} of 3 stars`, starsAria: n => `${n} stars`,
+    whyWorks: 'Why it works', tryTogether: 'Let’s try one together', start10: 'Start 10 questions', biggerOne: "Now let's try a bigger one!",
+    stop: 'Stop', questionN: (i, n) => `Question ${i} of ${n}`,
+    greetFirst: n => n ? `Ready, ${n}? Here's your first one.` : "Ready? Here's your first one.",
+    greetNext: ['Here comes the next one.', 'Try this one.', 'Next question!', 'Have a go at this.'],
+    showHow: 'Show me how', check: 'Check', nextQ: 'Next question', seeStars: 'See my stars', clear: 'Clear', delLast: 'Delete last digit',
+    typeFirst: 'Type your answer with the number buttons first.',
+    praise: n => [`Brilliant${n}!`, `You got it${n}!`, 'Super thinking!', 'That is right!', 'Fantastic!', 'Spot on!'],
+    praiseHelp: ['Yes! You worked it out.', 'That is right. Great effort!', 'You did it! Practice makes it easier every time.'],
+    retry: ['Nearly! Have another go.', 'Not quite yet. Try again, you can do it!', 'Good try! Check it once more.'], orShow: ' Or tap "Show me how".',
+    together: "That's okay. Let's work it out together, step by step.",
+    howTitle: q => `How to work out ${q}`, nextStep: 'Next step', back: 'Back', typeAnswer: 'Now type your answer', sayAgain: 'Say it again',
+    head: ['Well done for finishing!', 'Great work!', 'Superstar!'],
+    msg: [f => `You got ${f} out of 10 right first time. Every try makes your brain stronger. Have another look at the lesson, then try again.`,
+      f => `You got ${f} out of 10 right first time. A little more practice and you'll have 3 stars.`,
+      f => `You got ${f} out of 10 right first time. You really understand this.`],
+    newBest: ' New best!', nextLevel: 'Next level', playAgain: 'Play again', seeLesson: 'See the lesson', home: 'Home',
+    soonToast: (t, x) => `${t} is still getting ${x.toLowerCase()} ready. Coming soon!`,
+    voiceOn: 'Voice is on!', voiceOffLabel: 'Turn voice off', voiceOnLabel: 'Turn voice on', language: 'Language',
+    askQ: (q, missing) => missing ? q : `${q} equals?`,
+    place: ['ones', 'tens', 'hundreds', 'thousands'], one: ['one', 'ten', 'hundred', 'thousand'], lab: ['O', 'T', 'H', 'Th'],
+    tensW: n => n === 1 ? '1 ten' : `${n} tens`, onesW: n => n === 1 ? '1 one' : `${n} ones`,
+    tensLbl: 'tens', onesLbl: 'ones', checkLbl: 'check', numberLine: 'Number line', colAdd: 'Column addition', colSub: 'Column subtraction',
+    blocksAria: (n, h, t, o) => `${n}: ${h ? h + ' hundreds, ' : ''}${t} tens and ${o} ones`, splitAria: (w, a, b) => `${w} split into ${a} and ${b}`,
+    levels: {
+      a1: { title: 'Counting on', goal: 'Add numbers up to 10', what: 'When we add, we put two groups together. Start with one number in your head and count on.', why: 'If you start with the bigger number you only need to count a few more. It is quicker and there are fewer chances to slip.' },
+      a2: { title: 'Friends of 10', goal: 'Pairs that make 10', what: 'Some pairs of numbers fit together to make exactly 10, like 7 and 3. We call them friends of 10.', why: 'Ten is the most useful number in maths. When you know the pairs that make 10 by heart, lots of bigger sums become easy.' },
+      a3: { title: 'Make a ten', goal: 'Add numbers that go past 10', what: 'When a sum goes past 10, fill up a ten first. Then add on what is left.', why: 'Adding to 10 is easy: 10 + 3 is 13. So we turn one tricky sum into two easy ones by making 10 first.' },
+      a4: { title: 'Tens and ones', goal: 'Add to 2-digit numbers', what: 'A 2-digit number is made of tens and ones. 34 is 3 tens and 4 ones. Look at which part changes when you add.', why: 'Tens and ones are different sizes, like long sticks and little cubes. When you add ones, only the ones change, unless they go past the next ten.' },
+      a5: { title: 'Big number sums', goal: '2-digit and 3-digit adding', what: 'Split bigger numbers into tens and ones, or write them in columns: hundreds, tens and ones.', why: 'Adding each column on its own keeps big sums neat. When a column makes 10 or more, the extra ten moves to the next column. That is called carrying.' },
+      s1: { title: 'Taking away', goal: 'Subtract within 10', what: 'Taking away means starting with a group and removing some. We find how many are left.', why: 'Crossing things out lets you see exactly what is left. And you can always check by adding back: what is left plus what you took away gives the start number.' },
+      s2: { title: 'Back to ten', goal: 'Subtract within 20', what: 'When you take away past 10, jump back to 10 first. Then jump back the rest.', why: 'Stopping at 10 breaks one big tricky jump into two small easy jumps, and taking away from 10 uses your friends of 10.' },
+      s3: { title: 'Tens and ones', goal: 'Subtract from 2-digit numbers', what: 'Look at the number you take away. Is it ones or tens? Then decide which part of the big number changes.', why: 'Taking away 3 only changes the ones. Taking away 30 only changes the tens. If the ones run out, stop at the ten on the way.' },
+      s4: { title: 'Tens first', goal: '2-digit take away 2-digit', what: 'Split the number you take away into tens and ones. Take away the tens first, then the ones.', why: 'Two small jumps are easier than one big one. Taking the tens first keeps the ones jump small, and adding back is a great way to check.' },
+      s5: { title: 'Column subtraction', goal: '3-digit with exchanging', what: 'Write the numbers in columns and start with the ones. If the top digit is too small, exchange 1 from the next column.', why: 'Exchanging swaps 1 ten for 10 ones (or 1 hundred for 10 tens). The number stays the same, it is just shared out differently so we can take away.' }
+    },
+    ex: {
+      countOn: {
+        s1: (a, b) => `Let's work out ${a} + ${b}. Adding means putting groups together to find how many altogether.`,
+        trick: (big, small) => `Here's a trick: start with the bigger number, ${big}. Then you only need to count on ${small}.`,
+        count: (big, small, l) => `Hold ${big} in your head and count on ${small}: ${l}.`,
+        land: (a, b, s) => `We landed on ${s}. So ${a} + ${b} = ${s}!`,
+        why: 'Counting on from the bigger number is quicker than counting everything from 1.' },
+      bond10: {
+        s1: (q, a) => `${q}. A ten frame has 10 spaces. ${a} of them are full.`,
+        s2: (l, b) => `Count the empty spaces: ${l}. That is ${b} more to fill.`,
+        s3: (a, b) => `So ${a} + ${b} = 10. ${a} and ${b} are friends of 10!`,
+        why: 'The friends of 10 are 1 and 9, 2 and 8, 3 and 7, 4 and 6, and 5 and 5. Knowing them by heart makes bigger sums much easier.' },
+      bridgeAdd: {
+        s1: (a, b, ten, big, swap) => `${a} + ${b} goes past ${ten}, so let's use ${ten} as a stepping stone.${swap ? ` We start with the bigger number, ${big}.` : ''}`,
+        s2: (big, need, ten, small, rest) => `${big} needs ${need} more to make ${ten}. So we split ${small} into ${need} and ${rest}.`,
+        s3: (big, need, ten) => `First: ${big} + ${need} = ${ten}.`,
+        s4: (ten, rest, s) => `Then: ${ten} + ${rest} = ${s}. Adding to a ten is easy!`,
+        s5: (a, b, s) => `So ${a} + ${b} = ${s}.`,
+        why: ten => `Tens are friendly numbers. Making ${ten} first turns one tricky sum into two easy ones.` },
+      onesAdd: {
+        s1: (big, t, o, small) => `${big} is ${t === 1 ? '1 ten' : t + ' tens'} and ${o} ones. We are adding ${small} ones.`,
+        s2: (o, small, t) => `Only the ones change: ${o} + ${small} = ${o + small}. The ${t} tens stay the same.`,
+        s3: (a, b, s) => `So ${a} + ${b} = ${s}.`,
+        why: 'When you add a few ones and they do not go past 9, the tens stay put. Only the ones digit changes.' },
+      tensAdd: {
+        s1: (a, b) => `${a} is ${a / 10} tens and ${b} is ${b / 10} tens.`,
+        s2: (x, y, z) => `${x} tens + ${y} tens = ${z} tens. It's just like ${x} + ${y} = ${z}!`,
+        s3: (a, b, s) => `${s / 10} tens is ${s}. So ${a} + ${b} = ${s}.`,
+        why: 'Adding tens works like adding small numbers. You are counting tens instead of ones.' },
+      placeAdd: {
+        s1: (a, aT, aO, b, bT, bO) => `Split both numbers into tens and ones: ${a} = ${aT} + ${aO} and ${b} = ${bT} + ${bO}.`,
+        s2: (x, y, z) => `Add the tens: ${x} + ${y} = ${z}.`,
+        s3: (x, y, z) => `Add the ones: ${x} + ${y} = ${z}.${z >= 10 ? ` That's more than 9 ones, so 10 of them make a new ten: ${z} = 10 + ${z - 10}.` : ''}`,
+        s4: (T, O, s) => `Put them back together: ${T} + ${O} = ${s}.`,
+        why: 'Tens and ones are different sizes, like long sticks and tiny cubes. Adding each kind on its own keeps everything tidy.' },
+      columnAdd: {
+        s1: 'Write the numbers in columns: hundreds (H), tens (T) and ones (O). Line the digits up carefully.',
+        carryOver: i => `The carried 1 moves into the ${I18N.en.place[i]} column. Write 1.`,
+        col: (i, x, y, c, t) => `${cap(I18N.en.place[i])}: ${x} + ${y}${c ? ' + 1 carried' : ''} = ${t}.`,
+        carry: (i, t) => ` That's 10 or more, so write ${t % 10} and carry 1 to the ${I18N.en.place[i + 1]}.`,
+        write: t => ` Write ${t}.`,
+        end: (a, b, s) => `So ${a} + ${b} = ${s}.`,
+        why: 'We always start with the ones. If they make 10 or more, the extra ten moves into the tens column. That is called carrying.' },
+      takeAway: {
+        s1: (a, b) => `${a} ${M} ${b} means: start with ${a}, then take ${b} away.`,
+        s2: b => `Cross out ${b}.`,
+        left: (l, d) => `Count what is left: ${l}. There ${d === 1 ? 'is 1' : 'are ' + d} left.`,
+        none: (a, b) => `Nothing is left! ${a} take away ${b} is 0.`,
+        end: (a, b, d) => `So ${a} ${M} ${b} = ${d}. Check: ${d} + ${b} = ${a}.`,
+        why: 'Taking away means finding how many are left. You can check by adding back: what is left plus what you took away gives the start number.' },
+      onesSub: {
+        s1: (a, t, o) => `${a} is ${t === 1 ? '1 ten' : t + ' tens'} and ${o} ones.`,
+        s2: (b, o) => `Take ${b} away from the ones: ${o} ${M} ${b} = ${o - b}. The tens don't change.`,
+        end: (a, b, d) => `So ${a} ${M} ${b} = ${d}.`,
+        why: 'When there are enough ones to take away, only the ones change. The tens stay the same.' },
+      bridgeSub: {
+        s1: (a, b, ten) => `${a} ${M} ${b} is a tricky jump, so let's stop at ${ten} on the way.`,
+        s2: (b, down, rest, ten) => `Split ${b} into ${down} and ${rest}. The ${down} gets us to ${ten}.`,
+        s3: (a, down, ten) => `First, jump back ${down}: ${a} ${M} ${down} = ${ten}.`,
+        s4: (ten, rest, d) => `Then jump back ${rest} more: ${ten} ${M} ${rest} = ${d}.`,
+        end: (a, b, d) => `So ${a} ${M} ${b} = ${d}. Check: ${d} + ${b} = ${a}.`,
+        why: 'Stopping at a ten breaks one big tricky jump into two small easy jumps.' },
+      tensSub: {
+        s1: (a, b, at, bt) => `${b} is ${bt} tens, so only the tens will change. ${a} has ${at} tens.`,
+        s2: (at, bt) => `${at} tens take away ${bt} tens leaves ${at - bt} tens. It's just like ${at} ${M} ${bt} = ${at - bt}!`,
+        end: (a, b, d) => `So ${a} ${M} ${b} = ${d}.`,
+        why: (at, bt) => `Taking away tens works like taking away small numbers. ${at} ${M} ${bt} = ${at - bt}, so ${at} tens ${M} ${bt} tens = ${at - bt} tens.` },
+      placeSub: {
+        s1: (a, b, bT, bO) => `${a} ${M} ${b}. Split ${b} into tens and ones: ${bT} and ${bO}.`,
+        s2: (a, bT, x) => `Take away the tens first: ${a} ${M} ${bT} = ${x}.`,
+        ones: (x, bO, d) => `Now take away the ones: ${x} ${M} ${bO} = ${d}.`,
+        bridge: (bO, down, ten, rest, d) => `Now take away ${bO} ones. Jump back ${down} to ${ten}, then ${rest} more to ${d}.`,
+        end: (a, b, d) => `So ${a} ${M} ${b} = ${d}. Check by adding: ${d} + ${b} = ${a}.`,
+        why: 'Taking away the tens first, then the ones, keeps every jump small. Adding the answer back is a great way to check.' },
+      columnSub: {
+        s1: 'Write the numbers in columns with the bigger number on top. Start with the ones.',
+        exchange: (i, bot, was, before, after, now) => { const P = I18N.en.place, O = I18N.en.one; return `${cap(P[i])}: we can't take ${bot} from ${was}. Exchange 1 ${O[i + 1]} for 10 ${P[i]}. The ${P[i + 1]} go from ${before} to ${after}, and the ${P[i]} go from ${was} to ${now}.`; },
+        col: (i, t, b, r) => `${cap(I18N.en.place[i])}: ${t} ${M} ${b} = ${r}. Write ${r}.`,
+        end: (a, b, d) => `So ${a} ${M} ${b} = ${d}. Check: ${d} + ${b} = ${a}.`,
+        why: 'When the top digit is too small, we swap 1 from the next column for 10 in this column. The number is still the same, it is just shared out differently.' }
+    }
+  },
+
+  da: {
+    brand: 'Talvennerne',
+    teachers: { hoot: 'Professor Uhu', daisy: 'Frøken Daisy', whiskers: 'Hr. Knurhår', sparkle: 'Glimmer' },
+    topics: { add: 'Plus', sub: 'Minus', mul: 'Gangetabeller', div: 'Division' },
+    helloName: n => `Hej, ${n}!`, helloAnon: 'Hej, matematikopdager!',
+    heroIntro: 'Vi viser dig, <b>hvad</b> du skal gøre, og <b>hvorfor</b> det virker. Vælg et emne for at starte.',
+    askName: 'Hvad hedder du?', namePh: 'Skriv dit navn', save: 'Gem', helloSpoken: n => `Hej ${n}! Vælg et emne for at starte.`,
+    chooseSubject: 'Vælg et emne', withTeacher: n => `med ${n}`, soon: 'Kommer snart',
+    topicMeta: (s, m, n) => `${s} af ${m} stjerner · ${n} niveauer`,
+    mixedTitle: 'Blandet udfordring', mixedText: '10 overraskelsesopgaver med plus og minus.', letsGo: 'Kom så',
+    grownups: 'Til voksne',
+    gu: ['Der er 100 opgaver fordelt på 10 niveauer, der passer til 3. klasse: plus og minus inden for 10 og 20, derefter tocifrede tal og til sidst trecifrede tal i opstilling med mente og veksling.',
+      'Hvert niveau starter med en kort lektion, der viser, <b>hvad</b> man skal gøre, og <b>hvorfor</b> det virker. Ved et forkert svar får barnet et forsøg mere; efter andet forkerte svar gennemgår læreren trinene. Stjerner gives for svar, der er rigtige i første forsøg (9+ = 3 stjerner, 7+ = 2 stjerner).',
+      'Tænd for stemmen (højttalerknappen øverst til højre), så lærerne læser alt højt. Skift mellem engelsk og dansk med EN/DA-knappen.'],
+    syncCloud: 'Fremskridt gemmes på din Claude-konto, så det bevares, selv hvis browserdata slettes, og det følger kontoen til andre enheder. En runde, der ikke er gjort færdig, fortsætter, hvor den slap.',
+    syncLocal: 'Fremskridt gemmes i denne browser på denne enhed. En runde, der ikke er gjort færdig, fortsætter, hvor den slap.',
+    resumeTitle: 'Fortsæt hvor du slap', resumeText: (t, i, n) => `${t}: opgave ${i} af ${n}.`, resumeBtn: 'Fortsæt',
+    resetBtn: 'Nulstil fremskridt', resetAsk: 'Slet alle stjerner og det gemte navn?', resetYes: 'Ja, nulstil', resetNo: 'Behold', resetDone: 'Fremskridt nulstillet.',
+    allSubjects: 'Alle emner',
+    topicIntro: { add: 'Uhu! At lægge sammen er at samle grupper. Start på niveau 1, og gå videre, når du er klar.',
+      sub: 'Vuf! At trække fra betyder at finde ud af, hvad der er tilbage. Start på niveau 1, og arbejd dig op.' },
+    startHere: 'Start her', learn: 'Lær', practise: 'Øv', levelN: n => `Niveau ${n}`, starsOf: n => `${n} af 3 stjerner`, starsAria: n => `${n} stjerner`,
+    whyWorks: 'Hvorfor det virker', tryTogether: 'Lad os prøve et sammen', start10: 'Start 10 opgaver', biggerOne: 'Nu prøver vi et større regnestykke!',
+    stop: 'Stop', questionN: (i, n) => `Opgave ${i} af ${n}`,
+    greetFirst: n => n ? `Klar, ${n}? Her er den første.` : 'Klar? Her er den første.',
+    greetNext: ['Her kommer den næste.', 'Prøv den her.', 'Næste opgave!', 'Giv den her et forsøg.'],
+    showHow: 'Vis mig hvordan', check: 'Tjek', nextQ: 'Næste opgave', seeStars: 'Se mine stjerner', clear: 'Slet', delLast: 'Slet sidste ciffer',
+    typeFirst: 'Skriv først dit svar med talknapperne.',
+    praise: n => [`Flot${n}!`, `Du klarede det${n}!`, 'Super tænkt!', 'Det er rigtigt!', 'Fantastisk!', 'Helt rigtigt!'],
+    praiseHelp: ['Ja! Du regnede den ud.', 'Det er rigtigt. Flot kæmpet!', 'Du klarede det! Det bliver lettere, hver gang du øver dig.'],
+    retry: ['Næsten! Prøv igen.', 'Ikke helt endnu. Prøv igen, du kan godt!', 'Godt forsøg! Tjek det en gang til.'], orShow: ' Eller tryk på "Vis mig hvordan".',
+    together: 'Det gør ikke noget. Lad os regne den ud sammen, trin for trin.',
+    howTitle: q => `Sådan regner du ${q}`, nextStep: 'Næste trin', back: 'Tilbage', typeAnswer: 'Skriv nu dit svar', sayAgain: 'Sig det igen',
+    head: ['Godt gået, du blev færdig!', 'Godt arbejde!', 'Superstjerne!'],
+    msg: [f => `Du fik ${f} ud af 10 rigtige i første forsøg. Hver gang du prøver, bliver din hjerne stærkere. Se lektionen igen, og prøv så en gang til.`,
+      f => `Du fik ${f} ud af 10 rigtige i første forsøg. Lidt mere øvelse, så får du 3 stjerner.`,
+      f => `Du fik ${f} ud af 10 rigtige i første forsøg. Du forstår det virkelig.`],
+    newBest: ' Ny rekord!', nextLevel: 'Næste niveau', playAgain: 'Spil igen', seeLesson: 'Se lektionen', home: 'Forside',
+    soonToast: (t, x) => `${t} er stadig ved at gøre ${x.toLowerCase()} klar. Kommer snart!`,
+    voiceOn: 'Stemmen er tændt!', voiceOffLabel: 'Sluk for stemmen', voiceOnLabel: 'Tænd for stemmen', language: 'Sprog',
+    askQ: (q, missing) => missing ? q : `${q} er lig med hvad?`,
+    place: ['enere', 'tiere', 'hundreder', 'tusinder'], one: ['ener', 'tier', 'hundreder', 'tusinder'], def: ['enerne', 'tierne', 'hundrederne', 'tusinderne'], lab: ['E', 'T', 'H', 'Tu'],
+    tensLbl: 'tiere', onesLbl: 'enere', checkLbl: 'tjek', numberLine: 'Tallinje', colAdd: 'Plus i opstilling', colSub: 'Minus i opstilling',
+    blocksAria: (n, h, t, o) => `${n}: ${h ? h + ' hundreder, ' : ''}${t} tiere og ${o} enere`, splitAria: (w, a, b) => `${w} delt op i ${a} og ${b}`,
+    levels: {
+      a1: { title: 'Tæl videre', goal: 'Læg tal sammen op til 10', what: 'Når vi lægger sammen, samler vi to grupper. Start med det ene tal i hovedet, og tæl videre.', why: 'Hvis du starter med det største tal, skal du kun tælle lidt videre. Det går hurtigere, og der er færre chancer for at tælle forkert.' },
+      a2: { title: 'Tiervenner', goal: 'Par der giver 10', what: 'Nogle tal passer sammen og giver præcis 10, som 7 og 3. Dem kalder vi tiervenner.', why: '10 er det mest nyttige tal i matematik. Når du kan de par, der giver 10, udenad, bliver mange større regnestykker lette.' },
+      a3: { title: 'Lav en tier', goal: 'Læg sammen forbi 10', what: 'Når et regnestykke går forbi 10, fylder du først en tier op. Så lægger du resten til.', why: 'Det er let at lægge til 10: 10 + 3 er 13. Så vi laver ét svært regnestykke om til to lette ved at lave 10 først.' },
+      a4: { title: 'Tiere og enere', goal: 'Læg til tocifrede tal', what: 'Et tocifret tal består af tiere og enere. 34 er 3 tiere og 4 enere. Se efter, hvilken del der ændrer sig, når du lægger til.', why: 'Tiere og enere har forskellig størrelse, ligesom lange stænger og små terninger. Når du lægger enere til, ændrer kun enerne sig, medmindre de går forbi næste tier.' },
+      a5: { title: 'Store plusstykker', goal: 'Plus med to- og trecifrede tal', what: 'Del store tal op i tiere og enere, eller stil dem op under hinanden: hundreder, tiere og enere.', why: 'Når du regner hver kolonne for sig, bliver store regnestykker overskuelige. Hvis en kolonne giver 10 eller mere, flytter den ekstra tier over i næste kolonne. Det kalder man at have 1 i mente.' },
+      s1: { title: 'Tag væk', goal: 'Træk fra inden for 10', what: 'At trække fra betyder at starte med en gruppe og tage nogle væk. Vi finder ud af, hvor mange der er tilbage.', why: 'Når du streger ud, kan du se præcis, hvad der er tilbage. Og du kan altid tjekke ved at lægge tilbage: det, der er tilbage, plus det, du tog væk, giver starttallet.' },
+      s2: { title: 'Tilbage til 10', goal: 'Træk fra inden for 20', what: 'Når du trækker fra forbi 10, hopper du først tilbage til 10. Så hopper du resten tilbage.', why: 'Når du stopper ved 10, bliver ét stort svært hop til to små lette hop, og du kan bruge dine tiervenner.' },
+      s3: { title: 'Tiere og enere', goal: 'Træk fra tocifrede tal', what: 'Se på det tal, du trækker fra. Er det enere eller tiere? Så ved du, hvilken del af det store tal der ændrer sig.', why: 'Når du trækker 3 fra, ændrer kun enerne sig. Når du trækker 30 fra, ændrer kun tierne sig. Hvis enerne slipper op, stopper du ved tieren på vejen.' },
+      s4: { title: 'Tiere først', goal: 'Tocifret minus tocifret', what: 'Del det tal, du trækker fra, op i tiere og enere. Træk tierne fra først og derefter enerne.', why: 'To små hop er lettere end ét stort. Når du tager tierne først, bliver enerhoppet lille, og du kan tjekke ved at lægge sammen.' },
+      s5: { title: 'Minus i opstilling', goal: 'Trecifrede tal med veksling', what: 'Stil tallene op under hinanden, og start med enerne. Hvis det øverste ciffer er for lille, veksler du 1 fra næste kolonne.', why: 'Når du veksler, bytter du 1 tier til 10 enere (eller 1 hundreder til 10 tiere). Tallet er det samme, det er bare delt anderledes op, så vi kan trække fra.' }
+    },
+    ex: {
+      countOn: {
+        s1: (a, b) => `Lad os regne ${a} + ${b} ud. At lægge sammen betyder at samle grupper og finde ud af, hvor mange der er i alt.`,
+        trick: (big, small) => `Her er et trick: Start med det største tal, ${big}. Så skal du kun tælle ${small} videre.`,
+        count: (big, small, l) => `Hold ${big} i hovedet, og tæl ${small} videre: ${l}.`,
+        land: (a, b, s) => `Vi landede på ${s}. Så er ${a} + ${b} = ${s}!`,
+        why: 'Det er hurtigere at tælle videre fra det største tal end at tælle det hele fra 1.' },
+      bond10: {
+        s1: (q, a) => `${q}. En tierramme har 10 pladser. ${a} af dem er fyldt.`,
+        s2: (l, b) => `Tæl de tomme pladser: ${l}. Der mangler ${b}.`,
+        s3: (a, b) => `Så er ${a} + ${b} = 10. ${a} og ${b} er tiervenner!`,
+        why: 'Tiervennerne er 1 og 9, 2 og 8, 3 og 7, 4 og 6 og 5 og 5. Når du kan dem udenad, bliver større regnestykker meget lettere.' },
+      bridgeAdd: {
+        s1: (a, b, ten, big, swap) => `${a} + ${b} går forbi ${ten}, så vi bruger ${ten} som trædesten.${swap ? ` Vi starter med det største tal, ${big}.` : ''}`,
+        s2: (big, need, ten, small, rest) => `${big} mangler ${need} for at blive ${ten}. Så vi deler ${small} op i ${need} og ${rest}.`,
+        s3: (big, need, ten) => `Først: ${big} + ${need} = ${ten}.`,
+        s4: (ten, rest, s) => `Så: ${ten} + ${rest} = ${s}. Det er nemt at lægge til et helt tiertal!`,
+        s5: (a, b, s) => `Så er ${a} + ${b} = ${s}.`,
+        why: ten => `Tiere er venlige tal. Når vi laver ${ten} først, bliver ét svært regnestykke til to lette.` },
+      onesAdd: {
+        s1: (big, t, o, small) => `${big} er ${t === 1 ? '1 tier' : t + ' tiere'} og ${o} enere. Vi lægger ${small} enere til.`,
+        s2: (o, small, t) => `Kun enerne ændrer sig: ${o} + ${small} = ${o + small}. Der er stadig ${t} tiere.`,
+        s3: (a, b, s) => `Så er ${a} + ${b} = ${s}.`,
+        why: 'Når du lægger nogle få enere til, og de ikke kommer over 9, er tierne de samme. Det er kun enercifferet, der ændrer sig.' },
+      tensAdd: {
+        s1: (a, b) => `${a} er ${a / 10} tiere, og ${b} er ${b / 10} tiere.`,
+        s2: (x, y, z) => `${x} tiere + ${y} tiere = ${z} tiere. Det er ligesom ${x} + ${y} = ${z}!`,
+        s3: (a, b, s) => `${s / 10} tiere er ${s}. Så er ${a} + ${b} = ${s}.`,
+        why: 'At lægge tiere sammen er ligesom at lægge små tal sammen. Du tæller bare tiere i stedet for enere.' },
+      placeAdd: {
+        s1: (a, aT, aO, b, bT, bO) => `Del begge tal op i tiere og enere: ${a} = ${aT} + ${aO} og ${b} = ${bT} + ${bO}.`,
+        s2: (x, y, z) => `Læg tierne sammen: ${x} + ${y} = ${z}.`,
+        s3: (x, y, z) => `Læg enerne sammen: ${x} + ${y} = ${z}.${z >= 10 ? ` Det er mere end 9 enere, så 10 af dem bliver til en ny tier: ${z} = 10 + ${z - 10}.` : ''}`,
+        s4: (T, O, s) => `Sæt dem sammen igen: ${T} + ${O} = ${s}.`,
+        why: 'Tiere og enere har forskellig størrelse, ligesom lange stænger og små terninger. Når du lægger hver slags sammen for sig, holder du styr på det hele.' },
+      columnAdd: {
+        s1: 'Stil tallene op under hinanden: hundreder (H), tiere (T) og enere (E). Sørg for, at cifrene står lige under hinanden.',
+        carryOver: i => `Menten på 1 flytter over til ${I18N.da.def[i]}. Skriv 1.`,
+        col: (i, x, y, c, t) => `${cap(I18N.da.def[i])}: ${x} + ${y}${c ? ' + 1 i mente' : ''} = ${t}.`,
+        carry: (i, t) => ` Det er 10 eller mere, så skriv ${t % 10}, og hav 1 i mente over til ${I18N.da.def[i + 1]}.`,
+        write: t => ` Skriv ${t}.`,
+        end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`,
+        why: 'Vi starter altid med enerne. Hvis de giver 10 eller mere, flytter den ekstra tier over i tierkolonnen. Det kalder man at have 1 i mente.' },
+      takeAway: {
+        s1: (a, b) => `${a} ${M} ${b} betyder: Start med ${a}, og tag så ${b} væk.`,
+        s2: b => `Streg ${b} ud.`,
+        left: (l, d) => `Tæl, hvad der er tilbage: ${l}. Der er ${d} tilbage.`,
+        none: (a, b) => `Der er ingenting tilbage! ${a} minus ${b} er 0.`,
+        end: (a, b, d) => `Så er ${a} ${M} ${b} = ${d}. Tjek: ${d} + ${b} = ${a}.`,
+        why: 'At trække fra betyder at finde ud af, hvor mange der er tilbage. Du kan tjekke ved at lægge tilbage: det, der er tilbage, plus det, du tog væk, giver starttallet.' },
+      onesSub: {
+        s1: (a, t, o) => `${a} er ${t === 1 ? '1 tier' : t + ' tiere'} og ${o} enere.`,
+        s2: (b, o) => `Tag ${b} væk fra enerne: ${o} ${M} ${b} = ${o - b}. Tierne ændrer sig ikke.`,
+        end: (a, b, d) => `Så er ${a} ${M} ${b} = ${d}.`,
+        why: 'Når der er enere nok at tage fra, er det kun enerne, der ændrer sig. Tierne er de samme.' },
+      bridgeSub: {
+        s1: (a, b, ten) => `${a} ${M} ${b} er et svært hop, så vi stopper ved ${ten} på vejen.`,
+        s2: (b, down, rest, ten) => `Del ${b} op i ${down} og ${rest}. Med ${down} kommer vi ned til ${ten}.`,
+        s3: (a, down, ten) => `Først hopper vi ${down} tilbage: ${a} ${M} ${down} = ${ten}.`,
+        s4: (ten, rest, d) => `Så hopper vi ${rest} mere tilbage: ${ten} ${M} ${rest} = ${d}.`,
+        end: (a, b, d) => `Så er ${a} ${M} ${b} = ${d}. Tjek: ${d} + ${b} = ${a}.`,
+        why: 'Når vi stopper ved en tier, bliver ét stort svært hop til to små lette hop.' },
+      tensSub: {
+        s1: (a, b, at, bt) => `${b} er ${bt} tiere, så det er kun tierne, der ændrer sig. ${a} har ${at} tiere.`,
+        s2: (at, bt) => `${at} tiere minus ${bt} tiere giver ${at - bt} tiere. Det er ligesom ${at} ${M} ${bt} = ${at - bt}!`,
+        end: (a, b, d) => `Så er ${a} ${M} ${b} = ${d}.`,
+        why: (at, bt) => `At trække tiere fra er ligesom at trække små tal fra. ${at} ${M} ${bt} = ${at - bt}, så ${at} tiere ${M} ${bt} tiere = ${at - bt} tiere.` },
+      placeSub: {
+        s1: (a, b, bT, bO) => `${a} ${M} ${b}. Del ${b} op i tiere og enere: ${bT} og ${bO}.`,
+        s2: (a, bT, x) => `Træk tierne fra først: ${a} ${M} ${bT} = ${x}.`,
+        ones: (x, bO, d) => `Træk nu enerne fra: ${x} ${M} ${bO} = ${d}.`,
+        bridge: (bO, down, ten, rest, d) => `Træk nu ${bO} enere fra. Hop ${down} tilbage til ${ten}, og så ${rest} mere til ${d}.`,
+        end: (a, b, d) => `Så er ${a} ${M} ${b} = ${d}. Tjek ved at lægge sammen: ${d} + ${b} = ${a}.`,
+        why: 'Når du trækker tierne fra først og så enerne, bliver hvert hop lille. Det er en god idé at tjekke ved at lægge svaret til igen.' },
+      columnSub: {
+        s1: 'Stil tallene op under hinanden med det største tal øverst. Start med enerne.',
+        exchange: (i, bot, was, before, after, now) => { const D = I18N.da.def, O = I18N.da.one, Pl = I18N.da.place; return `${cap(D[i])}: Vi kan ikke tage ${bot} fra ${was}. Veksl 1 ${O[i + 1]} til 10 ${Pl[i]}. ${cap(D[i + 1])} går fra ${before} til ${after}, og ${D[i]} går fra ${was} til ${now}.`; },
+        col: (i, t, b, r) => `${cap(I18N.da.def[i])}: ${t} ${M} ${b} = ${r}. Skriv ${r}.`,
+        end: (a, b, d) => `Så er ${a} ${M} ${b} = ${d}. Tjek: ${d} + ${b} = ${a}.`,
+        why: 'Når det øverste ciffer er for lille, veksler vi 1 fra næste kolonne til 10 i denne kolonne. Tallet er stadig det samme, det er bare delt anderledes op.' }
+    }
+  }
+};
+const tr = () => I18N[store.lang];
+
+/* ---------- teachers ---------- */
+function eye(cx, cy, r, iris) {
+  const ir = r * .64, pr = r * .34, oy = cy + r * .08;
+  return `<g class="eye">
+    <g class="eye-open">
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#g-eye)"/>
+      <g class="pupil">
+        <circle cx="${cx}" cy="${oy}" r="${ir}" fill="url(#g-iris-${iris})"/>
+        <circle cx="${cx}" cy="${oy}" r="${pr}" fill="#10131F"/>
+        <circle cx="${cx - ir * .38}" cy="${oy - ir * .38}" r="${r * .21}" fill="#fff"/>
+        <circle cx="${cx + ir * .36}" cy="${oy + ir * .34}" r="${r * .09}" fill="#fff" opacity=".9"/>
+      </g>
+    </g>
+    <path class="eye-joy" d="M${cx - r * .72} ${cy + r * .2} Q${cx} ${cy - r * .8} ${cx + r * .72} ${cy + r * .2}" fill="none" stroke="#2A1B12" stroke-width="${r * .24}" stroke-linecap="round"/>
+  </g>`;
+}
+const shadow = `<ellipse cx="100" cy="203" rx="56" ry="7" fill="#0B1A33" opacity=".14"/>`;
+const cheeks = (x1, x2, y) => `<ellipse cx="${x1}" cy="${y}" rx="13" ry="8" fill="url(#g-cheek)"/><ellipse cx="${x2}" cy="${y}" rx="13" ry="8" fill="url(#g-cheek)"/>`;
+
+const ART = {
+  /* Owl — adding */
+  hoot: () => `${shadow}<g class="bob">
+    <path d="M50 66 L38 22 L80 50 Z" fill="#C2622A"/><path d="M150 66 L162 22 L120 50 Z" fill="#C2622A"/>
+    <ellipse cx="40" cy="132" rx="20" ry="44" fill="#CF6A27" transform="rotate(16 40 132)"/>
+    <ellipse cx="160" cy="132" rx="20" ry="44" fill="#CF6A27" transform="rotate(-16 160 132)"/>
+    <ellipse cx="100" cy="120" rx="67" ry="78" fill="url(#g-owl)"/>
+    <ellipse cx="100" cy="152" rx="43" ry="42" fill="url(#g-owl-belly)"/>
+    <path d="M80 142 q6 6 12 0 M98 142 q6 6 12 0 M89 156 q6 6 12 0 M107 156 q6 6 12 0 M80 170 q6 6 12 0 M98 170 q6 6 12 0" stroke="#E9B675" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="82" cy="196" rx="13" ry="6" fill="#F2A12B"/><ellipse cx="118" cy="196" rx="13" ry="6" fill="#F2A12B"/>
+    <ellipse cx="73" cy="96" rx="31" ry="30" fill="#FFE3C2" opacity=".75"/><ellipse cx="127" cy="96" rx="31" ry="30" fill="#FFE3C2" opacity=".75"/>
+    ${eye(73, 96, 22, 'amber')}${eye(127, 96, 22, 'amber')}
+    <circle cx="73" cy="96" r="27" fill="none" stroke="#4A2F1C" stroke-width="4.5"/><circle cx="127" cy="96" r="27" fill="none" stroke="#4A2F1C" stroke-width="4.5"/>
+    <path d="M97 92 Q100 86 103 92" fill="none" stroke="#4A2F1C" stroke-width="4"/>
+    ${cheeks(50, 150, 124)}
+    <path d="M89 120 Q100 113 111 120 Q105 136 100 139 Q95 136 89 120Z" fill="url(#g-beak)"/>
+    <path class="mouth-joy" d="M93 126 Q100 137 107 126 Z" fill="#8A2E10"/>
+    <g transform="rotate(-8 100 40)"><path d="M58 40 L100 23 L142 40 L100 57Z" fill="#2B3350"/><rect x="80" y="42" width="40" height="13" rx="4" fill="#2B3350"/><path d="M100 40 Q124 44 134 60" stroke="#FFC83D" stroke-width="3" fill="none"/><circle cx="135" cy="63" r="5" fill="#FFC83D"/></g>
+  </g>`,
+  /* Dog — taking away */
+  daisy: () => `${shadow}<g class="bob">
+    <ellipse cx="100" cy="182" rx="50" ry="26" fill="url(#g-dog)"/>
+    <ellipse cx="78" cy="200" rx="14" ry="7" fill="#F6E3CB"/><ellipse cx="122" cy="200" rx="14" ry="7" fill="#F6E3CB"/>
+    <path d="M58 158 Q100 178 142 158 L140 170 Q100 190 60 170Z" fill="#F0559A"/>
+    <circle cx="100" cy="181" r="7" fill="#FFC83D" stroke="#E0A21B" stroke-width="2"/>
+    <ellipse cx="100" cy="112" rx="60" ry="54" fill="url(#g-dog)"/>
+    <ellipse cx="124" cy="104" rx="24" ry="22" fill="#C98A4E" opacity=".55"/>
+    <path d="M56 78 C30 80 22 126 32 150 C40 164 58 154 62 134 C66 112 68 90 56 78Z" fill="url(#g-dog-ear)"/>
+    <path d="M144 78 C170 80 178 126 168 150 C160 164 142 154 138 134 C134 112 132 90 144 78Z" fill="url(#g-dog-ear)"/>
+    <ellipse cx="100" cy="140" rx="33" ry="24" fill="url(#g-dog-muzzle)"/>
+    ${eye(79, 106, 18, 'brown')}${eye(121, 106, 18, 'brown')}
+    <path d="M66 86 Q78 80 90 86 M110 86 Q122 80 134 86" stroke="#7A4A26" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    ${cheeks(62, 138, 132)}
+    <ellipse cx="100" cy="131" rx="11" ry="8" fill="#2A1B14"/><ellipse cx="96" cy="128" rx="4" ry="2.5" fill="#fff" opacity=".7"/>
+    <g class="mouth-calm"><path d="M100 139 L100 145 M88 144 Q94 152 100 145 Q106 152 112 144" stroke="#4A2A1A" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+    <g class="mouth-joy"><path d="M100 139 L100 144" stroke="#4A2A1A" stroke-width="3" stroke-linecap="round"/><path d="M86 144 Q100 170 114 144 Z" fill="#7A2033"/><ellipse cx="100" cy="158" rx="8" ry="6" fill="#FF8FB3"/></g>
+    <g transform="translate(70 62) rotate(-18)"><path d="M0 0 L-16 -10 L-16 10 Z M0 0 L16 -10 L16 10 Z" fill="#F0559A"/><circle r="5" fill="#FF8FB3"/></g>
+  </g>`,
+  /* Cat — times tables */
+  whiskers: () => `${shadow}<g class="bob">
+    <path d="M140 188 C188 186 190 132 168 120" stroke="#7C88A4" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <ellipse cx="100" cy="180" rx="46" ry="28" fill="url(#g-cat)"/>
+    <ellipse cx="82" cy="202" rx="13" ry="6" fill="#E8ECF5"/><ellipse cx="118" cy="202" rx="13" ry="6" fill="#E8ECF5"/>
+    <path d="M46 96 L50 38 L90 66 Z" fill="url(#g-cat)"/><path d="M56 84 L57 52 L80 68Z" fill="#FFB3C8"/>
+    <path d="M154 96 L150 38 L110 66 Z" fill="url(#g-cat)"/><path d="M144 84 L143 52 L120 68Z" fill="#FFB3C8"/>
+    <ellipse cx="100" cy="114" rx="62" ry="54" fill="url(#g-cat)"/>
+    <path d="M90 64 L93 80 M100 62 L100 80 M110 64 L107 80" stroke="#5E6B86" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M40 112 L54 114 M40 122 L54 120 M160 112 L146 114 M160 122 L146 120" stroke="#5E6B86" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="89" cy="138" rx="13" ry="10" fill="#F4F6FB"/><ellipse cx="111" cy="138" rx="13" ry="10" fill="#F4F6FB"/>
+    ${eye(78, 108, 19, 'green')}${eye(122, 108, 19, 'green')}
+    ${cheeks(60, 140, 132)}
+    <path d="M94 128 L106 128 L100 135Z" fill="#FF8FB3"/>
+    <path class="mouth-calm" d="M100 135 L100 139 M91 140 Q96 146 100 139 Q104 146 109 140" stroke="#3A3F55" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path class="mouth-joy" d="M89 139 Q100 158 111 139Z" fill="#7A2033"/>
+    <path d="M78 136 L50 130 M78 142 L48 145 M122 136 L150 130 M122 142 L152 145" stroke="#3A3F55" stroke-width="2" opacity=".55" stroke-linecap="round"/>
+    <path d="M84 160 L100 168 L84 176Z M116 160 L100 168 L116 176Z" fill="#22B8A8"/><circle cx="100" cy="168" r="5" fill="#178F83"/>
+  </g>`,
+  /* Unicorn — sharing */
+  sparkle: () => `${shadow}<g class="bob">
+    <ellipse cx="100" cy="182" rx="48" ry="26" fill="url(#g-uni)"/>
+    <ellipse cx="80" cy="201" rx="13" ry="6" fill="#C9B6EC"/><ellipse cx="120" cy="201" rx="13" ry="6" fill="#C9B6EC"/>
+    <circle cx="52" cy="84" r="19" fill="#FF9EC7"/><circle cx="42" cy="112" r="18" fill="#B79CFF"/><circle cx="46" cy="140" r="16" fill="#8FD3FF"/><circle cx="56" cy="164" r="13" fill="#9EF0C9"/>
+    <path d="M64 72 L58 38 L86 58Z" fill="url(#g-uni)"/><path d="M66 64 L62 46 L78 58Z" fill="#FFC9DD"/>
+    <path d="M136 72 L142 38 L114 58Z" fill="url(#g-uni)"/><path d="M134 64 L138 46 L122 58Z" fill="#FFC9DD"/>
+    <ellipse cx="100" cy="116" rx="60" ry="54" fill="url(#g-uni)"/>
+    <circle cx="78" cy="66" r="13" fill="#FF9EC7"/><circle cx="66" cy="76" r="10" fill="#B79CFF"/><circle cx="120" cy="64" r="10" fill="#8FD3FF"/>
+    <path d="M91 66 L100 14 L109 66 Z" fill="url(#g-horn)"/>
+    <path d="M93 56 L107 50 M95 44 L105 40 M97 32 L103 29" stroke="#E0A21B" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="glow" d="M146 34 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#FFC83D"/>
+    <ellipse cx="100" cy="142" rx="34" ry="21" fill="#FFE1EE"/>
+    <ellipse cx="88" cy="140" rx="3.5" ry="2.5" fill="#E58AB0"/><ellipse cx="112" cy="140" rx="3.5" ry="2.5" fill="#E58AB0"/>
+    ${eye(78, 108, 18, 'purple')}${eye(122, 108, 18, 'purple')}
+    <path d="M60 98 l-8 -5 M62 92 l-6 -8 M140 98 l8 -5 M138 92 l6 -8" stroke="#3A2A4A" stroke-width="3" stroke-linecap="round"/>
+    ${cheeks(60, 140, 130)}
+    <path class="mouth-calm" d="M91 150 Q100 157 109 150" stroke="#8E3A62" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path class="mouth-joy" d="M88 148 Q100 166 112 148Z" fill="#8E2F55"/>
+  </g>`
+};
+
+const TEACHERS = {
+  hoot:     { pitch: .85, color: 'add' },
+  daisy:    { pitch: 1.25, color: 'sub' },
+  whiskers: { pitch: 1.1, color: 'mul' },
+  sparkle:  { pitch: 1.45, color: 'div' }
+};
+const tName = tid => tr().teachers[tid];
+function charSvg(tid, mood = 'happy') {
+  return `<svg class="char mood-${mood}" viewBox="0 0 200 212" role="img" aria-label="${tName(tid)}">${ART[tid]()}</svg>`;
+}
+const charWrap = (tid, mood, size) => `<div class="cw cw-${size}">${charSvg(tid, mood)}</div>`;
+function setMood(scope, mood) {
+  scope.querySelectorAll('.char').forEach(c => { c.classList.remove('mood-happy', 'mood-joy', 'mood-think'); c.classList.add('mood-' + mood); });
+}
+
+/* ---------- the 100 questions ---------- */
+const TOPICS = [
+  { id: 'add', sign: '+', teacher: 'hoot', levels: [
+    { id: 'a1', examples: [P(2, 5, '+')],
+      problems: [P(3,2,'+'),P(5,3,'+'),P(2,6,'+'),P(4,4,'+'),P(6,3,'+'),P(1,7,'+'),P(5,4,'+'),P(2,7,'+'),P(3,5,'+'),P(6,2,'+')] },
+    { id: 'a2', examples: [P(6, 4, '+', { missing: 'b' })],
+      problems: [P(7,3,'+',{missing:'b'}),P(6,4,'+'),P(8,2,'+',{missing:'b'}),P(5,5,'+'),P(3,7,'+',{missing:'b'}),P(9,1,'+'),P(4,6,'+',{missing:'b'}),P(2,8,'+'),P(1,9,'+',{missing:'b'}),P(9,1,'+',{missing:'b'})] },
+    { id: 'a3', examples: [P(8, 4, '+')],
+      problems: [P(8,5,'+'),P(9,4,'+'),P(7,6,'+'),P(8,7,'+'),P(6,5,'+'),P(9,6,'+'),P(7,5,'+'),P(4,8,'+'),P(9,8,'+'),P(5,7,'+')] },
+    { id: 'a4', examples: [P(46, 7, '+')],
+      problems: [P(34,5,'+'),P(40,30,'+'),P(23,6,'+'),P(47,8,'+'),P(50,20,'+'),P(36,7,'+'),P(28,5,'+'),P(60,25,'+'),P(59,4,'+'),P(45,9,'+')] },
+    { id: 'a5', examples: [P(26, 37, '+'), P(236, 158, '+')],
+      problems: [P(34,25,'+'),P(38,45,'+'),P(56,27,'+'),P(63,29,'+'),P(47,36,'+'),P(125,243,'+'),P(236,158,'+'),P(347,285,'+'),P(409,326,'+'),P(568,267,'+')] }
+  ]},
+  { id: 'sub', sign: M, teacher: 'daisy', levels: [
+    { id: 's1', examples: [P(8, 3, '-')],
+      problems: [P(5,2,'-'),P(7,3,'-'),P(9,4,'-'),P(8,5,'-'),P(6,6,'-'),P(10,3,'-'),P(9,7,'-'),P(8,1,'-'),P(7,5,'-'),P(10,6,'-')] },
+    { id: 's2', examples: [P(13, 5, '-')],
+      problems: [P(15,3,'-'),P(18,6,'-'),P(12,5,'-'),P(14,6,'-'),P(13,8,'-'),P(11,4,'-'),P(16,9,'-'),P(17,8,'-'),P(15,7,'-'),P(19,5,'-')] },
+    { id: 's3', examples: [P(43, 6, '-')],
+      problems: [P(46,3,'-'),P(58,5,'-'),P(52,7,'-'),P(70,30,'-'),P(63,8,'-'),P(90,40,'-'),P(41,6,'-'),P(85,20,'-'),P(74,9,'-'),P(33,5,'-')] },
+    { id: 's4', examples: [P(64, 27, '-')],
+      problems: [P(68,23,'-'),P(57,34,'-'),P(75,42,'-'),P(53,27,'-'),P(64,38,'-'),P(82,45,'-'),P(91,56,'-'),P(46,19,'-'),P(72,28,'-'),P(60,24,'-')] },
+    { id: 's5', examples: [P(453, 128, '-')],
+      problems: [P(586,243,'-'),P(475,128,'-'),P(638,264,'-'),P(452,178,'-'),P(763,385,'-'),P(915,472,'-'),P(524,367,'-'),P(841,256,'-'),P(357,189,'-'),P(682,495,'-')] }
+  ]},
+  { id: 'mul', sign: '×', teacher: 'whiskers', soon: true, levels: [] },
+  { id: 'div', sign: '÷', teacher: 'sparkle', soon: true, levels: [] }
+];
+TOPICS.forEach(t => t.levels.forEach(l => { l.topic = t; }));
+const allLevels = () => TOPICS.flatMap(t => t.levels);
+const findLevel = id => allLevels().find(l => l.id === id);
+const lvlText = l => tr().levels[l.id];
+const topicTitle = t => tr().topics[t.id];
+const answerOf = p => p.missing ? p.b : p.op === '+' ? p.a + p.b : p.a - p.b;
+const teacherFor = p => p.op === '+' ? 'hoot' : 'daisy';
+
+/* ---------- pictures ---------- */
+function frames(cells) {
+  const n = Math.max(10, Math.ceil(cells.length / 10) * 10);
+  let h = '<div class="frames" aria-hidden="true">';
+  for (let f = 0; f < n / 10; f++) {
+    h += '<div class="frame">';
+    for (let i = 0; i < 10; i++) { const c = cells[f * 10 + i]; h += `<span class="cell">${c ? `<i class="dot dot-${c}"></i>` : ''}</span>`; }
+    h += '</div>';
+  }
+  return h + '</div>';
+}
+function numberLine(from, hops = [], opt = {}) {
+  const pts = [from], H = []; let cur = from;
+  hops.forEach(to => { H.push({ a: cur, b: to }); cur = to; pts.push(to); });
+  const lo = Math.min(...pts), hi = Math.max(...pts);
+  let min = opt.min ?? Math.floor(lo / 10) * 10, max = opt.max ?? Math.ceil(hi / 10) * 10;
+  if (max - min < 10) max = min + 10;
+  const W = 640, pad = 30, y = 118, sx = v => pad + (v - min) / (max - min) * (W - 2 * pad);
+  const dense = max - min <= 20;
+  const marks = [...new Set(pts)].sort((a, b) => a - b);
+  let s = `<svg class="nl" viewBox="0 0 ${W} 192" role="img" aria-label="${tr().numberLine} ${min}–${max}">`;
+  s += `<line x1="${pad - 16}" y1="${y}" x2="${W - pad + 16}" y2="${y}" class="nl-axis"/>`;
+  for (let v = min; v <= max; v++) {
+    const ten = v % 10 === 0; if (!dense && !ten) continue;
+    const x = sx(v);
+    s += `<line x1="${x}" y1="${y - (ten ? 11 : 6)}" x2="${x}" y2="${y + (ten ? 11 : 6)}" class="nl-tick"/>`;
+    if (!marks.includes(v) && !marks.some(m => Math.abs(sx(m) - x) < 30)) s += `<text x="${x}" y="${y + 34}" class="nl-num">${v}</text>`;
+  }
+  let lastX = -999, low = false;
+  marks.forEach(v => { const x = sx(v); low = x - lastX < 40 ? !low : false; lastX = x;
+    s += `<circle cx="${x}" cy="${y}" r="6" class="nl-pt"/><text x="${x}" y="${y + (low ? 62 : 34)}" class="nl-mark">${v}</text>`; });
+  let prevLab = null;
+  H.forEach(h => {
+    const x1 = sx(h.a), x2 = sx(h.b), dx = Math.abs(x2 - x1), hh = Math.min(70, 16 + dx * .35), cy = y - 4 - 2 * hh, mx = (x1 + x2) / 2, yy = y - 4;
+    const cls = h.b >= h.a ? 'nl-add' : 'nl-sub';
+    s += `<path d="M${x1} ${yy} Q${mx} ${cy} ${x2} ${yy}" class="nl-hop ${cls}"/>`;
+    const ang = Math.atan2(yy - cy, x2 - mx), L = 11;
+    const p1 = [x2 - L * Math.cos(ang - .5), yy - L * Math.sin(ang - .5)], p2 = [x2 - L * Math.cos(ang + .5), yy - L * Math.sin(ang + .5)];
+    s += `<polygon points="${x2},${yy} ${p1} ${p2}" class="nl-head ${cls}"/>`;
+    const d = h.b - h.a;
+    let ly = yy - hh - 9;
+    if (prevLab && Math.abs(prevLab.x - mx) < 44 && Math.abs(prevLab.y - ly) < 22) ly = prevLab.y - 24;
+    prevLab = { x: mx, y: ly };
+    s += `<text x="${mx}" y="${ly}" class="nl-lab ${cls}">${d > 0 ? '+' : M}${Math.abs(d)}</text>`;
+  });
+  return s + '</svg>';
+}
+function blocks(n, { crossOnes = 0, crossTens = 0, tint = 'a' } = {}) {
+  const h = Math.floor(n / 100), t = Math.floor(n % 100 / 10), o = n % 10;
+  let s = `<div class="blocks tint-${tint}" role="img" aria-label="${tr().blocksAria(n, h, t, o)}"><div class="b-set">`;
+  for (let i = 0; i < h; i++) s += '<i class="b-flat"></i>';
+  for (let i = 0; i < t; i++) s += `<i class="b-rod${i >= t - crossTens ? ' x' : ''}"></i>`;
+  if (o) { s += '<span class="b-ones">'; for (let i = 0; i < o; i++) s += `<i class="b-cube${i >= o - crossOnes ? ' x' : ''}"></i>`; s += '</span>'; }
+  return s + `</div><span class="b-cap">${n}</span></div>`;
+}
+const split = (w, a, b) => `<div class="split" role="img" aria-label="${tr().splitAria(w, a, b)}"><span>${w}</span><svg viewBox="0 0 150 44" class="sp-legs" aria-hidden="true"><path d="M75 3 L22 41 M75 3 L128 41"/></svg><div class="sp-parts"><span>${a}</span><span>${b}</span></div></div>`;
+const eq = (html, small) => `<div class="eq">${html}${small ? `<small>${small}</small>` : ''}</div>`;
+const chk = (d, b, a) => `${tr().checkLbl}: ${d} + ${b} = ${a}`;
+const mk = v => `<mark>${v}</mark>`;
+const row = (...x) => `<div class="vis-row">${x.join('')}</div>`;
+const stack = (...x) => `<div class="vis-stack">${x.join('')}</div>`;
+const opS = s => `<span class="vis-op">${s}</span>`;
+
+function colView(op, top, bot, o) {
+  const LAB = tr().lab, cols = range(0, o.N - 1).reverse(), hl = i => i === o.hl ? ' hl' : '';
+  let h = `<div class="col" style="--n:${o.N}" role="img" aria-label="${op === '+' ? tr().colAdd : tr().colSub}">`;
+  h += '<span></span>' + cols.map(i => `<span class="col-h${hl(i)}">${LAB[i]}</span>`).join('');
+  h += '<span></span>' + cols.map(i => `<span class="col-c">${op === '+' && o.carry[i] ? '1' : ''}</span>`).join('');
+  h += '<span></span>' + cols.map(i => {
+    if (i >= o.lenA) return '<span class="col-d"></span>';
+    const cur = top[i], org = o.orig ? o.orig[i] : cur;
+    return `<span class="col-d${hl(i)}">${cur !== org ? `<span class="ex"><s>${org}</s><em>${cur}</em></span>` : cur}</span>`;
+  }).join('');
+  h += `<span class="col-op">${op === '+' ? '+' : M}</span>` + cols.map(i => i >= o.lenB ? '<span class="col-d"></span>' : `<span class="col-d${hl(i)}">${bot[i]}</span>`).join('');
+  h += '<span class="col-rule"></span>';
+  h += '<span></span>' + cols.map(i => `<span class="col-d col-ans${hl(i)}">${o.ans[i] ?? ''}</span>`).join('');
+  return h + '</div>';
+}
+
+/* ---------- choosing how to explain a question ---------- */
+function chooseStrategy(p) {
+  const { a, b } = p;
+  if (p.op === '+') {
+    if (p.missing) return 'bond10';
+    if (a >= 100 || b >= 100) return 'columnAdd';
+    if (a % 10 === 0 && b % 10 === 0) return 'tensAdd';
+    if (a < 10 && b < 10) return a + b === 10 ? 'bond10' : a + b < 10 ? 'countOn' : 'bridgeAdd';
+    if (a < 10 || b < 10) { const big = Math.max(a, b), small = Math.min(a, b); return big % 10 + small < 10 ? 'onesAdd' : 'bridgeAdd'; }
+    return 'placeAdd';
+  }
+  if (a >= 100) return 'columnSub';
+  if (a <= 10) return 'takeAway';
+  if (b % 10 === 0) return 'tensSub';
+  if (b < 10) return a % 10 >= b ? 'onesSub' : 'bridgeSub';
+  return 'placeSub';
+}
+function explain(p) { const s = chooseStrategy(p); return EXPLAIN[s](p, tr().ex[s]); }
+
+const EXPLAIN = {
+  countOn({ a, b }, X) {
+    const big = Math.max(a, b), small = Math.min(a, b), s = a + b, steps = [];
+    steps.push({ say: X.s1(a, b), v: frames([...rep('a', a), ...rep('b', b)]) });
+    if (a < b) steps.push({ say: X.trick(big, small), v: numberLine(big, [], { min: 0, max: 10 }) });
+    steps.push({ say: X.count(big, small, list(big + 1, s)), v: numberLine(big, range(big + 1, s), { min: 0, max: Math.max(10, s) }) });
+    steps.push({ say: X.land(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) });
+    return { steps, why: X.why };
+  },
+  bond10({ a, b, missing }, X) {
+    const q = missing ? `${a} + □ = 10` : `${a} + ${b}`;
+    return { steps: [
+      { say: X.s1(q, a), v: frames([...rep('a', a), ...rep('e', 10 - a)]) },
+      { say: X.s2(list(1, b), b), v: frames([...rep('a', a), ...rep('b', b)]) },
+      { say: X.s3(a, b), v: eq(missing ? `${a} + ${mk(b)} = 10` : `${a} + ${b} = ${mk(10)}`) }
+    ], why: X.why };
+  },
+  bridgeAdd({ a, b }, X) {
+    const big = Math.max(a, b), small = Math.min(a, b), ten = Math.floor(big / 10) * 10 + 10, need = ten - big, rest = small - need, s = a + b;
+    const usesFrames = s <= 20;
+    return { steps: [
+      { say: X.s1(a, b, ten, big, a < b), v: usesFrames ? frames(rep('a', big)) : row(blocks(big), opS('+'), blocks(small, { tint: 'b' })) },
+      { say: X.s2(big, need, ten, small, rest), v: split(small, need, rest) },
+      { say: X.s3(big, need, ten), v: usesFrames ? frames([...rep('a', big), ...rep('b', need)]) : numberLine(big, [ten]) },
+      { say: X.s4(ten, rest, s), v: usesFrames ? stack(frames([...rep('a', big), ...rep('b', small)]), numberLine(big, [ten, s], { min: 0, max: 20 })) : numberLine(big, [ten, s]) },
+      { say: X.s5(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why(ten) };
+  },
+  onesAdd({ a, b }, X) {
+    const big = Math.max(a, b), small = Math.min(a, b), t = Math.floor(big / 10), o = big % 10, s = a + b;
+    return { steps: [
+      { say: X.s1(big, t, o, small), v: row(blocks(big), opS('+'), blocks(small, { tint: 'b' })) },
+      { say: X.s2(o, small, t), v: blocks(s) },
+      { say: X.s3(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  tensAdd({ a, b }, X) {
+    const s = a + b;
+    return { steps: [
+      { say: X.s1(a, b), v: row(blocks(a), opS('+'), blocks(b, { tint: 'b' })) },
+      { say: X.s2(a / 10, b / 10, s / 10), v: blocks(s) },
+      { say: X.s3(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
+    ], why: X.why };
+  },
+  placeAdd({ a, b }, X) {
+    const aT = a - a % 10, aO = a % 10, bT = b - b % 10, bO = b % 10, T = aT + bT, O = aO + bO, s = a + b;
+    return { steps: [
+      { say: X.s1(a, aT, aO, b, bT, bO), v: row(blocks(a), opS('+'), blocks(b, { tint: 'b' })) },
+      { say: X.s2(aT, bT, T), v: eq(`${aT} + ${bT} = ${mk(T)}`, tr().tensLbl) },
+      { say: X.s3(aO, bO, O), v: eq(`${aO} + ${bO} = ${mk(O)}`, tr().onesLbl) },
+      { say: X.s4(T, O, s), v: stack(eq(`${T} + ${O} = ${mk(s)}`), blocks(s)) }
+    ], why: X.why };
+  },
+  columnAdd({ a, b }, X) {
+    const s = a + b, N = String(s).length, lenA = String(a).length, lenB = String(b).length, n = Math.max(lenA, lenB);
+    const da = digits(a, N), db = digits(b, N), ans = Array(N).fill(null), carry = Array(N).fill(0), steps = [];
+    const view = hl => colView('+', da, db, { N, lenA, lenB, ans: [...ans], carry: [...carry], hl });
+    steps.push({ say: X.s1, v: view(-1) });
+    let c = 0;
+    for (let i = 0; i < N; i++) {
+      if (i >= n) { ans[i] = c; steps.push({ say: X.carryOver(i), v: view(i) }); break; }
+      const x = da[i], y = db[i], t = x + y + c;
+      let say = X.col(i, x, y, c, t);
+      if (t >= 10) { ans[i] = t % 10; carry[i + 1] = 1; c = 1; say += X.carry(i, t); }
+      else { ans[i] = t; c = 0; say += X.write(t); }
+      steps.push({ say, v: view(i) });
+    }
+    steps.push({ say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) });
+    return { steps, why: X.why };
+  },
+  takeAway({ a, b }, X) {
+    const d = a - b;
+    return { steps: [
+      { say: X.s1(a, b), v: frames(rep('a', a)) },
+      { say: X.s2(b), v: frames([...rep('a', d), ...rep('x', b)]) },
+      { say: d ? X.left(list(1, d), d) : X.none(a, b), v: numberLine(a, range(d, a - 1).reverse(), { min: 0, max: 10 }) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+  onesSub({ a, b }, X) {
+    const t = Math.floor(a / 10), o = a % 10, d = a - b, small = a <= 20;
+    return { steps: [
+      { say: X.s1(a, t, o), v: small ? frames(rep('a', a)) : blocks(a) },
+      { say: X.s2(b, o), v: small ? frames([...rep('a', d), ...rep('x', b)]) : blocks(a, { crossOnes: b }) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+  bridgeSub({ a, b }, X) {
+    const ten = Math.floor(a / 10) * 10, down = a - ten, rest = b - down, d = a - b, opt = a <= 20 ? { min: 0, max: 20 } : {};
+    return { steps: [
+      { say: X.s1(a, b, ten), v: numberLine(a, [], opt) },
+      { say: X.s2(b, down, rest, ten), v: split(b, down, rest) },
+      { say: X.s3(a, down, ten), v: numberLine(a, [ten], opt) },
+      { say: X.s4(ten, rest, d), v: numberLine(a, [ten, d], opt) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why };
+  },
+  tensSub({ a, b }, X) {
+    const d = a - b, at = Math.floor(a / 10), bt = b / 10;
+    return { steps: [
+      { say: X.s1(a, b, at, bt), v: blocks(a) },
+      { say: X.s2(at, bt), v: blocks(a, { crossTens: bt }) },
+      { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
+    ], why: X.why(at, bt) };
+  },
+  placeSub({ a, b }, X) {
+    const bO = b % 10, bT = b - bO, x = a - bT, d = a - b, steps = [];
+    steps.push({ say: X.s1(a, b, bT, bO), v: split(b, bT, bO) });
+    steps.push({ say: X.s2(a, bT, x), v: numberLine(a, [x]) });
+    if (bO) {
+      const ten = Math.floor(x / 10) * 10, down = x - ten;
+      if (x % 10 >= bO || down === 0) steps.push({ say: X.ones(x, bO, d), v: numberLine(a, [x, d]) });
+      else steps.push({ say: X.bridge(bO, down, ten, bO - down, d), v: numberLine(a, [x, ten, d]) });
+    }
+    steps.push({ say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) });
+    return { steps, why: X.why };
+  },
+  columnSub({ a, b }, X) {
+    const N = String(a).length, lenB = String(b).length, orig = digits(a, N), top = [...orig], bot = digits(b, N), ans = Array(N).fill(null), steps = [];
+    const view = hl => colView('-', [...top], bot, { N, lenA: N, lenB, ans: [...ans], orig, hl });
+    steps.push({ say: X.s1, v: view(-1) });
+    for (let i = 0; i < N; i++) {
+      if (top[i] < bot[i]) {
+        const was = top[i], before = top[i + 1];
+        top[i + 1] -= 1; top[i] += 10;
+        steps.push({ say: X.exchange(i, bot[i], was, before, top[i + 1], top[i]), v: view(i) });
+      }
+      const r = top[i] - bot[i]; ans[i] = r;
+      steps.push({ say: X.col(i, top[i], bot[i], r), v: view(i) });
+    }
+    const d = a - b;
+    steps.push({ say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) });
+    return { steps, why: X.why };
+  }
+};
+
+/* ---------- speech ---------- */
+let lastSaid = { text: '', tid: 'hoot' };
+function voiceFor(lang) {
+  try { const v = speechSynthesis.getVoices(); return lang === 'da' ? v.find(x => /^da/i.test(x.lang)) || null : v.find(x => /en-GB/i.test(x.lang)) || v.find(x => /^en/i.test(x.lang)) || null; } catch (e) { return null; }
+}
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; } catch (e) {}
+function toSpeech(t) {
+  const da = store.lang === 'da';
+  return t.replace(/<[^>]+>/g, ' ')
+    .replace(/−/g, ' minus ').replace(/\+/g, ' plus ')
+    .replace(/=/g, da ? ' er lig med ' : ' equals ').replace(/□/g, da ? ' hvad ' : ' blank ')
+    .replace(/×/g, da ? ' gange ' : ' times ').replace(/÷/g, da ? ' divideret med ' : ' divided by ')
+    .replace(/\((H|T|O|E)\)/g, '');
+}
+function speak(text, tid) {
+  lastSaid = { text, tid };
+  if (!store.sound) return;
+  try {
+    // iPad Safari drops an utterance queued right after cancel(), so wait a moment when something was playing
+    const busy = speechSynthesis.speaking || speechSynthesis.pending;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(toSpeech(text)), v = voiceFor(store.lang);
+    u.lang = store.lang === 'da' ? 'da-DK' : 'en-GB'; if (v) u.voice = v;
+    u.rate = .9; u.pitch = TEACHERS[tid]?.pitch || 1;
+    if (busy) setTimeout(() => speechSynthesis.speak(u), 120); else speechSynthesis.speak(u);
+  } catch (e) {}
+}
+function hush() { try { speechSynthesis.cancel(); } catch (e) {} }
+
+/* ---------- small UI bits ---------- */
+const ICON = {
+  star: on => `<svg viewBox="0 0 24 24" class="star${on ? ' on' : ''}" aria-hidden="true"><path d="M12 2.4l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17l-5.9 3.3 1.3-6.5-4.9-4.6 6.6-.8z"/></svg>`,
+  sound: on => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4.5v15L7 15H3z"/>${on ? '<path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' : '<path d="M15.5 9l5 6M20.5 9l-5 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'}</svg>`,
+  replay: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4.5v15L7 15H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>`
+};
+const stars = (n, max = 3) => range(1, max).map(i => ICON.star(i <= n)).join('');
+const totalStars = () => allLevels().reduce((s, l) => s + (store.best[l.id] || 0), 0);
+const tcStyle = tid => `--tc:var(--${TEACHERS[tid].color});--tc-soft:var(--${TEACHERS[tid].color}-soft)`;
+const replayBtn = () => `<button class="replay" data-act="replay" aria-label="${tr().sayAgain}">${ICON.replay}</button>`;
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function topbar() {
+  const t = tr();
+  return `<header class="topbar">
+    <button class="brand" data-act="home" aria-label="${t.brand}"><span class="brand-mark"><b>+</b></span><span class="brand-name">${t.brand}</span></button>
+    <span class="spacer"></span>
+    <span class="pill" aria-label="${t.starsAria(totalStars())}">${ICON.star(true)} ${totalStars()}</span>
+    <div class="lang" role="group" aria-label="${t.language}">
+      <button data-act="lang" data-l="en" lang="en" aria-pressed="${store.lang === 'en'}" aria-label="English">EN</button>
+      <button data-act="lang" data-l="da" lang="da" aria-pressed="${store.lang === 'da'}" aria-label="Dansk">DA</button>
+    </div>
+    <button class="icon-btn" data-act="sound" aria-pressed="${store.sound}" aria-label="${store.sound ? t.voiceOffLabel : t.voiceOnLabel}">${ICON.sound(store.sound)}</button>
+  </header>`;
+}
+let toastTimer;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 2600); }
+function confetti(n = 26) {
+  if (reduced()) return;
+  const fx = $('#fx'), colors = ['var(--add)', 'var(--sub)', 'var(--sun)', 'var(--mul)', 'var(--div)'];
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('i'); p.className = 'conf';
+    p.style.left = (42 + Math.random() * 16) + '%';
+    p.style.setProperty('--dx', ((Math.random() * 2 - 1) * 42) + 'vw');
+    p.style.setProperty('--dy', (-18 - Math.random() * 40) + 'vh');
+    p.style.setProperty('--rot', (Math.random() * 900 - 450) + 'deg');
+    p.style.background = colors[i % colors.length]; p.style.animationDelay = (Math.random() * .15) + 's';
+    fx.appendChild(p); setTimeout(() => p.remove(), 1800);
+  }
+}
+function applyLang() { document.documentElement.lang = store.lang; document.title = tr().brand; }
+
+/* ---------- screens ---------- */
+const app = $('#app');
+let screen = 'home', S = {};
+function show(name, params = {}) { hush(); screen = name; S = params; SCREENS[name](params); window.scrollTo({ top: 0 }); }
+
+const SCREENS = {
+  home() {
+    const t = tr(), nm = store.name;
+    app.innerHTML = `${topbar()}
+    <section class="hero">
+      <div class="hero-cast">${charWrap('hoot', 'happy', 'lg')}${charWrap('daisy', 'happy', 'lg')}</div>
+      <div class="bubble">
+        <p class="bubble-who">${tName('hoot')} &amp; ${tName('daisy')}</p>
+        <h1>${nm ? t.helloName(esc(nm)) : t.helloAnon}</h1>
+        <p>${t.heroIntro}</p>
+        ${nm ? '' : `<form class="name-form" data-form="name"><label for="name-input">${t.askName}</label><div class="row"><input id="name-input" maxlength="20" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="${t.namePh}"><button class="btn btn-small" type="submit">${t.save}</button></div></form>`}
+      </div>
+    </section>
+    ${resumeCard()}
+    <h2 class="section-title">${t.chooseSubject}</h2>
+    <section class="topics">${TOPICS.map(topicCard).join('')}</section>
+    <section class="mixed">
+      ${charWrap('sparkle', 'happy', 'sm')}
+      <div class="mixed-text"><h3>${t.mixedTitle}</h3><p>${t.mixedText}</p></div>
+      <button class="btn" data-act="practice" data-id="mixed" style="--tc:var(--div)">${t.letsGo}</button>
+    </section>
+    <details class="grownups">
+      <summary>${t.grownups}</summary>
+      <div class="grownups-body">
+        ${t.gu.map(x => `<p>${x}</p>`).join('')}
+        <p id="sync-note">${cloud ? t.syncCloud : t.syncLocal}</p>
+        <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
+      </div>
+    </details>`;
+  },
+  topic({ id }) {
+    const t = tr(), tp = TOPICS.find(x => x.id === id), tid = tp.teacher;
+    const first = tp.levels.find(l => !store.best[l.id]);
+    app.innerHTML = `${topbar()}
+    <div class="crumbs"><button class="btn-link" data-act="home">${t.allSubjects}</button></div>
+    <section class="talk" style="${tcStyle(tid)}">
+      ${charWrap(tid, 'happy', 'md')}
+      <div class="bubble"><p class="bubble-who">${tName(tid)}</p><h2>${topicTitle(tp)}</h2>
+        <div class="say-row"><p id="intro-say">${t.topicIntro[id]}</p>${replayBtn()}</div></div>
+    </section>
+    <ol class="levels" style="${tcStyle(tid)}">
+      ${tp.levels.map((l, i) => { const st = store.best[l.id] || 0, lt = lvlText(l); return `<li class="level${st ? ' done' : ''}">
+        <span class="lvl-num">${i + 1}</span>
+        <span class="lvl-text"><b>${lt.title}</b><span>${lt.goal}</span>${first === l ? `<span class="tag">${t.startHere}</span>` : ''}</span>
+        <span class="lvl-stars" aria-label="${t.starsOf(st)}">${stars(st)}</span>
+        <span class="lvl-actions"><button class="btn btn-small" data-act="lesson" data-id="${l.id}">${t.learn}</button><button class="btn btn-small btn-soft" data-act="practice" data-id="${l.id}">${t.practise}</button></span>
+      </li>`; }).join('')}
+    </ol>`;
+    lastSaid = { text: t.topicIntro[id], tid };
+  },
+  lesson({ id, keepStep }) {
+    const t = tr(), l = findLevel(id), lt = lvlText(l), tid = l.topic.teacher, idx = l.topic.levels.indexOf(l) + 1;
+    app.innerHTML = `${topbar()}
+    <div class="crumbs"><button class="btn-link" data-act="topic" data-id="${l.topic.id}">${topicTitle(l.topic)}</button><span>· ${t.levelN(idx)}</span></div>
+    <div class="lesson-grid" style="${tcStyle(tid)}">
+      <div class="lesson-side">
+        <section class="talk">
+          ${charWrap(tid, 'happy', 'md')}
+          <div class="bubble"><p class="bubble-who">${tName(tid)}</p><h2>${lt.title}</h2><div class="say-row"><p id="lesson-say">${lt.what}</p>${replayBtn()}</div></div>
+        </section>
+        <div class="why-card"><h3>${t.whyWorks}</h3><p>${lt.why}</p></div>
+      </div>
+      <div class="lesson-main">
+        <div id="stepper" class="stepper"></div>
+        <div class="lesson-go" id="lesson-go"><button class="btn btn-big" data-act="practice" data-id="${l.id}">${t.start10}</button></div>
+      </div>
+    </div>`;
+    const ex = l.examples.map(explain);
+    const steps = ex.flatMap((e, i) => i === 0 ? e.steps : [{ say: t.biggerOne, v: eq(qText(l.examples[i])) }, ...e.steps]);
+    mountStepper({ title: t.tryTogether, steps, why: null, tid, onDone: () => $('#lesson-go')?.classList.add('ready') });
+    if (keepStep) { ST.i = Math.min(keepStep, steps.length - 1); renderStepper(false); }
+    else speak(lt.what, tid);
+  },
+  practice({ id }) {
+    const r = savedRound();
+    if (r && r.id === id) {
+      S = { id, list: r.list.map(([a, b, op, m]) => P(a, b, op, m ? { missing: 'b' } : null)), i: r.i, input: '', tries: 0, helped: false, first: r.first, marks: r.marks.slice(), done: false };
+    } else {
+      let list;
+      if (id === 'mixed') list = shuffle(allLevels().flatMap(l => l.problems)).slice(0, 10);
+      else list = shuffle(findLevel(id).problems);
+      S = { id, list, i: 0, input: '', tries: 0, helped: false, first: 0, marks: [], done: false };
+    }
+    renderPractice(true);
+  },
+  results() {
+    const t = tr(), { id, first } = S, n = starsFor(first);
+    const l = id === 'mixed' ? null : findLevel(id);
+    const tid = l ? l.topic.teacher : 'sparkle';
+    if (!S.finished) finishRound();
+    const next = l ? l.topic.levels[l.topic.levels.indexOf(l) + 1] : null;
+    const head = t.head[n - 1], msg = t.msg[n - 1](first);
+    app.innerHTML = `${topbar()}
+    <section class="results" style="${tcStyle(tid)}">
+      ${charWrap(tid, 'joy', 'lg')}
+      <div class="big-stars" aria-label="${t.starsOf(n)}">${stars(n)}</div>
+      <h1 style="font-size:clamp(34px,6vw,52px)">${head}</h1>
+      <p style="max-width:52ch">${msg}${S.improved && l ? t.newBest : ''}</p>
+      <div class="res-actions">
+        ${next && n >= 2 ? `<button class="btn btn-big" data-act="lesson" data-id="${next.id}">${t.nextLevel}</button>` : ''}
+        <button class="btn ${next && n >= 2 ? 'btn-soft' : 'btn-big'}" data-act="practice" data-id="${id}">${t.playAgain}</button>
+        ${l ? `<button class="btn btn-soft" data-act="lesson" data-id="${id}">${t.seeLesson}</button>` : ''}
+        <button class="btn btn-soft" data-act="home">${t.home}</button>
+      </div>
+    </section>`;
+    if (!S.quiet) { confetti(n * 18); speak(`${head} ${msg}`, tid); }
+  }
+};
+
+function resumeCard() {
+  const r = savedRound(); if (!r) return '';
+  const t = tr(), l = r.id === 'mixed' ? null : findLevel(r.id), tid = l ? l.topic.teacher : 'sparkle';
+  const title = l ? `${topicTitle(l.topic)} · ${lvlText(l).title}` : t.mixedTitle;
+  return `<section class="mixed resume" style="${tcStyle(tid)}">
+    ${charWrap(tid, 'happy', 'sm')}
+    <div class="mixed-text"><h3>${t.resumeTitle}</h3><p>${t.resumeText(title, r.i + 1, r.list.length)}</p></div>
+    <button class="btn" data-act="practice" data-id="${r.id}">${t.resumeBtn}</button>
+  </section>`;
+}
+
+function topicCard(tp) {
+  const t = tr(), st = tp.levels.reduce((s, l) => s + (store.best[l.id] || 0), 0);
+  return `<button class="topic${tp.soon ? ' soon' : ''}" data-act="${tp.soon ? 'soon' : 'topic'}" data-id="${tp.id}" style="${tcStyle(tp.teacher)}">
+    <span class="topic-sign" aria-hidden="true">${tp.sign}</span>
+    <span class="topic-art">${charSvg(tp.teacher)}</span>
+    <span class="topic-text">
+      <span class="topic-title">${topicTitle(tp)}</span>
+      <span class="topic-teacher">${t.withTeacher(tName(tp.teacher))}</span>
+      ${tp.soon ? `<span class="lock">${t.soon}</span>` : `<span class="topic-meta">${t.topicMeta(st, tp.levels.length * 3, tp.levels.length)}</span>`}
+    </span>
+  </button>`;
+}
+
+function qText(p) {
+  const op = p.op === '+' ? '+' : M;
+  return p.missing ? `${p.a} ${op} □ = ${p.a + p.b}` : `${p.a} ${op} ${p.b}`;
+}
+
+/* ---------- step-by-step explainer ---------- */
+let ST = null;
+function mountStepper({ title, steps, why, tid, onDone, el, backToQ }) {
+  ST = { title, steps, why, tid, onDone, backToQ, i: 0, el: el || $('#stepper') };
+  renderStepper(false);
+}
+function renderStepper(talk = true) {
+  if (!ST || !ST.el) return;
+  const t = tr(), { steps, i, tid } = ST, s = steps[i], last = i === steps.length - 1;
+  ST.el.innerHTML = `
+    <div class="st-head"><span class="st-title">${ST.title}</span><span class="st-dots" aria-label="${i + 1} / ${steps.length}">${steps.map((_, k) => `<i class="${k <= i ? 'on' : ''}"></i>`).join('')}</span></div>
+    <div class="st-say">${charWrap(tid, last ? 'joy' : 'happy', 'sm')}<p>${s.say}</p>${replayBtn()}</div>
+    <div class="st-visual">${s.v}</div>
+    ${last && ST.why ? `<div class="st-why"><b>${t.whyWorks}</b><p>${ST.why}</p></div>` : ''}
+    <div class="st-nav">
+      <button class="btn btn-soft btn-small" data-act="st-prev" ${i === 0 ? 'disabled' : ''}>${t.back}</button>
+      ${!last ? `<button class="btn btn-small" data-act="st-next">${t.nextStep}</button>` : ST.backToQ ? `<button class="btn btn-small" data-act="back-to-q">${t.typeAnswer}</button>` : ''}
+    </div>`;
+  lastSaid = { text: s.say, tid };
+  if (talk) speak(s.say, tid);
+  if (last && ST.onDone) ST.onDone();
+}
+
+/* ---------- practice ---------- */
+function renderPractice(fresh) {
+  const t = tr(), p = S.list[S.i], tid = teacherFor(p);
+  if (fresh) { S.input = ''; S.tries = 0; S.helped = false; S.done = false; }
+  const title = S.id === 'mixed' ? t.mixedTitle : lvlText(findLevel(S.id)).title;
+  const greet = S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') : pick(t.greetNext);
+  app.innerHTML = `${topbar()}
+  <div class="practice" style="${tcStyle(tid)}">
+    <div class="pr-top">
+      <button class="btn-link" data-act="${S.id === 'mixed' ? 'home' : 'topic'}" data-id="${S.id === 'mixed' ? '' : findLevel(S.id).topic.id}">${t.stop}</button>
+      <b style="font-family:var(--font-display)">${title}</b>
+      <div class="pdots" aria-label="${t.questionN(S.i + 1, S.list.length)}">${S.list.map((_, k) => `<i class="${S.marks[k] || (k === S.i ? 'cur' : '')}"></i>`).join('')}</div>
+    </div>
+    <div class="pr-grid">
+      <div class="pr-left">
+        <section class="talk" id="pr-talk">
+          ${charWrap(tid, S.done ? 'joy' : 'happy', 'md')}
+          <div class="bubble"><p class="bubble-who">${tName(tid)}</p><div class="say-row"><p id="pr-say">${greet}</p>${replayBtn()}</div></div>
+        </section>
+        <div class="qcard"><span class="q-label">${t.questionN(S.i + 1, S.list.length)}</span><div class="q" id="q" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
+        <section class="explain" id="explain" hidden><div id="stepper" class="stepper"></div></section>
+      </div>
+      <div class="pr-right">
+        <div class="pad" id="pad">
+          ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" data-act="key" data-k="${n}">${n}</button>`).join('')}
+          <button class="key key-sm" data-act="key" data-k="clear">${t.clear}</button>
+          <button class="key" data-act="key" data-k="0">0</button>
+          <button class="key key-sm" data-act="key" data-k="back" aria-label="${t.delLast}">⌫</button>
+        </div>
+        <div class="pr-actions">
+          <button class="btn btn-soft" data-act="howto">${t.showHow}</button>
+          <button class="btn" id="check-btn" data-act="check">${t.check}</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  if (S.done) markDone();
+  if (fresh) speak(`${greet} ${t.askQ(qText(p), p.missing)}`, tid);
+  lastSaid = { text: `${greet} ${qText(p)}`, tid };
+}
+function qHtml(p, state = '') {
+  const op = p.op === '+' ? '+' : M;
+  const box = `<span class="ans-box${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${S.input || (S.done ? '' : '<i class="caret"></i>')}</span>`;
+  return p.missing
+    ? `<span>${p.a}</span><span class="op">${op}</span>${box}<span>=</span><span>${p.a + p.b}</span>`
+    : `<span>${p.a}</span><span class="op">${op}</span><span>${p.b}</span><span>=</span>${box}`;
+}
+function updateQ(state) { $('#q').innerHTML = qHtml(S.list[S.i], state); }
+function teacherSay(text, mood) {
+  const tid = teacherFor(S.list[S.i]);
+  $('#pr-say').innerHTML = text; setMood($('#pr-talk'), mood); speak(text, tid);
+  if (mood === 'joy') setTimeout(() => { const el = $('#pr-talk'); if (el) setMood(el, 'happy'); }, 1600);
+}
+function markDone() {
+  const t = tr(), btn = $('#check-btn');
+  btn.textContent = S.i === S.list.length - 1 ? t.seeStars : t.nextQ; btn.style.setProperty('--tc', 'var(--good)');
+}
+function pressKey(k) {
+  if (S.done) return;
+  if (k === 'clear') S.input = '';
+  else if (k === 'back') S.input = S.input.slice(0, -1);
+  else if (S.input.length < 4) S.input = (S.input === '0' ? '' : S.input) + k;
+  updateQ();
+}
+/* ---------- unfinished rounds & stars ---------- */
+const starsFor = first => first >= 9 ? 3 : first >= 7 ? 2 : 1;
+function savedRound() {
+  const r = store.round;
+  if (!r || !Array.isArray(r.list) || !r.list.length || !(r.i > 0) || r.i >= r.list.length) return null;
+  if (r.id !== 'mixed' && !findLevel(r.id)) return null;
+  return r;
+}
+function saveRound() {
+  store.round = { id: S.id, list: S.list.map(p => [p.a, p.b, p.op, p.missing ? 1 : 0]), i: S.i + 1, first: S.first, marks: S.marks.slice(0, S.i + 1) };
+  save();
+}
+function finishRound() {
+  S.finished = true;
+  const n = starsFor(S.first);
+  if (S.id !== 'mixed' && n > (store.best[S.id] || 0)) { store.best[S.id] = n; S.improved = true; }
+  store.round = null;
+  save();
+}
+function refreshAfterSync(prevLang) {
+  if (store.lang !== prevLang) { const l = store.lang; store.lang = prevLang; switchLang(l); return; }
+  if (screen === 'home' || screen === 'topic') SCREENS[screen](S);
+  else { const pill = $('.pill'); if (pill) pill.innerHTML = `${ICON.star(true)} ${totalStars()}`; }
+}
+
+function check() {
+  if (S.done) return nextQ();
+  const t = tr(), p = S.list[S.i];
+  if (S.input === '') { teacherSay(t.typeFirst, 'think'); return; }
+  if (Number(S.input) === answerOf(p)) {
+    S.done = true;
+    const firstTry = S.tries === 0 && !S.helped;
+    if (firstTry) S.first++;
+    S.marks[S.i] = firstTry ? 'ok' : 'help';
+    updateQ('right');
+    const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
+    const sum = p.missing ? `${p.a} + ${p.b} = ${p.a + p.b}` : `${qText(p)} = ${answerOf(p)}`;
+    teacherSay(firstTry ? `${pick(t.praise(nm))} ${sum}.` : pick(t.praiseHelp), 'joy');
+    confetti(firstTry ? 28 : 14);
+    markDone();
+    $('.pdots').children[S.i].className = S.marks[S.i];
+    if (S.i === S.list.length - 1) finishRound(); else saveRound();
+  } else {
+    S.tries++;
+    updateQ('wrong');
+    if (S.tries === 1) teacherSay(pick(t.retry) + t.orShow, 'think');
+    else { teacherSay(t.together, 'think'); openHowTo(); }
+    const bad = S.input;
+    setTimeout(() => { if (!S.done && S.input === bad && $('#q')) { S.input = ''; updateQ(); } }, 900);
+  }
+}
+function openHowTo(keepStep) {
+  const p = S.list[S.i], e = explain(p), box = $('#explain');
+  S.helped = true;
+  box.hidden = false;
+  mountStepper({ title: tr().howTitle(qText(p)), steps: e.steps, why: e.why, tid: teacherFor(p), el: $('#stepper'), onDone: null, backToQ: true });
+  if (keepStep != null) { ST.i = Math.min(keepStep, e.steps.length - 1); renderStepper(false); return; }
+  renderStepper(true);
+  box.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+}
+function nextQ() {
+  if (S.i >= S.list.length - 1) { show('results', S); return; }
+  S.i++; renderPractice(true);
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- switching language keeps your place ---------- */
+function switchLang(l) {
+  if (l === store.lang) return;
+  store.lang = l; save(); applyLang(); hush();
+  const step = ST && ST.el && document.contains(ST.el) ? ST.i : null;
+  if (screen === 'practice') {
+    const open = !$('#explain').hidden;
+    renderPractice(false);
+    if (open) openHowTo(step);
+  } else if (screen === 'lesson') SCREENS.lesson({ ...S, keepStep: step || 0 });
+  else if (screen === 'results') { S.quiet = true; SCREENS.results(); }
+  else SCREENS[screen](S);
+}
+
+/* ---------- events ---------- */
+const ACTIONS = {
+  home: () => show('home'),
+  topic: d => show('topic', { id: d.id }),
+  lesson: d => show('lesson', { id: d.id }),
+  practice: d => show('practice', { id: d.id }),
+  soon: d => { const tp = TOPICS.find(x => x.id === d.id); toast(tr().soonToast(tName(tp.teacher), topicTitle(tp))); },
+  lang: d => switchLang(d.l),
+  sound: () => {
+    const t = tr(); store.sound = !store.sound; save(); if (!store.sound) hush();
+    const b = $('[data-act="sound"]'); b.innerHTML = ICON.sound(store.sound); b.setAttribute('aria-pressed', store.sound); b.setAttribute('aria-label', store.sound ? t.voiceOffLabel : t.voiceOnLabel);
+    if (store.sound) speak(t.voiceOn, 'hoot');
+  },
+  replay: (d, b) => {
+    const p = b.closest('.say-row, .st-say')?.querySelector('p');
+    const s = store.sound; store.sound = true; speak(p ? p.textContent : lastSaid.text, lastSaid.tid); store.sound = s;
+  },
+  'back-to-q': () => { $('#q')?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); },
+  'st-next': () => { if (ST.i < ST.steps.length - 1) { ST.i++; renderStepper(); } },
+  'st-prev': () => { if (ST.i > 0) { ST.i--; renderStepper(); } },
+  key: d => pressKey(d.k),
+  check: () => check(),
+  howto: () => openHowTo(),
+  'reset-ask': () => { const t = tr(); $('#reset-row').innerHTML = `<span>${t.resetAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="reset-yes">${t.resetYes}</button><button class="btn btn-small btn-soft" data-act="reset-no">${t.resetNo}</button>`; },
+  'reset-no': () => show('home'),
+  'reset-yes': () => { store = { name: '', best: {}, sound: store.sound, lang: store.lang, round: null, resetAt: Date.now() }; save(); show('home'); toast(tr().resetDone); }
+};
+app.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+  const fn = ACTIONS[b.dataset.act]; if (fn) fn(b.dataset, b);
+});
+app.addEventListener('submit', e => {
+  e.preventDefault();
+  if (e.target.dataset.form === 'name') {
+    const v = $('#name-input').value.trim(); if (!v) return;
+    store.name = v.slice(0, 20); save(); show('home');
+    speak(tr().helloSpoken(store.name), 'hoot');
+  }
+});
+document.addEventListener('keydown', e => {
+  if (screen !== 'practice' || e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (/^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
+  else if (e.key === 'Backspace') { pressKey('back'); e.preventDefault(); }
+  else if (e.key === 'Enter') {
+    const t = e.target;
+    if (t !== document.body && t !== document && !t.classList?.contains('key') && t.id !== 'check-btn') return;
+    check(); e.preventDefault();
+  }
+});
+
+applyLang();
+show('home');
+connectCloud();
+</script>
+
+</body>
+</html>
