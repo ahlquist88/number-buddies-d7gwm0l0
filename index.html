@@ -470,6 +470,8 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
   .brand-mark{width:34px;height:34px;font-size:21px}
   .pill{padding:5px 10px}
   .icon-btn{width:40px;height:40px}
+  .topbar .icon-btn{flex:none}
+  @media (max-width:360px){ .topbar{gap:4px} .kid-btn{height:40px;padding:0 2px} .kid-btn .char{width:36px;height:36px} .pill{padding:4px 8px;gap:4px} .lang-pick select{height:40px;padding:0 24px 0 10px} .lang-pick::after{right:9px} }
   #pr-talk{flex-direction:row;align-items:center}
   #pr-talk .cw-md{width:80px}
   @media (max-width:360px){ #pr-talk .cw-md{width:62px} }
@@ -489,6 +491,98 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
+}
+/* ---------- v3: path, review, onboarding, grown-up area, word lists ---------- */
+.muted{color:var(--ink-soft);font-weight:400}
+.path-card{border:3px solid var(--tc,var(--div))}
+.path-label{font-family:var(--font-display);font-weight:600;font-size:14px;letter-spacing:.4px;text-transform:uppercase;color:var(--tc,var(--div))}
+.path-bar{display:block;height:10px;border-radius:999px;background:var(--card-2);overflow:hidden;margin-top:6px;max-width:360px}
+.path-bar i{display:block;height:100%;border-radius:999px;background:var(--tc,var(--div))}
+
+.review-card{background:var(--card)}
+.cl-hint{color:var(--ink-soft);font-size:16px;margin-top:-6px}
+.gu-entry{display:flex;justify-content:center}
+.kid-btn{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 14px 0 4px;border:0;border-radius:999px;background:var(--card);color:var(--ink);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:16px;max-width:180px}
+.kid-btn .char{width:40px;height:40px;flex:none}
+.kid-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ob{display:flex;flex-direction:column;gap:22px;max-width:760px;margin:0 auto;width:100%}
+.ob-q{font-size:clamp(26px,4.4vw,36px);line-height:1.15}
+.ob-body{display:flex;flex-direction:column;gap:16px}
+.ob-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px}
+.ob-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.ob-avatars{grid-template-columns:repeat(4,minmax(0,1fr))}
+.ob-opt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:72px;padding:14px 12px;border:3px solid transparent;border-radius:22px;background:var(--card);color:var(--ink);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:20px;text-align:center;line-height:1.2}
+.ob-opt .muted{font-size:15px}
+.ob-opt.on{border-color:var(--tc,var(--div));background:var(--tc-soft,var(--card))}
+.ob-opt.av{padding:10px}
+.ob-opt .char{width:100%;max-width:120px;height:auto}
+.kid-opt .char{max-width:110px}
+.kid-opt b,.kid-text b,.kid-btn span{overflow-wrap:anywhere;min-width:0}
+.ob-form{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.ob-form input:not([type]),.ob-form input[type=text]{flex:1;min-width:0;font:inherit;font-size:24px;padding:14px 16px;border-radius:16px;border:3px solid var(--line);background:var(--card);color:var(--ink)}
+.ob-checks{flex-direction:column;align-items:stretch}
+.ob-check{background:var(--card);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow);font-family:var(--font-display);font-size:20px;min-height:64px}
+.ob-check .mini-av{width:44px;height:44px;flex:none}
+.ob-check .mini-av .char{width:44px;height:44px}
+.ob-checks .btn{align-self:flex-start}
+.ob-text{font-size:20px;max-width:56ch}
+.ob-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.placement .pr-top{justify-content:space-between}
+.pa-title{font-size:clamp(28px,4.4vw,38px)}
+.pa-tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}
+.pa-tabs::-webkit-scrollbar{display:none}
+.pa-tab{flex:none;min-height:44px;padding:8px 16px;border-radius:999px;border:0;background:var(--card);color:var(--ink);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:16px}
+.pa-tab[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.pa-card{background:var(--card);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.pa-card h3{font-size:20px}
+.kid-row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:6px 14px;align-items:center;padding:12px 0;border-bottom:2px solid var(--card-2)}
+.kid-row:last-of-type{border-bottom:0}
+.kid-av{width:64px;height:64px;border-radius:18px;background:var(--card-2);display:grid;place-items:center;overflow:hidden}
+.kid-av .char{width:58px;height:58px}
+.kid-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.kid-text b{font-family:var(--font-display);font-size:19px}
+.kid-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.kid-confirm,.kid-row .pa-form{grid-column:1/-1}
+.pa-form{display:flex;flex-direction:column;gap:12px;background:var(--card-2);border-radius:18px;padding:14px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field>span{font-weight:700}
+.field input,.field select,.field textarea{font:inherit;font-size:18px;padding:10px 12px;border-radius:14px;border:3px solid var(--line);background:var(--card);color:var(--ink);min-width:0;max-width:100%}
+.field textarea{resize:vertical;min-height:84px}
+.av-row{display:flex;gap:8px;flex-wrap:wrap}
+.av-pick{position:relative;cursor:pointer}
+.av-pick input{position:absolute;opacity:0;inset:0}
+.av-pick span{display:grid;place-items:center;width:58px;height:58px;border-radius:16px;background:var(--card);border:3px solid transparent}
+.av-pick span .char{width:50px;height:50px}
+.av-pick input:checked+span{border-color:var(--div)}
+.av-pick input:focus-visible+span{outline:3px solid var(--div);outline-offset:2px}
+.table-wrap{overflow-x:auto}
+.prog{border-collapse:collapse;width:100%;font-size:16px}
+.prog th,.prog td{text-align:left;padding:8px 10px 8px 0;border-bottom:2px solid var(--card-2);white-space:nowrap}
+.prog th{font-weight:700}
+.acc-msg:empty{display:none}
+.acc-msg{font-weight:700;color:var(--ink)}
+.pa-card a{color:var(--div);font-weight:700}
+.photo-btn{align-self:flex-start;cursor:pointer}
+.le-status:empty{display:none}
+.le-status{font-weight:700}
+.wlist{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.wrow{display:grid;grid-template-columns:minmax(90px,200px) minmax(0,1fr) 46px 46px;gap:8px;align-items:center;background:var(--card-2);border-radius:16px;padding:6px 8px}
+.w-in{font:inherit;font-family:var(--font-display);font-size:20px;padding:8px 10px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);min-width:0;width:100%}
+.w-wrong{color:var(--ink-soft);font-size:15px;overflow-wrap:anywhere;text-decoration:line-through;text-decoration-color:var(--oops)}
+.wrow .icon-btn{font-size:22px;font-weight:700;color:var(--ink)}
+.le-actions{margin-top:6px}
+.gate{max-width:520px;margin:0 auto;width:100%;text-align:center;align-items:center}
+.gate-form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.gate-form input{width:180px;font:inherit;font-family:var(--font-display);font-size:32px;letter-spacing:10px;text-align:center;padding:10px 12px;border-radius:16px;border:3px solid var(--line);background:var(--card-2);color:var(--ink)}
+.site-foot a{color:inherit}
+@media (max-width:600px){
+  .ob-avatars{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .ob-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .ob-opt{font-size:18px;min-height:64px;padding:10px 8px}
+  .kid-btn{padding:0 4px;max-width:none}
+  .kid-btn span{display:none}
+  .wrow{grid-template-columns:minmax(0,1fr) 44px 44px}
+  .w-wrong{grid-column:1/-1;grid-row:2;padding:0 4px 4px}
 }
 </style>
 
@@ -548,25 +642,68 @@ const digits = (n, N) => Array.from({ length: N }, (_, i) => Math.floor(n / 10 *
 const P = (a, b, op, extra) => ({ a, b, op, ...(extra || {}) });
 const list = (a, b) => range(a, b).join(', ');
 
-/* ---------- saved progress (this device only) ---------- */
-const KEY = 'numberBuddies.v1';
-let store = { name: '', best: {}, sound: true, lang: '' };
-try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) store = { ...store, ...s }; } catch (e) {}
-if (!['en', 'da', 'sv', 'id'].includes(store.lang)) store.lang = ['da', 'sv', 'id'].find(l => (navigator.language || '').toLowerCase().startsWith(l)) || 'en';
-/* Progress lives in two places: this browser (instant, works offline) and, when the page runs
-   on claude.ai, a private document in the signed-in account (survives cleared Safari data and
-   follows the account to other devices). Only this viewer can read their own document. */
+/* ---------- saved progress: a family with one or more children ---------- */
+/* Everything is kept in one family record: the children (each with their own stars, rounds,
+   language and settings), the family's own spelling lists and the grown-up PIN.
+   `store` always points at the child who is playing right now, so the rest of the app reads
+   store.best, store.lang and so on exactly as before. */
+const KEY = 'numberBuddies.v1', KEY2 = 'numberBuddies.v2';
+const LANG_IDS = ['en', 'da', 'sv', 'id'];
+const guessLang = () => ['da', 'sv', 'id'].find(l => (navigator.language || '').toLowerCase().startsWith(l)) || 'en';
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const newKid = (from = {}) => ({ name: '', best: {}, sound: true, lang: guessLang(), avatar: '', year: 0, spLangs: null, start: 0, review: [], onboarded: false, created: Date.now(), ...from, id: from.id || newId() });
+function cleanKid(k) {
+  if (!LANG_IDS.includes(k.lang)) k.lang = guessLang();
+  if (!k.best || typeof k.best !== 'object') k.best = {};
+  if (!Array.isArray(k.review)) k.review = [];
+  if (!Number.isInteger(k.start) || k.start < 0) k.start = 0;
+  if (k.spLangs && !Array.isArray(k.spLangs)) k.spLangs = null;
+  if (typeof k.sound !== 'boolean') k.sound = true;
+  return k;
+}
+let DB = null, store = null;
+function setActive(id) { if (DB.kids[id]) { DB.active = id; store = DB.kids[id]; } }
+function cleanDB(d) {
+  d.v = 2; d.kids = d.kids && typeof d.kids === 'object' ? d.kids : {};
+  d.lists = Array.isArray(d.lists) ? d.lists.filter(l => l && l.id && Array.isArray(l.words)) : [];
+  d.gone = Array.isArray(d.gone) ? d.gone : [];
+  for (const id of d.gone) { delete d.kids[id]; d.lists = d.lists.filter(l => l.id !== id); }
+  for (const [id, k] of Object.entries(d.kids)) { if (!k || typeof k !== 'object') { delete d.kids[id]; continue; } k.id = id; cleanKid(k); }
+  if (!Object.keys(d.kids).length) { const k = newKid(); d.kids[k.id] = k; }
+  if (!d.kids[d.active]) d.active = Object.keys(d.kids)[0];
+  return d;
+}
+(function loadDB() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(KEY2) || 'null'); } catch (e) {}
+  if (!d || d.v !== 2) {
+    // first start of this version: the old single-child save becomes the first child
+    let old = null; try { old = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+    const k = newKid(old && typeof old === 'object' && !Array.isArray(old) ? { ...old, legacy: true, onboarded: false } : {});
+    d = { v: 2, kids: { [k.id]: k }, active: k.id, lists: [], gone: [], pin: null, pinAt: 0, savedAt: 0 };
+  }
+  DB = cleanDB(d); store = DB.kids[DB.active];
+})();
+/* Progress lives on this device (instant, works offline) and, when there is a place to keep it,
+   in the cloud too: the signed-in claude.ai account, or a free family account on the website.
+   Only the signed-in grown-up can read their own family record. */
 let cloud = null, cloudBusy = false, cloudDirty = false, cloudTimer = null;
 function save() {
-  store.savedAt = Date.now();
-  try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
+  store.savedAt = Date.now(); DB.savedAt = store.savedAt;
+  try { localStorage.setItem(KEY2, JSON.stringify(DB)); } catch (e) {}
   if (cloud) { clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 600); }
 }
+const cloudCopy = () => {
+  const d = JSON.parse(JSON.stringify(DB));
+  // very old saved rounds were stored as lists of lists, which online databases cannot hold
+  for (const k of Object.values(d.kids)) if (k.round && Array.isArray(k.round.list) && k.round.list.some(Array.isArray)) k.round = null;
+  return d;
+};
 async function pushCloud() {
   if (!cloud) return;
   if (cloudBusy) { cloudDirty = true; return; }
   cloudBusy = true;
-  try { await cloud.set(JSON.parse(JSON.stringify(store))); }
+  try { await cloud.set(cloudCopy()); }
   catch (e) {
     const c = e && e.code;
     if (c === 'unavailable') { cloudDirty = true; await new Promise(r => setTimeout(r, 1500 + Math.random() * 1000)); }
@@ -575,20 +712,49 @@ async function pushCloud() {
   cloudBusy = false;
   if (cloudDirty && cloud) { cloudDirty = false; pushCloud(); }
 }
-function mergeRemote(r) {
-  if ((r.resetAt || 0) > (store.savedAt || 0)) { store = { ...store, ...r }; return; }
-  if ((store.resetAt || 0) > (r.savedAt || 0)) return;
+/* one child's progress from two devices: the best stars of both, everything else from the newer copy */
+function mergeKid(a, r) {
+  if (!a) return r; if (!r) return a;
+  if ((r.resetAt || 0) > (a.savedAt || 0)) return { ...a, ...r };
+  if ((a.resetAt || 0) > (r.savedAt || 0)) return a;
   const best = { ...(r.best || {}) };
-  for (const [k, v] of Object.entries(store.best || {})) best[k] = Math.max(best[k] || 0, v);
-  const newer = (r.savedAt || 0) > (store.savedAt || 0);
-  store = {
-    ...store, best,
-    name: newer ? (r.name || store.name || '') : (store.name || r.name || ''),
-    lang: newer && ['en', 'da', 'sv', 'id'].includes(r.lang) ? r.lang : store.lang,
-    sound: newer && typeof r.sound === 'boolean' ? r.sound : store.sound,
-    round: newer ? (r.round || null) : (store.round || null),
-    unlockAll: newer ? !!r.unlockAll : !!store.unlockAll
-  };
+  for (const [k, v] of Object.entries(a.best || {})) best[k] = Math.max(best[k] || 0, v);
+  const w = (r.savedAt || 0) > (a.savedAt || 0) ? r : a;
+  return { ...a, ...w, best, savedAt: Math.max(a.savedAt || 0, r.savedAt || 0) };
+}
+const blankKid = k => !k.name && !Object.keys(k.best || {}).length && !k.onboarded;
+function mergeRemote(r) {
+  if (!r || typeof r !== 'object') return;
+  if (r.v !== 2) {
+    // a save from the earlier one-child version
+    const k = Object.values(DB.kids).find(x => x.legacy) || store;
+    DB.kids[k.id] = cleanKid(mergeKid(k, { ...r, id: k.id, onboarded: k.onboarded }));
+  } else {
+    const gone = new Set([...DB.gone, ...(r.gone || [])]);
+    const remoteKids = Object.entries(r.kids || {}).filter(([id]) => !gone.has(id));
+    // a brand-new empty profile on this device gives way to the family's real children
+    if (remoteKids.length) for (const [id, k] of Object.entries(DB.kids)) if (!r.kids[id] && blankKid(k)) delete DB.kids[id];
+    for (const [id, rk] of remoteKids) DB.kids[id] = mergeKid(DB.kids[id], rk);
+    const lists = new Map(DB.lists.map(l => [l.id, l]));
+    for (const l of r.lists || []) { const m = lists.get(l.id); if (!m || (l.updated || 0) > (m.updated || 0)) lists.set(l.id, l); }
+    DB.lists = [...lists.values()];
+    if ((r.pinAt || 0) > (DB.pinAt || 0)) { DB.pin = r.pin || null; DB.pinAt = r.pinAt; }
+    DB.gone = [...gone];
+    DB.savedAt = Math.max(DB.savedAt || 0, r.savedAt || 0);
+  }
+  cleanDB(DB);
+  store = DB.kids[DB.active];
+  if (typeof buildCustomTopics === 'function') buildCustomTopics();
+}
+/* ref: { get() → the saved record or null, set(record) } */
+async function attachCloud(ref) {
+  const before = JSON.stringify(DB), prevLang = store.lang, prevKid = DB.active;
+  const data = await ref.get();
+  if (data) mergeRemote(data);
+  cloud = ref;
+  save();
+  if (JSON.stringify({ ...DB, savedAt: 0 }) !== JSON.stringify({ ...JSON.parse(before), savedAt: 0 })) refreshAfterSync(prevLang, prevKid);
+  const note = document.getElementById('sync-note'); if (note) note.textContent = tr().syncCloud;
 }
 async function connectCloud() {
   try {
@@ -596,16 +762,12 @@ async function connectCloud() {
     const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
     const uid = user ? await user.id() : null;
     if (!db || !uid) return;
-    const ref = db.doc('data/users/' + uid + '/progress');
-    const snap = await ref.get();
-    const before = JSON.stringify(store);
-    if (snap.exists) mergeRemote(snap.data());
-    cloud = ref;
-    save();
-    if (JSON.stringify({ ...store, savedAt: 0 }) !== JSON.stringify({ ...JSON.parse(before), savedAt: 0 })) refreshAfterSync(JSON.parse(before).lang);
-    const note = document.getElementById('sync-note'); if (note) note.textContent = tr().syncCloud;
+    const doc = db.doc('data/users/' + uid + '/progress');
+    await attachCloud({ get: async () => { const s = await doc.get(); return s.exists ? s.data() : null; }, set: d => doc.set(d) });
+    viaClaude = true;
   } catch (e) {}
 }
+let viaClaude = false;
 
 /* =====================================================================
    TEXT — English and Danish
@@ -647,9 +809,9 @@ const I18N = {
     togetherSp: "That's okay. Let's look at it together, letter by letter.",
     howTitle: q => `How to work out ${q}`, nextStep: 'Next step', back: 'Back', typeAnswer: 'Now type your answer', sayAgain: 'Say it again',
     head: ['Well done for finishing!', 'Great work!', 'Superstar!'],
-    msg: [f => `You got ${f} out of 10 right first time. Every try makes your brain stronger. Have another look at the lesson, then try again.`,
-      f => `You got ${f} out of 10 right first time. A little more practice and you'll have 3 stars.`,
-      f => `You got ${f} out of 10 right first time. You really understand this.`],
+    msg: [(f, n = 10) => `You got ${f} out of ${n} right first time. Every try makes your brain stronger. Have another look at the lesson, then try again.`,
+      (f, n = 10) => `You got ${f} out of ${n} right first time. A little more practice and you'll have 3 stars.`,
+      (f, n = 10) => `You got ${f} out of ${n} right first time. You really understand this.`],
     newBest: ' New best!', nextLevel: 'Next level', playAgain: 'Play again', seeLesson: 'See the lesson', home: 'Home',
     soonToast: (t, x) => `${t} is still getting ${x.toLowerCase()} ready. Coming soon!`,
     voiceOn: 'Voice is on!', voiceOffLabel: 'Turn voice off', voiceOnLabel: 'Turn voice on', language: 'Language',
@@ -791,9 +953,9 @@ const I18N = {
     togetherSp: 'Det gør ikke noget. Lad os se på det sammen, bogstav for bogstav.',
     howTitle: q => `Sådan regner du ${q}`, nextStep: 'Næste trin', back: 'Tilbage', typeAnswer: 'Skriv nu dit svar', sayAgain: 'Sig det igen',
     head: ['Godt gået, du blev færdig!', 'Godt arbejde!', 'Superstjerne!'],
-    msg: [f => `Du fik ${f} ud af 10 rigtige i første forsøg. Hver gang du prøver, bliver din hjerne stærkere. Se lektionen igen, og prøv så en gang til.`,
-      f => `Du fik ${f} ud af 10 rigtige i første forsøg. Lidt mere øvelse, så får du 3 stjerner.`,
-      f => `Du fik ${f} ud af 10 rigtige i første forsøg. Du forstår det virkelig.`],
+    msg: [(f, n = 10) => `Du fik ${f} ud af ${n} rigtige i første forsøg. Hver gang du prøver, bliver din hjerne stærkere. Se lektionen igen, og prøv så en gang til.`,
+      (f, n = 10) => `Du fik ${f} ud af ${n} rigtige i første forsøg. Lidt mere øvelse, så får du 3 stjerner.`,
+      (f, n = 10) => `Du fik ${f} ud af ${n} rigtige i første forsøg. Du forstår det virkelig.`],
     newBest: ' Ny rekord!', nextLevel: 'Næste niveau', playAgain: 'Spil igen', seeLesson: 'Se lektionen', home: 'Forside',
     soonToast: (t, x) => `${t} er stadig ved at gøre ${x.toLowerCase()} klar. Kommer snart!`,
     voiceOn: 'Stemmen er tændt!', voiceOffLabel: 'Sluk for stemmen', voiceOnLabel: 'Tænd for stemmen', language: 'Sprog',
@@ -1047,8 +1209,8 @@ const TOPICS = [
 TOPICS.forEach(t => t.levels.forEach(l => { l.topic = t; }));
 const allLevels = () => TOPICS.flatMap(t => t.levels);
 const findLevel = id => allLevels().find(l => l.id === id);
-const lvlText = l => tr().levels[l.id];
-const topicTitle = t => tr().topics[t.id];
+const lvlText = l => l.custom ? customLvlText(l) : tr().levels[l.id];
+const topicTitle = t => t.custom ? esc(t.name) : tr().topics[t.id];
 const answerOf = p => p.sp ? p.w : p.missing ? p[p.missing] : resOf(p);
 const teacherFor = p => p.sp ? findLevel(p.lv).topic.teacher : ({ '+': 'hoot', '-': 'daisy', x: 'whiskers', '÷': 'sparkle' })[p.op];
 
@@ -1456,8 +1618,8 @@ function similarTo(p) {
 
 /* ---------- topic locking ---------- */
 function lockInfo(tp) {
-  if (!tp.requires || store.unlockAll) return null;
-  const need = tp.requires.flatMap(id => TOPICS.find(t => t.id === id).levels), done = need.filter(l => store.best[l.id]).length;
+  if (!tp.requires || store.unlockAll || store.year >= 2) return null;
+  const need = tp.requires.flatMap(id => TOPICS.find(t => t.id === id).levels), done = need.filter(l => store.best[l.id] || placedPast(l.id)).length;
   return done >= need.length ? null : { done, total: need.length };
 }
 const unlockedTopics = () => TOPICS.filter(t => t.kind !== 'spell' && !lockInfo(t));
@@ -1872,7 +2034,7 @@ function explainWith(p, s) {
 
 /* other ways to explain the same question, in the order a teacher would try them */
 function altsFor(p) {
-  if (p.sp) return ['spellChunks', 'spellFamily', 'spellLook'];
+  if (p.sp) return findLevel(p.lv)?.custom ? ['spellChunks', 'spellLook'] : ['spellChunks', 'spellFamily', 'spellLook'];
   const s = stratOf(p), { a, b } = p, r = resOf(p), out = [];
   const add = x => { if (x && x !== s && EXPLAIN[x] && !out.includes(x)) out.push(x); };
   if (p.missing) add('missingTurn');
@@ -2867,7 +3029,7 @@ const SPEAKER_SVG = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden
 function spellCardTop(p) {
   const t = tr(), wd = wordInfo(p);
   return `<p class="sp-prompt">${t.spPrompt[p.fmt]}</p>
-    <p class="story">${sentenceWith(wd, '<span class="gap"></span>')}</p>
+    ${wd.s ? `<p class="story">${sentenceWith(wd, '<span class="gap"></span>')}</p>` : ''}
 `;
 }
 function spellQHtml(p, state) {
@@ -2903,9 +3065,9 @@ function spellAttempt(p) {
   return S.input.trim().toLowerCase();
 }
 function spellAsk(p, hearOnly) {
-  const t = tr(), wd = wordInfo(p), full = wd.s.replace('___', p.w);
-  if (hearOnly) return `${p.w}. ${full}`;
-  return p.fmt === 'type' ? `${t.spPrompt.type} ${p.w}. ${full} ${p.w}.` : `${t.spPrompt[p.fmt]} ${full}`;
+  const t = tr(), wd = wordInfo(p), full = wd.s ? wd.s.replace('___', p.w) : '';
+  if (hearOnly) return full ? `${p.w}. ${full}` : `${p.w}.`;
+  return p.fmt === 'type' ? `${t.spPrompt.type} ${p.w}. ${full ? full + ' ' : ''}${p.w}.` : `${t.spPrompt[p.fmt]} ${full || p.w + '.'}`;
 }
 I18N.en.howSpell = w => `How to spell ${w}`;
 I18N.da.howSpell = w => `Sådan staves ${w}`;
@@ -2958,9 +3120,9 @@ const SV = (() => {
     togetherSp: 'Det gör inget. Vi tittar på det tillsammans, bokstav för bokstav.',
     howTitle: q => `Så räknar du ut ${q}`, nextStep: 'Nästa steg', back: 'Tillbaka', typeAnswer: 'Skriv nu ditt svar', sayAgain: 'Säg det igen',
     head: ['Bra jobbat, du blev klar!', 'Jättebra jobbat!', 'Superstjärna!'],
-    msg: [f => `Du fick ${f} av 10 rätt på första försöket. Varje försök gör din hjärna starkare. Titta på lektionen igen och försök sedan en gång till.`,
-      f => `Du fick ${f} av 10 rätt på första försöket. Lite mer övning så får du 3 stjärnor.`,
-      f => `Du fick ${f} av 10 rätt på första försöket. Du förstår det här riktigt bra.`],
+    msg: [(f, n = 10) => `Du fick ${f} av ${n} rätt på första försöket. Varje försök gör din hjärna starkare. Titta på lektionen igen och försök sedan en gång till.`,
+      (f, n = 10) => `Du fick ${f} av ${n} rätt på första försöket. Lite mer övning så får du 3 stjärnor.`,
+      (f, n = 10) => `Du fick ${f} av ${n} rätt på första försöket. Du förstår det här riktigt bra.`],
     newBest: ' Nytt rekord!', nextLevel: 'Nästa nivå', playAgain: 'Spela igen', seeLesson: 'Se lektionen', home: 'Hem',
     soonToast: (t, x) => `${t} håller fortfarande på att göra ${x.toLowerCase()} klart. Kommer snart!`,
     voiceOn: 'Rösten är på!', voiceOffLabel: 'Stäng av rösten', voiceOnLabel: 'Slå på rösten', language: 'Språk',
@@ -3154,9 +3316,9 @@ const ID = (() => {
     togetherSp: 'Tidak apa-apa. Ayo kita lihat bersama, huruf demi huruf.',
     howTitle: q => `Cara menghitung ${q}`, nextStep: 'Langkah berikutnya', back: 'Kembali', typeAnswer: 'Sekarang tulis jawabanmu', sayAgain: 'Ulangi',
     head: ['Bagus, kamu sudah selesai!', 'Kerja bagus!', 'Bintang super!'],
-    msg: [f => `Kamu benar ${f} dari 10 pada percobaan pertama. Setiap percobaan membuat otakmu makin kuat. Lihat lagi pelajarannya, lalu coba sekali lagi.`,
-      f => `Kamu benar ${f} dari 10 pada percobaan pertama. Sedikit latihan lagi dan kamu dapat 3 bintang.`,
-      f => `Kamu benar ${f} dari 10 pada percobaan pertama. Kamu benar-benar paham.`],
+    msg: [(f, n = 10) => `Kamu benar ${f} dari ${n} pada percobaan pertama. Setiap percobaan membuat otakmu makin kuat. Lihat lagi pelajarannya, lalu coba sekali lagi.`,
+      (f, n = 10) => `Kamu benar ${f} dari ${n} pada percobaan pertama. Sedikit latihan lagi dan kamu dapat 3 bintang.`,
+      (f, n = 10) => `Kamu benar ${f} dari ${n} pada percobaan pertama. Kamu benar-benar paham.`],
     newBest: ' Rekor baru!', nextLevel: 'Level berikutnya', playAgain: 'Main lagi', seeLesson: 'Lihat pelajaran', home: 'Beranda',
     soonToast: (t, x) => `${t} masih menyiapkan ${x.toLowerCase()}. Segera hadir!`,
     voiceOn: 'Suara menyala!', voiceOffLabel: 'Matikan suara', voiceOnLabel: 'Nyalakan suara', language: 'Bahasa',
@@ -3355,6 +3517,259 @@ const LANGS = ['en', 'da', 'sv', 'id'];
   }
 })();
 
+/* ---------- text for profiles, onboarding, the path, word lists and the grown-up area ---------- */
+(function addV3Text() {
+  const merge = (t, src) => { for (const [k, v] of Object.entries(src)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
+  merge(I18N.en, {
+    obNew: "There's something new: your own profile! It only takes a minute.",
+    obLangQ: 'Which language do you want to play in?', obNameQ: "What's your name?", obAvatarQ: 'Pick a buddy to be you!',
+    obYearQ: 'Which school year are you in?', yearN: n => `Year ${n}`, ageHint: n => `age ${n + 4}–${n + 5}`, yearUnsure: 'Not sure',
+    obSpellQ: 'Which spelling do you want to practise?',
+    obPlaceQ: "Let's find the best place to start!", obPlaceText: "I'll ask a few quick questions. There's no stress: if you don't know one, just tap “I don't know yet”.",
+    obPlaceGo: "Let's go", obPlaceSkip: 'Skip for now', next: 'Next', cancel: 'Cancel',
+    plTitle: 'Warm-up', plFirst: "Here's the first one. Take your time.", plNext: ['Here comes the next one.', 'Try this one.', 'And this one?'],
+    plGood: ['Got it!', 'Nice!', 'Well done!'], plOk: ["That's okay!", 'Good try!', 'No problem!'], plDontKnow: "I don't know yet",
+    plGreat: n => n ? `Great work, ${n}!` : 'Great work!', plDone: x => `You'll start with ${x}. Your path shows the next step every time.`,
+    plDoneAll: 'Wow, you already know everything on the path! Try the mixed challenge, or practise any level you like.',
+    plDoneBtn: "Let's start", backToGrownups: 'Back to grown-ups', whoPlays: "Who's playing?",
+    nextUp: 'Next up', pathStep: (i, n) => `step ${i} of ${n}`, pathStart: 'Start',
+    pathDone: 'You finished your path!', pathDoneText: 'Try the mixed challenge or practise any level again.',
+    reviewTitle: 'Practise again', reviewText: n => n === 1 ? '1 question you found tricky is ready to try again.' : `${n} questions you found tricky are ready to try again.`,
+    reviewNone: 'Nothing to practise again today. Well done!',
+    myLists: 'My word lists', clHint: 'Got spelling words from school? A grown-up can add them under “For grown-ups”.',
+    clGoal: n => n === 1 ? '1 word' : `${n} words`, clCardMeta: (st, n) => `${st} of 3 stars · ${n === 1 ? '1 word' : n + ' words'}`,
+    clWhat: 'Look at the yellow letters, say the letters out loud, then write the word from memory.',
+    clWhy: 'Practising your own words a little every day is the best way to remember them.',
+    clIntro: n => `These are your own words: ${n}. Let's practise them together!`,
+    tabKids: 'Children', tabLists: 'Word lists', tabProgress: 'Progress', tabSettings: 'Settings', tabAccount: 'Account',
+    kidName: 'Name', kidAvatar: 'Buddy', kidYearL: 'School year', kidLang: 'App language', kidSpell: 'Spelling subjects',
+    playingNow: 'playing now', progNext: x => `Next: ${x}`, playAs: n => `Play as ${n}`, edit: 'Edit', redoPlacement: 'Redo starting quiz',
+    remove: 'Remove', removeAsk: n => `Remove ${n} and all their stars from this family?`, removeYes: 'Yes, delete', keep: 'Keep', addChild: 'Add a child',
+    listsIntro: 'Add the weekly spelling words from school. Take a photo of the list or type the words, and the app makes a practice round from them.',
+    everyone: 'Everyone', addList: 'Add a word list', noLists: 'No word lists yet.',
+    progStars: (s, m) => `${s} of ${m} stars`, progLevels: (d, n) => `${d} of ${n} levels`, progPath: (i, n) => `Path: ${i} of ${n} steps done`,
+    progReview: n => n === 1 ? '1 tricky question is saved to practise again.' : `${n} tricky questions are saved to practise again.`,
+    progWeak: 'Levels to practise again (1 star)', progNone: 'None right now.',
+    settingsFor: n => `Settings for ${n}`, pinChange: 'Change the grown-up PIN', aboutTitle: b => `About ${b}`,
+    accTitle: 'Save across devices', accClaude: 'Progress and word lists are saved in your Claude account and follow you to other devices.',
+    accLocal: 'Right now, progress and word lists are saved on this device only.',
+    accSoon: 'Free family accounts are being prepared, so you can use the app on more than one device.',
+    accLoading: 'Connecting…', accSynced: 'Progress and word lists are saved in your family account and follow you to other devices.', accSignedIn: e => `Signed in as ${e}`, accSignOut: 'Sign out', accDelete: 'Delete the account and online data',
+    accSignInText: 'Sign in to keep progress and word lists safe and use them on more than one device. Only you can see your family’s data.',
+    accKids: 'Children do not need an email address. Only the grown-up signs in.',
+    accGoogle: 'Continue with Google', accEmail: 'Email', accPassword: 'Password (at least 6 characters)', accSignIn: 'Sign in', accCreate: 'Create account', accForgot: 'Forgot password?',
+    accResetSent: 'We sent you an email to reset your password.', accDeleteAsk: 'Delete your account and the family data saved online? Progress on this device is kept.',
+    accDeleteYes: 'Yes, delete', accDeleted: 'Your account and online data are deleted.', accRelogin: 'For safety, sign out, sign in again, and then delete.',
+    accErr: { 'auth/invalid-credential': 'Wrong email or password.', 'auth/wrong-password': 'Wrong email or password.', 'auth/user-not-found': 'Wrong email or password.',
+      'auth/email-already-in-use': 'There is already an account with this email. Sign in instead.', 'auth/weak-password': 'Use a password with at least 6 characters.',
+      'auth/invalid-email': 'That email address does not look right.', 'auth/popup-closed-by-user': 'The sign-in window was closed.', 'auth/popup-blocked': 'The sign-in window was blocked. Allow pop-ups and try again.',
+      'auth/network-request-failed': 'No internet connection.', 'auth/too-many-requests': 'Too many tries. Wait a little and try again.', other: 'Something went wrong. Please try again.' },
+    privacy: 'Privacy',
+    listName: 'Name of the list', listNamePh: 'e.g. Week 12', listLang: 'Language', listFor: 'For',
+    photoTitle: 'Photo of the list', photoBtn: 'Take or choose a photo', photoPrivate: 'The photo is read on this device and is never uploaded.',
+    photoLoading: 'Getting the word reader ready… (the first time takes a little longer)', photoReading: p => `Reading the words… ${p}%`,
+    photoNone: 'No words found in the photo. Try again in good light, or type the words.', photoFound: n => n === 1 ? 'Found 1 new word. Check it below.' : `Found ${n} new words. Check them below.`,
+    photoFail: "Couldn't read the photo. Check the internet connection, try again in good light, or type the words.",
+    typeWords: 'Or type the words', typeWordsPh: 'One per line, or separated by commas', addWords: 'Add words',
+    saveList: 'Save list', deleteList: 'Delete list', deleteListAsk: 'Delete this word list?', noWordsYet: 'No words yet.',
+    wordsTitle: n => `Words (${n})`, mistakesHint: 'Next to each word are the wrong spellings the app made for “pick the right one”. Tap ↻ for others, or × to remove a word. Tap a word to fix it.',
+    wordN: i => `Word ${i}`, newMistakes: 'Other wrong spellings', removeWord: 'Remove word',
+    needWords: 'Add at least 3 words first.', listDefault: n => `Word list ${n}`, listSaved: 'Word list saved.', listDeleted: 'Word list deleted.',
+    badWords: w => `Left out (letters the keyboard doesn't have): ${w}`,
+    pinEnter: 'Enter the grown-up PIN', pinCreate: 'Create a 4-digit grown-up PIN', pinAgain: 'Type the PIN again',
+    pinCreateText: 'The PIN keeps this area for grown-ups, so children cannot change settings or delete lists.',
+    pinReset: (a, b) => `To make a new PIN, answer this: ${a} × ${b} = ?`, pinOk: 'OK', pinForgot: 'Forgot the PIN?',
+    pinWrong: 'That PIN is not right.', pinWrongSum: 'Not quite. Try again.', pin4: 'The PIN must be 4 digits.', pinMismatch: "The two PINs didn't match. Please start again.", pinSaved: 'PIN saved.', saved: 'Saved.',
+    resetAsk: 'Clear all stars and saved rounds for this child?'
+  });
+  merge(I18N.da, {
+    obNew: 'Der er noget nyt: din egen profil! Det tager kun et minut.',
+    obLangQ: 'Hvilket sprog vil du spille på?', obNameQ: 'Hvad hedder du?', obAvatarQ: 'Vælg en ven, der skal være dig!',
+    obYearQ: 'Hvilket skoleår går du i?', yearN: n => `Year ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Ved ikke',
+    obSpellQ: 'Hvilken stavning vil du øve?',
+    obPlaceQ: 'Lad os finde det bedste sted at starte!', obPlaceText: 'Jeg stiller nogle hurtige spørgsmål. Bare rolig: Hvis du ikke kan en, så tryk bare på “Det kan jeg ikke endnu”.',
+    obPlaceGo: 'Kom så', obPlaceSkip: 'Spring over', next: 'Næste', cancel: 'Annuller',
+    plTitle: 'Opvarmning', plFirst: 'Her er den første. Tag dig god tid.', plNext: ['Her kommer den næste.', 'Prøv den her.', 'Og den her?'],
+    plGood: ['Sådan!', 'Flot!', 'Godt gået!'], plOk: ['Det gør ikke noget!', 'Godt forsøgt!', 'Intet problem!'], plDontKnow: 'Det kan jeg ikke endnu',
+    plGreat: n => n ? `Flot klaret, ${n}!` : 'Flot klaret!', plDone: x => `Du starter med ${x}. Din vej viser dig næste skridt hver gang.`,
+    plDoneAll: 'Wow, du kan allerede alt på vejen! Prøv den blandede udfordring, eller øv det niveau, du har lyst til.',
+    plDoneBtn: 'Lad os starte', backToGrownups: 'Tilbage til voksne', whoPlays: 'Hvem spiller?',
+    nextUp: 'Næste skridt', pathStep: (i, n) => `skridt ${i} af ${n}`, pathStart: 'Start',
+    pathDone: 'Du har gennemført din vej!', pathDoneText: 'Prøv den blandede udfordring, eller øv et niveau igen.',
+    reviewTitle: 'Øv igen', reviewText: n => n === 1 ? '1 opgave, du syntes var svær, er klar til at blive prøvet igen.' : `${n} opgaver, du syntes var svære, er klar til at blive prøvet igen.`,
+    reviewNone: 'Der er ikke mere at øve igen i dag. Godt gået!',
+    myLists: 'Mine ordlister', clHint: 'Har du fået staveord med hjem fra skolen? En voksen kan tilføje dem under “Til voksne”.',
+    clGoal: n => n === 1 ? '1 ord' : `${n} ord`, clCardMeta: (st, n) => `${st} af 3 stjerner · ${n} ord`,
+    clWhat: 'Se på de gule bogstaver, sig bogstaverne højt, og skriv så ordet udenad.',
+    clWhy: 'Hvis du øver dine egne ord lidt hver dag, husker du dem bedst.',
+    clIntro: n => `Det her er dine egne ord: ${n}. Lad os øve dem sammen!`,
+    tabKids: 'Børn', tabLists: 'Ordlister', tabProgress: 'Fremskridt', tabSettings: 'Indstillinger', tabAccount: 'Konto',
+    kidName: 'Navn', kidAvatar: 'Ven', kidYearL: 'Skoleår', kidLang: 'Sprog i appen', kidSpell: 'Stavefag',
+    playingNow: 'spiller nu', progNext: x => `Næste: ${x}`, playAs: n => `Spil som ${n}`, edit: 'Ret', redoPlacement: 'Tag startquizzen igen',
+    remove: 'Fjern', removeAsk: n => `Fjern ${n} og alle stjernerne fra familien?`, removeYes: 'Ja, slet', keep: 'Behold', addChild: 'Tilføj et barn',
+    listsIntro: 'Tilføj ugens staveord fra skolen. Tag et billede af listen, eller skriv ordene, så laver appen en øverunde med dem.',
+    everyone: 'Alle', addList: 'Tilføj en ordliste', noLists: 'Ingen ordlister endnu.',
+    progStars: (s, m) => `${s} af ${m} stjerner`, progLevels: (d, n) => `${d} af ${n} niveauer`, progPath: (i, n) => `Vejen: ${i} af ${n} skridt klaret`,
+    progReview: n => n === 1 ? '1 svær opgave er gemt til at øve igen.' : `${n} svære opgaver er gemt til at øve igen.`,
+    progWeak: 'Niveauer, der skal øves igen (1 stjerne)', progNone: 'Ingen lige nu.',
+    settingsFor: n => `Indstillinger for ${n}`, pinChange: 'Skift voksen-koden', aboutTitle: b => `Om ${b}`,
+    accTitle: 'Gem på flere enheder', accClaude: 'Fremskridt og ordlister gemmes på din Claude-konto og følger med til andre enheder.',
+    accLocal: 'Lige nu gemmes fremskridt og ordlister kun på denne enhed.',
+    accSoon: 'Gratis familiekonti er på vej, så I kan bruge appen på mere end én enhed.',
+    accLoading: 'Forbinder…', accSynced: 'Fremskridt og ordlister gemmes på jeres familiekonto og følger med til andre enheder.', accSignedIn: e => `Logget ind som ${e}`, accSignOut: 'Log ud', accDelete: 'Slet kontoen og de gemte data online',
+    accSignInText: 'Log ind for at gemme fremskridt og ordlister sikkert og bruge dem på flere enheder. Kun du kan se familiens data.',
+    accKids: 'Børn skal ikke have en e-mailadresse. Det er kun den voksne, der logger ind.',
+    accGoogle: 'Fortsæt med Google', accEmail: 'E-mail', accPassword: 'Adgangskode (mindst 6 tegn)', accSignIn: 'Log ind', accCreate: 'Opret konto', accForgot: 'Glemt adgangskoden?',
+    accResetSent: 'Vi har sendt dig en e-mail, så du kan nulstille adgangskoden.', accDeleteAsk: 'Slet din konto og familiens data online? Fremskridt på denne enhed bliver gemt.',
+    accDeleteYes: 'Ja, slet', accDeleted: 'Din konto og dine data online er slettet.', accRelogin: 'Af sikkerhedshensyn skal du logge ud, logge ind igen og så slette.',
+    accErr: { 'auth/invalid-credential': 'Forkert e-mail eller adgangskode.', 'auth/wrong-password': 'Forkert e-mail eller adgangskode.', 'auth/user-not-found': 'Forkert e-mail eller adgangskode.',
+      'auth/email-already-in-use': 'Der findes allerede en konto med den e-mail. Log ind i stedet.', 'auth/weak-password': 'Brug en adgangskode på mindst 6 tegn.',
+      'auth/invalid-email': 'Den e-mailadresse ser ikke rigtig ud.', 'auth/popup-closed-by-user': 'Login-vinduet blev lukket.', 'auth/popup-blocked': 'Login-vinduet blev blokeret. Tillad pop op-vinduer, og prøv igen.',
+      'auth/network-request-failed': 'Ingen internetforbindelse.', 'auth/too-many-requests': 'For mange forsøg. Vent lidt, og prøv igen.', other: 'Noget gik galt. Prøv igen.' },
+    privacy: 'Privatliv',
+    listName: 'Listens navn', listNamePh: 'f.eks. Uge 12', listLang: 'Sprog', listFor: 'Til',
+    photoTitle: 'Billede af listen', photoBtn: 'Tag eller vælg et billede', photoPrivate: 'Billedet bliver læst på denne enhed og bliver aldrig sendt nogen steder hen.',
+    photoLoading: 'Gør ordlæseren klar… (første gang tager lidt længere tid)', photoReading: p => `Læser ordene… ${p}%`,
+    photoNone: 'Der blev ikke fundet nogen ord på billedet. Prøv igen i godt lys, eller skriv ordene.', photoFound: n => n === 1 ? 'Fandt 1 nyt ord. Tjek det nedenfor.' : `Fandt ${n} nye ord. Tjek dem nedenfor.`,
+    photoFail: 'Billedet kunne ikke læses. Tjek internetforbindelsen, prøv igen i godt lys, eller skriv ordene.',
+    typeWords: 'Eller skriv ordene', typeWordsPh: 'Et ord pr. linje eller adskilt med komma', addWords: 'Tilføj ord',
+    saveList: 'Gem listen', deleteList: 'Slet listen', deleteListAsk: 'Slet denne ordliste?', noWordsYet: 'Ingen ord endnu.',
+    wordsTitle: n => `Ord (${n})`, mistakesHint: 'Ved hvert ord står de forkerte stavemåder, appen har lavet til “vælg den rigtige”. Tryk på ↻ for andre, eller × for at fjerne et ord. Tryk på et ord for at rette det.',
+    wordN: i => `Ord ${i}`, newMistakes: 'Andre forkerte stavemåder', removeWord: 'Fjern ord',
+    needWords: 'Tilføj mindst 3 ord først.', listDefault: n => `Ordliste ${n}`, listSaved: 'Ordlisten er gemt.', listDeleted: 'Ordlisten er slettet.',
+    badWords: w => `Udeladt (bogstaver, tastaturet ikke har): ${w}`,
+    pinEnter: 'Skriv voksen-koden', pinCreate: 'Lav en voksen-kode på 4 cifre', pinAgain: 'Skriv koden igen',
+    pinCreateText: 'Koden holder dette område for voksne, så børn ikke kan ændre indstillinger eller slette lister.',
+    pinReset: (a, b) => `Svar på det her for at lave en ny kode: ${a} · ${b} = ?`, pinOk: 'OK', pinForgot: 'Glemt koden?',
+    pinWrong: 'Koden er forkert.', pinWrongSum: 'Ikke helt. Prøv igen.', pin4: 'Koden skal være på 4 cifre.', pinMismatch: 'De to koder var ikke ens. Start forfra.', pinSaved: 'Koden er gemt.', saved: 'Gemt.',
+    resetAsk: 'Slet alle stjerner og gemte runder for dette barn?'
+  });
+  merge(I18N.sv, {
+    obNew: 'Det finns något nytt: din egen profil! Det tar bara en minut.',
+    obLangQ: 'Vilket språk vill du spela på?', obNameQ: 'Vad heter du?', obAvatarQ: 'Välj en kompis som får vara du!',
+    obYearQ: 'Vilket skolår går du i?', yearN: n => `Year ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Vet inte',
+    obSpellQ: 'Vilken stavning vill du öva på?',
+    obPlaceQ: 'Vi tar reda på var det är bäst att börja!', obPlaceText: 'Jag ställer några snabba frågor. Ingen stress: om du inte kan en, tryck bara på “Det kan jag inte än”.',
+    obPlaceGo: 'Kör!', obPlaceSkip: 'Hoppa över', next: 'Nästa', cancel: 'Avbryt',
+    plTitle: 'Uppvärmning', plFirst: 'Här är den första. Ta god tid på dig.', plNext: ['Här kommer nästa.', 'Prova den här.', 'Och den här?'],
+    plGood: ['Snyggt!', 'Bra!', 'Bra jobbat!'], plOk: ['Det gör inget!', 'Bra försök!', 'Inga problem!'], plDontKnow: 'Det kan jag inte än',
+    plGreat: n => n ? `Bra jobbat, ${n}!` : 'Bra jobbat!', plDone: x => `Du börjar med ${x}. Din väg visar nästa steg varje gång.`,
+    plDoneAll: 'Wow, du kan redan allt på vägen! Prova den blandade utmaningen, eller öva på vilken nivå du vill.',
+    plDoneBtn: 'Nu börjar vi', backToGrownups: 'Tillbaka till vuxna', whoPlays: 'Vem spelar?',
+    nextUp: 'Nästa steg', pathStep: (i, n) => `steg ${i} av ${n}`, pathStart: 'Börja',
+    pathDone: 'Du har gått hela din väg!', pathDoneText: 'Prova den blandade utmaningen, eller öva på en nivå igen.',
+    reviewTitle: 'Öva igen', reviewText: n => n === 1 ? '1 fråga som du tyckte var svår är redo att prövas igen.' : `${n} frågor som du tyckte var svåra är redo att prövas igen.`,
+    reviewNone: 'Inget mer att öva på igen i dag. Bra jobbat!',
+    myLists: 'Mina ordlistor', clHint: 'Har du fått stavningsord från skolan? En vuxen kan lägga till dem under “För vuxna”.',
+    clGoal: n => n === 1 ? '1 ord' : `${n} ord`, clCardMeta: (st, n) => `${st} av 3 stjärnor · ${n} ord`,
+    clWhat: 'Titta på de gula bokstäverna, säg bokstäverna högt och skriv sedan ordet ur minnet.',
+    clWhy: 'Om du övar på dina egna ord lite varje dag kommer du ihåg dem bäst.',
+    clIntro: n => `Det här är dina egna ord: ${n}. Vi övar på dem tillsammans!`,
+    tabKids: 'Barn', tabLists: 'Ordlistor', tabProgress: 'Framsteg', tabSettings: 'Inställningar', tabAccount: 'Konto',
+    kidName: 'Namn', kidAvatar: 'Kompis', kidYearL: 'Skolår', kidLang: 'Språk i appen', kidSpell: 'Stavningsämnen',
+    playingNow: 'spelar nu', progNext: x => `Nästa: ${x}`, playAs: n => `Spela som ${n}`, edit: 'Ändra', redoPlacement: 'Gör startquizen igen',
+    remove: 'Ta bort', removeAsk: n => `Ta bort ${n} och alla stjärnor från familjen?`, removeYes: 'Ja, ta bort', keep: 'Behåll', addChild: 'Lägg till ett barn',
+    listsIntro: 'Lägg till veckans stavningsord från skolan. Ta en bild av listan eller skriv orden, så gör appen en övningsrunda av dem.',
+    everyone: 'Alla', addList: 'Lägg till en ordlista', noLists: 'Inga ordlistor än.',
+    progStars: (s, m) => `${s} av ${m} stjärnor`, progLevels: (d, n) => `${d} av ${n} nivåer`, progPath: (i, n) => `Vägen: ${i} av ${n} steg klara`,
+    progReview: n => n === 1 ? '1 svår fråga är sparad att öva på igen.' : `${n} svåra frågor är sparade att öva på igen.`,
+    progWeak: 'Nivåer att öva på igen (1 stjärna)', progNone: 'Inga just nu.',
+    settingsFor: n => `Inställningar för ${n}`, pinChange: 'Byt vuxenkoden', aboutTitle: b => `Om ${b}`,
+    accTitle: 'Spara på flera enheter', accClaude: 'Framsteg och ordlistor sparas i ditt Claude-konto och följer med till andra enheter.',
+    accLocal: 'Just nu sparas framsteg och ordlistor bara på den här enheten.',
+    accSoon: 'Gratis familjekonton är på väg, så att ni kan använda appen på mer än en enhet.',
+    accLoading: 'Ansluter…', accSynced: 'Framsteg och ordlistor sparas i ert familjekonto och följer med till andra enheter.', accSignedIn: e => `Inloggad som ${e}`, accSignOut: 'Logga ut', accDelete: 'Radera kontot och sparade data på nätet',
+    accSignInText: 'Logga in för att spara framsteg och ordlistor säkert och använda dem på flera enheter. Bara du kan se familjens data.',
+    accKids: 'Barn behöver ingen e-postadress. Det är bara den vuxna som loggar in.',
+    accGoogle: 'Fortsätt med Google', accEmail: 'E-post', accPassword: 'Lösenord (minst 6 tecken)', accSignIn: 'Logga in', accCreate: 'Skapa konto', accForgot: 'Glömt lösenordet?',
+    accResetSent: 'Vi har skickat ett mejl så att du kan återställa lösenordet.', accDeleteAsk: 'Radera ditt konto och familjens data på nätet? Framstegen på den här enheten sparas.',
+    accDeleteYes: 'Ja, radera', accDeleted: 'Ditt konto och dina data på nätet är raderade.', accRelogin: 'Av säkerhetsskäl: logga ut, logga in igen och radera sedan.',
+    accErr: { 'auth/invalid-credential': 'Fel e-post eller lösenord.', 'auth/wrong-password': 'Fel e-post eller lösenord.', 'auth/user-not-found': 'Fel e-post eller lösenord.',
+      'auth/email-already-in-use': 'Det finns redan ett konto med den e-postadressen. Logga in i stället.', 'auth/weak-password': 'Använd ett lösenord med minst 6 tecken.',
+      'auth/invalid-email': 'Den e-postadressen ser inte rätt ut.', 'auth/popup-closed-by-user': 'Inloggningsfönstret stängdes.', 'auth/popup-blocked': 'Inloggningsfönstret blockerades. Tillåt popup-fönster och försök igen.',
+      'auth/network-request-failed': 'Ingen internetanslutning.', 'auth/too-many-requests': 'För många försök. Vänta lite och försök igen.', other: 'Något gick fel. Försök igen.' },
+    privacy: 'Integritet',
+    listName: 'Listans namn', listNamePh: 't.ex. Vecka 12', listLang: 'Språk', listFor: 'För',
+    photoTitle: 'Bild av listan', photoBtn: 'Ta eller välj en bild', photoPrivate: 'Bilden läses på den här enheten och laddas aldrig upp.',
+    photoLoading: 'Gör ordläsaren redo… (första gången tar lite längre tid)', photoReading: p => `Läser orden… ${p}%`,
+    photoNone: 'Inga ord hittades på bilden. Försök igen i bra ljus, eller skriv orden.', photoFound: n => n === 1 ? 'Hittade 1 nytt ord. Kontrollera det nedan.' : `Hittade ${n} nya ord. Kontrollera dem nedan.`,
+    photoFail: 'Bilden kunde inte läsas. Kontrollera internetanslutningen, försök igen i bra ljus, eller skriv orden.',
+    typeWords: 'Eller skriv orden', typeWordsPh: 'Ett ord per rad eller åtskilda med komma', addWords: 'Lägg till ord',
+    saveList: 'Spara listan', deleteList: 'Radera listan', deleteListAsk: 'Radera den här ordlistan?', noWordsYet: 'Inga ord än.',
+    wordsTitle: n => `Ord (${n})`, mistakesHint: 'Bredvid varje ord står de felstavningar som appen har gjort till “välj den rätta”. Tryck på ↻ för andra, eller × för att ta bort ett ord. Tryck på ett ord för att rätta det.',
+    wordN: i => `Ord ${i}`, newMistakes: 'Andra felstavningar', removeWord: 'Ta bort ordet',
+    needWords: 'Lägg till minst 3 ord först.', listDefault: n => `Ordlista ${n}`, listSaved: 'Ordlistan är sparad.', listDeleted: 'Ordlistan är raderad.',
+    badWords: w => `Utelämnade (bokstäver som tangentbordet saknar): ${w}`,
+    pinEnter: 'Skriv vuxenkoden', pinCreate: 'Gör en vuxenkod med 4 siffror', pinAgain: 'Skriv koden igen',
+    pinCreateText: 'Koden håller det här området för vuxna, så att barn inte kan ändra inställningar eller radera listor.',
+    pinReset: (a, b) => `Svara på det här för att göra en ny kod: ${a} · ${b} = ?`, pinOk: 'OK', pinForgot: 'Glömt koden?',
+    pinWrong: 'Koden är fel.', pinWrongSum: 'Inte riktigt. Försök igen.', pin4: 'Koden ska ha 4 siffror.', pinMismatch: 'De två koderna var inte likadana. Börja om.', pinSaved: 'Koden är sparad.', saved: 'Sparat.',
+    resetAsk: 'Ta bort alla stjärnor och sparade rundor för det här barnet?'
+  });
+  merge(I18N.id, {
+    obNew: 'Ada yang baru: profilmu sendiri! Hanya butuh satu menit.',
+    obLangQ: 'Kamu mau bermain dalam bahasa apa?', obNameQ: 'Siapa namamu?', obAvatarQ: 'Pilih teman yang akan menjadi kamu!',
+    obYearQ: 'Kamu di tahun sekolah berapa?', yearN: n => `Year ${n}`, ageHint: n => `usia ${n + 4}–${n + 5}`, yearUnsure: 'Belum tahu',
+    obSpellQ: 'Ejaan apa yang mau kamu latih?',
+    obPlaceQ: 'Ayo cari tempat terbaik untuk mulai!', obPlaceText: 'Aku akan menanyakan beberapa soal singkat. Santai saja: kalau ada yang belum kamu tahu, ketuk saja “Aku belum tahu”.',
+    obPlaceGo: 'Ayo!', obPlaceSkip: 'Lewati dulu', next: 'Lanjut', cancel: 'Batal',
+    plTitle: 'Pemanasan', plFirst: 'Ini soal pertama. Santai saja.', plNext: ['Ini soal berikutnya.', 'Coba yang ini.', 'Kalau yang ini?'],
+    plGood: ['Benar!', 'Bagus!', 'Hebat!'], plOk: ['Tidak apa-apa!', 'Usaha yang bagus!', 'Tidak masalah!'], plDontKnow: 'Aku belum tahu',
+    plGreat: n => n ? `Kerja bagus, ${n}!` : 'Kerja bagus!', plDone: x => `Kamu akan mulai dengan ${x}. Jalurmu selalu menunjukkan langkah berikutnya.`,
+    plDoneAll: 'Wah, kamu sudah tahu semua yang ada di jalur! Coba tantangan campuran, atau latih level mana saja yang kamu mau.',
+    plDoneBtn: 'Ayo mulai', backToGrownups: 'Kembali ke orang tua', whoPlays: 'Siapa yang bermain?',
+    nextUp: 'Langkah berikutnya', pathStep: (i, n) => `langkah ${i} dari ${n}`, pathStart: 'Mulai',
+    pathDone: 'Kamu sudah menyelesaikan jalurmu!', pathDoneText: 'Coba tantangan campuran atau latih lagi level mana saja.',
+    reviewTitle: 'Latihan lagi', reviewText: n => `${n} soal yang menurutmu sulit siap untuk dicoba lagi.`,
+    reviewNone: 'Tidak ada yang perlu dilatih lagi hari ini. Hebat!',
+    myLists: 'Daftar kataku', clHint: 'Dapat kata ejaan dari sekolah? Orang tua bisa menambahkannya di “Untuk orang tua”.',
+    clGoal: n => `${n} kata`, clCardMeta: (st, n) => `${st} dari 3 bintang · ${n} kata`,
+    clWhat: 'Lihat huruf yang kuning, ucapkan hurufnya dengan keras, lalu tulis katanya dari ingatan.',
+    clWhy: 'Melatih kata-katamu sendiri sedikit setiap hari adalah cara terbaik untuk mengingatnya.',
+    clIntro: n => `Ini kata-katamu sendiri: ${n}. Ayo kita latih bersama!`,
+    tabKids: 'Anak', tabLists: 'Daftar kata', tabProgress: 'Kemajuan', tabSettings: 'Pengaturan', tabAccount: 'Akun',
+    kidName: 'Nama', kidAvatar: 'Teman', kidYearL: 'Tahun sekolah', kidLang: 'Bahasa aplikasi', kidSpell: 'Pelajaran ejaan',
+    playingNow: 'sedang bermain', progNext: x => `Berikutnya: ${x}`, playAs: n => `Main sebagai ${n}`, edit: 'Ubah', redoPlacement: 'Ulangi kuis awal',
+    remove: 'Hapus', removeAsk: n => `Hapus ${n} dan semua bintangnya dari keluarga ini?`, removeYes: 'Ya, hapus', keep: 'Simpan', addChild: 'Tambah anak',
+    listsIntro: 'Tambahkan kata ejaan mingguan dari sekolah. Foto daftarnya atau ketik katanya, lalu aplikasi membuat latihan dari kata-kata itu.',
+    everyone: 'Semua', addList: 'Tambah daftar kata', noLists: 'Belum ada daftar kata.',
+    progStars: (s, m) => `${s} dari ${m} bintang`, progLevels: (d, n) => `${d} dari ${n} level`, progPath: (i, n) => `Jalur: ${i} dari ${n} langkah selesai`,
+    progReview: n => `${n} soal sulit disimpan untuk dilatih lagi.`,
+    progWeak: 'Level yang perlu dilatih lagi (1 bintang)', progNone: 'Tidak ada saat ini.',
+    settingsFor: n => `Pengaturan untuk ${n}`, pinChange: 'Ganti PIN orang tua', aboutTitle: b => `Tentang ${b}`,
+    accTitle: 'Simpan di beberapa perangkat', accClaude: 'Kemajuan dan daftar kata disimpan di akun Claude-mu dan ikut ke perangkat lain.',
+    accLocal: 'Saat ini kemajuan dan daftar kata hanya disimpan di perangkat ini.',
+    accSoon: 'Akun keluarga gratis sedang disiapkan, supaya aplikasi bisa dipakai di lebih dari satu perangkat.',
+    accLoading: 'Menghubungkan…', accSynced: 'Kemajuan dan daftar kata disimpan di akun keluargamu dan ikut ke perangkat lain.', accSignedIn: e => `Masuk sebagai ${e}`, accSignOut: 'Keluar', accDelete: 'Hapus akun dan data online',
+    accSignInText: 'Masuk untuk menyimpan kemajuan dan daftar kata dengan aman dan memakainya di beberapa perangkat. Hanya kamu yang bisa melihat data keluargamu.',
+    accKids: 'Anak tidak perlu alamat email. Hanya orang tua yang masuk.',
+    accGoogle: 'Lanjutkan dengan Google', accEmail: 'Email', accPassword: 'Kata sandi (minimal 6 karakter)', accSignIn: 'Masuk', accCreate: 'Buat akun', accForgot: 'Lupa kata sandi?',
+    accResetSent: 'Kami sudah mengirim email untuk mengatur ulang kata sandimu.', accDeleteAsk: 'Hapus akunmu dan data keluarga yang tersimpan online? Kemajuan di perangkat ini tetap tersimpan.',
+    accDeleteYes: 'Ya, hapus', accDeleted: 'Akun dan data online-mu sudah dihapus.', accRelogin: 'Demi keamanan, keluar, masuk lagi, lalu hapus.',
+    accErr: { 'auth/invalid-credential': 'Email atau kata sandi salah.', 'auth/wrong-password': 'Email atau kata sandi salah.', 'auth/user-not-found': 'Email atau kata sandi salah.',
+      'auth/email-already-in-use': 'Sudah ada akun dengan email ini. Masuk saja.', 'auth/weak-password': 'Pakai kata sandi minimal 6 karakter.',
+      'auth/invalid-email': 'Alamat email itu sepertinya tidak benar.', 'auth/popup-closed-by-user': 'Jendela masuk ditutup.', 'auth/popup-blocked': 'Jendela masuk diblokir. Izinkan pop-up lalu coba lagi.',
+      'auth/network-request-failed': 'Tidak ada koneksi internet.', 'auth/too-many-requests': 'Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.', other: 'Ada yang salah. Coba lagi.' },
+    privacy: 'Privasi',
+    listName: 'Nama daftar', listNamePh: 'mis. Minggu 12', listLang: 'Bahasa', listFor: 'Untuk',
+    photoTitle: 'Foto daftar', photoBtn: 'Ambil atau pilih foto', photoPrivate: 'Foto dibaca di perangkat ini dan tidak pernah diunggah.',
+    photoLoading: 'Menyiapkan pembaca kata… (pertama kali agak lebih lama)', photoReading: p => `Membaca kata… ${p}%`,
+    photoNone: 'Tidak ada kata yang ditemukan di foto. Coba lagi di tempat yang terang, atau ketik katanya.', photoFound: n => `Menemukan ${n} kata baru. Periksa di bawah.`,
+    photoFail: 'Foto tidak bisa dibaca. Periksa koneksi internet, coba lagi di tempat yang terang, atau ketik katanya.',
+    typeWords: 'Atau ketik katanya', typeWordsPh: 'Satu kata per baris, atau pisahkan dengan koma', addWords: 'Tambah kata',
+    saveList: 'Simpan daftar', deleteList: 'Hapus daftar', deleteListAsk: 'Hapus daftar kata ini?', noWordsYet: 'Belum ada kata.',
+    wordsTitle: n => `Kata (${n})`, mistakesHint: 'Di samping setiap kata ada ejaan salah yang dibuat aplikasi untuk “pilih yang benar”. Ketuk ↻ untuk yang lain, atau × untuk menghapus kata. Ketuk kata untuk membetulkannya.',
+    wordN: i => `Kata ${i}`, newMistakes: 'Ejaan salah yang lain', removeWord: 'Hapus kata',
+    needWords: 'Tambahkan minimal 3 kata dulu.', listDefault: n => `Daftar kata ${n}`, listSaved: 'Daftar kata disimpan.', listDeleted: 'Daftar kata dihapus.',
+    badWords: w => `Tidak dimasukkan (ada huruf yang tidak ada di papan ketik): ${w}`,
+    pinEnter: 'Masukkan PIN orang tua', pinCreate: 'Buat PIN orang tua 4 angka', pinAgain: 'Ketik PIN-nya lagi',
+    pinCreateText: 'PIN menjaga bagian ini hanya untuk orang tua, supaya anak tidak bisa mengubah pengaturan atau menghapus daftar.',
+    pinReset: (a, b) => `Untuk membuat PIN baru, jawab ini: ${a} × ${b} = ?`, pinOk: 'OK', pinForgot: 'Lupa PIN?',
+    pinWrong: 'PIN-nya salah.', pinWrongSum: 'Belum tepat. Coba lagi.', pin4: 'PIN harus 4 angka.', pinMismatch: 'Kedua PIN tidak sama. Mulai lagi.', pinSaved: 'PIN disimpan.', saved: 'Tersimpan.',
+    resetAsk: 'Hapus semua bintang dan putaran yang tersimpan untuk anak ini?'
+  });
+})();
+
 /* ---------- speech ---------- */
 let lastSaid = { text: '', tid: 'hoot' };
 // Best voice first: Premium, then Enhanced/natural voices (any accent), then UK English or Danish.
@@ -3421,6 +3836,7 @@ function topbar() {
   return `<header class="topbar">
     <button class="brand" data-act="home" aria-label="${t.brand}"><span class="brand-mark"><b>+</b></span><span class="brand-name">${t.brand}</span></button>
     <span class="spacer"></span>
+    ${store.onboarded ? `<button class="kid-btn" data-act="kids" aria-label="${t.whoPlays}">${charSvg(avatarOf(store))}<span>${esc(store.name || '')}</span></button>` : ''}
     <span class="pill" aria-label="${t.starsAria(totalStars())}">${ICON.star(true)} ${totalStars()}</span>
     ${forced ? `<span class="pill lang-fixed" lang="${forced}">${t.langFixed}</span>` : `<label class="lang-pick"><span class="sr-only">${t.language}</span><select id="lang-select" aria-label="${t.language}">${LANGS.map(l => `<option value="${l}" lang="${l}"${l === store.lang ? ' selected' : ''}>${l.toUpperCase()} · ${I18N[l].langName}</option>`).join('')}</select></label>`}
     <button class="icon-btn" data-act="sound" aria-pressed="${store.sound}" aria-label="${store.sound ? t.voiceOffLabel : t.voiceOnLabel}">${ICON.sound(store.sound)}</button>
@@ -3450,14 +3866,15 @@ function spellLangFor(name, params) {
   const id = params && params.id;
   let tp = null;
   if (name === 'topic') tp = TOPICS.find(t => t.id === id);
-  else if (['lesson', 'practice', 'results'].includes(name) && id && id !== 'mixed') tp = findLevel(id)?.topic;
+  else if (['lesson', 'practice', 'results'].includes(name) && id && id !== 'mixed') { if (String(id).startsWith('review-sp-')) return id.slice(10); tp = findLevel(id)?.topic; }
   return isSpellTopic(tp) ? tp.lang : null;
 }
-function show(name, params = {}) { hush(); screen = name; S = params; forced = spellLangFor(name, params); applyLang(); SCREENS[name](params); window.scrollTo({ top: 0 }); }
+function show(name, params = {}) { hush(); if (!GROWNUP_SCREENS.includes(name)) gateUntil = 0; screen = name; S = params; forced = spellLangFor(name, params); applyLang(); SCREENS[name](params); window.scrollTo({ top: 0 }); }
 
 const SCREENS = {
   home() {
-    const t = tr(), nm = store.name;
+    if (!store.onboarded) return show('onboard', { step: 'lang', mode: 'first' });
+    const t = tr(), nm = store.name, lists = myListTopics(), sp = shownSpellTopics();
     app.innerHTML = `${topbar()}
     <section class="hero">
       <div class="hero-cast">${charWrap('hoot', 'happy', 'lg')}${charWrap('daisy', 'happy', 'lg')}</div>
@@ -3465,10 +3882,12 @@ const SCREENS = {
         <p class="bubble-who">${tName('hoot')} &amp; ${tName('daisy')}</p>
         <h1>${nm ? t.helloName(esc(nm)) : t.helloAnon}</h1>
         <p>${t.heroIntro}</p>
-        ${nm ? '' : `<form class="name-form" data-form="name"><label for="name-input">${t.askName}</label><div class="row"><input id="name-input" maxlength="20" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="${t.namePh}"><button class="btn btn-small" type="submit">${t.save}</button></div></form>`}
       </div>
     </section>
     ${resumeCard()}
+    ${pathCard()}
+    ${reviewCards()}
+    ${lists.length ? `<h2 class="section-title">${t.myLists}</h2><section class="topics">${lists.map(topicCard).join('')}</section>` : ''}
     <h2 class="section-title">${t.mathsSection}</h2>
     <section class="topics">${mathTopics().map(topicCard).join('')}</section>
     <section class="mixed">
@@ -3476,25 +3895,9 @@ const SCREENS = {
       <div class="mixed-text"><h3>${t.mixedTitle}</h3><p>${t.mixedText}</p></div>
       <button class="btn" data-act="practice" data-id="mixed" style="--tc:var(--div)">${t.letsGo}</button>
     </section>
-    <h2 class="section-title">${t.spellSection}</h2>
-    <section class="topics">${TOPICS.filter(isSpellTopic).map(topicCard).join('')}</section>
-    <details class="grownups">
-      <summary>${t.grownups}</summary>
-      <div class="grownups-body">
-        ${t.gu.map(x => `<p>${x}</p>`).join('')}
-        <p>${t.gu4}</p>
-        <p id="sync-note">${cloud ? t.syncCloud : t.syncLocal}</p>
-        <div class="voice-row">
-          <label for="voice-select">${t.voiceLabel}</label>
-          <div class="row"><select id="voice-select"></select><button class="btn btn-small btn-soft" type="button" data-act="voice-test">${t.voiceTry}</button></div>
-          <p id="voice-none" hidden>${t.voiceNone}</p>
-        </div>
-        <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
-        <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
-      </div>
-    </details>
-    <footer class="site-foot">${t.footNote}</footer>`;
-    fillVoicePicker();
+    ${sp.length ? `<h2 class="section-title">${t.spellSection}</h2>${lists.length ? '' : `<p class="cl-hint">${t.clHint}</p>`}<section class="topics">${sp.map(topicCard).join('')}</section>` : ''}
+    <section class="gu-entry"><button class="btn btn-soft" data-act="grownups">${t.grownups}</button></section>
+    <footer class="site-foot">${t.footNote}${ON_SITE ? ` · <a href="privacy.html">${t.privacy}</a>` : ''}</footer>`;
   },
   topic({ id }) {
     const t = tr(), tp = TOPICS.find(x => x.id === id), tid = tp.teacher;
@@ -3504,7 +3907,7 @@ const SCREENS = {
     <section class="talk" style="${tcStyle(tid)}">
       ${charWrap(tid, 'happy', 'md')}
       <div class="bubble"><p class="bubble-who">${tName(tid)}</p><h2>${topicTitle(tp)}</h2>
-        <div class="say-row"><p id="intro-say">${t.topicIntro[id]}</p>${replayBtn()}</div></div>
+        <div class="say-row"><p id="intro-say">${topicIntro(tp)}</p>${replayBtn()}</div></div>
     </section>
     <ol class="levels" style="${tcStyle(tid)}">
       ${tp.levels.map((l, i) => { const st = store.best[l.id] || 0, lt = lvlText(l); return `<li class="level${st ? ' done' : ''}">
@@ -3514,7 +3917,7 @@ const SCREENS = {
         <span class="lvl-actions"><button class="btn btn-small" data-act="lesson" data-id="${l.id}">${t.learn}</button><button class="btn btn-small btn-soft" data-act="practice" data-id="${l.id}">${t.practise}</button></span>
       </li>`; }).join('')}
     </ol>`;
-    lastSaid = { text: t.topicIntro[id], tid };
+    lastSaid = { text: topicIntro(tp), tid };
   },
   lesson({ id, keepStep }) {
     const t = tr(), l = findLevel(id), lt = lvlText(l), tid = l.topic.teacher, idx = l.topic.levels.indexOf(l) + 1;
@@ -3548,19 +3951,21 @@ const SCREENS = {
     } else {
       let list;
       if (id === 'mixed') list = shuffle(unlockedTopics().flatMap(t => t.levels.flatMap(l => l.problems))).slice(0, 10);
-      else if (findLevel(id).words) { const l = findLevel(id); list = shuffle(l.words).slice(0, 10).map((wd, i) => spItem(wd, SPELL_FORMATS(i), l.id)); }
+      else if (isReviewId(id)) list = shuffle(reviewDue(id)).slice(0, 10).map(r => ({ ...r.q }));
+      else if (findLevel(id).words) list = spellRound(findLevel(id));
       else list = shuffle(findLevel(id).problems);
+      if (!list.length) { toast(tr().reviewNone); show('home'); return; }
       S = { id, list, i: 0, input: '', tries: 0, helped: false, first: 0, marks: [], done: false };
     }
     renderPractice(true);
   },
   results() {
-    const t = tr(), { id, first } = S, n = starsFor(first);
-    const l = id === 'mixed' ? null : findLevel(id);
-    const tid = l ? l.topic.teacher : 'sparkle';
+    const t = tr(), { id, first } = S, n = starsFor(first, S.list.length);
+    const info = roundInfo(id) || {}, l = info.level || null;
+    const tid = info.tid || 'sparkle';
     if (!S.finished) finishRound();
     const next = l ? l.topic.levels[l.topic.levels.indexOf(l) + 1] : null;
-    const head = t.head[n - 1], msg = t.msg[n - 1](first);
+    const head = t.head[n - 1], msg = t.msg[n - 1](first, S.list.length);
     app.innerHTML = `${topbar()}
     <section class="results" style="${tcStyle(tid)}">
       ${charWrap(tid, 'joy', 'lg')}
@@ -3585,8 +3990,8 @@ const SCREENS = {
 
 function resumeCard() {
   const r = savedRound(); if (!r) return '';
-  const t = tr(), l = r.id === 'mixed' ? null : findLevel(r.id), tid = l ? l.topic.teacher : 'sparkle';
-  const title = l ? `${topicTitle(l.topic)} · ${lvlText(l).title}` : t.mixedTitle;
+  const t = tr(), info = roundInfo(r.id), l = info.level, tid = info.tid;
+  const title = l ? `${topicTitle(l.topic)} · ${lvlText(l).title}` : info.title;
   return `<section class="mixed resume" style="${tcStyle(tid)}">
     ${charWrap(tid, 'happy', 'sm')}
     <div class="mixed-text"><h3>${t.resumeTitle}</h3><p>${t.resumeText(title, r.i + 1, r.list.length)}</p></div>
@@ -3612,7 +4017,7 @@ function topicCard(tp) {
     <span class="topic-text">
       <span class="topic-title">${topicTitle(tp)}</span>
       <span class="topic-teacher">${t.withTeacher(tName(tp.teacher))}</span>
-      ${tp.soon ? `<span class="lock">${t.soon}</span>` : `<span class="topic-meta">${t.topicMeta(st, tp.levels.length * 3, tp.levels.length)}</span>`}
+      ${tp.soon ? `<span class="lock">${t.soon}</span>` : `<span class="topic-meta">${tp.custom ? t.clCardMeta(st, tp.levels[0].words.length) : t.topicMeta(st, tp.levels.length * 3, tp.levels.length)}</span>`}
     </span>
   </button>`;
 }
@@ -3681,12 +4086,12 @@ function dotsHtml() {
 function renderPractice(fresh) {
   const t = tr(), p = cur(), tid = teacherFor(p), redo = S.mode === 'redo';
   if (fresh) { S.input = ''; S.tries = 0; S.helped = false; S.done = false; S.badPicks = []; }
-  const title = S.id === 'mixed' ? t.mixedTitle : lvlText(findLevel(S.id)).title;
+  const info = roundInfo(S.id), title = info.title;
   const greet = redo ? t.redoLabel(S.rk + 1) : S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') : pick(t.greetNext);
   app.innerHTML = `${topbar()}
   <div class="practice${p.sp ? ' spelling' : ''}" style="${tcStyle(tid)}">
     <div class="pr-top">
-      <button class="btn-link" data-act="${S.id === 'mixed' ? 'home' : 'topic'}" data-id="${S.id === 'mixed' ? '' : findLevel(S.id).topic.id}">${t.stop}</button>
+      <button class="btn-link" data-act="${info.level ? 'topic' : 'home'}" data-id="${info.level ? info.topicId : ''}">${t.stop}</button>
       <b style="font-family:var(--font-display)">${title}</b>
       ${redo || S.finished ? '' : `<button class="btn-link" data-act="restart-ask">${t.startOver}</button>`}
       <div class="pdots" role="group" aria-label="${t.questionN(S.i + 1, S.list.length)}">${dotsHtml()}</div>
@@ -3748,12 +4153,12 @@ function pressKey(k) {
   updateQ();
 }
 /* ---------- unfinished rounds & stars ---------- */
-const starsFor = first => first >= 9 ? 3 : first >= 7 ? 2 : 1;
+const starsFor = (first, len = 10) => { const f = first * 10 / Math.max(1, len); return f >= 9 ? 3 : f >= 7 ? 2 : 1; };
 const plainQ = p => { const o = { a: p.a, b: p.b, op: p.op }; for (const k of ['c', 'missing', 'story', 's', 'lv', 'sp', 'w', 'fmt']) if (p[k] != null) o[k] = p[k]; return o; };
 function savedRound() {
   const r = store.round;
   if (!r || !Array.isArray(r.list) || !r.list.length || !(r.i > 0) || r.i >= r.list.length) return null;
-  if (r.id !== 'mixed' && !findLevel(r.id)) return null;
+  if (!roundInfo(r.id)) return null;
   if (r.list.some(q => q && q.sp && !(findLevel(q.lv)?.words || []).some(x => x.w === q.w))) return null;
   return r;
 }
@@ -3773,13 +4178,14 @@ function finishRound() {
   S.unlocked = was && !lockedNow();
 }
 function recordStars() {
-  const n = starsFor(S.first);
-  if (S.id !== 'mixed' && n > (store.best[S.id] || 0)) { store.best[S.id] = n; S.improved = true; }
+  const n = starsFor(S.first, S.list.length);
+  if (!isSpecialRound(S.id) && n > (store.best[S.id] || 0)) { store.best[S.id] = n; S.improved = true; }
 }
 const lockedNow = () => TOPICS.some(tp => lockInfo(tp));
-function refreshAfterSync(prevLang) {
-  if (store.lang !== prevLang) { const l = store.lang; store.lang = prevLang; switchLang(l); return; }
-  if (screen === 'home' || screen === 'topic') SCREENS[screen](S);
+function refreshAfterSync(prevLang, prevKid) {
+  if (prevKid && prevKid !== DB.active && (screen === 'onboard' || !GROWNUP_SCREENS.includes(screen))) { show(Object.values(DB.kids).filter(k => k.onboarded).length > 1 ? 'kids' : 'home'); return; }
+  if (store.lang !== prevLang && !forced) { const l = store.lang; store.lang = prevLang; switchLang(l); return; }
+  if (['home', 'topic', 'kids', 'parent'].includes(screen)) SCREENS[screen](S);
   else { const pill = $('.pill'); if (pill) pill.innerHTML = `${ICON.star(true)} ${totalStars()}`; }
 }
 
@@ -3801,6 +4207,7 @@ function check() {
     } else {
       if (firstTry) S.first++;
       S.marks[S.i] = firstTry ? 'ok' : 'help';
+      if (isReviewId(S.id)) reviewResult(p, firstTry); else if (!firstTry) reviewAdd(p);
       const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
       teacherSay(firstTry ? `${pick(t.praise(nm))} ${p.sp ? t.spelledAs(p.w) : fullEq(p) + '.'}` : pick(t.praiseHelp), 'joy');
       if (S.i === S.list.length - 1) finishRound(); else saveRound();
@@ -3897,7 +4304,7 @@ const ACTIONS = {
   check: () => check(),
   howto: () => openHowTo(),
   'reset-ask': () => { const t = tr(); $('#reset-row').innerHTML = `<span>${t.resetAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="reset-yes">${t.resetYes}</button><button class="btn btn-small btn-soft" data-act="reset-no">${t.resetNo}</button>`; },
-  'reset-no': () => show('home'),
+  'reset-no': () => show('parent', { tab: 'settings' }),
   locked: d => { const tp = TOPICS.find(x => x.id === d.id); toast(tr().lockedToast(tName(tp.teacher))); },
   still: () => otherWay(false),
   'first-way': () => otherWay(true),
@@ -3913,7 +4320,7 @@ const ACTIONS = {
   'restart-no': () => { const r = $('#restart-row'); r.hidden = true; r.innerHTML = ''; },
   'restart-yes': () => { store.round = null; save(); show('practice', { id: S.id, fresh: true }); },
   'voice-test': () => { const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s; },
-  'reset-yes': () => { store = { name: '', best: {}, sound: store.sound, lang: store.lang, round: null, resetAt: Date.now() }; save(); show('home'); toast(tr().resetDone); }
+  'reset-yes': () => { Object.assign(store, { best: {}, round: null, review: [], start: 0, resetAt: Date.now() }); save(); show('parent', { tab: 'settings' }); toast(tr().resetDone); }
 };
 app.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
@@ -3921,7 +4328,7 @@ app.addEventListener('click', e => {
 });
 app.addEventListener('change', e => {
   if (e.target.id === 'lang-select') { switchLang(e.target.value); return; }
-  if (e.target.id === 'unlock-all') { store.unlockAll = e.target.checked; save(); const g = $('.grownups'); show('home'); const g2 = $('.grownups'); if (g && g2) g2.open = true; return; }
+  if (e.target.id === 'unlock-all') { store.unlockAll = e.target.checked; save(); return; }
   if (e.target.id !== 'voice-select') return;
   store.voice = { ...(store.voice || {}), [store.lang]: e.target.value || null }; save();
   const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s;
@@ -3935,7 +4342,7 @@ app.addEventListener('submit', e => {
   }
 });
 document.addEventListener('keydown', e => {
-  if (screen !== 'practice' || e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey || e.altKey) return;
+  if ((screen !== 'practice' && screen !== 'placement') || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.metaKey || e.ctrlKey || e.altKey) return;
   const sp = cur() && cur().sp;
   if (sp && /^[a-zæøåäö]$/i.test(e.key) && cur().fmt !== 'pick') { pressLetter(e.key.toLowerCase()); e.preventDefault(); }
   else if (!sp && /^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
@@ -3943,13 +4350,705 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Enter') {
     const t = e.target;
     if (t !== document.body && t !== document && !t.classList?.contains('key') && t.id !== 'check-btn') return;
-    check(); e.preventDefault();
+    if (screen === 'placement') plAnswer(true); else check();
+    e.preventDefault();
   }
 });
 
+/* =====================================================================
+   Version 3: child profiles, onboarding, a learning path with a starting quiz,
+   practising tricky questions again, the family's own spelling lists (from a photo
+   or typed), a grown-up area behind a PIN, and optional free family accounts.
+   ===================================================================== */
+const SPELL_TEACHER = { en: 'fern', da: 'pjuske', sv: 'olle', id: 'uli' };
+const AVATARS = ['hoot', 'daisy', 'whiskers', 'sparkle', 'fern', 'pjuske', 'olle', 'uli'];
+const ON_SITE = true; /*SITE*/
+const FIREBASE_CONFIG = null; /*FIREBASE*/
+
+/* ---------- the learning path: every maths level in a sensible order ---------- */
+const PATH = ['a1', 's1', 'a2', 'a6', 's2', 'a3', 'a4', 's3', 'a7', 's7', 'm1', 'm2', 'm3', 'd1', 'd2', 'a8', 's8', 'a9', 's6', 's4',
+  'a12', 's12', 'a5', 's5', 'a10', 's10', 'a11', 's11', 's9', 'm4', 'm5', 'm6', 'd3', 'd4', 'd5', 'd6', 'm7', 'd7', 'm8', 'd8',
+  'a14', 's14', 'a13', 's13', 'm9', 'd9', 'm10', 'd10', 'a15', 's15'];
+// where the starting quiz begins for each school year (0 = not sure)
+const YEAR_START = { 0: PATH.indexOf('a4'), 1: 0, 2: PATH.indexOf('a4'), 3: PATH.indexOf('a5'), 4: PATH.indexOf('m4'), 5: PATH.indexOf('m9'), 6: PATH.indexOf('m9') };
+const placedPast = id => { const i = PATH.indexOf(id); return i > -1 && i < (store.start || 0); };
+function pathNext() {
+  for (let i = store.start || 0; i < PATH.length; i++) {
+    const l = findLevel(PATH[i]);
+    if (l && !store.best[l.id] && !lockInfo(l.topic)) return { l, i };
+  }
+  return null;
+}
+const pathDoneCount = () => PATH.filter((id, i) => i < (store.start || 0) || store.best[id]).length;
+
+/* ---------- special rounds: mixed, and practising tricky questions again ---------- */
+const isReviewId = id => id === 'review' || String(id).startsWith('review-sp-');
+const isSpecialRound = id => id === 'mixed' || isReviewId(id);
+function roundInfo(id) {
+  const t = tr();
+  if (id === 'mixed') return { title: t.mixedTitle, tid: 'sparkle', special: true };
+  if (id === 'review') return { title: t.reviewTitle, tid: 'hoot', special: true };
+  if (String(id).startsWith('review-sp-')) { const lang = id.slice(10); return SPELL_TEACHER[lang] ? { title: t.reviewTitle, tid: SPELL_TEACHER[lang], lang, special: true } : null; }
+  const l = findLevel(id);
+  return l ? { level: l, title: lvlText(l).title, tid: l.topic.teacher, topicId: l.topic.id } : null;
+}
+
+/* A question answered with help comes back the next day; got right first time it waits
+   3 days, then 7, and then it is learnt. */
+const DAY = 864e5;
+const startOfDay = ms => { const d = new Date(ms); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const revKey = q => q.sp ? `sp:${q.lv}:${q.w}` : qKey(q);
+function reviewValid(r) {
+  const l = r && r.q && findLevel(r.q.lv);
+  return !!l && (!r.q.sp || (l.words || []).some(x => x.w === r.q.w));
+}
+const reviewGroup = r => r.q.sp ? 'review-sp-' + findLevel(r.q.lv).topic.lang : 'review';
+const reviewDue = id => store.review.filter(r => r.due <= Date.now() && reviewValid(r) && reviewGroup(r) === id);
+function reviewAdd(p) {
+  if (!p || !p.lv) return;
+  const k = revKey(p), r = store.review.find(x => x.k === k), due = startOfDay(Date.now()) + DAY;
+  if (r) { r.box = 1; r.due = due; } else store.review.push({ k, q: plainQ(p), box: 1, due });
+  if (store.review.length > 80) store.review.splice(0, store.review.length - 80);
+}
+function reviewResult(p, firstTry) {
+  const k = revKey(p), r = store.review.find(x => x.k === k);
+  if (!r) return;
+  if (!firstTry) { r.box = 1; r.due = startOfDay(Date.now()) + DAY; return; }
+  r.box++;
+  if (r.box > 3) store.review = store.review.filter(x => x !== r);
+  else r.due = startOfDay(Date.now()) + [0, 1, 3, 7][r.box] * DAY;
+}
+
+/* ---------- the family's own spelling lists ---------- */
+const ALPHA = { en: 'abcdefghijklmnopqrstuvwxyz', da: 'abcdefghijklmnopqrstuvwxyzæøå', sv: 'abcdefghijklmnopqrstuvwxyzåäö', id: 'abcdefghijklmnopqrstuvwxyz' };
+const okWord = (w, lang) => typeof w === 'string' && w.length >= 2 && w.length <= 20 && [...w].every(c => ALPHA[lang].includes(c));
+const listVisible = L => !L.for || !L.for.length || L.for.includes(store.id);
+function buildCustomTopics() {
+  for (let i = TOPICS.length - 1; i >= 0; i--) if (TOPICS[i].custom) TOPICS.splice(i, 1);
+  for (const L of DB.lists) {
+    if (!SPELL_TEACHER[L.lang]) continue;
+    const id = 'cl' + L.id;
+    const words = L.words.filter(x => okWord(x.w, L.lang) && x.focus && x.w.includes(x.focus) && Array.isArray(x.wrong) && x.wrong.length >= 2)
+      .map(x => ({ w: x.w, s: '', wrong: x.wrong.slice(0, 2), focus: x.focus, tip: '' }));
+    if (!words.length) continue;
+    const lvl = { id, custom: true, words, problems: words.map((wd, i) => spItem(wd, SPELL_FORMATS(i), id)) };
+    lvl.examples = [spItem(words[0], 'type', id)];
+    lvl.gen = r => spItem(RP(r, words), 'type', id);
+    const tp = { id, kind: 'spell', custom: true, lang: L.lang, sign: 'Aa', teacher: SPELL_TEACHER[L.lang], name: L.name, list: L, levels: [lvl] };
+    lvl.topic = tp; TOPICS.push(tp);
+  }
+}
+const customLvlText = l => { const t = tr(); return { title: esc(l.topic.name), goal: t.clGoal(l.words.length), what: t.clWhat, why: t.clWhy }; };
+const topicIntro = tp => tp.custom ? tr().clIntro(esc(tp.name)) : tr().topicIntro[tp.id];
+
+/* Wrong spellings for "pick the right one", made from the mistakes children really make
+   in each language. Each candidate remembers which letters it changed: those become the
+   tricky part that is highlighted and left blank in "fill in the missing letters". */
+const MISTAKE_RULES = {
+  en: [[/ck/, ['k', 'c']], [/ph/, ['f']], [/tion/, ['shun', 'sion']], [/sion/, ['tion']], [/ture/, ['cher']], [/igh/, ['i', 'y']], [/ee/, ['ea']], [/ea/, ['ee']],
+    [/ai/, ['ay', 'a']], [/ay/, ['ai']], [/oa/, ['o', 'ow']], [/ou/, ['ow', 'o']], [/ow/, ['ou', 'o']], [/oo/, ['u', 'ew']], [/ew/, ['oo']], [/^kn/, ['n']],
+    [/^wr/, ['r']], [/mb$/, ['m']], [/sl/, ['l']], [/st(?=en$|le$)/, ['s']], [/wh/, ['w']], [/tch/, ['ch']], [/dge/, ['ge', 'j']], [/ie/, ['ei', 'y']], [/ei/, ['ie']], [/y$/, ['ie', 'ey']],
+    [/le$/, ['el', 'ul']], [/al$/, ['le', 'el']], [/er$/, ['a', 'ur']], [/ir/, ['ur', 'er']], [/ur/, ['er', 'ir']], [/c(?=[eiy])/, ['s']], [/s(?=[eiy])/, ['c']],
+    [/c(?=[aou])/, ['k']], [/qu/, ['kw']], [/x/, ['ks']], [/au/, ['or', 'aw']], [/aw/, ['or', 'au']], [/ould/, ['ood']], [/our/, ['or']], [/wa/, ['wo']],
+    [/sure/, ['shur']], [/ous$/, ['us']], [/ful$/, ['full']], [/ly$/, ['ley', 'lly']], [/ed$/, ['t', 'd']], [/ere$/, ['ear', 'air']], [/are$/, ['air']],
+    [/air/, ['are']], [/gh/, ['']], [/g(?=[eiy])/, ['j']], [/a(?=[b-df-hj-np-tv-z]e$)/, ['ai']], [/o(?=[b-df-hj-np-tv-z]e$)/, ['oa']], [/i(?=[b-df-hj-np-tv-z]e$)/, ['y']],
+    [/([b-df-hj-np-tv-z])e$/, [m => m[1]]]],
+  da: [[/nd$/, ['n']], [/ld$/, ['l']], [/rd$/, ['r']], [/^hv/, ['v']], [/^hj/, ['j']], [/([aeiouyæøå])g$/, [m => m[1]]], [/([aeiouyæøå])v$/, [m => m[1] + 'u']],
+    [/ej/, ['aj']], [/aj/, ['ej']], [/øj/, ['oj']], [/æ/, ['e']], [/e(?=[^r].|r.)/, ['æ']], [/([^e])e$/, [m => m[1]]], [/el$/, ['l']], [/å/, ['o']], [/o/, ['å']], [/ø/, ['y']], [/y/, ['ø']], [/u/, ['o']],
+    [/er$/, ['a']], [/else$/, ['ls']], [/ch/, ['sj']], [/c/, ['k', 's']], [/sk/, ['sg']], [/ig$/, ['i', 'ie']], [/hed$/, ['he']], [/t$/, ['d']], [/d$/, ['t']]],
+  sv: [[/^(sj|skj|stj|sch|ch)/, ['sj', 'skj', 'stj', 'sk', 'ch']], [/^sk(?=[eiyäö])/, ['sj', 'stj']], [/^(tj|kj)/, ['tj', 'kj']], [/^k(?=[eiyäö])/, ['tj', 'sh']],
+    [/^(gj|hj|dj|lj)/, ['j', 'gj', 'hj', 'dj']], [/^g(?=[eiyäö])/, ['j']], [/^j/, ['g', 'hj']], [/ck/, ['k', 'kk']], [/å/, ['o']], [/o/, ['å']], [/ä/, ['e']],
+    [/e/, ['ä']], [/ö/, ['ä', 'e']], [/x/, ['ks']], [/tion/, ['schon', 'shon']], [/c/, ['k', 's']], [/ng/, ['gn', 'n']], [/gn/, ['ng']], [/rs/, ['sj']], [/m$/, ['mm']], [/n$/, ['nn']]],
+  id: [[/ny/, ['ni', 'n']], [/ng/, ['n', 'g']], [/kh/, ['k', 'h']], [/sy/, ['s']], [/f/, ['p', 'v']], [/v/, ['f']], [/z/, ['j', 's']],
+    [/([aeiou])h([aeiou])/, [m => m[1] + m[2]]], [/([aeiou])h(?![aeiou])/, [m => m[1]]], [/au/, ['o']], [/ai/, ['e']], [/aa/, ['a']], [/e/, ['a', 'i']],
+    [/u/, ['o']], [/o/, ['u']], [/i/, ['e']], [/c/, ['k', 'ch']], [/j/, ['dj']], [/y/, ['j']], [/q/, ['k']]]
+};
+const VOWELS = 'aeiouyæøåäö';
+function mistakeCandidates(w, lang) {
+  const out = [], seen = new Set([w]);
+  const add = (s, i, n, score) => { if (!seen.has(s) && okWord(s, lang)) { seen.add(s); out.push({ s, i, n: Math.max(1, n), score: score + (i > 0 ? .2 : 0) }); } };
+  for (const [re, alts] of MISTAKE_RULES[lang] || []) {
+    for (const m of w.matchAll(new RegExp(re.source, 'g'))) {
+      for (const a of alts) { const rep = typeof a === 'function' ? a(m) : a; if (rep !== m[0]) add(w.slice(0, m.index) + rep + w.slice(m.index + m[0].length), m.index, m[0].length, 3); }
+    }
+  }
+  const dbl = lang === 'id' ? 1 : 2.5;
+  for (let i = 1; i < w.length; i++) {
+    const c = w[i];
+    if (VOWELS.includes(c)) continue;
+    if (w[i - 1] === c) add(w.slice(0, i) + w.slice(i + 1), i - 1, 2, dbl);                                   // double → single
+    else if (VOWELS.includes(w[i - 1]) && 'bdfgklmnprst'.includes(c) && (i === w.length - 1 || VOWELS.includes(w[i + 1]))) add(w.slice(0, i) + c + w.slice(i), i, 1, dbl - .5);   // single → double
+  }
+  for (let i = 1; i < w.length - 1; i++) if (w[i] !== w[i + 1] && VOWELS.includes(w[i]) && VOWELS.includes(w[i + 1])) add(w.slice(0, i) + w[i + 1] + w[i] + w.slice(i + 2), i, 2, .7);   // two letters swapped
+  for (let i = 1; i < w.length; i++) if (VOWELS.includes(w[i]) && (VOWELS.includes(w[i - 1]) || VOWELS.includes(w[i + 1] || ''))) add(w.slice(0, i) + w.slice(i + 1), i, 1, .8);   // one vowel of a pair left out
+  const NEAR = { a: 'e', e: 'i', i: 'e', o: 'u', u: 'o', y: 'i', å: 'o', ä: 'e', ö: 'o', æ: 'e', ø: 'o' };
+  for (let i = 1; i < w.length; i++) if (NEAR[w[i]]) add(w.slice(0, i) + NEAR[w[i]] + w.slice(i + 1), i, 1, .5);   // a vowel that sounds close
+  return out.sort((a, b) => b.score - a.score);
+}
+function makeMistakes(w, lang, turn = 0) {
+  const c = mistakeCandidates(w, lang);
+  if (!c.length) return { wrong: [w + w[w.length - 1], w[0] + w.slice(0, 1) + w.slice(1)].filter(x => x !== w).slice(0, 2), focus: w.slice(-1) };
+  const first = c[turn % c.length];
+  const second = c.find(x => x !== first && x.i !== first.i) || c.find(x => x !== first) || { s: w + w[w.length - 1] };
+  // the tricky letters, widened until they point at the right place in the word
+  let i = first.i, n = Math.min(first.n, w.length - i);
+  while (w.indexOf(w.substr(i, n)) !== i) { if (i + n < w.length) n++; else { i--; n++; } }
+  return { wrong: [first.s, second.s === first.s ? w + w[w.length - 1] : second.s], focus: w.substr(i, n) };
+}
+const STOP_WORDS = new Set(['spelling', 'spellings', 'words', 'word', 'list', 'week', 'name', 'date', 'test', 'homework', 'year', 'class', 'term',
+  'stavning', 'staveord', 'ord', 'uge', 'navn', 'dato', 'vecka', 'namn', 'datum', 'minggu', 'kata', 'daftar', 'nama', 'tanggal', 'kelas']);
+function extractWords(text, lang) {
+  const out = [];
+  for (let raw of String(text).toLowerCase().replace(/[’`]/g, "'").split(/[^a-zæøåäöéèüß'-]+/)) {
+    raw = raw.replace(/^['-]+|['-]+$/g, '');
+    if (okWord(raw, lang) && !STOP_WORDS.has(raw) && !out.includes(raw)) out.push(raw);
+  }
+  return out;
+}
+/* Reading a photo of a word list happens on this device: the picture is never uploaded. */
+function loadScript(src) {
+  return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('script')); document.head.appendChild(s); });
+}
+async function photoCanvas(file, max = 2000) {
+  let img;
+  try { img = await createImageBitmap(file); }
+  catch (e) { img = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = URL.createObjectURL(file); }); }
+  const k = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement('canvas');
+  c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+  const g = c.getContext('2d'); g.filter = 'grayscale(1) contrast(1.25)'; g.drawImage(img, 0, 0, c.width, c.height);
+  return c;
+}
+async function readPhoto(file, lang, onProgress) {
+  if (!window.Tesseract) { onProgress(-1); await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js'); }
+  const code = { en: 'eng', da: 'dan', sv: 'swe', id: 'ind' }[lang];
+  const canvas = await photoCanvas(file);
+  const worker = await Tesseract.createWorker(code, 1, {
+    workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',
+    corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1',
+    langPath: `https://cdn.jsdelivr.net/npm/@tesseract.js-data/${code}/4.0.0_best_int`,
+    logger: m => { if (m.status === 'recognizing text') onProgress(Math.round(m.progress * 100)); else if (m.status && m.status.includes('load')) onProgress(-1); }
+  });
+  try { const { data } = await worker.recognize(canvas); return data.text || ''; }
+  finally { worker.terminate(); }
+}
+
+/* ---------- small helpers for the new screens ---------- */
+const avatarOf = k => AVATARS.includes(k.avatar) ? k.avatar : 'hoot';
+const withKid = (k, fn) => { const was = store; store = k; try { return fn(); } finally { store = was; } };
+const kidStars = k => allLevels().reduce((s, l) => s + ((k.best || {})[l.id] || 0), 0);
+const pinHash = p => { let h = 0x811c9dc5; for (const c of 'nb-pin:' + p) { h ^= c.charCodeAt(0); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
+let gateUntil = 0, obPrev = null, pinFirst = null, pinSum = null;
+const gateOpen = () => Date.now() < gateUntil;
+const GROWNUP_SCREENS = ['gate', 'parent', 'listEdit', 'onboard', 'placement', 'placed'];
+const spellSubjects = () => TOPICS.filter(t => isSpellTopic(t) && !t.custom);
+const shownSpellTopics = () => spellSubjects().filter(t => !store.spLangs || store.spLangs.includes(t.lang));
+const myListTopics = () => TOPICS.filter(t => t.custom && listVisible(t.list));
+const yearLabel = n => n ? `${tr().yearN(n)} <span class="muted">(${tr().ageHint(n)})</span>` : tr().yearUnsure;
+
+/* ---------- home screen pieces ---------- */
+function pathCard() {
+  const t = tr(), nx = pathNext(), done = pathDoneCount();
+  if (!nx) return `<section class="mixed path-card" style="--tc:var(--div)">${charWrap('sparkle', 'joy', 'sm')}
+    <div class="mixed-text"><span class="path-label">${t.nextUp}</span><h3>${t.pathDone}</h3><p>${t.pathDoneText}</p></div>
+    <button class="btn" data-act="practice" data-id="mixed">${t.letsGo}</button></section>`;
+  const l = nx.l, tid = l.topic.teacher, lt = lvlText(l);
+  return `<section class="mixed path-card" style="${tcStyle(tid)}">${charWrap(tid, 'happy', 'sm')}
+    <div class="mixed-text"><span class="path-label">${t.nextUp} · ${t.pathStep(done + 1, PATH.length)}</span>
+      <h3>${topicTitle(l.topic)}: ${lt.title}</h3><p>${lt.goal}</p>
+      <span class="path-bar" aria-hidden="true"><i style="width:${Math.round(done / PATH.length * 100)}%"></i></span></div>
+    <button class="btn" data-act="lesson" data-id="${l.id}">${t.pathStart}</button></section>`;
+}
+function reviewCards() {
+  const t = tr();
+  return ['review', ...LANG_IDS.map(l => 'review-sp-' + l)].map(id => {
+    const n = reviewDue(id).length; if (!n) return '';
+    const info = roundInfo(id), sub = info.lang ? topicTitle(spellSubjects().find(x => x.lang === info.lang)) : t.mathsSection;
+    return `<section class="mixed review-card" style="${tcStyle(info.tid)}">${charWrap(info.tid, 'happy', 'sm')}
+      <div class="mixed-text"><h3>${t.reviewTitle} · ${sub}</h3><p>${t.reviewText(n)}</p></div>
+      <button class="btn" data-act="practice" data-id="${id}">${t.letsGo}</button></section>`;
+  }).join('');
+}
+
+/* ---------- onboarding: a profile, then the starting quiz ---------- */
+const OB_STEPS = ['lang', 'name', 'avatar', 'year', 'spell', 'place'];
+function obShell(tid, title, body, { back, cancel } = {}) {
+  const t = tr();
+  return `<div class="ob" style="${tcStyle(tid)}">
+    <section class="talk">${charWrap(tid, 'happy', 'md')}<div class="bubble"><p class="bubble-who">${tName(tid)}</p><h1 class="ob-q">${title}</h1></div></section>
+    <div class="ob-body">${body}</div>
+    <div class="ob-nav">${back ? `<button class="btn btn-soft btn-small" data-act="ob-go" data-step="${back}">${t.back}</button>` : '<span></span>'}
+      ${cancel ? `<button class="btn-link" data-act="ob-cancel">${t.cancel}</button>` : ''}</div>
+  </div>`;
+}
+function obTopbar() {
+  const t = tr();
+  return `<header class="topbar"><span class="brand" aria-label="${t.brand}"><span class="brand-mark"><b>+</b></span><span class="brand-name">${t.brand}</span></span><span class="spacer"></span>
+    <button class="icon-btn" data-act="sound" aria-pressed="${store.sound}" aria-label="${store.sound ? t.voiceOffLabel : t.voiceOnLabel}">${ICON.sound(store.sound)}</button></header>`;
+}
+Object.assign(SCREENS, {
+  onboard({ step = 'lang', mode = 'first' }) {
+    const t = tr(), i = OB_STEPS.indexOf(step), back = i > 0 ? OB_STEPS[i - 1] : null, cancel = mode === 'add';
+    S = { step, mode };
+    let html = '', say = '';
+    if (step === 'lang') {
+      say = (store.legacy ? t.obNew + ' ' : '') + t.obLangQ;
+      html = obShell('hoot', say, `<div class="ob-grid ob-langs">${LANG_IDS.map(l => `<button class="ob-opt${l === store.lang ? ' on' : ''}" data-act="ob-lang" data-l="${l}" lang="${l}"><b>${I18N[l].langName}</b></button>`).join('')}</div>`, { cancel });
+    } else if (step === 'name') {
+      say = t.obNameQ;
+      html = obShell('hoot', say, `<form class="ob-form" data-form="ob-name"><input id="ob-name" maxlength="20" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="next" value="${esc(store.name || '')}" placeholder="${t.namePh}" aria-label="${t.obNameQ}"><button class="btn" type="submit">${t.next}</button></form>`, { back, cancel });
+    } else if (step === 'avatar') {
+      say = t.obAvatarQ;
+      html = obShell('daisy', say, `<div class="ob-grid ob-avatars">${AVATARS.map(a => `<button class="ob-opt av${store.avatar === a ? ' on' : ''}" data-act="ob-avatar" data-a="${a}" aria-label="${tName(a)}">${charSvg(a)}</button>`).join('')}</div>`, { back, cancel });
+    } else if (step === 'year') {
+      say = t.obYearQ;
+      html = obShell('hoot', say, `<div class="ob-grid ob-years">${[1, 2, 3, 4, 5, 6, 0].map(n => `<button class="ob-opt${store.year === n && store.onboarded ? ' on' : ''}" data-act="ob-year" data-n="${n}">${yearLabel(n)}</button>`).join('')}</div>`, { back, cancel });
+    } else if (step === 'spell') {
+      say = t.obSpellQ;
+      const on = store.spLangs || [...new Set([store.lang, 'en'])];
+      html = obShell('fern', say, `<form class="ob-form ob-checks" data-form="ob-spell">${spellSubjects().map(tp => `<label class="check-row ob-check" style="${tcStyle(tp.teacher)}"><input type="checkbox" name="sp" value="${tp.lang}"${on.includes(tp.lang) ? ' checked' : ''}> <span class="mini-av">${charSvg(tp.teacher)}</span> ${topicTitle(tp)}</label>`).join('')}
+        <button class="btn" type="submit">${t.next}</button></form>`, { back, cancel });
+    } else {
+      say = t.obPlaceQ;
+      html = obShell('sparkle', say, `<p class="ob-text">${t.obPlaceText}</p><div class="ob-row"><button class="btn btn-big" data-act="pl-start">${t.obPlaceGo}</button><button class="btn btn-soft" data-act="pl-skip">${t.obPlaceSkip}</button></div>`, { back, cancel });
+    }
+    app.innerHTML = obTopbar() + html;
+    speak(say.replace(/<[^>]+>/g, ' '), step === 'avatar' ? 'daisy' : step === 'spell' ? 'fern' : step === 'place' ? 'sparkle' : 'hoot');
+    if (step === 'name') setTimeout(() => $('#ob-name')?.focus(), 50);
+  },
+  placement() {
+    const t = tr(), p = PL.qs[PL.qi];
+    S = { placement: true, list: [p], i: 0, input: '', done: false };
+    app.innerHTML = `${obTopbar()}
+    <div class="practice placement" style="--tc:var(--div);--tc-soft:var(--div-soft)">
+      <div class="pr-top"><b style="font-family:var(--font-display)">${t.plTitle}</b><span class="muted">${t.questionN(PL.asked + 1, Math.max(PL.asked + 1, 10))}</span></div>
+      <div class="pr-grid">
+        <div class="pr-left">
+          <section class="talk" id="pr-talk">${charWrap('sparkle', 'happy', 'md')}<div class="bubble"><p class="bubble-who">${tName('sparkle')}</p><div class="say-row"><p id="pr-say">${PL.asked ? pick(t.plNext) : t.plFirst}</p>${replayBtn()}</div></div></section>
+          <div class="qcard">${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q" id="q" aria-live="polite">${qHtml(p)}</div></div>
+        </div>
+        <div class="pr-right">
+          <div class="pad" id="pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button class="key" data-act="key" data-k="${n}">${n}</button>`).join('')}
+            <button class="key key-sm" data-act="key" data-k="clear">${t.clear}</button><button class="key" data-act="key" data-k="0">0</button><button class="key key-sm" data-act="key" data-k="back" aria-label="${t.delLast}">⌫</button></div>
+          <div class="pr-actions"><button class="btn btn-soft" data-act="pl-dunno">${t.plDontKnow}</button><button class="btn" id="check-btn" data-act="pl-check">${t.check}</button></div>
+        </div>
+      </div>
+    </div>`;
+    const ask = p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
+    lastSaid = { text: ask, tid: 'sparkle' }; speak(ask, 'sparkle');
+  },
+  placed() {
+    const t = tr(), nx = pathNext(), from = S.from;
+    const where = nx ? `${topicTitle(nx.l.topic)}: ${lvlText(nx.l).title}` : '';
+    const msg = nx ? t.plDone(`<b>${where}</b>`) : t.plDoneAll;
+    app.innerHTML = `${obTopbar()}<section class="results" style="--tc:var(--div)">${charWrap('sparkle', 'joy', 'lg')}
+      <h1 style="font-size:clamp(30px,5vw,44px)">${t.plGreat(esc(store.name))}</h1><p style="max-width:52ch">${msg}</p>
+      <div class="res-actions"><button class="btn btn-big" data-act="${from === 'parent' ? 'grownups' : 'home'}">${from === 'parent' ? t.backToGrownups : t.plDoneBtn}</button></div></section>`;
+    confetti(40); speak(`${t.plGreat(store.name)} ${msg.replace(/<[^>]+>/g, '')}`, 'sparkle');
+  },
+  kids() {
+    const t = tr();
+    app.innerHTML = `${obTopbar()}<div class="ob"><section class="talk">${charWrap('hoot', 'happy', 'md')}<div class="bubble"><p class="bubble-who">${tName('hoot')}</p><h1 class="ob-q">${t.whoPlays}</h1></div></section>
+      <div class="ob-grid ob-kids">${Object.values(DB.kids).filter(k => k.onboarded || k.name).map(k => `<button class="ob-opt kid-opt${k.id === store.id ? ' on' : ''}" data-act="kid-pick" data-id="${k.id}">${charSvg(avatarOf(k))}<b>${esc(k.name || '?')}</b></button>`).join('')}</div>
+      <div class="ob-row"><button class="btn btn-soft" data-act="grownups">${t.grownups}</button></div></div>`;
+    speak(t.whoPlays, 'hoot');
+  }
+});
+
+/* ---------- the starting quiz: two questions per step, up or down the path ---------- */
+let PL = null;
+function genOne(L, not) {
+  for (let i = 0; i < 80; i++) { const q = L.gen(Math.random); if (q && (!not || qKey(q) !== qKey(not))) { q.lv = L.id; return q; } }
+  return { ...L.problems[0], lv: L.id };
+}
+function plCheckpoint() { const L = findLevel(PATH[PL.pos]), a = genOne(L); PL.qs = [a, genOne(L, a)]; PL.qi = 0; PL.right = 0; }
+function plStart(from) {
+  PL = { pos: Math.min(YEAR_START[store.year] ?? YEAR_START[0], PATH.length - 1), lo: -1, hi: PATH.length, up: 4, down: 4, checks: 0, asked: 0, from };
+  plCheckpoint(); show('placement');
+}
+function plAnswer(knew) {
+  if (S.done) return;
+  const t = tr(), p = PL.qs[PL.qi];
+  if (knew && S.input === '') { $('#pr-say').innerHTML = t.typeFirst; return; }
+  const right = knew && Number(S.input) === answerOf(p);
+  S.done = true; PL.asked++; if (right) PL.right++;
+  updateQ(right ? 'right' : '');
+  const say = right ? pick(t.plGood) : pick(t.plOk);
+  $('#pr-say').innerHTML = say; speak(say, 'sparkle');
+  setTimeout(() => {
+    if (screen !== 'placement') return;
+    if (PL.qi === 0) { PL.qi = 1; return SCREENS.placement(); }
+    const pass = PL.right === 2; PL.checks++;
+    if (pass) PL.lo = Math.max(PL.lo, PL.pos); else PL.hi = Math.min(PL.hi, PL.pos);
+    // bigger jumps while it keeps going the same way, then halve the gap once both ends are known
+    let np;
+    if (PL.lo >= 0 && PL.hi < PATH.length) np = Math.floor((PL.lo + PL.hi) / 2);
+    else if (pass) { np = Math.min(PL.pos + PL.up, PATH.length - 1); PL.up *= 2; }
+    else { np = Math.max(PL.pos - PL.down, 0); PL.down *= 2; }
+    if (PL.checks >= 7 || np <= PL.lo || np >= PL.hi || PL.hi - PL.lo <= 2) return plFinish();
+    PL.pos = np; plCheckpoint(); SCREENS.placement();
+  }, 900);
+}
+function plFinish() {
+  store.start = PL.lo + 1; store.placedAt = Date.now(); store.onboarded = true; delete store.legacy;
+  save(); show('placed', { from: PL.from });
+}
+
+/* ---------- the grown-up area ---------- */
+let LE = null;   // the word list being edited
+function paTabs(tab) {
+  const t = tr();
+  return `<nav class="pa-tabs" aria-label="${t.grownups}">${[['kids', t.tabKids], ['lists', t.tabLists], ['progress', t.tabProgress], ['settings', t.tabSettings], ['account', t.tabAccount]]
+    .map(([k, label]) => `<button class="pa-tab" data-act="pa-tab" data-tab="${k}" aria-pressed="${k === tab}">${label}</button>`).join('')}</nav>`;
+}
+function paKidForm(k) {
+  const t = tr();
+  return `<form class="pa-form" data-form="kid-edit" data-id="${k.id}">
+    <label class="field"><span>${t.kidName}</span><input name="name" maxlength="20" value="${esc(k.name || '')}" autocomplete="off" required></label>
+    <div class="field"><span>${t.kidAvatar}</span><div class="av-row">${AVATARS.map(a => `<label class="av-pick"><input type="radio" name="avatar" value="${a}"${avatarOf(k) === a ? ' checked' : ''}><span>${charSvg(a)}</span></label>`).join('')}</div></div>
+    <label class="field"><span>${t.kidYearL}</span><select name="year">${[1, 2, 3, 4, 5, 6, 0].map(n => `<option value="${n}"${(k.year || 0) === n ? ' selected' : ''}>${yearLabel(n).replace(/<[^>]+>/g, '')}</option>`).join('')}</select></label>
+    <label class="field"><span>${t.kidLang}</span><select name="lang">${LANG_IDS.map(l => `<option value="${l}"${k.lang === l ? ' selected' : ''}>${I18N[l].langName}</option>`).join('')}</select></label>
+    <div class="field"><span>${t.kidSpell}</span>${spellSubjects().map(tp => `<label class="check-row"><input type="checkbox" name="sp" value="${tp.lang}"${!k.spLangs || k.spLangs.includes(tp.lang) ? ' checked' : ''}> ${topicTitle(tp)}</label>`).join('')}</div>
+    <div class="confirm-row"><button class="btn btn-small" type="submit">${t.save}</button><button class="btn btn-small btn-soft" type="button" data-act="pa-tab" data-tab="kids">${t.cancel}</button></div>
+  </form>`;
+}
+function paKids(editId, askId) {
+  const t = tr();
+  return `<section class="pa-card">${Object.values(DB.kids).map(k => {
+    const nx = withKid(k, pathNext);
+    return `<div class="kid-row">
+      <span class="kid-av">${charSvg(avatarOf(k))}</span>
+      <span class="kid-text"><b>${esc(k.name || '?')}${k.id === store.id ? ` <span class="tag">${t.playingNow}</span>` : ''}</b>
+        <span>${k.year ? t.yearN(k.year) + ' · ' : ''}${t.starsAria(kidStars(k))}</span>
+        ${nx ? `<span class="muted">${t.progNext(`${topicTitle(nx.l.topic)}: ${lvlText(nx.l).title}`)}</span>` : ''}</span>
+      <span class="kid-actions">
+        ${k.id !== store.id ? `<button class="btn btn-small" data-act="kid-play" data-id="${k.id}">${t.playAs(esc(k.name || '?'))}</button>` : `<button class="btn btn-small" data-act="home">${t.playAs(esc(k.name || '?'))}</button>`}
+        <button class="btn btn-small btn-soft" data-act="kid-edit" data-id="${k.id}">${t.edit}</button>
+        <button class="btn btn-small btn-soft" data-act="kid-place" data-id="${k.id}">${t.redoPlacement}</button>
+        ${Object.keys(DB.kids).length > 1 ? `<button class="btn btn-small btn-soft" data-act="kid-remove" data-id="${k.id}">${t.remove}</button>` : ''}
+      </span>
+      ${askId === k.id ? `<div class="confirm-row kid-confirm"><span>${t.removeAsk(esc(k.name || '?'))}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="kid-remove-yes" data-id="${k.id}">${t.removeYes}</button><button class="btn btn-small btn-soft" data-act="pa-tab" data-tab="kids">${t.keep}</button></div>` : ''}
+      ${editId === k.id ? paKidForm(k) : ''}
+    </div>`; }).join('')}
+    <div class="confirm-row"><button class="btn" data-act="kid-add">${t.addChild}</button></div></section>`;
+}
+function paLists() {
+  const t = tr();
+  return `<section class="pa-card"><p>${t.listsIntro}</p>
+    ${DB.lists.length ? DB.lists.slice().sort((a, b) => (b.updated || 0) - (a.updated || 0)).map(L => `<div class="kid-row">
+      <span class="kid-av">${charSvg(SPELL_TEACHER[L.lang] || 'fern')}</span>
+      <span class="kid-text"><b>${esc(L.name)}</b><span>${I18N[L.lang].langName} · ${t.clGoal(L.words.length)}</span>
+        <span class="muted">${L.for && L.for.length ? L.for.map(id => DB.kids[id] ? esc(DB.kids[id].name) : '').filter(Boolean).join(', ') : t.everyone}</span></span>
+      <span class="kid-actions"><button class="btn btn-small" data-act="list-play" data-id="${L.id}">${t.practise}</button><button class="btn btn-small btn-soft" data-act="list-edit" data-id="${L.id}">${t.edit}</button></span>
+    </div>`).join('') : `<p class="muted">${t.noLists}</p>`}
+    <div class="confirm-row"><button class="btn" data-act="list-new">${t.addList}</button></div></section>`;
+}
+function paProgress(kidId) {
+  const t = tr(), k = DB.kids[kidId] || store;
+  {
+    const rows = mathTopics().concat(TOPICS.filter(isSpellTopic)).map(tp => {
+      const st = tp.levels.reduce((s, l) => s + (k.best[l.id] || 0), 0), done = tp.levels.filter(l => k.best[l.id]).length;
+      return `<tr><th scope="row">${topicTitle(tp)}</th><td>${t.progStars(st, tp.levels.length * 3)}</td><td>${t.progLevels(done, tp.levels.length)}</td></tr>`;
+    }).join('');
+    const weak = allLevels().filter(l => k.best[l.id] === 1).map(l => `${topicTitle(l.topic)}: ${lvlText(l).title}`);
+    const nx = withKid(k, pathNext), doneN = withKid(k, pathDoneCount), due = k.review.filter(reviewValid).length;
+    return `<section class="pa-card">
+      ${Object.keys(DB.kids).length > 1 ? `<div class="av-row">${Object.values(DB.kids).map(x => `<button class="pa-tab" data-act="pa-prog" data-id="${x.id}" aria-pressed="${x.id === k.id}">${esc(x.name || '?')}</button>`).join('')}</div>` : ''}
+      <h3>${esc(k.name || '?')}</h3>
+      <p>${t.progPath(doneN, PATH.length)}${nx ? ' · ' + t.progNext(`${topicTitle(nx.l.topic)}: ${lvlText(nx.l).title}`) : ''}</p>
+      <p>${t.progReview(due)}</p>
+      <div class="table-wrap"><table class="prog"><tbody>${rows}</tbody></table></div>
+      <h3>${t.progWeak}</h3><p>${weak.length ? weak.join(' · ') : t.progNone}</p>
+    </section>`;
+  }
+}
+function paSettings() {
+  const t = tr();
+  return `<section class="pa-card grownups-body">
+    <h3>${t.settingsFor(esc(store.name || '?'))}</h3>
+    <div class="voice-row"><label for="voice-select">${t.voiceLabel}</label>
+      <div class="row"><select id="voice-select"></select><button class="btn btn-small btn-soft" type="button" data-act="voice-test">${t.voiceTry}</button></div>
+      <p id="voice-none" hidden>${t.voiceNone}</p></div>
+    <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
+    <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
+    <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="pin-change">${t.pinChange}</button></div>
+  </section>
+  <section class="pa-card grownups-body"><h3>${t.aboutTitle(t.brand)}</h3>${t.gu.map(x => `<p>${x}</p>`).join('')}<p>${t.gu4}</p><p class="muted">${t.footNote}</p></section>`;
+}
+function paAccount() {
+  const t = tr();
+  let body;
+  if (viaClaude) body = `<p>${t.accClaude}</p>`;
+  else if (!FIREBASE_CONFIG) body = `<p>${t.accLocal}</p><p class="muted">${t.accSoon}</p>`;
+  else if (!fb) body = `<p class="muted">${t.accLoading}</p>`;
+  else if (fb.user) body = `<p>${t.accSignedIn(`<b>${esc(fb.user.email || fb.user.displayName || '')}</b>`)}</p><p class="muted">${t.accSynced}</p>
+    <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="acc-out">${t.accSignOut}</button></div>
+    <div class="confirm-row" id="acc-del"><button class="btn btn-small btn-soft" data-act="acc-del-ask">${t.accDelete}</button></div>`;
+  else body = `<p>${t.accSignInText}</p><p class="muted">${t.accKids}</p>
+    <div class="confirm-row"><button class="btn" data-act="acc-google">${t.accGoogle}</button></div>
+    <form class="pa-form" data-form="acc-email">
+      <label class="field"><span>${t.accEmail}</span><input name="email" type="email" autocomplete="email" required></label>
+      <label class="field"><span>${t.accPassword}</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+      <div class="confirm-row"><button class="btn btn-small" type="submit" name="how" value="in">${t.accSignIn}</button><button class="btn btn-small btn-soft" type="submit" name="how" value="new">${t.accCreate}</button><button class="btn-link" type="submit" name="how" value="reset" formnovalidate>${t.accForgot}</button></div>
+    </form>`;
+  return `<section class="pa-card"><h3>${t.accTitle}</h3>${body}<p class="acc-msg" id="acc-msg" role="status"></p>
+    ${ON_SITE ? `<p><a href="privacy.html">${t.privacy}</a></p>` : ''}</section>`;
+}
+function listEditor() {
+  const t = tr(), kids = Object.values(DB.kids);
+  return `${topbar()}
+  <div class="crumbs"><button class="btn-link" data-act="pa-tab" data-tab="lists">${t.grownups}</button><span>· ${LE.id ? t.edit : t.addList}</span></div>
+  <section class="pa-card le">
+    <label class="field"><span>${t.listName}</span><input id="le-name" maxlength="40" value="${esc(LE.name)}" placeholder="${t.listNamePh}" autocomplete="off"></label>
+    <label class="field"><span>${t.listLang}</span><select id="le-lang">${LANG_IDS.map(l => `<option value="${l}"${LE.lang === l ? ' selected' : ''}>${I18N[l].langName}</option>`).join('')}</select></label>
+    ${kids.length > 1 ? `<div class="field"><span>${t.listFor}</span>${kids.map(k => `<label class="check-row"><input type="checkbox" class="le-for" value="${k.id}"${!LE.for.length || LE.for.includes(k.id) ? ' checked' : ''}> ${esc(k.name || '?')}</label>`).join('')}</div>` : ''}
+    <div class="field"><span>${t.photoTitle}</span>
+      <label class="btn photo-btn"><input type="file" id="photo-input" accept="image/*" hidden>${t.photoBtn}</label>
+      <p class="muted">${t.photoPrivate}</p><p class="le-status" id="le-status" role="status"></p></div>
+    <form class="field" data-form="le-type"><span>${t.typeWords}</span><textarea id="le-text" rows="3" placeholder="${t.typeWordsPh}" autocapitalize="none" autocorrect="off" spellcheck="false"></textarea>
+      <div class="confirm-row"><button class="btn btn-small btn-soft" type="submit">${t.addWords}</button></div></form>
+    <div id="le-words">${leWords()}</div>
+    <div class="confirm-row le-actions"><button class="btn" data-act="le-save">${t.saveList}</button>
+      ${LE.id ? `<span id="le-del"><button class="btn btn-soft" data-act="le-del-ask">${t.deleteList}</button></span>` : ''}
+      <button class="btn-link" data-act="pa-tab" data-tab="lists">${t.cancel}</button></div>
+  </section>`;
+}
+function leWords() {
+  const t = tr();
+  if (!LE.words.length) return `<p class="muted">${t.noWordsYet}</p>`;
+  return `<h3>${t.wordsTitle(LE.words.length)}</h3><p class="muted">${t.mistakesHint}</p>
+    <ul class="wlist">${LE.words.map((x, i) => `<li class="wrow">
+      <input class="w-in" data-i="${i}" value="${esc(x.w)}" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="${t.wordN(i + 1)}">
+      <span class="w-wrong">${x.wrong.map(esc).join(' · ')}</span>
+      <button class="icon-btn" data-act="le-reroll" data-i="${i}" aria-label="${t.newMistakes}" title="${t.newMistakes}">↻</button>
+      <button class="icon-btn" data-act="le-rm" data-i="${i}" aria-label="${t.removeWord}" title="${t.removeWord}">×</button></li>`).join('')}</ul>`;
+}
+const leEntry = (w, lang, turn = 0) => ({ w, turn, ...makeMistakes(w, lang, turn) });
+function leAdd(words) {
+  const t = tr(), skipped = [];
+  for (const raw of words) {
+    // keep the letters: numbering, full stops and the like are dropped without a fuss
+    const w = raw.trim().toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '');
+    if (!w || !/\p{L}/u.test(w)) continue;
+    if (!okWord(w, LE.lang)) { skipped.push(w); continue; }
+    if (!LE.words.some(x => x.w === w) && LE.words.length < 40) LE.words.push(leEntry(w, LE.lang));
+  }
+  $('#le-words').innerHTML = leWords();
+  return skipped;
+}
+function readLE() {
+  const n = $('#le-name'); if (n) LE.name = n.value.trim();
+  const fs = [...document.querySelectorAll('.le-for')];
+  if (fs.length) { const on = fs.filter(x => x.checked).map(x => x.value); LE.for = on.length === fs.length ? [] : on; }
+}
+Object.assign(SCREENS, {
+  gate({ next = { tab: 'kids' }, mode }) {
+    const t = tr();
+    mode = mode || (DB.pin ? 'enter' : 'create');
+    S = { next, mode };
+    if (mode === 'forgot' && !pinSum) pinSum = [23 + Math.floor(Math.random() * 60), 12 + Math.floor(Math.random() * 20)];
+    const title = { enter: t.pinEnter, create: t.pinCreate, confirm: t.pinAgain, forgot: mode === 'forgot' ? t.pinReset(...pinSum) : '' }[mode];
+    app.innerHTML = `${topbar()}
+    <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
+    <section class="pa-card gate">
+      <h2>${title}</h2>${mode === 'create' ? `<p class="muted">${t.pinCreateText}</p>` : ''}
+      <form class="gate-form" data-form="pin"><input id="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="${mode === 'forgot' ? 6 : 4}" autocomplete="off" aria-label="${title}">
+        <button class="btn" type="submit">${t.pinOk}</button></form>
+      <p class="acc-msg" id="pin-msg" role="status"></p>
+      ${mode === 'enter' ? `<button class="btn-link" data-act="pin-forgot">${t.pinForgot}</button>` : ''}
+    </section>`;
+    setTimeout(() => $('#pin-input')?.focus(), 50);
+  },
+  parent({ tab = 'kids', editId, askId, kidId }) {
+    if (!gateOpen()) return show('gate', { next: { tab } });
+    const t = tr();
+    S = { tab, editId, askId, kidId };
+    const body = tab === 'lists' ? paLists() : tab === 'progress' ? paProgress(kidId || store.id) : tab === 'settings' ? paSettings() : tab === 'account' ? paAccount() : paKids(editId, askId);
+    app.innerHTML = `${topbar()}
+    <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
+    <h1 class="pa-title">${t.grownups}</h1>${paTabs(tab)}${body}
+    <footer class="site-foot">${t.footNote}${ON_SITE ? ` · <a href="privacy.html">${t.privacy}</a>` : ''}</footer>`;
+    if (tab === 'settings') fillVoicePicker();
+  },
+  listEdit({ id }) {
+    if (!gateOpen()) return show('gate', { next: { tab: 'lists' } });
+    if (!LE || LE.id !== (id || null)) {
+      const L = id && DB.lists.find(x => x.id === id);
+      LE = L ? { id: L.id, name: L.name, lang: L.lang, for: (L.for || []).slice(), words: L.words.map(x => ({ ...x, turn: x.turn || 0 })) }
+        : { id: null, name: '', lang: (store.spLangs && store.spLangs[0]) || store.lang, for: Object.keys(DB.kids).length > 1 ? [store.id] : [], words: [] };
+    }
+    S = { id };
+    app.innerHTML = listEditor();
+  }
+});
+
+/* ---------- free family accounts (website only; claude.ai keeps progress in the Claude account) ---------- */
+let fb = null;
+async function initFirebase() {
+  if (!FIREBASE_CONFIG || viaClaude || (window.claude && window.claude.use)) return;
+  try {
+    const base = 'https://www.gstatic.com/firebasejs/10.12.2/';
+    const [A, U, F] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
+    const appFb = A.initializeApp(FIREBASE_CONFIG), auth = U.getAuth(appFb), db = F.getFirestore(appFb);
+    fb = { U, F, auth, db, user: null };
+    U.onAuthStateChanged(auth, async user => {
+      fb.user = user;
+      if (user) {
+        const ref = F.doc(db, 'families', user.uid);
+        try { await attachCloud({ get: async () => { const s = await F.getDoc(ref); return s.exists() ? s.data() : null; }, set: d => F.setDoc(ref, d) }); } catch (e) {}
+      } else cloud = null;
+      if (screen === 'parent' && S.tab === 'account') SCREENS.parent(S);
+    });
+    if (screen === 'parent' && S.tab === 'account') SCREENS.parent(S);
+  } catch (e) { fb = null; }
+}
+function accMsg(e) {
+  const t = tr(), el = $('#acc-msg'); if (!el) return;
+  el.textContent = typeof e === 'string' ? e : (t.accErr[e && e.code] || t.accErr.other);
+}
+
+/* ---------- actions for the new screens ---------- */
+function startOnboarding(mode) { show('onboard', { step: 'lang', mode }); }
+function obNext(step) { const i = OB_STEPS.indexOf(step); show('onboard', { step: OB_STEPS[i + 1], mode: S.mode }); }
+Object.assign(ACTIONS, {
+  'ob-go': d => show('onboard', { step: d.step, mode: S.mode }),
+  'ob-lang': d => { store.lang = d.l; save(); applyLang(); obNext('lang'); },
+  'ob-avatar': d => { store.avatar = d.a; save(); obNext('avatar'); },
+  'ob-year': d => { store.year = +d.n; save(); obNext('year'); },
+  'ob-cancel': () => {
+    const k = store; if (S.mode !== 'add') return;
+    DB.gone.push(k.id); delete DB.kids[k.id]; cleanDB(DB); setActive(obPrev && DB.kids[obPrev] ? obPrev : Object.keys(DB.kids)[0]); save(); show('parent', { tab: 'kids' });
+  },
+  'pl-start': () => plStart(S.mode === 'add' ? 'parent-add' : S.from || 'first'),
+  'pl-skip': () => { store.start = Object.keys(store.best).length ? 0 : (YEAR_START[store.year] ?? 0); store.onboarded = true; delete store.legacy; save(); show('placed', { from: S.mode === 'add' ? 'parent-add' : 'first' }); },
+  'pl-check': () => plAnswer(true),
+  'pl-dunno': () => plAnswer(false),
+  kids: () => show('kids'),
+  'kid-pick': d => { setActive(d.id); save(); show('home'); },
+  grownups: () => gateOpen() ? show('parent', { tab: 'kids' }) : show('gate', { next: { tab: 'kids' } }),
+  'pa-tab': d => show('parent', { tab: d.tab }),
+  'pa-prog': d => show('parent', { tab: 'progress', kidId: d.id }),
+  'kid-play': d => { setActive(d.id); save(); gateUntil = 0; show('home'); },
+  'kid-edit': d => show('parent', { tab: 'kids', editId: d.id }),
+  'kid-place': d => { setActive(d.id); save(); plStart('parent'); },
+  'kid-remove': d => show('parent', { tab: 'kids', askId: d.id }),
+  'kid-remove-yes': d => {
+    if (Object.keys(DB.kids).length < 2) return;
+    DB.gone.push(d.id); delete DB.kids[d.id]; cleanDB(DB); store = DB.kids[DB.active]; save(); show('parent', { tab: 'kids' });
+  },
+  'kid-add': () => {
+    const prev = store.id, k = newKid({ lang: store.lang, sound: store.sound, voice: store.voice });
+    DB.kids[k.id] = k; obPrev = prev; setActive(k.id); save(); show('onboard', { step: 'lang', mode: 'add' });
+  },
+  'list-new': () => { LE = null; show('listEdit', {}); },
+  'list-edit': d => { LE = null; show('listEdit', { id: d.id }); },
+  'list-play': d => { gateUntil = 0; show('topic', { id: 'cl' + d.id }); },
+  'le-reroll': d => { readLE(); const x = LE.words[+d.i]; Object.assign(x, leEntry(x.w, LE.lang, (x.turn || 0) + 1)); $('#le-words').innerHTML = leWords(); },
+  'le-rm': d => { readLE(); LE.words.splice(+d.i, 1); $('#le-words').innerHTML = leWords(); },
+  'le-save': () => {
+    const t = tr(); readLE();
+    if (LE.words.length < 3) { $('#le-status').textContent = t.needWords; return; }
+    const now = Date.now(), name = LE.name || t.listDefault(DB.lists.length + 1);
+    const rec = { id: LE.id || newId(), name, lang: LE.lang, for: LE.for, words: LE.words.map(x => ({ w: x.w, wrong: x.wrong, focus: x.focus, turn: x.turn || 0 })), updated: now };
+    const i = DB.lists.findIndex(x => x.id === rec.id);
+    if (i > -1) DB.lists[i] = { ...DB.lists[i], ...rec }; else DB.lists.push({ ...rec, created: now });
+    buildCustomTopics(); save(); LE = null; show('parent', { tab: 'lists' }); toast(t.listSaved);
+  },
+  'le-del-ask': () => { const t = tr(); $('#le-del').innerHTML = `<span>${t.deleteListAsk}</span> <button class="btn btn-small" style="--tc:var(--oops)" data-act="le-del-yes">${t.removeYes}</button>`; },
+  'le-del-yes': () => {
+    const t = tr(), id = LE.id; DB.lists = DB.lists.filter(x => x.id !== id); DB.gone.push(id);
+    buildCustomTopics(); save(); LE = null; show('parent', { tab: 'lists' }); toast(t.listDeleted);
+  },
+  'pin-forgot': () => show('gate', { next: S.next, mode: 'forgot' }),
+  'pin-change': () => { pinFirst = null; show('gate', { next: { tab: 'settings' }, mode: 'create' }); },
+  'acc-google': async () => { try { await fb.U.signInWithPopup(fb.auth, new fb.U.GoogleAuthProvider()); } catch (e) { accMsg(e); } },
+  'acc-out': async () => { try { await fb.U.signOut(fb.auth); } catch (e) { accMsg(e); } },
+  'acc-del-ask': () => { const t = tr(); $('#acc-del').innerHTML = `<span>${t.accDeleteAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="acc-del-yes">${t.accDeleteYes}</button><button class="btn btn-small btn-soft" data-act="pa-tab" data-tab="account">${t.keep}</button>`; },
+  'acc-del-yes': async () => {
+    const t = tr();
+    try {
+      const ref = fb.F.doc(fb.db, 'families', fb.user.uid);
+      cloud = null; await fb.F.deleteDoc(ref); await fb.user.delete(); accMsg(t.accDeleted);
+    } catch (e) { accMsg(e && e.code === 'auth/requires-recent-login' ? t.accRelogin : e); }
+  }
+});
+app.addEventListener('submit', async e => {
+  const f = e.target, kind = f.dataset.form, t = tr();
+  if (kind === 'ob-name') {
+    const v = $('#ob-name').value.trim(); if (!v) return;
+    store.name = v.slice(0, 20); save(); obNext('name');
+  } else if (kind === 'ob-spell') {
+    const on = [...f.querySelectorAll('input[name="sp"]:checked')].map(x => x.value);
+    store.spLangs = on.length ? on : null; save(); obNext('spell');
+  } else if (kind === 'pin') {
+    const v = $('#pin-input').value.trim(), msg = $('#pin-msg'), { mode, next } = S;
+    if (mode === 'forgot') { if (pinSum && Number(v) === pinSum[0] * pinSum[1]) { pinSum = null; gateUntil = Date.now() + 10 * 60e3; show('gate', { next, mode: 'create' }); } else msg.textContent = t.pinWrongSum; return; }
+    if (!/^\d{4}$/.test(v)) { msg.textContent = t.pin4; return; }
+    if (mode === 'enter') { if (pinHash(v) === DB.pin) { gateUntil = Date.now() + 10 * 60e3; show('parent', next); } else { msg.textContent = t.pinWrong; $('#pin-input').value = ''; } return; }
+    if (mode === 'create') { pinFirst = v; show('gate', { next, mode: 'confirm' }); return; }
+    if (mode === 'confirm') {
+      if (v !== pinFirst) { pinFirst = null; show('gate', { next, mode: 'create' }); $('#pin-msg').textContent = t.pinMismatch; return; }
+      DB.pin = pinHash(v); DB.pinAt = Date.now(); pinFirst = null; save(); gateUntil = Date.now() + 10 * 60e3; show('parent', next); toast(t.pinSaved);
+    }
+  } else if (kind === 'kid-edit') {
+    const k = DB.kids[f.dataset.id]; if (!k) return;
+    const fd = new FormData(f), sp = fd.getAll('sp');
+    k.name = String(fd.get('name') || '').trim().slice(0, 20) || k.name; k.avatar = fd.get('avatar') || k.avatar; k.year = +fd.get('year') || 0;
+    k.lang = LANG_IDS.includes(fd.get('lang')) ? fd.get('lang') : k.lang; k.spLangs = sp.length && sp.length < 4 ? sp : null;
+    save(); applyLang(); show('parent', { tab: 'kids' }); toast(t.saved);
+  } else if (kind === 'le-type') {
+    readLE();
+    const txt = $('#le-text').value, skipped = leAdd(txt.split(/[\s,;]+/));
+    $('#le-text').value = '';
+    $('#le-status').textContent = skipped.length ? t.badWords(skipped.join(', ')) : '';
+  } else if (kind === 'acc-email') {
+    const fd = new FormData(f), email = String(fd.get('email') || '').trim(), pw = String(fd.get('password') || ''), how = e.submitter && e.submitter.value;
+    try {
+      if (how === 'reset') { if (!email) return accMsg(t.accErr['auth/invalid-email']); await fb.U.sendPasswordResetEmail(fb.auth, email); accMsg(t.accResetSent); }
+      else if (how === 'new') await fb.U.createUserWithEmailAndPassword(fb.auth, email, pw);
+      else await fb.U.signInWithEmailAndPassword(fb.auth, email, pw);
+    } catch (err) { accMsg(err); }
+  }
+});
+app.addEventListener('change', async e => {
+  const el = e.target;
+  if (el.id === 'le-lang') {
+    readLE(); LE.lang = el.value;
+    const keep = LE.words.filter(x => okWord(x.w, LE.lang)), dropped = LE.words.length - keep.length;
+    LE.words = keep.map(x => leEntry(x.w, LE.lang, x.turn || 0));
+    $('#le-words').innerHTML = leWords(); $('#le-status').textContent = dropped ? tr().badWords(String(dropped)) : '';
+  } else if (el.classList.contains('w-in')) {
+    const t = tr(), i = +el.dataset.i, w = el.value.trim().toLowerCase();
+    if (!w) { LE.words.splice(i, 1); }
+    else if (!okWord(w, LE.lang)) { $('#le-status').textContent = t.badWords(w); el.value = LE.words[i].w; return; }
+    else LE.words[i] = leEntry(w, LE.lang);
+    $('#le-words').innerHTML = leWords();
+  } else if (el.id === 'photo-input' && el.files && el.files[0]) {
+    const t = tr(), st = $('#le-status'), file = el.files[0];
+    readLE();
+    st.textContent = t.photoLoading;
+    try {
+      const text = await readPhoto(file, LE.lang, p => { if (st) st.textContent = p < 0 ? t.photoLoading : t.photoReading(p); });
+      const words = extractWords(text, LE.lang);
+      if (!words.length) { st.textContent = t.photoNone; return; }
+      const before = LE.words.length; leAdd(words);
+      st.textContent = t.photoFound(LE.words.length - before);
+    } catch (err) { st.textContent = t.photoFail; }
+    el.value = '';
+  }
+});
+
+function spellRound(l) {
+  // ten questions; a short list of the family's own words goes round twice so every word is also typed
+  const n = Math.min(10, l.words.length * 2);
+  let pool = shuffle(l.words);
+  while (pool.length < n) { const more = shuffle(l.words); if (more.length > 1 && more[0] === pool[pool.length - 1]) more.push(more.shift()); pool = pool.concat(more); }
+  return pool.slice(0, n).map((wd, i) => { const k = i * 10 / n; return spItem(wd, k < 3 ? 'pick' : k < 6 ? 'fill' : 'type', l.id); });
+}
+
+buildCustomTopics();
 applyLang();
-show('home');
-connectCloud();
+show(Object.values(DB.kids).filter(k => k.onboarded).length > 1 ? 'kids' : 'home');
+connectCloud().then(initFirebase);
 </script>
 
 </body>
