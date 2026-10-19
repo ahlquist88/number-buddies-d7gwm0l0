@@ -165,6 +165,10 @@ p{margin:0}
 .grownups summary{font-family:var(--font-display);font-weight:600;font-size:17px;padding:10px 0;cursor:pointer;color:var(--ink)}
 .grownups-body{display:flex;flex-direction:column;gap:10px;padding-bottom:16px;max-width:68ch}
 .confirm-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.voice-row{display:flex;flex-direction:column;gap:6px}
+.voice-row label{font-weight:700;color:var(--ink)}
+.voice-row .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.voice-row select{flex:1;min-width:0;max-width:100%;font:inherit;font-size:17px;padding:10px 12px;border-radius:14px;border:3px solid var(--line);background:var(--card);color:var(--ink)}
 
 /* topic levels */
 .crumbs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--ink-soft);font-family:var(--font-display);font-weight:600}
@@ -515,6 +519,8 @@ const I18N = {
     newBest: ' New best!', nextLevel: 'Next level', playAgain: 'Play again', seeLesson: 'See the lesson', home: 'Home',
     soonToast: (t, x) => `${t} is still getting ${x.toLowerCase()} ready. Coming soon!`,
     voiceOn: 'Voice is on!', voiceOffLabel: 'Turn voice off', voiceOnLabel: 'Turn voice on', language: 'Language',
+    voiceLabel: 'Teacher voice (English)', voiceAuto: 'Automatic', voiceTry: 'Try it', voiceSample: 'Hello! This is how I will read the maths to you.',
+    voiceNone: 'This device has no English voices installed. Add one in Settings → Accessibility → Read & Speak → Voices.',
     askQ: (q, missing) => missing ? q : `${q} equals?`,
     place: ['ones', 'tens', 'hundreds', 'thousands'], one: ['one', 'ten', 'hundred', 'thousand'], lab: ['O', 'T', 'H', 'Th'],
     tensW: n => n === 1 ? '1 ten' : `${n} tens`, onesW: n => n === 1 ? '1 one' : `${n} ones`,
@@ -655,6 +661,8 @@ const I18N = {
     newBest: ' Ny rekord!', nextLevel: 'Næste niveau', playAgain: 'Spil igen', seeLesson: 'Se lektionen', home: 'Forside',
     soonToast: (t, x) => `${t} er stadig ved at gøre ${x.toLowerCase()} klar. Kommer snart!`,
     voiceOn: 'Stemmen er tændt!', voiceOffLabel: 'Sluk for stemmen', voiceOnLabel: 'Tænd for stemmen', language: 'Sprog',
+    voiceLabel: 'Lærerstemme (dansk)', voiceAuto: 'Automatisk', voiceTry: 'Prøv den', voiceSample: 'Hej! Sådan kommer jeg til at læse matematikken op for dig.',
+    voiceNone: 'Der er ingen danske stemmer på denne enhed. Tilføj en under Indstillinger → Tilgængelighed, i indstillingerne for oplæsning og stemmer.',
     askQ: (q, missing) => missing ? q : `${q} er lig med hvad?`,
     place: ['enere', 'tiere', 'hundreder', 'tusinder'], one: ['ener', 'tier', 'hundreder', 'tusinder'], def: ['enerne', 'tierne', 'hundrederne', 'tusinderne'], lab: ['E', 'T', 'H', 'Tu'],
     tensLbl: 'tiere', onesLbl: 'enere', checkLbl: 'tjek', numberLine: 'Tallinje', colAdd: 'Plus i opstilling', colSub: 'Minus i opstilling',
@@ -1142,10 +1150,28 @@ const EXPLAIN = {
 
 /* ---------- speech ---------- */
 let lastSaid = { text: '', tid: 'hoot' };
-function voiceFor(lang) {
-  try { const v = speechSynthesis.getVoices(); return lang === 'da' ? v.find(x => /^da/i.test(x.lang)) || null : v.find(x => /en-GB/i.test(x.lang)) || v.find(x => /^en/i.test(x.lang)) || null; } catch (e) { return null; }
+// Best voice first: Premium, then Enhanced/natural voices (any accent), then UK English or Danish.
+// A grown-up can also pick one exact voice in "For grown-ups"; that choice wins while it is installed.
+function voicesFor(lang) {
+  try { return speechSynthesis.getVoices().filter(v => lang === 'da' ? /^da/i.test(v.lang) : /^en/i.test(v.lang)); } catch (e) { return []; }
 }
-try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; } catch (e) {}
+function voiceRank(v) {
+  const s = `${v.name} ${v.voiceURI}`.toLowerCase();
+  return (/premium/.test(s) ? 30 : /enhanced|neural|natural/.test(s) ? 20 : 0) + (/^(en-gb|da)/i.test(v.lang) ? 2 : 0) + (v.localService ? 1 : 0);
+}
+const rankedVoices = lang => voicesFor(lang).sort((a, b) => voiceRank(b) - voiceRank(a) || a.name.localeCompare(b.name));
+function voiceFor(lang) {
+  const list = rankedVoices(lang), chosen = store.voice && store.voice[lang];
+  return (chosen && list.find(v => v.voiceURI === chosen)) || list[0] || null;
+}
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => fillVoicePicker(); } catch (e) {}
+function fillVoicePicker() {
+  const sel = document.getElementById('voice-select'); if (!sel) return;
+  const t = tr(), list = rankedVoices(store.lang), chosen = store.voice && store.voice[store.lang];
+  sel.innerHTML = `<option value="">${t.voiceAuto}${list[0] ? ` (${esc(list[0].name)})` : ''}</option>` +
+    list.map(v => `<option value="${esc(v.voiceURI)}"${v.voiceURI === chosen ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
+  const none = document.getElementById('voice-none'); if (none) none.hidden = list.length > 0;
+}
 function toSpeech(t) {
   const da = store.lang === 'da';
   return t.replace(/<[^>]+>/g, ' ')
@@ -1162,7 +1188,7 @@ function speak(text, tid) {
     const busy = speechSynthesis.speaking || speechSynthesis.pending;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(toSpeech(text)), v = voiceFor(store.lang);
-    u.lang = store.lang === 'da' ? 'da-DK' : 'en-GB'; if (v) u.voice = v;
+    u.lang = v ? v.lang : store.lang === 'da' ? 'da-DK' : 'en-GB'; if (v) u.voice = v;
     u.rate = .9; u.pitch = TEACHERS[tid]?.pitch || 1;
     if (busy) setTimeout(() => speechSynthesis.speak(u), 120); else speechSynthesis.speak(u);
   } catch (e) {}
@@ -1242,9 +1268,15 @@ const SCREENS = {
       <div class="grownups-body">
         ${t.gu.map(x => `<p>${x}</p>`).join('')}
         <p id="sync-note">${cloud ? t.syncCloud : t.syncLocal}</p>
+        <div class="voice-row">
+          <label for="voice-select">${t.voiceLabel}</label>
+          <div class="row"><select id="voice-select"></select><button class="btn btn-small btn-soft" type="button" data-act="voice-test">${t.voiceTry}</button></div>
+          <p id="voice-none" hidden>${t.voiceNone}</p>
+        </div>
         <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
       </div>
     </details>`;
+    fillVoicePicker();
   },
   topic({ id }) {
     const t = tr(), tp = TOPICS.find(x => x.id === id), tid = tp.teacher;
@@ -1546,11 +1578,17 @@ const ACTIONS = {
   howto: () => openHowTo(),
   'reset-ask': () => { const t = tr(); $('#reset-row').innerHTML = `<span>${t.resetAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="reset-yes">${t.resetYes}</button><button class="btn btn-small btn-soft" data-act="reset-no">${t.resetNo}</button>`; },
   'reset-no': () => show('home'),
+  'voice-test': () => { const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s; },
   'reset-yes': () => { store = { name: '', best: {}, sound: store.sound, lang: store.lang, round: null, resetAt: Date.now() }; save(); show('home'); toast(tr().resetDone); }
 };
 app.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
   const fn = ACTIONS[b.dataset.act]; if (fn) fn(b.dataset, b);
+});
+app.addEventListener('change', e => {
+  if (e.target.id !== 'voice-select') return;
+  store.voice = { ...(store.voice || {}), [store.lang]: e.target.value || null }; save();
+  const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s;
 });
 app.addEventListener('submit', e => {
   e.preventDefault();
