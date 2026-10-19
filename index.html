@@ -28,6 +28,7 @@
   --mul:#118F84; --mul-soft:#D2F3EF;
   --div:#4F5FE0; --div-soft:#E0E3FD;
   --spen:#C7451F; --spen-soft:#FDE3D8; --spda:#2C8A4E; --spda-soft:#DDF3E5;
+  --spsv:#1F5FAE; --spsv-soft:#DCE9FA; --spid:#B5302A; --spid-soft:#FBE0DE;
   --sun:#FFB400; --good:#1C9150; --good-soft:#D7F5E3; --oops:#D93A3F; --oops-soft:#FDE1E1;
   --dot-a:#F07C2A; --dot-b:#2D8CE0;
   --shadow:0 5px 0 rgba(31,45,71,.07), 0 14px 30px rgba(31,45,71,.10);
@@ -43,6 +44,7 @@
     --add:#FF9B52; --add-soft:#47301F; --sub:#F06AA8; --sub-soft:#47223A;
     --mul:#3CC9BC; --mul-soft:#173F3D; --div:#8C98FF; --div-soft:#262D5C;
   --spen:#FF8A5C; --spen-soft:#4A2A1F; --spda:#5BD18A; --spda-soft:#183E28;
+  --spsv:#6FA6F5; --spsv-soft:#1B2F52; --spid:#FF7D73; --spid-soft:#4A2020;
     --sun:#FFC83D; --good:#45C97C; --good-soft:#173E2A; --oops:#FF6B6F; --oops-soft:#4A1F24;
     --dot-a:#FF9B52; --dot-b:#5CB0FF;
     --shadow:0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.30);
@@ -56,6 +58,7 @@
   --add:#FF9B52; --add-soft:#47301F; --sub:#F06AA8; --sub-soft:#47223A;
   --mul:#3CC9BC; --mul-soft:#173F3D; --div:#8C98FF; --div-soft:#262D5C;
   --spen:#FF8A5C; --spen-soft:#4A2A1F; --spda:#5BD18A; --spda-soft:#183E28;
+  --spsv:#6FA6F5; --spsv-soft:#1B2F52; --spid:#FF7D73; --spid-soft:#4A2020;
   --sun:#FFC83D; --good:#45C97C; --good-soft:#173E2A; --oops:#FF6B6F; --oops-soft:#4A1F24;
   --dot-a:#FF9B52; --dot-b:#5CB0FF;
   --shadow:0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.30);
@@ -318,7 +321,7 @@ p{margin:0}
 .hear-btn{gap:10px}
 .q-spell{font-size:clamp(34px,6vw,52px);width:100%}
 .opt{width:100%}
-.ans-box.word{min-width:5em;padding:0 .35em;font-family:var(--font-display);letter-spacing:.04em;text-transform:none}
+.ans-box.word{min-width:5em;padding:0 .35em;max-width:100%;font-size:min(1em,calc((100vw - 64px) / (var(--wl,8) * .7)));font-family:var(--font-display);letter-spacing:.04em;text-transform:none}
 .opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
 .opt{border:3px solid var(--line);border-radius:20px;background:var(--card-2);padding:14px 18px;font-family:var(--font-display);font-weight:600;font-size:clamp(28px,4.5vw,38px);color:var(--ink);letter-spacing:.03em}
 .opt.right{border-color:var(--good);background:var(--good-soft);color:var(--good)}
@@ -367,6 +370,7 @@ p{margin:0}
   .practice.spelling .lkey-wide{max-width:96px}
   .practice.spelling .pr-actions{max-width:520px;width:100%;margin:0 auto}
 }
+@media (min-width:1000px) and (max-height:800px){ .practice.spelling .lkey{height:60px} .practice.spelling #pr-talk .cw-md{width:104px} }
 .st-nav>*{min-width:0}
 .stepper,.explain,.stepper>*{min-width:0;max-width:100%}
 .st-end .btn{min-width:0;overflow-wrap:anywhere}
@@ -502,6 +506,10 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
     <radialGradient id="g-fox" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#FFB27A"/><stop offset=".6" stop-color="#EE6A2C"/><stop offset="1" stop-color="#A9401A"/></radialGradient>
     <radialGradient id="g-hog" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="#9C6A45"/><stop offset="1" stop-color="#4E2D19"/></radialGradient>
     <radialGradient id="g-hogface" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFEBD2"/><stop offset="1" stop-color="#E7BF92"/></radialGradient>
+    <radialGradient id="g-moose" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#C08A5A"/><stop offset=".6" stop-color="#8A5A36"/><stop offset="1" stop-color="#5A3820"/></radialGradient>
+    <radialGradient id="g-moosenose" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#DDB089"/><stop offset="1" stop-color="#A87048"/></radialGradient>
+    <radialGradient id="g-ora" cx="40%" cy="28%" r="78%"><stop offset="0" stop-color="#F59A4E"/><stop offset=".6" stop-color="#CC5A22"/><stop offset="1" stop-color="#8F3510"/></radialGradient>
+    <radialGradient id="g-oraface" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFE8D4"/><stop offset="1" stop-color="#F2B88A"/></radialGradient>
     <radialGradient id="g-cheek"><stop offset="0" stop-color="#FF7FA6" stop-opacity=".65"/><stop offset="1" stop-color="#FF7FA6" stop-opacity="0"/></radialGradient>
   </defs>
 </svg>
@@ -630,6 +638,7 @@ const I18N = {
     praiseHelp: ['Yes! You worked it out.', 'That is right. Great effort!', 'You did it! Practice makes it easier every time.'],
     retry: ['Nearly! Have another go.', 'Not quite yet. Try again, you can do it!', 'Good try! Check it once more.'], orShow: ' Or tap "Show me how".',
     together: "That's okay. Let's work it out together, step by step.",
+    togetherSp: "That's okay. Let's look at it together, letter by letter.",
     howTitle: q => `How to work out ${q}`, nextStep: 'Next step', back: 'Back', typeAnswer: 'Now type your answer', sayAgain: 'Say it again',
     head: ['Well done for finishing!', 'Great work!', 'Superstar!'],
     msg: [f => `You got ${f} out of 10 right first time. Every try makes your brain stronger. Have another look at the lesson, then try again.`,
@@ -772,6 +781,7 @@ const I18N = {
     praiseHelp: ['Ja! Du regnede den ud.', 'Det er rigtigt. Flot kæmpet!', 'Du klarede det! Det bliver lettere, hver gang du øver dig.'],
     retry: ['Næsten! Prøv igen.', 'Ikke helt endnu. Prøv igen, du kan godt!', 'Godt forsøg! Tjek det en gang til.'], orShow: ' Eller tryk på "Vis mig hvordan".',
     together: 'Det gør ikke noget. Lad os regne den ud sammen, trin for trin.',
+    togetherSp: 'Det gør ikke noget. Lad os se på det sammen, bogstav for bogstav.',
     howTitle: q => `Sådan regner du ${q}`, nextStep: 'Næste trin', back: 'Tilbage', typeAnswer: 'Skriv nu dit svar', sayAgain: 'Sig det igen',
     head: ['Godt gået, du blev færdig!', 'Godt arbejde!', 'Superstjerne!'],
     msg: [f => `Du fik ${f} ud af 10 rigtige i første forsøg. Hver gang du prøver, bliver din hjerne stærkere. Se lektionen igen, og prøv så en gang til.`,
@@ -2438,12 +2448,300 @@ Object.assign(ART, {
 TEACHERS.fern = { pitch: 1.15, color: 'spen' };
 TEACHERS.pjuske = { pitch: 1.3, color: 'spda' };
 
+/* ---------- Swedish and Indonesian spelling teachers ---------- */
+const mooseAntler = `<path d="M60 74 C38 66 26 46 30 26 L40 36 L42 18 L51 32 L56 14 L62 32 L70 24 L70 50 C72 60 68 68 60 74Z" fill="#E8C98E" stroke="#C9A468" stroke-width="2"/>`;
+Object.assign(ART, {
+  /* Moose: Swedish spelling */
+  olle: () => `${shadow}<g class="bob">
+    ${mooseAntler}<g transform="translate(200 0) scale(-1 1)">${mooseAntler}</g>
+    <ellipse cx="100" cy="182" rx="48" ry="25" fill="url(#g-moose)"/>
+    <ellipse cx="80" cy="203" rx="12" ry="6" fill="#3E2412"/><ellipse cx="120" cy="203" rx="12" ry="6" fill="#3E2412"/>
+    <ellipse cx="48" cy="96" rx="17" ry="9" fill="#8A5A36" transform="rotate(-28 48 96)"/>
+    <ellipse cx="152" cy="96" rx="17" ry="9" fill="#8A5A36" transform="rotate(28 152 96)"/>
+    <ellipse cx="100" cy="110" rx="50" ry="47" fill="url(#g-moose)"/>
+    <ellipse cx="100" cy="146" rx="38" ry="27" fill="url(#g-moosenose)"/>
+    <ellipse cx="87" cy="141" rx="5" ry="4" fill="#4E2D19"/><ellipse cx="113" cy="141" rx="5" ry="4" fill="#4E2D19"/>
+    ${eye(80, 104, 16, 'brown')}${eye(120, 104, 16, 'brown')}
+    ${cheeks(66, 134, 136)}
+    <path class="mouth-calm" d="M88 156 Q100 164 112 156" stroke="#4E2D19" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path class="mouth-joy" d="M86 153 Q100 171 114 153Z" fill="#7A2033"/>
+    <path d="M58 162 Q100 180 142 162 L140 175 Q100 193 60 175Z" fill="#2B6CB0"/>
+    <path d="M62 169 Q100 186 138 169" stroke="#FFC83D" stroke-width="4.5" fill="none"/>
+  </g>`,
+  /* Orangutan: Indonesian spelling */
+  uli: () => `${shadow}<g class="bob">
+    <path d="M52 148 C30 156 26 186 42 198" stroke="url(#g-ora)" stroke-width="18" fill="none" stroke-linecap="round"/>
+    <path d="M148 148 C170 156 174 186 158 198" stroke="url(#g-ora)" stroke-width="18" fill="none" stroke-linecap="round"/>
+    <ellipse cx="100" cy="180" rx="46" ry="28" fill="url(#g-ora)"/>
+    <ellipse cx="100" cy="186" rx="26" ry="17" fill="#E9A06A"/>
+    <circle cx="44" cy="112" r="12" fill="#E9A06A"/><circle cx="156" cy="112" r="12" fill="#E9A06A"/>
+    <ellipse cx="100" cy="110" rx="58" ry="54" fill="url(#g-ora)"/>
+    <path d="M84 60 Q90 40 100 56 Q108 38 116 58" stroke="#A8441A" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M100 72 C70 68 56 90 60 114 C62 142 80 158 100 158 C120 158 138 142 140 114 C144 90 130 68 100 72Z" fill="url(#g-oraface)"/>
+    ${eye(83, 106, 15, 'brown')}${eye(117, 106, 15, 'brown')}
+    ${cheeks(70, 130, 130)}
+    <ellipse cx="95" cy="128" rx="3" ry="2.5" fill="#6B3A1E"/><ellipse cx="105" cy="128" rx="3" ry="2.5" fill="#6B3A1E"/>
+    <path class="mouth-calm" d="M84 140 Q100 150 116 140" stroke="#6B3A1E" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path class="mouth-joy" d="M82 137 Q100 162 118 137Z" fill="#7A2033"/>
+    <g transform="translate(152 78)">${[0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="-8" rx="6" ry="9" fill="#F0435A" transform="rotate(${a})"/>`).join('')}<circle r="4" fill="#FFC83D"/></g>
+  </g>`
+});
+TEACHERS.olle = { pitch: 1.0, color: 'spsv' };
+TEACHERS.uli = { pitch: 1.2, color: 'spid' };
+
+
+/* ---------- Swedish and Indonesian spelling words ---------- */
+SPELL_LEVELS.sv = [
+  { id: 'v1', title: 'Å, ä och ö', goal: 'De tre extra vokalerna',
+    what: 'Svenskan har tre extra vokaler: å, ä och ö. Lyssna noga på vilken du hör.', why: 'Om du skriver fel vokal kan det bli ett helt annat ord. Får och far betyder inte samma sak!',
+    words: `båt | Vi åker ___ till ön. | bot, baat | å |
+gå | Vi ska ___ till skolan. | go, gaa | å |
+år | Jag är åtta ___ gammal. | or, aar | å |
+äpple | Jag äter ett rött ___. | epple, äppel | ä |
+äta | Nu ska vi ___ middag. | eta, ätta | ä |
+häst | Min ___ heter Blixten. | hest, hästt | ä |
+snö | På vintern faller det ___. | sno, snöö | ö |
+öra | Jag hör med mitt ___. | ora, örra | ö |
+röd | Tomaten är ___. | rod, rööd | ö |
+kött | Vi grillar ___ och korv. | kott, köt | ö |` },
+  { id: 'v2', title: 'Dubbelteckning', goal: 'katt, boll och glass',
+    what: 'Efter en kort vokal skriver vi ofta två likadana konsonanter: katt, boll, glass.', why: 'De dubbla bokstäverna visar att vokalen före är kort. Jämför tak med ett långt a och tack med ett kort a.',
+    words: `katt | Vår ___ sover i soffan. | kat, kattt | tt |
+boll | Vi sparkar på en ___. | bol, bolll | ll |
+glass | På sommaren äter vi ___. | glas, glasss | ss |
+vatten | Fisken simmar i ___. | vaten, vattenn | tt |
+sommar | Jag älskar ___ och sol. | somar, sommmar | mm |
+penna | Jag skriver med en ___. | pena, pennna | nn |
+mamma | Min ___ heter Lisa. | mama, mammma | mm |
+pappa | Min ___ lagar mat. | papa, papppa | pp |
+ballong | Jag fick en röd ___. | balong, ballongg | ll |
+hoppa | Grodan kan ___ högt. | hopa, hopppa | pp |` },
+  { id: 'v3', title: 'Ck-ord', goal: 'tack, docka och vecka',
+    what: 'När k-ljudet kommer efter en kort vokal skriver vi oftast ck: tack, docka, vecka.', why: 'ck är det svenska sättet att skriva dubbelt k. Det visar att vokalen före är kort.',
+    words: `tack | Säg ___ för maten. | tak, takk | ck |
+docka | Min ___ har blå ögon. | doka, dokka | ck |
+vecka | Om en ___ har vi lov. | veka, vekka | ck |
+sticka | Kan du ___ en mössa åt mig? | stika, stikka | ck |
+jacka | Ta på dig din ___. | jaka, jakka | ck |
+klocka | Min ___ tickar. | kloka, klokka | ck |
+ficka | Jag har en sten i min ___. | fika, fikka | ck |
+snäcka | Jag hittade en ___ på stranden. | snäka, snäkka | ck |
+säck | Tomten bär en stor ___. | säk, säkk | ck |
+lycka | Vi önskar dig ___ till! | lyka, lykka | ck |` },
+  { id: 'v4', title: 'Sj-ljudet', goal: 'sju, skjorta och stjärna',
+    what: 'Sj-ljudet kan stavas på många sätt: sj, skj, stj, sk, ch och sch.', why: 'Ljudet är detsamma men stavningen varierar. Därför lär vi oss orden som de ser ut.',
+    words: `sju | Jag har ___ kulor. | hju, schu | sj |
+sjö | Vi badar i en ___. | schö, hjö | sj |
+skjorta | Pappa har en blå ___. | sjorta, schorta | skj |
+stjärna | En ___ lyser på himlen. | sjärna, skjärna | stj |
+sked | Jag äter soppa med en ___. | sjed, hed | sk |
+skön | Sängen är så ___. | sjön, schön | sk |
+choklad | Jag älskar ___. | sjoklad, schoklad | ch |
+sjuk | Jag är ___ och stannar hemma. | schuk, sjukk | sj |
+duscha | Jag ska ___ innan jag lägger mig. | dusja, duskja | sch |
+sjunga | Vi ska ___ en sång. | schunga, sjunnga | sj |` },
+  { id: 'v5', title: 'J-ljudet', goal: 'gjorde, hjärta och ljus',
+    what: 'J-ljudet kan stavas j, g, gj, hj, lj och dj. Det svåra är att veta när det står en stum bokstav före j.', why: 'Bokstäverna g, h, l och d före j hörs inte, men de hör till ordet. De här orden får man lära sig utantill.',
+    words: `jul | Vi firar ___ i december. | juul, gjul | j |
+gjorde | Jag ___ mina läxor. | jorde, gjorrde | gj |
+hjärta | Mitt ___ slår fort. | järta, gjärta | hj |
+hjälpa | Kan du ___ mig? | jälpa, hjelpa | hj |
+hjul | En cykel har två ___. | jul, gjul | hj |
+ljus | Tänd ett ___ i mörkret. | jus, gjus | lj |
+djur | Kon är ett ___. | jur, gjur | dj |
+göra | Vad ska vi ___ i dag? | jöra, gjöra | g |
+ge | Kan du ___ mig bollen? | je, gje | g |
+hjälm | Ta på dig din ___ när du cyklar. | jälm, hjelm | hj |` },
+  { id: 'v6', title: 'Tj-ljudet', goal: 'tjugo, kjol och kök',
+    what: 'Tj-ljudet kan stavas tj, kj och k: tjugo, kjol, kök.', why: 'Före e, i, y, ä och ö låter k som tj. Därför skriver vi kök med k.',
+    words: `tjugo | Jag har ___ kronor. | kjugo, chugo | tj |
+tjej | Hon är en glad ___. | kjej, chej | tj |
+tjock | Boken är väldigt ___. | kjock, tjok | tj |
+kjol | Hon har en röd ___. | tjol, chol | kj |
+kök | Vi har ett stort ___. | tjök, chök | k |
+kyrka | Det står en ___ i byn. | tjyrka, chyrka | k |
+kär | Prinsen var ___ i prinsessan. | tjär, chär | k |
+kittla | Sluta ___ mig! | tjittla, kitla | k |
+kyckling | En liten ___ piper. | tjyckling, kykling | k |
+tjuv | Polisen tog en ___. | kjuv, chuv | tj |` },
+  { id: 'v7', title: 'Ng-ljudet', goal: 'lång, ring och bank',
+    what: 'Ng-ljudet skrivs ng, men före k skriver vi bara n: lång, ring, bank.', why: 'Före k räcker det med n, eftersom k:et ändå gör ljudet. Därför skriver vi bank och inte bangk.',
+    words: `lång | Giraffen har en ___ hals. | lån, lågng | ng |
+gunga | Vi ska ___ i parken. | gunnga, gunka | ng |
+ring | Hon har en ___ på fingret. | rin, rinng | ng |
+tung | Väskan är väldigt ___. | tunng, tun | ng |
+säng | Jag sover i min ___. | sän, sängg | ng |
+bank | Vi går till en ___. | bangk, banck | nk |
+tänka | Jag måste ___ en stund. | tängka, tenka | nk |
+tunga | Jag smakar med min ___. | tunnga, tuga | ng |
+kung | En ___ bär en krona. | kunng, kun | ng |
+sång | Vi sjunger en glad ___. | sånng, sån | ng |` },
+  { id: 'v8', title: 'Svåra småord', goal: 'och, att, det och jag',
+    what: 'Några små ord använder vi hela tiden, men de stavas inte som de låter: och, att, det, jag.', why: 'Eftersom vi skriver dem så ofta är det bra att kunna dem utantill. Då går allt annat skrivande snabbare.',
+    words: `och | Jag ___ du är bästa vänner. | ock, å | ch |
+att | Jag tycker om ___ läsa. | at, å | tt |
+det | ___ regnar i dag. | de, dä | t |
+jag | ___ tycker om glass. | ja, jaa | g |
+mig | Kan du se ___? | mej, mä | g |
+dig | Jag tycker om ___. | dej, di | g |
+de | ___ leker i parken. | dom, di | e |
+dem | Jag ser ___ i parken. | dom, demm | m |
+är | Katten ___ svart. | e, ä | ä |
+något | Jag vill ha ___ att äta. | nåt, nogot | g |` },
+  { id: 'v9', title: 'Sammansatta ord', goal: 'fot + boll = fotboll',
+    what: 'Många långa svenska ord är byggda av två korta ord: fot + boll = fotboll. De skrivs ihop.', why: 'När du delar upp ordet är varje del lätt att stava. Sedan skriver du ihop delarna utan mellanrum.',
+    words: `fotboll | Vi spelar ___ på rasten. | fotbol, futboll | tb | fot + boll.
+snögubbe | Vi byggde en ___. | snögube, snögubbbe | gu | snö + gubbe.
+glasspinne | Jag vill ha en ___. | glasspine, glaspinne | sp | glass + pinne.
+skolväska | Jag har boken i min ___. | skolväsa, skolvesska | lv | skol + väska.
+regnbåge | Efter regnet kom en ___. | rengbåge, regnboge | nb | regn + båge.
+tandborste | Glöm inte din ___. | tanborste, tandbårste | db | tand + borste.
+sandlåda | Vi har en ___ på gården. | sanlåda, sandloda | dl | sand + låda.
+jultomte | En ___ har röd mössa. | jultomtte, jultomt | lt | jul + tomte.
+födelsedag | I dag har jag ___. | födelsdag, födlesedag | sed | födelse + dag.
+isbjörn | En ___ bor på Nordpolen. | isbörn, isbjörrn | sb | is + björn.` },
+  { id: 'v10', title: 'Ä eller e', goal: 'läsa, här och när',
+    what: 'Ä och e kan låta nästan likadant. Många vanliga ord stavas med ä: läsa, här, när.', why: 'Det är lätt att blanda ihop e och ä. Lär dig de vanliga ä-orden, så blir det rätt oftare.',
+    words: `läsa | Jag tycker om att ___ böcker. | lesa, läsaa | ä |
+här | Kom ___! | her, härr | ä |
+när | ___ börjar filmen? | ner, närr | ä |
+väska | Min ___ är tung. | veska, väskka | ä |
+lärare | Vår ___ heter Anna. | lerare, lärarre | ä |
+fjäril | En ___ flyger förbi. | fjeril, fjärril | ä |
+väg | Bilen kör på en ___. | veg, vääg | ä |
+väder | Vilket fint ___! | veder, väderr | ä |
+träd | Fågeln sitter i ett ___. | tred, trääd | ä |
+länge | Vi har väntat ___. | lenge, längee | ä |` }
+];
+SPELL_LEVELS.id = [
+  { id: 'i1', title: 'Huruf ng dan ny', goal: 'bunga, nyanyi dan nyamuk',
+    what: 'Bunyi ng ditulis dengan dua huruf, n dan g. Bunyi ny juga ditulis dengan dua huruf, n dan y.', why: 'Satu bunyi, tetapi dua huruf. Kalau salah satu hurufnya hilang, katanya menjadi salah atau berubah arti.',
+    words: `bunga | Ibu menanam ___ di taman. | buna, bungga | ng |
+tangan | Cuci ___ sebelum makan. | tanan, tanggan | ng |
+singa | ___ adalah raja hutan. | sina, singga | ng |
+pisang | Monyet suka makan ___. | pisan, pisangg | ng |
+lengan | Aku menggulung ___ baju. | lenan, lenggan | ng |
+nyanyi | Ayo kita ___ bersama. | nanyi, nyani | ny |
+nyamuk | Ada ___ di kamar. | namuk, niamuk | ny |
+banyak | Aku punya ___ teman. | banak, baniak | ny |
+bunyi | ___ bel sangat keras. | buni, bunji | ny |
+kunyit | Ibu memasak dengan ___. | kunit, kunjit | ny |` },
+  { id: 'i2', title: 'Kata baku', goal: 'apotek, nasihat dan risiko',
+    what: 'Ada kata yang sering ditulis salah. Bentuk yang benar disebut kata baku, misalnya apotek, bukan apotik.', why: 'Kata baku dipakai di buku dan di sekolah. Kalau kamu hafal bentuk bakunya, tulisanmu menjadi benar dan rapi.',
+    words: `apotek | Ayah membeli obat di ___. | apotik, apoteek | ek |
+nasihat | Dengarkan ___ ibu guru. | nasehat, nasiat | si |
+risiko | Melompat dari pohon punya ___ besar. | resiko, risico | ri |
+praktik | Hari ini ada ___ memasak di kelas. | praktek, praktic | tik |
+jadwal | Lihat ___ pelajaran hari ini. | jadual, jatwal | wal |
+antre | Kita harus ___ dengan tertib. | antri, antree | tre |
+cabai | Ibu membeli ___ di pasar. | cabe, cabay | ai |
+telur | Aku makan ___ rebus. | telor, teluur | ur |
+kemarin | ___ aku pergi ke kebun binatang. | kemaren, kemarinn | rin |
+izin | Aku minta ___ pulang lebih awal. | ijin, izinn | iz |` },
+  { id: 'i3', title: 'Bahasa baku sehari-hari', goal: 'karena, sudah dan tidak',
+    what: 'Saat berbicara, kita sering memakai kata pendek seperti "udah" atau "gak". Saat menulis, kita memakai kata lengkapnya: sudah, tidak.', why: 'Tulisan untuk sekolah memakai bahasa baku, supaya semua orang mudah mengerti.',
+    words: `karena | Aku pulang ___ hujan. | karna, karenna | ena |
+sudah | Aku ___ makan. | udah, suda | su |
+tidak | Aku ___ suka sayur yang pahit. | gak, tida | ti |
+saja | Kita di rumah ___. | aja, sajja | sa |
+begitu | Jangan berbuat ___. | gitu, bigitu | be |
+bagaimana | ___ kabarmu? | gimana, begaimana | baga |
+mengapa | ___ kamu menangis? | ngapa, mengappa | me |
+berkata | Ibu ___ aku hebat. | bekata, berkataa | ber |
+sekarang | Ayo pulang ___. | skarang, sekarag | se |
+memang | Dia ___ anak yang rajin. | emang, memangg | me |` },
+  { id: 'i4', title: 'Huruf kh dan sy', goal: 'akhir, khusus dan syukur',
+    what: 'Beberapa kata dari bahasa lain memakai kh atau sy, seperti akhir dan syukur.', why: 'Bunyi kh dan sy berbeda dari k dan s biasa. Menulis hurufnya dengan benar menjaga arti katanya.',
+    words: `akhir | Ini adalah halaman ___. | akir, ahir | kh |
+khusus | Ini hadiah ___ untukmu. | kusus, husus | kh |
+khawatir | Jangan ___, aku baik-baik saja. | kawatir, hawatir | kh |
+ikhlas | Dia membantu dengan ___. | iklas, ihlas | kh |
+khas | Rendang adalah makanan ___ Padang. | kas, has | kh |
+syukur | ___ kamu sudah sembuh! | sukur, siukur | sy |
+syarat | Apa ___ ikut lomba itu? | sarat, siarat | sy |
+masyarakat | ___ desa bergotong royong. | masarakat, mashyarakat | sy |
+isyarat | Dia memberi ___ dengan tangan. | isarat, isyharat | sy |
+syair | Ayah membaca sebuah ___. | sair, siair | sy |` },
+  { id: 'i5', title: 'Awalan me-', goal: 'menulis, membaca dan menyapu',
+    what: 'Saat kata dasar diberi awalan me-, bunyinya bisa berubah: tulis menjadi menulis, sapu menjadi menyapu, pukul menjadi memukul.', why: 'Huruf awal k, p, t, dan s biasanya luluh. Karena itu kita tidak menulis "mentulis", tetapi menulis.',
+    words: `menulis | Aku sedang ___ surat. | mentulis, menullis | nu |
+membaca | Adik suka ___ buku. | mebaca, menbaca | mb |
+menyapu | Ibu ___ lantai. | mensapu, menapu | ny |
+memukul | Dia ___ bedug. | mempukul, memukkul | mu |
+mengambil | Aku ___ pensil. | menambil, mengampil | ng |
+menggambar | Kakak suka ___ pemandangan. | mengambar, menggammbar | ngg |
+mengirim | Aku ___ pesan kepada nenek. | mengkirim, menirim | ngi |
+menari | Mereka ___ dengan gembira. | mentari, menarri | na |
+menendang | Adi ___ bola. | mentendang, menendangg | ne |
+menanam | Kami ___ pohon. | mentanam, menanamm | na |` },
+  { id: 'i6', title: 'Awalan ber-', goal: 'bermain, berenang dan belajar',
+    what: 'Awalan ber- biasanya ditulis utuh: bermain, berlari. Ada pengecualian: ber + renang menjadi berenang, dan ber + ajar menjadi belajar.', why: 'Kalau kata dasarnya sudah diawali r, satu r hilang. Kata belajar dan bekerja adalah bentuk khusus yang perlu dihafal.',
+    words: `bermain | Anak-anak ___ di taman. | bemain, bermaen | ber |
+berlari | Kuda itu ___ kencang. | belari, berllari | ber |
+berenang | Aku suka ___ di kolam. | berrenang, berenag | ere | ber + renang: satu r hilang.
+belajar | Aku ___ setiap malam. | berajar, bellajar | bel | ber + ajar menjadi belajar.
+bekerja | Ayah ___ di kantor. | berkerja, bekrja | bek | ber + kerja menjadi bekerja.
+bersepeda | Kami ___ ke sekolah. | besepeda, bersepda | ber |
+berteman | Aku ___ dengan semua orang. | beteman, bertemman | ber |
+bernyanyi | Burung ___ di pagi hari. | benyanyi, bernyani | ber |
+berbagi | Ayo ___ makanan. | bebagi, berbaggi | ber |
+bertanya | Aku ___ kepada guru. | betanya, bertannya | ber |` },
+  { id: 'i7', title: 'Akhiran -an dan -kan', goal: 'makanan, mainan dan berikan',
+    what: 'Akhiran -an membuat kata benda, seperti makan menjadi makanan. Akhiran -kan dipakai untuk meminta, seperti berikan.', why: 'Akhiran selalu ditulis menyatu dengan kata dasarnya, tanpa spasi.',
+    words: `makanan | ___ ini sangat enak. | makannan, makanann | an |
+minuman | Aku membeli ___ dingin. | minumman, minumann | man |
+mainan | Adik punya banyak ___. | mainnan, maenan | nan |
+tulisan | ___ kakak sangat rapi. | tulissan, tulisann | san |
+jawaban | Apa ___ dari soal ini? | jawabann, jawapan | ban |
+berikan | ___ buku itu kepada Rina. | brikan, berikkan | kan |
+ambilkan | Tolong ___ air minum. | ambilkkan, ambilan | kan |
+bacakan | Ayah, tolong ___ cerita. | bacaakan, bacakkan | kan |
+belikan | Ibu, ___ aku pensil baru. | belikkan, belian | kan |
+bersihkan | Ayo ___ kamarmu. | bersikan, bersihkkan | hkan |` },
+  { id: 'i8', title: 'Diftong ai, au dan oi', goal: 'pantai, pulau dan koboi',
+    what: 'Diftong adalah dua huruf vokal yang dibaca seperti satu bunyi: ai pada pantai, au pada pulau, oi pada koboi.', why: 'Walaupun terdengar seperti satu bunyi, kita tetap menulis kedua hurufnya.',
+    words: `pantai | Kami bermain pasir di ___. | pante, pantay | ai |
+sungai | Ikan berenang di ___. | sunge, sungay | ai |
+ramai | Pasar itu sangat ___. | rame, ramay | ai |
+santai | Kakek duduk dengan ___. | sante, santay | ai |
+pakai | Aku ___ baju baru. | pake, pakay | ai |
+pulau | Bali adalah sebuah ___. | pulo, pulaw | au |
+kerbau | Petani membajak sawah dengan ___. | kerbo, kerbaw | au |
+harimau | ___ punya loreng hitam. | harimo, harimaw | au |
+kalau | ___ hujan, kita bermain di rumah. | kalo, kalaw | au |
+koboi | ___ itu menunggang kuda. | kobo, koboy | oi |` },
+  { id: 'i9', title: 'Huruf f, v dan z', goal: 'foto, video dan zebra',
+    what: 'Kata dari bahasa lain sering memakai f, v, atau z, seperti foto, video, dan zebra.', why: 'Huruf ini jarang dipakai dalam kata asli bahasa Indonesia, jadi kita perlu mengingat kata-kata yang memakainya.',
+    words: `foto | Ayo kita ambil ___ bersama. | poto, photo | f |
+film | Kami menonton ___ di bioskop. | pilem, filem | f |
+fajar | Ayam berkokok saat ___. | pajar, fadjar | f |
+fakta | Itu adalah ___, bukan cerita. | pakta, faktta | f |
+festival | Ada ___ layang-layang di pantai. | pestival, festifal | f |
+video | Aku menonton ___ tentang hewan. | pideo, vidio | v |
+vitamin | Buah punya banyak ___. | pitamin, vitamiin | v |
+zebra | ___ punya garis hitam putih. | sebra, jebra | z |
+zaman | Pada ___ dahulu ada dinosaurus. | jaman, saman | z |
+zat | Air adalah ___ cair. | jat, sat | z |` },
+  { id: 'i10', title: 'Imbuhan ke-an, pe-an dan per-an', goal: 'kebersihan dan perpustakaan',
+    what: 'Banyak kata panjang punya awalan dan akhiran sekaligus: ke + bersih + an = kebersihan.', why: 'Kalau kamu memecah kata panjang menjadi awalan, kata dasar, dan akhiran, menulisnya menjadi lebih mudah.',
+    words: `kebersihan | Jagalah ___ kelas. | kebersian, kbersihan | ke | ke + bersih + an.
+kesehatan | Olahraga baik untuk ___. | kesehatann, kesehtan | ke | ke + sehat + an.
+perpustakaan | Aku meminjam buku di ___. | perpustakan, prpustakaan | aan | per + pustaka + an.
+persahabatan | ___ kami sangat erat. | persabatan, persahbatan | per | per + sahabat + an.
+permainan | Ini ___ yang seru. | permaenan, permainnan | per | per + main + an.
+pertanyaan | Jawablah ___ ini. | pertanyan, pertannyaan | aan | per + tanya + an.
+pemandangan | ___ di gunung sangat indah. | pemandagan, pemandanggan | pe | pe + pandang + an.
+pengumuman | Dengarkan ___ dari kepala sekolah. | pengumunan, pengumumman | pe | pe + umum + an.
+kebakaran | Petugas memadamkan ___. | kebakarran, kebakran | ke | ke + bakar + an.
+penjelasan | Guru memberi ___ yang jelas. | penjelassan, pejelasan | pen | pe + jelas + an.` }
+];
+
 /* ---------- spelling: topics, questions, pictures and explanations ---------- */
 const SPELL_FORMATS = i => i < 3 ? 'pick' : i < 6 ? 'fill' : 'type';   // easy → hard within a round
 const spItem = (wd, fmt, lv) => ({ sp: true, op: 'sp', w: wd.w, fmt, lv, s: 'spellRule' });
 const wordInfo = p => findLevel(p.lv).words.find(x => x.w === p.w);
 (function addSpelling() {
-  for (const [lang, id, teacher] of [['en', 'spen', 'fern'], ['da', 'spda', 'pjuske']]) {
+  for (const [lang, id, teacher] of [['en', 'spen', 'fern'], ['da', 'spda', 'pjuske'], ['sv', 'spsv', 'olle'], ['id', 'spid', 'uli']]) {
     const levels = SPELL_LEVELS[lang].map(L => {
       const words = L.words.split('\n').map(line => {
         const [w, s, wrong, focus, tip] = line.split('|').map(x => x.trim());
@@ -2575,10 +2873,10 @@ function spellQHtml(p, state) {
     }).join('')}</div>`;
   }
   if (p.fmt === 'fill') return `<div class="fill-wrap${state ? ' ' + state : ''}">${S.done ? wordVis(p.w, wd.focus) : wordVis(p.w, wd.focus, { blank: true, filled: S.input })}</div>`;
-  return `<button class="btn btn-soft hear-btn" data-act="hear">${SPEAKER_SVG} ${tr().hearWord}</button><span class="ans-box word${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${esc(S.input) || (S.done ? '' : '<i class="caret"></i>')}</span>`;
+  return `<button class="btn btn-soft hear-btn" data-act="hear">${SPEAKER_SVG} ${tr().hearWord}</button><span class="ans-box word${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans" style="--wl:${Math.max(p.w.length, (S.input || "").length) + 1}">${esc(S.input) || (S.done ? '' : '<i class="caret"></i>')}</span>`;
 }
 function letterPad() {
-  const t = tr(), rows = curLang() === 'da' ? ['qwertyuiopå', 'asdfghjklæø', 'zxcvbnm'] : ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  const t = tr(), rows = { da: ['qwertyuiopå', 'asdfghjklæø', 'zxcvbnm'], sv: ['qwertyuiopå', 'asdfghjklöä', 'zxcvbnm'] }[curLang()] || ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
   return `<div class="lpad" id="pad">${rows.map((r, i) => `<div class="lrow">${i === 2 ? `<button class="lkey lkey-wide lkey-clear" data-act="lkey" data-k="clear">${t.clear}</button>` : ''}${[...r].map(ch => `<button class="lkey" data-act="lkey" data-k="${ch}">${ch}</button>`).join('')}${i === 2 ? `<button class="lkey lkey-wide" data-act="lkey" data-k="back" aria-label="${t.delLast}">⌫</button>` : ''}</div>`).join('')}</div>`;
 }
 function pressLetter(k) {
@@ -2649,6 +2947,7 @@ const SV = (() => {
     praiseHelp: ['Ja! Du räknade ut det.', 'Rätt! Bra kämpat!', 'Du klarade det! Det blir lättare varje gång du övar.'],
     retry: ['Nästan! Försök igen.', 'Inte riktigt än. Försök igen, du klarar det!', 'Bra försök! Kolla en gång till.'], orShow: ' Eller tryck på "Visa mig hur".',
     together: 'Det gör inget. Vi räknar ut det tillsammans, steg för steg.',
+    togetherSp: 'Det gör inget. Vi tittar på det tillsammans, bokstav för bokstav.',
     howTitle: q => `Så räknar du ut ${q}`, nextStep: 'Nästa steg', back: 'Tillbaka', typeAnswer: 'Skriv nu ditt svar', sayAgain: 'Säg det igen',
     head: ['Bra jobbat, du blev klar!', 'Jättebra jobbat!', 'Superstjärna!'],
     msg: [f => `Du fick ${f} av 10 rätt på första försöket. Varje försök gör din hjärna starkare. Titta på lektionen igen och försök sedan en gång till.`,
@@ -2843,6 +3142,7 @@ const ID = (() => {
     praiseHelp: ['Ya! Kamu berhasil menghitungnya.', 'Betul. Usaha yang bagus!', 'Kamu berhasil! Makin sering berlatih, makin mudah.'],
     retry: ['Hampir! Coba lagi.', 'Belum tepat. Coba lagi, kamu pasti bisa!', 'Usaha yang bagus! Periksa sekali lagi.'], orShow: ' Atau ketuk "Tunjukkan caranya".',
     together: 'Tidak apa-apa. Ayo kita hitung bersama, langkah demi langkah.',
+    togetherSp: 'Tidak apa-apa. Ayo kita lihat bersama, huruf demi huruf.',
     howTitle: q => `Cara menghitung ${q}`, nextStep: 'Langkah berikutnya', back: 'Kembali', typeAnswer: 'Sekarang tulis jawabanmu', sayAgain: 'Ulangi',
     head: ['Bagus, kamu sudah selesai!', 'Kerja bagus!', 'Bintang super!'],
     msg: [f => `Kamu benar ${f} dari 10 pada percobaan pertama. Setiap percobaan membuat otakmu makin kuat. Lihat lagi pelajarannya, lalu coba sekali lagi.`,
@@ -3005,6 +3305,45 @@ const LANGS = ['en', 'da', 'sv', 'id'];
   // anything not yet translated falls back to English instead of breaking
   I18N.sv = clone(I18N.en); merge(I18N.sv, SV);
   I18N.id = clone(I18N.en); merge(I18N.id, ID);
+})();
+
+/* ---------- spelling texts for the Swedish and Indonesian spelling subjects ---------- */
+(function addSpellingLanguages() {
+  const merge = (t, src) => { for (const [k, v] of Object.entries(src)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
+  const intro = {
+    spsv: 'Hej, jag är Olle! Vi ska lära oss att stava svenska ord, och varför de stavas så. Börja på nivå 1.',
+    spid: 'Halo, aku Uli! Ayo belajar menulis kata bahasa Indonesia dengan benar, dan mengapa ditulis begitu. Mulai dari level 1.'
+  };
+  merge(I18N.en, { teachers: { olle: 'Olle the Moose', uli: 'Uli the Orangutan' }, topics: { spsv: 'Swedish spelling', spid: 'Indonesian spelling' }, topicIntro: intro,
+    gu4: "In the Spelling section, the whole app switches to that subject's language, including the voice and the keyboard." });
+  merge(I18N.da, { teachers: { olle: 'Elgen Olle', uli: 'Orangutangen Uli' }, topics: { spsv: 'Svensk stavning', spid: 'Indonesisk stavning' }, topicIntro: intro,
+    gu4: 'I Stavning skifter hele appen til fagets sprog, også stemmen og tastaturet.' });
+  merge(I18N.sv, { teachers: { olle: 'Älgen Olle', uli: 'Orangutangen Uli' }, topics: { spsv: 'Svensk stavning', spid: 'Indonesisk stavning' }, topicIntro: intro,
+    gu4: 'I Stavning byter hela appen till ämnets språk, även rösten och tangentbordet.',
+    spPrompt: { pick: 'Vilken stavning är rätt?', fill: 'Skriv bokstäverna som saknas.', type: 'Lyssna och skriv sedan ordet.' },
+    hearWord: 'Hör ordet', pickFirst: 'Tryck på den stavning du tror är rätt.', fillFirst: 'Skriv först alla bokstäver som saknas.', typeFirst2: 'Skriv först ordet med bokstavstangenterna.',
+    howSpell: w => `Så stavas ${w}`,
+    ex: {
+      spellRule: { look: w => `Vi tittar på ordet "${w}".`, tricky: (w, f) => `Det svåra i ${w} är "${f}". Det är den delen du ska komma ihåg.`, tip: t => `Här är ett knep: ${t}`, spell: l => `Vi stavar det tillsammans: ${l}.`, end: w => `Så stavas det ${w}.` },
+      spellChunks: { s1: (w, parts) => `Vi delar upp ${w} i bitar: ${parts}.`, s2: l => `Stava en bit i taget: ${l}.`, end: w => `Sätt ihop bitarna: ${w}.`, why: 'Korta bitar är lättare att komma ihåg än ett helt långt ord.' },
+      spellFamily: { s1: (w, others) => `${w} hör till en familj av ord som följer samma regel: ${others}.`, s2: what => `De följer alla den här regeln: ${what}`, end: w => `Så ${w} stavas som resten av familjen: ${w}.`, why: 'När du kan ett ord i en familj blir de andra lättare.' },
+      spellLook: { look: w => `Titta noga på ${w}. Lägg märke till de gula bokstäverna.`, say: l => `Säg bokstäverna högt: ${l}.`, cover: () => 'Täck nu över ordet och se det framför dig i huvudet.', write: () => 'Skriv det ur minnet, bokstav för bokstav.', check: w => `Kolla: står det ${w}? Bra jobbat om det stämmer!`, why: 'Titta, säg, täck, skriv, kolla är ett sätt som många barn lär sig sina stavningsord på i skolan.' }
+    } });
+  merge(I18N.id, { teachers: { olle: 'Rusa Olle', uli: 'Orangutan Uli' }, topics: { spsv: 'Ejaan Swedia', spid: 'Ejaan Indonesia' }, topicIntro: intro,
+    gu4: 'Di bagian Ejaan, seluruh aplikasi berganti ke bahasa pelajaran itu, termasuk suara dan papan ketiknya.',
+    spPrompt: { pick: 'Ejaan mana yang benar?', fill: 'Tulis huruf yang hilang.', type: 'Dengarkan, lalu tulis katanya.' },
+    hearWord: 'Dengar katanya', pickFirst: 'Ketuk ejaan yang menurutmu benar.', fillFirst: 'Tulis dulu semua huruf yang hilang.', typeFirst2: 'Tulis dulu katanya dengan tombol huruf.',
+    howSpell: w => `Cara menulis ${w}`,
+    ex: {
+      spellRule: { look: w => `Ayo lihat kata "${w}".`, tricky: (w, f) => `Bagian yang sulit dari ${w} adalah "${f}". Bagian itulah yang perlu diingat.`, tip: t => `Ini triknya: ${t}`, spell: l => `Ayo eja bersama: ${l}.`, end: w => `Jadi ditulis ${w}.` },
+      spellChunks: { s1: (w, parts) => `Ayo pecah ${w} menjadi beberapa bagian: ${parts}.`, s2: l => `Eja satu bagian setiap kali: ${l}.`, end: w => `Gabungkan bagian-bagiannya: ${w}.`, why: 'Bagian yang pendek lebih mudah diingat daripada satu kata yang panjang.' },
+      spellFamily: { s1: (w, others) => `${w} termasuk keluarga kata yang mengikuti aturan yang sama: ${others}.`, s2: what => `Semuanya mengikuti aturan ini: ${what}`, end: w => `Jadi ${w} ditulis seperti keluarganya: ${w}.`, why: 'Kalau kamu tahu satu kata dalam sebuah keluarga, kata yang lain menjadi lebih mudah.' },
+      spellLook: { look: w => `Lihat ${w} baik-baik. Perhatikan huruf yang berwarna kuning.`, say: l => `Ucapkan hurufnya dengan keras: ${l}.`, cover: () => 'Sekarang tutup katanya dan bayangkan di dalam kepalamu.', write: () => 'Tulis dari ingatan, huruf demi huruf.', check: w => `Periksa: apakah tertulis ${w}? Hebat kalau sama!`, why: 'Lihat, ucapkan, tutup, tulis, periksa adalah cara banyak anak belajar mengeja di sekolah.' }
+    } });
+  for (const L of LANGS) for (const tp of TOPICS.filter(isSpellTopic)) for (const lv of tp.levels) {
+    const src = SPELL_LEVELS[tp.lang].find(x => x.id === lv.id);
+    I18N[L].levels[lv.id] = { title: src.title, goal: src.goal, what: src.what, why: src.why };
+  }
 })();
 
 /* ---------- speech ---------- */
@@ -3463,7 +3802,7 @@ function check() {
     if (p.sp && p.fmt === 'pick') (S.badPicks = S.badPicks || []).push(S.input);
     updateQ('wrong');
     if (S.tries === 1) teacherSay(pick(t.retry) + t.orShow, 'think');
-    else { teacherSay(t.together, 'think'); openHowTo(); }
+    else { teacherSay(p.sp ? t.togetherSp || t.together : t.together, 'think'); openHowTo(); }
     const bad = S.input;
     setTimeout(() => { if (!S.done && S.input === bad && $('#q')) { S.input = ''; updateQ(); } }, 900);
   }
@@ -3588,7 +3927,7 @@ app.addEventListener('submit', e => {
 document.addEventListener('keydown', e => {
   if (screen !== 'practice' || e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey || e.altKey) return;
   const sp = cur() && cur().sp;
-  if (sp && /^[a-zæøå]$/i.test(e.key) && cur().fmt !== 'pick') { pressLetter(e.key.toLowerCase()); e.preventDefault(); }
+  if (sp && /^[a-zæøåäö]$/i.test(e.key) && cur().fmt !== 'pick') { pressLetter(e.key.toLowerCase()); e.preventDefault(); }
   else if (!sp && /^[0-9]$/.test(e.key)) { pressKey(e.key); e.preventDefault(); }
   else if (e.key === 'Backspace') { sp ? pressLetter('back') : pressKey('back'); e.preventDefault(); }
   else if (e.key === 'Enter') {
