@@ -91,7 +91,7 @@ p{margin:0}
 .icon-btn{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:0;background:var(--card);box-shadow:var(--shadow)}
 .icon-btn svg{width:24px;height:24px;fill:currentColor}
 .lang{display:flex;padding:4px;gap:2px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
-.lang button{border:0;background:none;border-radius:999px;padding:0 10px;height:38px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink-soft);letter-spacing:.5px}
+.lang button{border:0;background:none;border-radius:999px;padding:0 12px;height:42px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink-soft);letter-spacing:.5px}
 .lang button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
 .star{width:22px;height:22px;fill:var(--line)}
 .star.on{fill:var(--sun)}
@@ -123,7 +123,7 @@ p{margin:0}
 .bubble h2{font-size:clamp(24px,4vw,32px)}
 .say-row{display:flex;align-items:flex-start;gap:10px}
 .say-row p{flex:1;min-width:0}
-.replay{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--card-2);display:grid;place-items:center}
+.replay{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--card-2);display:grid;place-items:center}
 .replay svg{width:18px;height:18px;fill:currentColor}
 
 /* buttons */
@@ -133,7 +133,7 @@ p{margin:0}
 .btn-big{font-size:24px;padding:16px 34px}
 .btn-small{font-size:17px;padding:10px 18px;border-radius:14px}
 .btn-soft{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
-.btn-link{background:none;border:0;padding:6px 4px;font-family:var(--font-display);font-weight:600;color:var(--ink-soft);text-decoration:underline;text-underline-offset:4px}
+.btn-link{background:none;border:0;padding:12px 6px;min-height:44px;font-family:var(--font-display);font-weight:600;color:var(--ink-soft);text-decoration:underline;text-underline-offset:4px}
 
 /* home */
 .hero{display:flex;align-items:flex-end;gap:16px}
@@ -150,7 +150,8 @@ p{margin:0}
 .topic::after{content:"";position:absolute;inset:auto 0 0 0;height:8px;background:var(--tc)}
 .topic-art{flex:none;width:104px;padding:10px;border-radius:24px;background:var(--tc-soft)}
 .topic-art svg{display:block;width:100%;height:auto}
-.topic-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.topic-text{display:flex;flex-direction:column;gap:2px;min-width:0;padding-right:34px}
+.lock svg{flex:none;margin-top:1px}
 .topic-title{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.1}
 .topic-teacher{color:var(--ink-soft);font-size:16px}
 .topic-meta{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--tc);margin-top:6px}
@@ -158,7 +159,7 @@ p{margin:0}
 .topic.soon{cursor:default}
 .topic.soon:hover{transform:none}
 .topic.soon .topic-art{filter:saturate(.55)}
-.lock{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;margin-top:6px;padding:3px 10px;border-radius:999px;background:var(--card-2);color:var(--ink-soft);font-family:var(--font-display);font-weight:600;font-size:14px}
+.lock{display:inline-flex;align-items:flex-start;gap:6px;align-self:flex-start;margin-top:6px;padding:5px 10px;border-radius:12px;line-height:1.3;background:var(--card-2);color:var(--ink-soft);font-family:var(--font-display);font-weight:600;font-size:14px}
 .mixed{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--card);border-radius:28px;padding:18px 22px;box-shadow:var(--shadow)}
 .resume{outline:4px solid var(--tc);outline-offset:-4px}
 .mixed-text{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px}
@@ -219,7 +220,7 @@ p{margin:0}
 .dot-x{background:var(--dot-a);opacity:.35}
 .dot-x::before,.dot-x::after{content:"";position:absolute;left:50%;top:-4px;width:5px;height:40px;margin-left:-2.5px;background:var(--oops);border-radius:3px;transform:rotate(45deg)}
 .dot-x::after{transform:rotate(-45deg)}
-@keyframes pop{from{transform:scale(0)}}
+@keyframes pop{from{transform:scale(.4)}}
 .nl{width:100%;max-width:660px;height:auto;display:block}
 .nl-axis{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
 .nl-tick{stroke:var(--ink);stroke-width:2}
@@ -270,7 +271,8 @@ p{margin:0}
 .practice{display:flex;flex-direction:column;gap:18px}
 .pr-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .pdots{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
-.pd{width:24px;height:24px;padding:0;border-radius:50%;background:var(--card);border:3px solid var(--line)}
+.pd{width:30px;height:30px;padding:0;border-radius:50%;background:var(--card);border:3px solid var(--line);background-clip:padding-box}
+@media (min-width:761px){.pdots{gap:8px}.pd{width:34px;height:34px}.res-dots .pd{width:38px;height:38px}}
 .pd.cur{border-color:var(--tc);transform:scale(1.15)}
 .pd.ok,.pd.fixed{background:var(--good);border-color:var(--good)}
 .pd.fixed{box-shadow:0 0 0 3px var(--good-soft)}
@@ -333,11 +335,30 @@ p{margin:0}
 .lkey{flex:1 1 0;min-width:0;max-width:56px;height:58px;border-radius:14px;border:0;background:var(--card);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:26px}
 .lkey:active{background:var(--card-2);box-shadow:none}
 .lkey-wide{max-width:80px;flex-grow:1.5;font-size:22px}
-.lkey-clear{max-width:200px;font-size:18px}
+.lkey-clear{font-size:16px}
 .lkey{padding:0}
 @media (min-width:761px){
-  .practice.spelling .pr-grid{grid-template-columns:1fr}
-  .practice.spelling .pr-right{position:static;max-width:760px;width:100%;margin:0 auto}
+  /* spelling on iPad: one column in reading order - teacher, word, keyboard, buttons, then the explanation */
+  .practice.spelling .pr-grid{display:flex;flex-direction:column;gap:16px}
+  .practice.spelling .pr-left,.practice.spelling .pr-right{display:contents}
+  .practice.spelling #pr-talk{order:1}
+  .practice.spelling .qcard{order:2}
+  .practice.spelling .lpad{order:3;max-width:760px;margin:0 auto}
+  .practice.spelling #explain{order:5}
+}
+@media (min-width:1000px){
+  /* landscape iPad: teacher beside the word, keyboard full width underneath */
+  .practice.spelling .pr-grid{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);grid-template-areas:"redo redo" "talk q" "keys keys" "act act" "exp exp";gap:14px}
+  .practice.spelling #redo-card{grid-area:redo}
+  .practice.spelling #pr-talk{grid-area:talk;flex-direction:column;align-items:center;justify-content:center}
+  .practice.spelling #pr-talk .bubble::before{display:none}
+  .practice.spelling .qcard{grid-area:q;padding:20px 16px}
+  .practice.spelling .lpad{grid-area:keys}
+  .practice.spelling .pr-actions{grid-area:act}
+  .practice.spelling #explain{grid-area:exp}
+  .practice.spelling .lkey{height:58px}
+  .practice.spelling .q-spell{font-size:44px}
+  .practice.spelling .qcard{gap:8px}
   .practice.spelling .lkey{max-width:66px;height:66px;font-size:30px}
   .practice.spelling .lkey-wide{max-width:96px}
   .practice.spelling .pr-actions{max-width:520px;width:100%;margin:0 auto}
@@ -372,7 +393,7 @@ p{margin:0}
 .key{height:66px;border-radius:18px;border:0;background:var(--card);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:32px}
 .key:active{transform:translateY(2px)}
 .key-sm{font-size:18px}
-.pr-actions{display:grid;grid-template-columns:1fr 1.3fr;gap:10px}
+.pr-actions{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;order:4}
 .pr-actions .btn{width:100%}
 .explain{display:flex;flex-direction:column;gap:12px}
 
@@ -2534,7 +2555,7 @@ function spellCardTop(p) {
   const t = tr(), wd = wordInfo(p);
   return `<p class="sp-prompt">${t.spPrompt[p.fmt]}</p>
     <p class="story">${sentenceWith(wd, '<span class="gap"></span>')}</p>
-    ${p.fmt === 'type' ? `<button class="btn btn-soft hear-btn" data-act="hear">${SPEAKER_SVG} ${t.hearWord}</button>` : ''}`;
+`;
 }
 function spellQHtml(p, state) {
   const wd = wordInfo(p);
@@ -2546,12 +2567,11 @@ function spellQHtml(p, state) {
     }).join('')}</div>`;
   }
   if (p.fmt === 'fill') return `<div class="fill-wrap${state ? ' ' + state : ''}">${S.done ? wordVis(p.w, wd.focus) : wordVis(p.w, wd.focus, { blank: true, filled: S.input })}</div>`;
-  return `<span class="ans-box word${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${esc(S.input) || (S.done ? '' : '<i class="caret"></i>')}</span>`;
+  return `<button class="btn btn-soft hear-btn" data-act="hear">${SPEAKER_SVG} ${tr().hearWord}</button><span class="ans-box word${S.input ? ' filled' : ''}${state ? ' ' + state : ''}" id="ans">${esc(S.input) || (S.done ? '' : '<i class="caret"></i>')}</span>`;
 }
 function letterPad() {
   const t = tr(), rows = curLang() === 'da' ? ['qwertyuiopå', 'asdfghjklæø', 'zxcvbnm'] : ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
-  return `<div class="lpad" id="pad">${rows.map((r, i) => `<div class="lrow">${[...r].map(ch => `<button class="lkey" data-act="lkey" data-k="${ch}">${ch}</button>`).join('')}${i === 2 ? `<button class="lkey lkey-wide" data-act="lkey" data-k="back" aria-label="${t.delLast}">⌫</button>` : ''}</div>`).join('')}
-    <div class="lrow"><button class="lkey lkey-clear" data-act="lkey" data-k="clear">${t.clear}</button></div></div>`;
+  return `<div class="lpad" id="pad">${rows.map((r, i) => `<div class="lrow">${i === 2 ? `<button class="lkey lkey-wide lkey-clear" data-act="lkey" data-k="clear">${t.clear}</button>` : ''}${[...r].map(ch => `<button class="lkey" data-act="lkey" data-k="${ch}">${ch}</button>`).join('')}${i === 2 ? `<button class="lkey lkey-wide" data-act="lkey" data-k="back" aria-label="${t.delLast}">⌫</button>` : ''}</div>`).join('')}</div>`;
 }
 function pressLetter(k) {
   if (S.done) return;
@@ -2978,6 +2998,7 @@ function savedRound() {
   const r = store.round;
   if (!r || !Array.isArray(r.list) || !r.list.length || !(r.i > 0) || r.i >= r.list.length) return null;
   if (r.id !== 'mixed' && !findLevel(r.id)) return null;
+  if (r.list.some(q => q && q.sp && !(findLevel(q.lv)?.words || []).some(x => x.w === q.w))) return null;
   return r;
 }
 function saveRound() {
@@ -3007,12 +3028,13 @@ function refreshAfterSync(prevLang) {
 }
 
 function check() {
+  if (S.done && Date.now() - (S.doneAt || 0) < 700) return;   // ignore the second tap of a double-tap
   if (S.done) return S.mode === 'redo' ? exitRedo() : nextQ();
   const t = tr(), p = cur();
   if (p.sp && !spellReady(p)) { teacherSay(p.fmt === 'pick' ? t.pickFirst : p.fmt === 'fill' ? t.fillFirst : t.typeFirst2, 'think'); return; }
   if (!p.sp && S.input === '') { teacherSay(t.typeFirst, 'think'); return; }
   if (p.sp ? spellAttempt(p) === p.w : Number(S.input) === answerOf(p)) {
-    S.done = true;
+    S.done = true; S.doneAt = Date.now();
     const firstTry = S.tries === 0 && !S.helped;
     updateQ('right');
     confetti(firstTry ? 28 : 14);
@@ -3115,7 +3137,7 @@ const ACTIONS = {
   key: d => pressKey(d.k),
   lkey: d => pressLetter(d.k),
   pick: d => { if (S.done) return; S.input = d.v; check(); },
-  hear: () => { const p = cur(); speak(spellAsk(p, true), teacherFor(p)); },
+  hear: () => { const p = cur(), was = store.sound; store.sound = true; speak(spellAsk(p, true), teacherFor(p)); store.sound = was; },
   check: () => check(),
   howto: () => openHowTo(),
   'reset-ask': () => { const t = tr(); $('#reset-row').innerHTML = `<span>${t.resetAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="reset-yes">${t.resetYes}</button><button class="btn btn-small btn-soft" data-act="reset-no">${t.resetNo}</button>`; },
