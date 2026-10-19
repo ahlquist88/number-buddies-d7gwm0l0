@@ -86,7 +86,7 @@ p{margin:0}
 
 /* top bar */
 .topbar{display:flex;align-items:center;gap:10px}
-.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px;font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:.2px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px;min-width:44px;min-height:44px;font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:.2px}
 .brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--add);color:#fff;font-size:26px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15);transform:rotate(-6deg)}
 .brand-mark b{transform:rotate(6deg)}
 .spacer{flex:1}
@@ -160,6 +160,8 @@ p{margin:0}
 .topic-text{display:flex;flex-direction:column;gap:2px;min-width:0;padding-right:34px}
 .lock svg{flex:none;margin-top:1px}
 .topic-title{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.1}
+h1,h2,h3,.topic-title,.st-title,.bubble,.lv-title{-webkit-hyphens:auto;hyphens:auto;overflow-wrap:anywhere}
+@media (max-width:420px){ .topic{gap:12px} .topic-art{width:76px;padding:6px;border-radius:20px} .topic-text{padding-right:12px} .topic-title{font-size:clamp(18px,5.6vw,26px)} .topic-sign{font-size:46px} }
 .topic-teacher{color:var(--ink-soft);font-size:16px}
 .topic-meta{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--tc);margin-top:6px}
 .topic-sign{position:absolute;right:14px;top:6px;font-family:var(--font-display);font-weight:700;font-size:58px;line-height:1;color:var(--tc);opacity:.22}
@@ -204,13 +206,14 @@ p{margin:0}
 /* stepper (worked explanation) */
 .stepper{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px}
 .st-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.st-title{font-family:var(--font-display);font-weight:700;font-size:22px;flex:1;min-width:0}
+.st-title{font-family:var(--font-display);font-weight:700;font-size:22px;flex:1 1 150px;min-width:0}
 .st-dots{display:flex;gap:6px}
 .st-dots i{width:12px;height:12px;border-radius:50%;background:var(--line)}
 .st-dots i.on{background:var(--tc)}
 .st-say{display:flex;gap:12px;align-items:flex-start;background:var(--card-2);border-radius:20px;padding:12px 14px;font-size:20px}
 .st-say .cw-sm{width:64px}
 .st-say p{flex:1;min-width:0;align-self:center}
+@media (max-width:420px){ .st-say{display:block;font-size:19px} .st-say::after{content:"";display:block;clear:both} .st-say .cw-sm{float:left;width:52px;margin:0 10px 2px 0} .st-say .replay{float:right;margin:0 0 4px 8px} }
 .st-visual{display:flex;justify-content:center;align-items:center;min-height:120px;overflow-x:auto;padding:6px 0}
 .st-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .st-why{border-top:3px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
@@ -468,6 +471,7 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
   .icon-btn{width:40px;height:40px}
   #pr-talk{flex-direction:row;align-items:center}
   #pr-talk .cw-md{width:80px}
+  @media (max-width:360px){ #pr-talk .cw-md{width:62px} }
   #pr-talk .bubble{padding:12px 16px}
   .qcard{padding:18px 12px}
   .key{height:58px}
