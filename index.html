@@ -91,6 +91,10 @@ p{margin:0}
 .icon-btn{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:0;background:var(--card);box-shadow:var(--shadow)}
 .icon-btn svg{width:24px;height:24px;fill:currentColor}
 .lang{display:flex;padding:4px;gap:2px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.lang-pick{position:relative;display:inline-flex}
+.lang-pick select{appearance:none;-webkit-appearance:none;height:42px;padding:0 34px 0 14px;border-radius:999px;border:0;background:var(--card);color:var(--ink);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:15px;max-width:190px;text-overflow:ellipsis;cursor:pointer}
+.lang-pick::after{content:"";position:absolute;right:14px;top:50%;width:8px;height:8px;border-right:2.5px solid var(--ink-soft);border-bottom:2.5px solid var(--ink-soft);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .lang button{border:0;background:none;border-radius:999px;padding:0 12px;height:42px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink-soft);letter-spacing:.5px}
 .lang button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
 .star{width:22px;height:22px;fill:var(--line)}
@@ -364,6 +368,8 @@ p{margin:0}
   .practice.spelling .pr-actions{max-width:520px;width:100%;margin:0 auto}
 }
 .st-nav>*{min-width:0}
+.stepper,.explain,.stepper>*{min-width:0;max-width:100%}
+.st-end .btn{min-width:0;overflow-wrap:anywhere}
 .st-end{flex:1 1 200px;justify-content:flex-end}
 .st-end .btn{white-space:normal;text-align:center}
 @media (max-width:420px){
@@ -464,6 +470,8 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
   .practice,.pr-left{gap:12px}
 }
 @media (max-width:520px){
+  .lang-pick select{max-width:76px;padding:0 26px 0 12px}
+  .lang-pick::after{right:11px}
   .arr{grid-template-columns:repeat(var(--c),16px);gap:4px;padding:8px}
   .arr .dot.sm{width:16px;height:16px}
   .brand-name{display:none}
@@ -531,7 +539,7 @@ const list = (a, b) => range(a, b).join(', ');
 const KEY = 'numberBuddies.v1';
 let store = { name: '', best: {}, sound: true, lang: '' };
 try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) store = { ...store, ...s }; } catch (e) {}
-if (store.lang !== 'en' && store.lang !== 'da') store.lang = /^da\b/i.test(navigator.language || '') ? 'da' : 'en';
+if (!['en', 'da', 'sv', 'id'].includes(store.lang)) store.lang = ['da', 'sv', 'id'].find(l => (navigator.language || '').toLowerCase().startsWith(l)) || 'en';
 /* Progress lives in two places: this browser (instant, works offline) and, when the page runs
    on claude.ai, a private document in the signed-in account (survives cleared Safari data and
    follows the account to other devices). Only this viewer can read their own document. */
@@ -563,7 +571,7 @@ function mergeRemote(r) {
   store = {
     ...store, best,
     name: newer ? (r.name || store.name || '') : (store.name || r.name || ''),
-    lang: newer && (r.lang === 'en' || r.lang === 'da') ? r.lang : store.lang,
+    lang: newer && ['en', 'da', 'sv', 'id'].includes(r.lang) ? r.lang : store.lang,
     sound: newer && typeof r.sound === 'boolean' ? r.sound : store.sound,
     round: newer ? (r.round || null) : (store.round || null),
     unlockAll: newer ? !!r.unlockAll : !!store.unlockAll
@@ -1306,8 +1314,8 @@ const EXPLAIN = {
    each for Times tables and Sharing, generators that make "a question
    like this one" for redo, and other ways to explain every question.
    ===================================================================== */
-const XS = () => curLang() === 'da' ? '·' : '×';   // times sign as Danish/English schools write it
-const DS = () => curLang() === 'da' ? ':' : '÷';   // division sign
+const XS = () => (tr().sym || {}).x || '×';   // times sign as Danish/English schools write it
+const DS = () => (tr().sym || {}).d || '÷';   // division sign
 function opSym(op) { return op === '+' ? '+' : op === '-' ? M : op === 'x' ? XS() : DS(); }
 function resOf(p) { return p.op === '+' ? p.a + p.b + (p.c || 0) : p.op === '-' ? p.a - p.b : p.op === 'x' ? p.a * p.b : p.a / p.b; }
 function fullEq(p) { if (p.sp) return p.w; return `${p.a} ${opSym(p.op)} ${p.b}${p.c != null ? ` + ${p.c}` : ''} = ${resOf(p)}`; }
@@ -2597,12 +2605,414 @@ function spellAsk(p, hearOnly) {
 I18N.en.howSpell = w => `How to spell ${w}`;
 I18N.da.howSpell = w => `Sådan staves ${w}`;
 
+
+/* ---------- Swedish ---------- */
+const SV = (() => {
+  const P = ['ental', 'tiotal', 'hundratal', 'tusental'], D = ['entalen', 'tiotalen', 'hundratalen', 'tusentalen'];
+  const tio = n => n === 1 ? '1 tiotal' : `${n} tiotal`;
+  return {
+    langName: 'Svenska', voiceLang: 'sv-SE', sym: { x: '·', d: '/' },
+    say: { minus: ' minus ', plus: ' plus ', eq: ' är lika med ', blank: ' vad ', times: ' gånger ', div: ' delat med ', gap: ' tom plats ' },
+    brand: 'Sifferkompisarna',
+    teachers: { hoot: 'Professor Hoot', daisy: 'Fröken Daisy', whiskers: 'Herr Morrhår', sparkle: 'Gnistra', fern: 'Räven Fern', pjuske: 'Igelkotten Pjuske' },
+    topics: { add: 'Plus', sub: 'Minus', mul: 'Gångertabeller', div: 'Division', spen: 'Engelsk stavning', spda: 'Dansk stavning' },
+    helloName: n => `Hej, ${n}!`, helloAnon: 'Hej, matteupptäckare!',
+    heroIntro: 'Vi visar dig <b>vad</b> du ska göra och <b>varför</b> det fungerar. Välj ett ämne för att börja.',
+    askName: 'Vad heter du?', namePh: 'Skriv ditt namn', save: 'Spara', helloSpoken: n => `Hej ${n}! Välj ett ämne för att börja.`,
+    chooseSubject: 'Välj ett ämne', withTeacher: n => `med ${n}`, soon: 'Kommer snart',
+    topicMeta: (s, m, n) => `${s} av ${m} stjärnor · ${n} nivåer`,
+    mixedTitle: 'Blandad utmaning', mixedText: '10 överraskningsfrågor från allt du har låst upp.', letsGo: 'Kör!',
+    grownups: 'För vuxna',
+    gu: ['Det finns 500 matteuppgifter på 50 nivåer. Plus och Minus har 15 nivåer var, från små tal upp till uppställning med fyrsiffriga tal. Gångertabeller och Division har 10 nivåer var och låses upp när varje nivå i Plus och Minus har minst en stjärna.',
+      'Varje nivå börjar med en kort lektion som visar <b>vad</b> man ska göra och <b>varför</b> det fungerar. Vid fel svar får barnet ett försök till; efter andra felet visar läraren stegen, och "Jag förstår fortfarande inte" förklarar på ett annat sätt. Stjärnor räknas för svar som är rätt på första försöket (9+ = 3 stjärnor, 7+ = 2 stjärnor). Ett tryck på en gul cirkel ger en ny liknande uppgift; rätt svar gör cirkeln grön.',
+      'Slå på rösten (högtalarknappen uppe till höger) så läser lärarna allt högt. Byt språk i språkmenyn.'],
+    gu4: 'I Stavning byter hela appen till det språket, även rösten, så engelsk stavning är på engelska och dansk stavning är på danska.',
+    syncCloud: 'Framstegen sparas på ditt Claude-konto, så de finns kvar även om webbläsarens data rensas, och följer med kontot till andra enheter. En omgång som inte är klar fortsätter där den slutade.',
+    syncLocal: 'Framstegen sparas i den här webbläsaren på den här enheten. En omgång som inte är klar fortsätter där den slutade.',
+    resumeTitle: 'Fortsätt där du slutade', resumeText: (t, i, n) => `${t}: uppgift ${i} av ${n}.`, resumeBtn: 'Fortsätt',
+    resetBtn: 'Nollställ framsteg', resetAsk: 'Ta bort alla stjärnor och det sparade namnet?', resetYes: 'Ja, nollställ', resetNo: 'Behåll', resetDone: 'Framstegen är nollställda.',
+    allSubjects: 'Alla ämnen',
+    topicIntro: { add: 'Ho ho! Plus betyder att lägga ihop grupper. Börja på nivå 1 och klättra uppåt när du är redo.',
+      sub: 'Voff! Minus betyder att ta reda på vad som är kvar. Börja på nivå 1 och jobba dig uppåt.',
+      mul: 'Mjau! Gångertabeller är ett snabbt sätt att lägga ihop lika stora grupper. Börja på nivå 1.',
+      div: 'Hej, jag är Gnistra! Division betyder att dela upp något i lika stora grupper. Börja på nivå 1.',
+      spen: "Hi, I'm Fern! Let's learn how English words are spelled, and why. Start at level 1.",
+      spda: 'Hej, jeg er Pjuske! Vi skal lære at stave danske ord, og hvorfor de staves sådan. Start på niveau 1.' },
+    startHere: 'Börja här', learn: 'Lär dig', practise: 'Öva', levelN: n => `Nivå ${n}`, starsOf: n => `${n} av 3 stjärnor`, starsAria: n => `${n} stjärnor`,
+    whyWorks: 'Varför det fungerar', tryTogether: 'Vi provar en tillsammans', start10: 'Starta 10 uppgifter', biggerOne: 'Nu provar vi ett större tal!',
+    stop: 'Sluta', questionN: (i, n) => `Uppgift ${i} av ${n}`,
+    greetFirst: n => n ? `Redo, ${n}? Här är den första.` : 'Redo? Här är den första.',
+    greetNext: ['Här kommer nästa.', 'Prova den här.', 'Nästa uppgift!', 'Försök med den här.'],
+    showHow: 'Visa mig hur', check: 'Kolla', nextQ: 'Nästa uppgift', seeStars: 'Se mina stjärnor', clear: 'Rensa', delLast: 'Ta bort sista siffran',
+    typeFirst: 'Skriv ditt svar med sifferknapparna först.',
+    praise: n => [`Jättebra${n}!`, `Du klarade det${n}!`, 'Supertänkt!', 'Helt rätt!', 'Fantastiskt!', 'Precis!'],
+    praiseHelp: ['Ja! Du räknade ut det.', 'Rätt! Bra kämpat!', 'Du klarade det! Det blir lättare varje gång du övar.'],
+    retry: ['Nästan! Försök igen.', 'Inte riktigt än. Försök igen, du klarar det!', 'Bra försök! Kolla en gång till.'], orShow: ' Eller tryck på "Visa mig hur".',
+    together: 'Det gör inget. Vi räknar ut det tillsammans, steg för steg.',
+    howTitle: q => `Så räknar du ut ${q}`, nextStep: 'Nästa steg', back: 'Tillbaka', typeAnswer: 'Skriv nu ditt svar', sayAgain: 'Säg det igen',
+    head: ['Bra jobbat, du blev klar!', 'Jättebra jobbat!', 'Superstjärna!'],
+    msg: [f => `Du fick ${f} av 10 rätt på första försöket. Varje försök gör din hjärna starkare. Titta på lektionen igen och försök sedan en gång till.`,
+      f => `Du fick ${f} av 10 rätt på första försöket. Lite mer övning så får du 3 stjärnor.`,
+      f => `Du fick ${f} av 10 rätt på första försöket. Du förstår det här riktigt bra.`],
+    newBest: ' Nytt rekord!', nextLevel: 'Nästa nivå', playAgain: 'Spela igen', seeLesson: 'Se lektionen', home: 'Hem',
+    soonToast: (t, x) => `${t} håller fortfarande på att göra ${x.toLowerCase()} klart. Kommer snart!`,
+    voiceOn: 'Rösten är på!', voiceOffLabel: 'Stäng av rösten', voiceOnLabel: 'Slå på rösten', language: 'Språk',
+    voiceLabel: 'Lärarröst (svenska)', voiceAuto: 'Automatiskt', voiceTry: 'Prova', voiceSample: 'Hej! Så här kommer jag att läsa matten för dig.',
+    voiceNone: 'Den här enheten har inga svenska röster. Lägg till en under Inställningar → Hjälpmedel, i inställningarna för uppläsning och röster.',
+    askQ: (q, missing) => missing ? q : `${q} är lika med vad?`,
+    place: P, one: P, def: D, lab: ['E', 'T', 'H', 'Tu'],
+    tensW: tio, onesW: n => `${n} ental`,
+    tensLbl: 'tiotal', onesLbl: 'ental', checkLbl: 'kolla', numberLine: 'Tallinje', colAdd: 'Addition med uppställning', colSub: 'Subtraktion med uppställning',
+    blocksAria: (n, h, t, o) => `${n}: ${h ? h + ' hundratal, ' : ''}${t} tiotal och ${o} ental`, splitAria: (w, a, b) => `${w} delat i ${a} och ${b}`,
+    startOver: 'Börja om', startOverAsk: 'Börja om omgången från uppgift 1?', startOverYes: 'Ja, börja om', startOverNo: 'Fortsätt',
+    stillStuck: 'Jag förstår fortfarande inte', otherWayTitle: 'Ett annat sätt',
+    otherWayIntro: ['Inga problem! Vi tittar på det på ett annat sätt.', 'Det gör inget! Här är ett annat sätt att tänka.', 'Vi provar ett nytt sätt.'],
+    noMoreWays: 'Det gör inget, den här är svår! Be en vuxen att prova den med dig, eller titta på det första sättet igen.', firstWayAgain: 'Se det första sättet igen',
+    redoText: e => `Du behövde lite hjälp med ${e}. Vill du prova en liknande?`, redoBtn: 'Prova en ny', redoNo: 'Inte nu',
+    redoLabel: k => `Nytt försök för uppgift ${k}`, redoBack: 'Tillbaka till omgången', redoBackResults: 'Tillbaka till mina stjärnor',
+    fixedPraise: ['Jättebra! Den cirkeln är grön nu.', 'Du fixade det! Grön cirkel!', 'Ja! Nu kan du den här.'],
+    redoHint: 'Tryck på en gul cirkel för att prova en liknande uppgift igen.', dotOk: 'Den här hade du rätt på första försöket!',
+    lockedText: (d, t) => `Klara Plus och Minus för att låsa upp (${d} av ${t} nivåer)`,
+    lockedToast: n => `${n} väntar på dig! Klara först alla nivåer i Plus och Minus.`,
+    unlockedNow: 'Du har låst upp Gångertabeller och Division!', unlockAllLabel: 'Lås upp alla ämnen nu',
+    dotLabel: (k, st) => `Uppgift ${k}: ${st}`, dotStates: { ok: 'rätt på första försöket', help: 'fick hjälp, tryck för att prova igen', fixed: 'fixad med ett nytt försök', cur: 'nu', '': 'inte än' },
+    mathsSection: 'Matte', spellSection: 'Stavning', langFixed: 'Svenska',
+    stories: {
+      '+': [(a, b) => `Professor Hoot har ${a} ekollon. Han hittar ${b} till. Hur många ekollon har han nu?`,
+        (a, b) => `Det sitter ${a} barn på bussen. ${b} till kliver på. Hur många barn är det på bussen?`,
+        (a, b) => `Fröken Daisy läser ${a} sidor på måndag och ${b} sidor på tisdag. Hur många sidor läser hon sammanlagt?`,
+        (a, b) => `En affär har ${a} röda ballonger och ${b} blå ballonger. Hur många ballonger finns det totalt?`,
+        (a, b) => `Gnistra samlar ${a} snäckor på förmiddagen och ${b} på eftermiddagen. Hur många snäckor har hon?`],
+      '-': [(a, b) => `Herr Morrhår har ${a} fiskgodisar. Han äter ${b}. Hur många är kvar?`,
+        (a, b) => `Det sitter ${a} fåglar i ett träd. ${b} flyger iväg. Hur många fåglar sitter kvar i trädet?`,
+        (a, b) => `Fröken Daisy hade ${a} klistermärken. Hon gav ${b} till en kompis. Hur många klistermärken har hon nu?`,
+        (a, b) => `I en påse finns ${a} godisbitar. ${b} blir uppätna. Hur många godisbitar är kvar i påsen?`,
+        (a, b) => `Gnistra behöver ${a} stjärnor till sitt halsband. Hon har ${b}. Hur många stjärnor saknas?`]
+    },
+    levels: {
+      a1: { title: 'Räkna vidare', goal: 'Plus med tal upp till 10', what: 'När vi räknar plus lägger vi ihop två grupper. Börja med ett tal i huvudet och räkna vidare.', why: 'Om du börjar med det största talet behöver du bara räkna lite till. Det går snabbare och det är lättare att inte räkna fel.' },
+      a2: { title: 'Tiokompisar', goal: 'Talpar som blir 10', what: 'Vissa tal passar ihop och blir precis 10, som 7 och 3. De kallas tiokompisar.', why: 'Tio är det mest användbara talet i matte. När du kan talen som blir 10 utantill blir många större uppgifter lätta.' },
+      a3: { title: 'Gör en tia', goal: 'Plus som går över 10', what: 'När summan går över 10 fyller du först upp en tia. Sedan lägger du till resten.', why: 'Det är lätt att lägga till 10: 10 + 3 är 13. Så vi gör en svår uppgift till två lätta genom att göra 10 först.' },
+      a4: { title: 'Tiotal och ental', goal: 'Plus till tvåsiffriga tal', what: 'Ett tvåsiffrigt tal består av tiotal och ental. 34 är 3 tiotal och 4 ental. Titta på vilken del som ändras när du räknar plus.', why: 'Tiotal och ental är olika stora, som långa stavar och små kuber. När du lägger till ental ändras bara entalen, om de inte går över nästa tia.' },
+      a5: { title: 'Stora tal', goal: 'Plus med två- och tresiffriga tal', what: 'Dela upp större tal i tiotal och ental, eller ställ upp dem: hundratal, tiotal och ental.', why: 'När du räknar varje kolumn för sig blir stora tal överskådliga. När en kolumn blir 10 eller mer flyttar den extra tian till nästa kolumn. Det kallas minnessiffra.' },
+      a6: { title: 'Dubbelt och nästan dubbelt', goal: 'Lägg ett tal till sig självt, eller ett till', what: 'Dubbelt är ett tal plus samma tal, som 7 + 7. Nästan dubbelt är två granntal, som 7 + 8.', why: 'Dubblor är lätta att komma ihåg. När du kan dem är nästan dubbelt bara dubbelt plus 1.' },
+      a7: { title: 'Plus 9 och 11', goal: 'Använd en tia och justera', what: 'För att lägga till 9 lägger du till 10 och tar bort 1. För att lägga till 11 lägger du till 10 och 1 till.', why: 'Det går snabbt att lägga till en hel tia. Att justera svaret med 1 är mycket lättare än att lägga till 9 i huvudet.' },
+      a8: { title: 'Tre tal', goal: 'Lägg ihop tre tal', what: 'När du lägger ihop tre tal, leta först efter två som blir 10.', why: 'Du kan lägga ihop tal i vilken ordning som helst och svaret blir detsamma. Så ta det lättaste paret först.' },
+      a9: { title: 'Hundrakompisar', goal: 'Talpar som blir 100', what: 'Hundrakompisar är par som 30 och 70, eller 45 och 55. Räkna upp till nästa tia och sedan i tiotal till 100.', why: 'Hundrakompisar fungerar som tiokompisar: 3 + 7 = 10, så 30 + 70 = 100.' },
+      a10: { title: 'Plus tiotal och hundratal', goal: 'Lägg till tiotal och hundratal till tresiffriga tal', what: 'När du bara lägger till tiotal ändras bara tiotalssiffran. När du bara lägger till hundratal ändras bara hundratalssiffran.', why: 'Varje siffra har sin egen plats. Att lägga till på en plats påverkar inte de andra, så länge den inte går över 9.' },
+      a11: { title: 'Över hundra', goal: 'Uppgifter som går över 100, 200, 300 …', what: 'När summan går över ett hundratal hoppar du först till hundratalet och lägger sedan till resten.', why: 'Hundratal är vänliga tal precis som tiotal. Att stanna vid hundratalet gör ett stort hopp till två lätta.' },
+      a12: { title: 'Saknade tal', goal: 'Hitta den saknade delen', what: 'I en uppgift som 38 + □ = 50 räknar du upp från 38 till 50 för att hitta det saknade talet.', why: 'Plus och minus är varandras motsatser. Den saknade delen är avståndet mellan talen.' },
+      a13: { title: 'Två minnessiffror', goal: 'Tresiffriga tal med två minnessiffror', what: 'Ställ upp kolumnerna och börja med entalen. Den här gången får du minnessiffra mer än en gång.', why: 'Varje kolumn kan bara rymma upp till 9. Varje extra tia flyttar till nästa kolumn, ända upp till tusentalen.' },
+      a14: { title: 'Textuppgifter', goal: 'Plus i berättelser', what: 'Läs berättelsen noga. Om saker läggs ihop, eller det kommer fler, räknar du plus.', why: 'Matte finns överallt i vardagen. Att hitta talet i en berättelse är en riktig superkraft.' },
+      a15: { title: 'Tusental', goal: 'Plus med fyrsiffriga tal i uppställning', what: 'Stora tal fungerar som tresiffriga: ställ upp tusental, hundratal, tiotal och ental, och börja med entalen.', why: 'Uppställning fungerar för alla tal, eftersom varje kolumn följer samma regel.' },
+      s1: { title: 'Ta bort', goal: 'Minus inom 10', what: 'Minus betyder att börja med en grupp och ta bort några. Vi tar reda på hur många som är kvar.', why: 'När du stryker över ser du precis vad som är kvar. Du kan alltid kolla genom att lägga tillbaka: det som är kvar plus det du tog bort blir starttalet.' },
+      s2: { title: 'Tillbaka till tio', goal: 'Minus inom 20', what: 'När du tar bort förbi 10 hoppar du först tillbaka till 10. Sedan hoppar du tillbaka resten.', why: 'Att stanna vid 10 gör ett stort svårt hopp till två små lätta hopp, och från 10 kan du använda dina tiokompisar.' },
+      s3: { title: 'Tiotal och ental', goal: 'Minus från tvåsiffriga tal', what: 'Titta på talet du tar bort. Är det ental eller tiotal? Då vet du vilken del av det stora talet som ändras.', why: 'Tar du bort 3 ändras bara entalen. Tar du bort 30 ändras bara tiotalen. Om entalen tar slut, stanna vid tian på vägen.' },
+      s4: { title: 'Tiotal först', goal: 'Tvåsiffrigt minus tvåsiffrigt', what: 'Dela upp talet du tar bort i tiotal och ental. Ta bort tiotalen först och sedan entalen.', why: 'Två små hopp är lättare än ett stort. När du tar tiotalen först blir enthoppet litet, och du kan kolla genom att räkna plus.' },
+      s5: { title: 'Subtraktion med uppställning', goal: 'Tresiffriga tal med växling', what: 'Ställ upp talen och börja med entalen. Om den övre siffran är för liten växlar du 1 från nästa kolumn.', why: 'När du växlar byter du 1 tiotal mot 10 ental (eller 1 hundratal mot 10 tiotal). Talet är detsamma, det är bara uppdelat på ett annat sätt så att vi kan ta bort.' },
+      s6: { title: 'Räkna upp', goal: 'Hitta skillnaden', what: 'När två tal ligger nära varandra räknar du upp från det mindre talet till det större.', why: 'Minus betyder också att hitta skillnaden. Att räkna upp över ett litet mellanrum går snabbare än att räkna bakåt.' },
+      s7: { title: 'Minus 9 och 11', goal: 'Använd en tia och justera', what: 'För att ta bort 9 tar du bort 10 och lägger tillbaka 1. För att ta bort 11 tar du bort 10 och 1 till.', why: 'Det är lätt att ta bort en hel tia. Sedan behöver du bara justera svaret med 1.' },
+      s8: { title: 'Från ett helt tiotal', goal: 'Som 40 − 7', what: 'För att ta bort ett litet tal från ett helt tiotal delar du av en tia och använder dina tiokompisar.', why: '10 − 7 = 3, så 40 − 7 är 30 och 3, alltså 33. Tiokompisarna gör jobbet.' },
+      s9: { title: 'Ta bort från 100', goal: 'Som 100 − 37', what: 'För att ta bort från 100 räknar du upp från det lilla talet till 100.', why: 'Svaret är talets hundrakompis. Det lättaste är att räkna upp i vänliga hopp.' },
+      s10: { title: 'Minus tiotal och hundratal', goal: 'Ta bort tiotal och hundratal från tresiffriga tal', what: 'När du bara tar bort tiotal ändras bara tiotalssiffran. Samma sak gäller hundratal.', why: 'Varje siffra har sin egen plats. Att ta bort från en plats påverkar inte de andra, så länge det finns tillräckligt.' },
+      s11: { title: 'Tillbaka över hundra', goal: 'Som 203 − 5', what: 'När du tar bort förbi ett hundratal hoppar du först tillbaka till hundratalet och sedan resten.', why: 'Att stanna vid hundratalet gör ett svårt hopp till två lätta, precis som att stanna vid en tia.' },
+      s12: { title: 'Saknade tal', goal: 'Hitta den saknade delen', what: 'I 62 − □ = 40 räknar du upp från 40 till 62. I □ − 15 = 30 lägger du ihop 30 och 15.', why: 'Plus och minus är varandras motsatser, så du kan vända på frågan.' },
+      s13: { title: 'Nollor i vägen', goal: 'Växla över en nolla', what: 'Om nästa kolumn har en 0 kan du inte växla från den. Gå en kolumn till och växla sedan steg för steg.', why: '400 är samma sak som 3 hundratal och 10 tiotal, som är samma som 3 hundratal, 9 tiotal och 10 ental. Talet ändras aldrig.' },
+      s14: { title: 'Textuppgifter', goal: 'Minus i berättelser', what: 'Läs berättelsen. Om något tas bort eller används, eller du ska ta reda på hur många som saknas, räknar du minus.', why: 'Att hitta matten i en berättelse är något du kommer att använda varje dag.' },
+      s15: { title: 'Tusental', goal: 'Subtraktion med fyrsiffriga tal i uppställning', what: 'Ställ upp tusental, hundratal, tiotal och ental. Börja med entalen och växla när den övre siffran är för liten.', why: 'Uppställning fungerar för alla tal, eftersom varje kolumn följer samma regel.' },
+      m1: { title: 'Lika stora grupper', goal: '2:ans tabell', what: 'Gånger betyder lika stora grupper. 4 · 2 betyder 4 grupper med 2. Räkna med 2 i taget för att hitta svaret.', why: 'Att multiplicera är ett snabbt sätt att lägga ihop samma tal om och om igen.' },
+      m2: { title: '10:ans tabell', goal: 'Räkna med 10 i taget', what: 'Gånger 10 betyder grupper med tio. 6 · 10 är 6 tiotal, alltså 60.', why: 'När du multiplicerar med 10 flyttar varje siffra ett steg åt vänster och en 0 kommer in på entalens plats.' },
+      m3: { title: '5:ans tabell', goal: 'Räkna med 5 i taget', what: 'Räkna med 5 i taget: 5, 10, 15, 20 … Eller använd 10:ans tabell och ta hälften.', why: '5 är hälften av 10, så 5 gånger ett tal är hälften av 10 gånger talet. 5:ans tabell slutar alltid på 5 eller 0.' },
+      m4: { title: 'Rader och byte', goal: 'Vänd på det', what: 'En array är rader med prickar. 5 · 7 är 5 rader med 7, och det är också 7 rader med 5.', why: 'Du kan byta plats på talen i en multiplikation och få samma svar. Välj det sätt som är lättast.' },
+      m5: { title: '3:ans tabell', goal: 'Räkna med 3 i taget', what: '3 grupper är 2 grupper och en till. Ta det dubbla av talet och lägg till talet en gång till.', why: 'Om du kan dina dubblor kan du räkna ut alla tal i 3:ans tabell.' },
+      m6: { title: '4:ans tabell', goal: 'Det dubbla av 2:ans', what: '4 är det dubbla av 2. För att multiplicera med 4 tar du det dubbla och sedan det dubbla igen.', why: '4:ans tabell är det dubbla av 2:ans tabell.' },
+      m7: { title: '8:ans tabell', goal: 'Det dubbla av 4:ans', what: '8 är det dubbla av 4. För att multiplicera med 8 tar du det dubbla tre gånger.', why: 'Varje dubblering gör det dubbelt så stort: 2:an, 4:an, 8:an.' },
+      m8: { title: 'Blandade tabeller', goal: '3:ans, 4:ans och 8:ans', what: 'Titta på talet du multiplicerar med och välj ditt knep: en grupp till för 3, dubbelt dubbelt för 4, dubbelt dubbelt dubbelt för 8.', why: 'När du har ett knep för varje tabell kan du alltid räkna ut det, även om du glömmer.' },
+      m9: { title: 'Saknade tal', goal: 'Som □ · 4 = 20', what: 'Räkna i tabellen tills du når svaret. Antalet hopp är det saknade talet.', why: 'Ett saknat tal i en multiplikation är egentligen en division. Gånger och division är varandras motsatser.' },
+      m10: { title: 'Större multiplikation', goal: 'Tvåsiffrigt gånger ensiffrigt', what: 'Dela upp det stora talet i tiotal och ental. Multiplicera varje del och lägg sedan ihop.', why: 'När du delar upp blir en svår multiplikation till två lätta som använder tabellerna du kan.' },
+      d1: { title: 'Dela lika', goal: 'Dela mellan 2 och 3', what: 'Att dela betyder att alla får lika många. Dela ut en i taget.', why: 'Rättvis delning ger lika stora grupper. Du kan kolla med en multiplikation.' },
+      d2: { title: 'Gör grupper', goal: 'Hur många femmor eller tior?', what: '20 / 5 kan betyda: hur många grupper med 5 får plats i 20? Räkna med 5 i taget och räkna hoppen.', why: 'Division är motsatsen till multiplikation, så när du räknar i hopp hittar du svaret.' },
+      d3: { title: 'Använd tabellerna', goal: 'Dela med 2, 5 och 10', what: 'För att räkna ut 35 / 5 tänker du: vad gånger 5 blir 35?', why: 'Varje multiplikation ger dig en division på köpet. 7 · 5 = 35, så 35 / 5 = 7.' },
+      d4: { title: 'Halvera', goal: 'Hälften av större tal', what: 'Att dela med 2 är att halvera. Halvera tiotalen och entalen var för sig och lägg ihop.', why: 'Det är lätt att halvera tiotal och ental, och när du sätter ihop dem igen har du hälften av hela talet.' },
+      d5: { title: 'Dela med 3', goal: 'Använd 3:ans tabell', what: 'För att räkna ut 24 / 3 räknar du med 3 i taget upp till 24 och räknar hoppen.', why: '3:ans tabell baklänges delar i 3 lika stora grupper.' },
+      d6: { title: 'Dela med 4', goal: 'Halvera och halvera igen', what: 'Att dela med 4 är samma sak som att halvera två gånger.', why: '4 är 2 · 2, så två halveringar ger 4 lika stora delar.' },
+      d7: { title: 'Dela med 8', goal: 'Använd 8:ans tabell', what: 'För att räkna ut 56 / 8 tänker du: vad gånger 8 blir 56? Eller halvera tre gånger.', why: '8 är 2 · 2 · 2, så tre halveringar ger 8 lika stora delar.' },
+      d8: { title: 'Blandad division', goal: 'Dela med 3, 4 och 8', what: 'Titta på talet du delar med och välj ditt knep: 3:ans tabell, halvera två gånger för 4, eller 8:ans tabell.', why: 'Alla divisioner kan kollas med en multiplikation.' },
+      d9: { title: 'Saknade tal', goal: 'Som □ / 4 = 6', what: 'Vänd på det med en multiplikation: □ / 4 = 6 betyder 6 · 4 = □.', why: 'Division och gånger är varandras motsatser, så det ena kan alltid göra det andra ogjort.' },
+      d10: { title: 'Större division', goal: 'Tvåsiffrigt delat med ensiffrigt', what: 'Dela upp talet i delar som är lätta att dela, som 40 och 8. Dela varje del och lägg sedan ihop.', why: 'När du delar upp i vänliga delar kan du använda tabellerna du redan kan.' }
+    },
+    ex: {
+      countOn: { s1: (a, b) => `Vi räknar ut ${a} + ${b}. Plus betyder att lägga ihop grupper och se hur många det blir sammanlagt.`, trick: (big, small) => `Här är ett knep: börja med det största talet, ${big}. Då behöver du bara räkna ${small} till.`, count: (big, small, l) => `Ha ${big} i huvudet och räkna ${small} till: ${l}.`, land: (a, b, s) => `Vi landade på ${s}. Så ${a} + ${b} = ${s}!`, why: 'Det går snabbare att räkna vidare från det största talet än att räkna allt från 1.' },
+      bond10: { s1: (q, a) => `${q}. En tioram har 10 rutor. ${a} av dem är fyllda.`, s2: (l, b) => `Räkna de tomma rutorna: ${l}. Det saknas ${b}.`, s3: (a, b) => `Så ${a} + ${b} = 10. ${a} och ${b} är tiokompisar!`, why: 'Tiokompisarna är 1 och 9, 2 och 8, 3 och 7, 4 och 6, och 5 och 5. När du kan dem utantill blir större uppgifter mycket lättare.' },
+      bridgeAdd: { s1: (a, b, ten, big, swap) => `${a} + ${b} går över ${ten}, så vi använder ${ten} som ett trappsteg.${swap ? ` Vi börjar med det största talet, ${big}.` : ''}`, s2: (big, need, ten, small, rest) => `${big} behöver ${need} till för att bli ${ten}. Så vi delar upp ${small} i ${need} och ${rest}.`, s3: (big, need, ten) => `Först: ${big} + ${need} = ${ten}.`, s4: (ten, rest, s) => `Sedan: ${ten} + ${rest} = ${s}. Det är lätt att lägga till på en hel tia!`, s5: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: ten => `Tiotal är vänliga tal. När vi gör ${ten} först blir en svår uppgift till två lätta.` },
+      onesAdd: { s1: (big, t, o, small) => `${big} är ${tio(t)} och ${o} ental. Vi lägger till ${small} ental.`, s2: (o, small, t) => `Bara entalen ändras: ${o} + ${small} = ${o + small}. Tiotalen är fortfarande ${t}.`, s3: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'När du lägger till några ental och de inte går över 9 är tiotalen desamma. Bara entalssiffran ändras.' },
+      tensAdd: { s1: (a, b) => `${a} är ${a / 10} tiotal och ${b} är ${b / 10} tiotal.`, s2: (x, y, z) => `${x} tiotal + ${y} tiotal = ${z} tiotal. Det är precis som ${x} + ${y} = ${z}!`, s3: (a, b, s) => `${s / 10} tiotal är ${s}. Så ${a} + ${b} = ${s}.`, why: 'Att lägga ihop tiotal är som att lägga ihop små tal. Du räknar tiotal i stället för ental.' },
+      placeAdd: { s1: (a, aT, aO, b, bT, bO) => `Dela upp båda talen i tiotal och ental: ${a} = ${aT} + ${aO} och ${b} = ${bT} + ${bO}.`, s2: (x, y, z) => `Lägg ihop tiotalen: ${x} + ${y} = ${z}.`, s3: (x, y, z) => `Lägg ihop entalen: ${x} + ${y} = ${z}.${z >= 10 ? ` Det är mer än 9 ental, så 10 av dem blir ett nytt tiotal: ${z} = 10 + ${z - 10}.` : ''}`, s4: (T, O, s) => `Sätt ihop dem igen: ${T} + ${O} = ${s}.`, why: 'Tiotal och ental är olika stora, som långa stavar och små kuber. När du lägger ihop varje sort för sig håller du ordning på allt.' },
+      columnAdd: { s1: 'Ställ upp talen: hundratal (H), tiotal (T) och ental (E). Se till att siffrorna står rakt under varandra.', carryOver: i => `Minnessiffran 1 flyttar till ${D[i]}. Skriv 1.`, col: (i, x, y, c, t) => `${cap(D[i])}: ${x} + ${y}${c ? ' + 1 i minnet' : ''} = ${t}.`, carry: (i, t) => ` Det är 10 eller mer, så skriv ${t % 10} och ha 1 i minnet till ${D[i + 1]}.`, write: t => ` Skriv ${t}.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'Vi börjar alltid med entalen. Om de blir 10 eller mer flyttar den extra tian till tiotalskolumnen. Det kallas minnessiffra.' },
+      takeAway: { s1: (a, b) => `${a} ${M} ${b} betyder: börja med ${a} och ta sedan bort ${b}.`, s2: b => `Stryk över ${b}.`, left: (l, d) => `Räkna det som är kvar: ${l}. Det är ${d} kvar.`, none: (a, b) => `Det är ingenting kvar! ${a} minus ${b} är 0.`, end: (a, b, d) => `Så ${a} ${M} ${b} = ${d}. Kolla: ${d} + ${b} = ${a}.`, why: 'Minus betyder att ta reda på hur många som är kvar. Du kan kolla genom att lägga tillbaka: det som är kvar plus det du tog bort blir starttalet.' },
+      onesSub: { s1: (a, t, o) => `${a} är ${tio(t)} och ${o} ental.`, s2: (b, o) => `Ta bort ${b} från entalen: ${o} ${M} ${b} = ${o - b}. Tiotalen ändras inte.`, end: (a, b, d) => `Så ${a} ${M} ${b} = ${d}.`, why: 'När det finns tillräckligt med ental att ta bort är det bara entalen som ändras. Tiotalen är desamma.' },
+      bridgeSub: { s1: (a, b, ten) => `${a} ${M} ${b} är ett svårt hopp, så vi stannar vid ${ten} på vägen.`, s2: (b, down, rest, ten) => `Dela upp ${b} i ${down} och ${rest}. Med ${down} kommer vi ner till ${ten}.`, s3: (a, down, ten) => `Först hoppar vi ${down} bakåt: ${a} ${M} ${down} = ${ten}.`, s4: (ten, rest, d) => `Sedan hoppar vi ${rest} till bakåt: ${ten} ${M} ${rest} = ${d}.`, end: (a, b, d) => `Så ${a} ${M} ${b} = ${d}. Kolla: ${d} + ${b} = ${a}.`, why: 'När vi stannar vid en tia blir ett stort svårt hopp till två små lätta hopp.' },
+      tensSub: { s1: (a, b, at, bt) => `${b} är ${bt} tiotal, så bara tiotalen ändras. ${a} har ${at} tiotal.`, s2: (at, bt) => `${at} tiotal minus ${bt} tiotal blir ${at - bt} tiotal. Det är precis som ${at} ${M} ${bt} = ${at - bt}!`, end: (a, b, d) => `Så ${a} ${M} ${b} = ${d}.`, why: (at, bt) => `Att ta bort tiotal fungerar som att ta bort små tal. ${at} ${M} ${bt} = ${at - bt}, så ${at} tiotal ${M} ${bt} tiotal = ${at - bt} tiotal.` },
+      placeSub: { s1: (a, b, bT, bO) => `${a} ${M} ${b}. Dela upp ${b} i tiotal och ental: ${bT} och ${bO}.`, s2: (a, bT, x) => `Ta bort tiotalen först: ${a} ${M} ${bT} = ${x}.`, ones: (x, bO, d) => `Ta nu bort entalen: ${x} ${M} ${bO} = ${d}.`, bridge: (bO, down, ten, rest, d) => `Ta nu bort ${bO} ental. Hoppa ${down} bakåt till ${ten}, och sedan ${rest} till till ${d}.`, end: (a, b, d) => `Så ${a} ${M} ${b} = ${d}. Kolla med plus: ${d} + ${b} = ${a}.`, why: 'När du tar bort tiotalen först och sedan entalen blir varje hopp litet. Det är smart att kolla genom att lägga ihop svaret igen.' },
+      columnSub: { s1: 'Ställ upp talen med det största talet överst. Börja med entalen.', exchange: (i, bot, was, before, after, now) => `${cap(D[i])}: vi kan inte ta ${bot} från ${was}. Växla 1 ${P[i + 1]} mot 10 ${P[i]}. ${cap(D[i + 1])} går från ${before} till ${after}, och ${D[i]} går från ${was} till ${now}.`, col: (i, t, b, r) => `${cap(D[i])}: ${t} ${M} ${b} = ${r}. Skriv ${r}.`, end: (a, b, d) => `Så ${a} ${M} ${b} = ${d}. Kolla: ${d} + ${b} = ${a}.`, why: 'När den övre siffran är för liten växlar vi 1 från nästa kolumn mot 10 i den här kolumnen. Talet är fortfarande detsamma, det är bara uppdelat på ett annat sätt.',
+        noNext: (i, bot, was, j) => `${cap(D[i])}: vi kan inte ta ${bot} från ${was}, och det finns inga ${P[i + 1]} att växla. Så vi går först till ${D[j]}.`, exch: (k, before, after, low, lowAfter) => `Växla 1 ${P[k]} mot 10 ${P[k - 1]}. ${cap(D[k])} går från ${before} till ${after}, och ${D[k - 1]} går från ${low} till ${lowAfter}.` },
+      story: { intro: (op, q) => op === '+' ? `Vi letar efter matten i berättelsen. Saker läggs ihop, så vi räknar plus: ${q}.` : `Vi letar efter matten i berättelsen. Något tas bort, eller vi ska hitta det som saknas, så vi räknar minus: ${q}.`, end: n => `Så svaret på berättelsen är ${n}.` },
+      doubles: { s1: a => `${a} + ${a} är dubbelt: samma tal två gånger.`, split: (t, o) => `Dubbla tiotalen och dubbla entalen: det dubbla av ${t} är ${2 * t}, och det dubbla av ${o} är ${2 * o}.`, know: (a, s) => `Om du kan dina dubblor vet du det direkt: det dubbla av ${a} är ${s}.`, end: (a, s) => `Så ${a} + ${a} = ${s}.`, why: 'Dubblor är lätta att komma ihåg, och de hjälper med många andra uppgifter, som nästan dubbelt.' },
+      nearDouble: { s1: (a, b) => `${a} och ${b} är granntal, så det här är nästan dubbelt.`, s2: sm => `Dubbla det mindre talet: ${sm} + ${sm} = ${2 * sm}.`, s3: (big, sm, d) => `${big} är ett mer än ${sm}, så lägg till 1: ${d} + 1 = ${d + 1}.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'Om du kan dina dubblor är nästan dubbelt bara dubbelt plus ett.' },
+      compAdd: { s1: (b, ten) => `${b} ligger väldigt nära ${ten}, och det är lätt att lägga till ${ten}!`, s2: (a, ten) => `Lägg först till ${ten}: ${a} + ${ten} = ${a + ten}.`, minus: (x, s) => `Men vi lade till 1 för mycket, så ta bort 1: ${x} − 1 = ${s}.`, plus: (x, s) => `Vi behöver lägga till 1 till: ${x} + 1 = ${s}.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'Det går snabbt att lägga till en hel tia. Sedan justerar du bara med 1. Knepet fungerar för 9, 11, 19 och 21.' },
+      threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. Med tre tal letar du först efter två som är lätta att lägga ihop.`, ten: (x, y) => `${x} och ${y} är tiokompisar! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} och ${y} är en dubbla: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Börja med de två första: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Lägg nu till det sista talet: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `Så ${a} + ${b} + ${c} = ${s}.`, why: 'Du kan lägga ihop tal i vilken ordning som helst. När du först hittar ett par som blir 10 blir resten lätt.' },
+      threeLeft: { s1: (a, b, ab) => `Vi räknar från vänster till höger. Först: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Lägg sedan till det sista talet: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `Så ${a} + ${b} + ${c} = ${s}.`, why: 'Att lägga ihop två tal i taget fungerar alltid, vilken ordning du än väljer.' },
+      bond100: { s1: a => `${a} + □ = 100. Hur långt är det från ${a} till 100?`, toTen: (a, up, nt) => `Hoppa först till nästa tia: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Hoppa sedan i tiotal upp till 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Lägg ihop hoppen: ${j1} + ${j2} = ${b}.`, end: (a, b) => `Så ${a} + ${b} = 100. ${a} och ${b} är hundrakompisar!`, why: 'Hundrakompisar fungerar som tiokompisar. 30 + 70 = 100 eftersom 3 + 7 = 10.' },
+      placeBig: { s1: (b, k, col) => `${b} är ${k} ${P[col]}, så bara ${P[col]}ssiffran ändras.`, s2: (d, k, col) => `${d} ${P[col]} + ${k} ${P[col]} = ${d + k} ${P[col]}. De andra siffrorna är desamma.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'När du bara lägger till tiotal eller bara hundratal är de andra siffrorna desamma, så länge inget går över 9.' },
+      placeBigSub: { s1: (b, k, col) => `${b} är ${k} ${P[col]}, så bara ${P[col]}ssiffran ändras.`, s2: (d, k, col) => `${d} ${P[col]} − ${k} ${P[col]} = ${d - k} ${P[col]}. De andra siffrorna är desamma.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'När du bara tar bort tiotal eller bara hundratal är de andra siffrorna desamma, så länge det finns tillräckligt.' },
+      missingAdd: { s1: (q, known, c) => `${q}. Tänk: vad ska vi lägga till ${known} för att få ${c}?`, jump: (x, y, j) => `Räkna upp från ${x} till ${y}: det är ${j}.`, add: (js, ans) => `Lägg ihop hoppen: ${js} = ${ans}.`, end: (ans, e) => `Det saknade talet är ${ans}. Kolla: ${e}.`, why: (c, known, ans) => `Plus och minus är varandras motsatser. Du kan också räkna minus: ${c} − ${known} = ${ans}.` },
+      missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Något togs bort från ${a} och ${c} blev kvar. Räkna upp från ${c} till ${a} för att hitta det.`, s1a: (b, c) => `□ − ${b} = ${c}. Vi tog bort ${b} och ${c} blev kvar.`, back: (c, b, a) => `Så starttalet är det som blev kvar plus det som togs bort: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Räkna upp från ${x} till ${y}: det är ${j}.`, add: (js, ans) => `Lägg ihop hoppen: ${js} = ${ans}.`, end: (ans, e) => `Det saknade talet är ${ans}. Kolla: ${e}.`, why: 'Minus och plus är varandras motsatser, så du kan alltid vända på en fråga med ett saknat tal.' },
+      countUpAny: { s1: (a, b) => `${a} − ${b}: vi räknar upp från ${b} till ${a} med vänliga tal.`, jump: (x, y, j) => `Från ${x} upp till ${y}: det är ${j}.`, add: (js, d) => `Lägg ihop hoppen: ${js} = ${d}.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'Minus betyder också att hitta skillnaden. Att räkna upp avståndet i vänliga hopp fungerar alltid.' },
+      compSub: { s1: (b, ten) => `${b} ligger väldigt nära ${ten}, och det är lätt att ta bort ${ten}!`, s2: (a, ten) => `Ta först bort ${ten}: ${a} − ${ten} = ${a - ten}.`, plus: (x, d) => `Men vi tog bort 1 för mycket, så lägg tillbaka 1: ${x} + 1 = ${d}.`, minus: (x, d) => `Vi behöver ta bort 1 till: ${x} − 1 = ${d}.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'Det går snabbt att ta bort en hel tia. Justera sedan med 1: lägg tillbaka 1 för 9, ta bort 1 till för 11.' },
+      fromTen: { s1: (a, b) => `${a} − ${b}. Dela upp ${a} i ${a - 10} och 10.`, s2: b => `Använd dina tiokompisar: 10 − ${b} = ${10 - b}.`, s3: (r, f, d) => `Sätt ihop det igen: ${r} + ${f} = ${d}.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'När du tar bort ett litet tal från ett helt tiotal använder du tiokompisarna: svarets entalssiffra är tiokompisen till talet du tog bort.' },
+      from100: { s1: b => `100 − ${b}. Räkna upp från ${b} till 100 i vänliga hopp.`, jump: (x, y, j) => `Från ${x} upp till ${y}: det är ${j}.`, add: (js, d) => `Lägg ihop hoppen: ${js} = ${d}.`, end: (b, d) => `Så 100 − ${b} = ${d}. ${b} och ${d} är hundrakompisar!`, why: 'Att ta bort från 100 är samma sak som att hitta hundrakompisen.' },
+      countAll: { s1: (a, b) => `Vi räknar alla. Här är ${a} orange och ${b} blå brickor.`, s2: l => `Peka på varje bricka och räkna: ${l}.`, end: (a, b, s) => `Det är ${s} sammanlagt. Så ${a} + ${b} = ${s}.`, why: 'Att räkna allt fungerar alltid. Det tar längre tid, men det är ett bra sätt att kolla.' },
+      jumpAdd: { s1: (a, b, parts) => `Börja vid ${a} på tallinjen. Dela upp ${b} i ${parts} och hoppa en del i taget.`, jump: (pt, at) => `Hoppa +${pt}: vi landar på ${at}.`, end: (a, b, s) => `Vi landade på ${s}. Så ${a} + ${b} = ${s}.`, why: 'När du hoppar i hundratal, tiotal och ental är stora uppgifter lätta att följa.' },
+      jumpSub: { s1: (a, b, parts) => `Börja vid ${a} på tallinjen. Dela upp ${b} i ${parts} och hoppa en del bakåt i taget.`, jump: (pt, at) => `Hoppa ${pt} bakåt: vi landar på ${at}.`, end: (a, b, d) => `Vi landade på ${d}. Så ${a} − ${b} = ${d}.`, why: 'När du hoppar bakåt i hundratal, tiotal och ental blir en stor minusuppgift till små lätta steg.' },
+      partitionAdd: { s1: (a, pa, b, pb) => `Dela upp båda talen i sina delar: ${a} = ${pa} och ${b} = ${pb}.`, place: (i, x, y, s) => `Lägg ihop ${D[i]}: ${x} + ${y} = ${s}.`, join: (parts, s) => `Lägg nu ihop delarna: ${parts} = ${s}.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'Att lägga ihop varje plats för sig och sedan sätta ihop dem är som uppställning, fast högt.' },
+      countBack: { s1: (a, b, l) => `Börja vid ${a} och räkna ${b} bakåt: ${l}.`, end: (a, b, d) => `Vi landade på ${d}. Så ${a} − ${b} = ${d}.`, why: 'Att räkna bakåt en i taget tar tid, men det fungerar alltid för små tal.' },
+      groups: { s1: (a, b, x) => `${a} ${x} ${b} betyder ${a} grupper med ${b}.`, s2: (b, l) => `Räkna med ${b} i taget, en grupp i taget: ${l}.`, end: (a, b, r, x) => `Så ${a} ${x} ${b} = ${r}.`, why: (a, b, x) => `Multiplikation är ett snabbt sätt att lägga ihop lika stora grupper. ${a} ${x} ${b} är ${b} lagt ihop ${a} gånger.` },
+      tensMul: { s1: (a, x) => `${a} ${x} 10 betyder ${a} grupper med tio. Det är ${a} tiotal.`, s2: (a, r) => `${a} tiotal är ${r}. Varje siffra flyttar ett steg åt vänster och en 0 kommer in på entalens plats.`, end: (a, r, x) => `Så ${a} ${x} 10 = ${r}.`, why: 'Gånger 10 gör varje siffra tio gånger mer värd, så varje siffra flyttar ett steg åt vänster.' },
+      fives: { s1: (a, x, l) => `${a} ${x} 5: räkna med 5 i taget, ${a} gånger: ${l}.`, trick: (a, t, r, x) => `Här är ett knep: ${a} ${x} 10 = ${t}, och 5 är hälften av 10, så ta hälften av ${t}. Det blir ${r}.`, end: (a, r, x) => `Så ${a} ${x} 5 = ${r}.`, why: '5 är hälften av 10, så 5:ans tabell är hälften av 10:ans tabell. 5:ans tabell slutar alltid på 5 eller 0.' },
+      array: { s1: (a, b, x) => `${a} ${x} ${b} kan ritas som en array: ${a} rader med ${b} prickar i varje.`, s2: (a, b, x) => `Vänd på den så får du ${b} rader med ${a}. Det är samma prickar! Så ${a} ${x} ${b} = ${b} ${x} ${a}.`, s3: (a, b, l) => `Använd ${a}:ans tabell: räkna med ${a} i taget, ${b} gånger: ${l}.`, end: (a, b, r, x) => `Så ${a} ${x} ${b} = ${r}.`, why: 'Du kan byta plats på talen i en multiplikation och svaret blir detsamma. Välj den ordning som är lättast för dig.' },
+      threes: { s1: (a, x) => `${a} ${x} 3 är samma som 3 grupper med ${a}.`, s2: (a, d, r, x) => `Knep: 2 grupper med ${a} är det dubbla av ${a}, alltså ${d}. En grupp till med ${a}: ${d} + ${a} = ${r}.`, end: (a, r, x) => `Så ${a} ${x} 3 = ${r}.`, why: 'Tre grupper är två grupper plus en grupp till. Om du kan dina dubblor kan du räkna ut alla tal i 3:ans tabell.' },
+      fours: { s1: (a, x) => `${a} ${x} 4: fyra är det dubbla av 2, så vi kan dubbla två gånger.`, s2: (a, d, x) => `Det dubbla av ${a} är ${d}. Det är ${a} ${x} 2.`, s3: (d, r, a, x) => `Dubbla igen: ${d} + ${d} = ${r}. Det är ${a} ${x} 4.`, end: (a, r, x) => `Så ${a} ${x} 4 = ${r}.`, why: '4:ans tabell är det dubbla av 2:ans tabell.' },
+      eights: { s1: (a, x) => `${a} ${x} 8: åtta är dubbelt dubbelt dubbelt, så vi dubblar tre gånger!`, d1: (a, d) => `Det dubbla av ${a}: ${d}.`, d2: (d, e) => `Dubbla igen: ${e}.`, d3: (e, r) => `Och en gång till: ${r}.`, end: (a, r, x) => `Så ${a} ${x} 8 = ${r}.`, why: 'Varje dubblering gör det dubbelt så stort: 2:an, sedan 4:an, sedan 8:an.' },
+      skipCount: { s1: (a, b, x) => `${a} ${x} ${b}: hoppa med ${b} i taget längs tallinjen, ${a} gånger.`, s2: (b, l) => `Säg talen högt medan du hoppar: ${l}.`, end: (a, b, r, x) => `Vi landade på ${r}. Så ${a} ${x} ${b} = ${r}.`, why: 'Att räkna i lika stora hopp är det som gångertabellerna är gjorda av.' },
+      repeatAdd: { s1: (a, b, x, sum) => `${a} ${x} ${b} betyder att lägga ihop ${b}, ${a} gånger: ${sum}.`, s2: l => `Lägg ihop dem en i taget: ${l}.`, end: (a, b, r, x) => `Så ${a} ${x} ${b} = ${r}.`, why: 'Gånger är ett kort sätt att skriva samma tal lagt ihop om och om igen.' },
+      partitionMul: { s1: (a, b, T, O, x) => `${a} ${x} ${b}. Dela upp ${a} i ${T} och ${O}.`, part: (n, b, r, x) => `${n} ${x} ${b} = ${r}.`, add: (x1, x2, r) => `Lägg ihop de två svaren: ${x1} + ${x2} = ${r}.`, end: (a, b, r, x) => `Så ${a} ${x} ${b} = ${r}.`, why: 'När du delar upp ett stort tal i tiotal och ental blir en svår multiplikation till två lätta.' },
+      missingMul: { s1: (q, k, c) => `${q}. Vilket tal gånger ${k} blir ${c}?`, s2: (k, c, l) => `Räkna med ${k} i taget tills du når ${c}: ${l}.`, s3: ans => `Det är ${ans} hopp, så det saknade talet är ${ans}.`, end: (ans, e) => `Kolla: ${e}.`, why: (c, k, ans, dv) => `Ett saknat tal i en multiplikation är egentligen en division: ${c} ${dv} ${k} = ${ans}.` },
+      share: { s1: (a, b, dv) => `${a} ${dv} ${b} betyder: dela ${a} lika mellan ${b}.`, s2: b => `Ge en till var och en av de ${b}, om och om igen, tills det är slut.`, end: (a, b, q, dv) => `Var och en får ${q}. Så ${a} ${dv} ${b} = ${q}.`, why: (b, q, a, x) => `När man delar rättvist får alla lika många. Kolla med en multiplikation: ${b} ${x} ${q} = ${a}.` },
+      group: { s1: (a, b, dv) => `${a} ${dv} ${b} kan betyda: hur många grupper med ${b} får plats i ${a}?`, s2: (b, a, l) => `Hoppa med ${b} i taget från 0 till ${a} och räkna hoppen: ${l}.`, end: (a, b, q, dv) => `Det är ${q} hopp. Så ${a} ${dv} ${b} = ${q}.`, why: b => `Division är motsatsen till multiplikation. Att räkna hopp på ${b} är ${b}:ans tabell baklänges.` },
+      inverse: { s1: (a, b, dv, x) => `${a} ${dv} ${b}: tänk på ${b}:ans tabell. Vilket tal gånger ${b} blir ${a}?`, s2: (b, l, a, q) => `Räkna med ${b} i taget: ${l}. ${a} är nummer ${q}.`, end: (a, b, q, dv, x) => `${q} ${x} ${b} = ${a}, så ${a} ${dv} ${b} = ${q}.`, why: 'Om du kan dina gångertabeller kan du också din division. De är varandras motsatser.' },
+      halve: { s1: (a, dv) => `${a} ${dv} 2 betyder hälften av ${a}. Dela upp ${a} i tiotal och ental.`, s2: (T, O) => `Hälften av ${T} är ${T / 2}, och hälften av ${O} är ${O / 2}.`, s3: (x, y, h) => `Sätt ihop halvorna: ${x} + ${y} = ${h}.`, whole: (a, h) => `Hälften av ${a} är ${h}.`, end: (a, h, dv) => `Så ${a} ${dv} 2 = ${h}.`, why: 'När du halverar tiotalen och entalen var för sig är stora tal lätta att halvera.' },
+      quarter: { s1: (a, dv) => `${a} ${dv} 4: att dela med 4 är samma sak som att halvera två gånger.`, h1: (a, h) => `Hälften av ${a} är ${h}.`, h2: (h, q) => `Hälften av ${h} är ${q}.`, end: (a, q, dv) => `Så ${a} ${dv} 4 = ${q}.`, why: '4 är 2 · 2, så två halveringar är samma som att dela i 4 lika stora delar.' },
+      eighth: { s1: (a, dv) => `${a} ${dv} 8: att dela med 8 är samma sak som att halvera tre gånger.`, h1: (a, h) => `Hälften av ${a} är ${h}.`, h2: (h, q) => `Hälften av ${h} är ${q}.`, h3: (q, e) => `Och hälften av ${q} är ${e}.`, end: (a, e, dv) => `Så ${a} ${dv} 8 = ${e}.`, why: '8 är 2 · 2 · 2, så tre halveringar delar i 8 lika stora delar.' },
+      partitionDiv: { s1: (a, b, ch, rest, dv) => `${a} ${dv} ${b}. Dela upp ${a} i delar som är lätta att dela: ${ch} och ${rest}.`, part: (n, b, r, dv) => `${n} ${dv} ${b} = ${r}.`, add: (x, y, q) => `Lägg ihop svaren: ${x} + ${y} = ${q}.`, end: (a, b, q, dv) => `Så ${a} ${dv} ${b} = ${q}.`, why: 'När du delar upp ett stort tal i lätta delar kan du använda gångertabellerna du redan kan.' },
+      missingDiv: { s1a: (b, c, dv) => `□ ${dv} ${b} = ${c}. Ett tal delades i ${b} grupper med ${c}.`, s2a: (b, c, a, x) => `Så talet är ${b} grupper med ${c}: ${b} ${x} ${c} = ${a}.`, s1b: (a, c, dv) => `${a} ${dv} □ = ${c}. ${a} är uppdelat i grupper med ${c}. Hur många grupper?`, s2b: (c, a, l, ans) => `Räkna med ${c} i taget upp till ${a}: ${l}. Det är ${ans} grupper.`, end: (ans, e) => `Det saknade talet är ${ans}. Kolla: ${e}.`, why: 'Division och multiplikation är varandras motsatser, så du kan vända på frågan.' },
+      swapMul: { s1: (a, b, x) => `Vi byter plats på talen: ${b} ${x} ${a} blir samma som ${a} ${x} ${b}, eftersom prickarna är desamma.`, why: 'Du kan byta plats på talen i en multiplikation, så välj den ordning du tycker är lättast.' },
+      missingTurn: { s1: (q, q2) => `Vi vänder på det. ${q} är samma fråga som ${q2}.`, end: (ans, e) => `Så det saknade talet är ${ans}: ${e}.` }
+    }
+  };
+})();
+
+/* ---------- Indonesian ---------- */
+const ID = (() => {
+  const P = ['satuan', 'puluhan', 'ratusan', 'ribuan'];
+  return {
+    langName: 'Bahasa Indonesia', voiceLang: 'id-ID', sym: { x: '×', d: ':' },
+    say: { minus: ' kurang ', plus: ' tambah ', eq: ' sama dengan ', blank: ' berapa ', times: ' kali ', div: ' dibagi ', gap: ' titik-titik ' },
+    brand: 'Sahabat Angka',
+    teachers: { hoot: 'Profesor Hoot', daisy: 'Bu Daisy', whiskers: 'Pak Kumis', sparkle: 'Kilau', fern: 'Rubah Fern', pjuske: 'Landak Pjuske' },
+    topics: { add: 'Penjumlahan', sub: 'Pengurangan', mul: 'Perkalian', div: 'Pembagian', spen: 'Ejaan Inggris', spda: 'Ejaan Denmark' },
+    helloName: n => `Halo, ${n}!`, helloAnon: 'Halo, penjelajah matematika!',
+    heroIntro: 'Kami tunjukkan <b>apa</b> yang harus dilakukan dan <b>mengapa</b> caranya berhasil. Pilih pelajaran untuk mulai.',
+    askName: 'Siapa namamu?', namePh: 'Tulis namamu', save: 'Simpan', helloSpoken: n => `Halo ${n}! Pilih pelajaran untuk mulai.`,
+    chooseSubject: 'Pilih pelajaran', withTeacher: n => `bersama ${n}`, soon: 'Segera hadir',
+    topicMeta: (s, m, n) => `${s} dari ${m} bintang · ${n} level`,
+    mixedTitle: 'Tantangan campuran', mixedText: '10 soal kejutan dari semua yang sudah kamu buka.', letsGo: 'Ayo!',
+    grownups: 'Untuk orang tua',
+    gu: ['Ada 500 soal matematika dalam 50 level. Penjumlahan dan Pengurangan masing-masing punya 15 level, dari angka kecil sampai cara bersusun dengan bilangan empat angka. Perkalian dan Pembagian masing-masing punya 10 level dan terbuka setelah setiap level Penjumlahan dan Pengurangan mendapat minimal satu bintang.',
+      'Setiap level dimulai dengan pelajaran singkat yang menunjukkan <b>apa</b> yang harus dilakukan dan <b>mengapa</b> caranya berhasil. Jika jawabannya salah, anak boleh mencoba sekali lagi; setelah salah kedua, guru menjelaskan langkah-langkahnya, dan "Aku masih belum paham" menjelaskan dengan cara lain. Bintang dihitung dari jawaban yang benar pada percobaan pertama (9+ = 3 bintang, 7+ = 2 bintang). Mengetuk lingkaran kuning memberi soal baru yang mirip; jika benar, lingkarannya menjadi hijau.',
+      'Nyalakan suara (tombol speaker di kanan atas) agar para guru membacakan semuanya. Ganti bahasa lewat menu bahasa.'],
+    gu4: 'Di bagian Ejaan, seluruh aplikasi berganti ke bahasa itu, termasuk suaranya, jadi ejaan Inggris dalam bahasa Inggris dan ejaan Denmark dalam bahasa Denmark.',
+    syncCloud: 'Kemajuan disimpan di akun Claude-mu, jadi tetap ada walaupun data browser dihapus, dan ikut ke perangkat lain yang memakai akun yang sama. Ronde yang belum selesai dilanjutkan dari tempat terakhir.',
+    syncLocal: 'Kemajuan disimpan di browser ini pada perangkat ini. Ronde yang belum selesai dilanjutkan dari tempat terakhir.',
+    resumeTitle: 'Lanjutkan dari tempat terakhir', resumeText: (t, i, n) => `${t}: soal ${i} dari ${n}.`, resumeBtn: 'Lanjutkan',
+    resetBtn: 'Atur ulang kemajuan', resetAsk: 'Hapus semua bintang dan nama yang tersimpan?', resetYes: 'Ya, atur ulang', resetNo: 'Simpan saja', resetDone: 'Kemajuan sudah diatur ulang.',
+    allSubjects: 'Semua pelajaran',
+    topicIntro: { add: 'Hu hu! Penjumlahan artinya menggabungkan kelompok. Mulai dari level 1, lalu naik kalau sudah siap.',
+      sub: 'Guk! Pengurangan artinya mencari berapa yang tersisa. Mulai dari level 1 dan terus naik.',
+      mul: 'Meong! Perkalian adalah cara cepat menjumlahkan kelompok yang sama besar. Mulai dari level 1.',
+      div: 'Halo, aku Kilau! Pembagian artinya membagi sesuatu menjadi kelompok yang sama besar. Mulai dari level 1.',
+      spen: "Hi, I'm Fern! Let's learn how English words are spelled, and why. Start at level 1.",
+      spda: 'Hej, jeg er Pjuske! Vi skal lære at stave danske ord, og hvorfor de staves sådan. Start på niveau 1.' },
+    startHere: 'Mulai di sini', learn: 'Belajar', practise: 'Latihan', levelN: n => `Level ${n}`, starsOf: n => `${n} dari 3 bintang`, starsAria: n => `${n} bintang`,
+    whyWorks: 'Mengapa caranya berhasil', tryTogether: 'Ayo coba bersama', start10: 'Mulai 10 soal', biggerOne: 'Sekarang kita coba yang lebih besar!',
+    stop: 'Berhenti', questionN: (i, n) => `Soal ${i} dari ${n}`,
+    greetFirst: n => n ? `Siap, ${n}? Ini soal pertamamu.` : 'Siap? Ini soal pertamamu.',
+    greetNext: ['Ini soal berikutnya.', 'Coba yang ini.', 'Soal berikutnya!', 'Ayo coba yang ini.'],
+    showHow: 'Tunjukkan caranya', check: 'Periksa', nextQ: 'Soal berikutnya', seeStars: 'Lihat bintangku', clear: 'Hapus', delLast: 'Hapus angka terakhir',
+    typeFirst: 'Tulis dulu jawabanmu dengan tombol angka.',
+    praise: n => [`Hebat${n}!`, `Kamu berhasil${n}!`, 'Pintar sekali!', 'Betul!', 'Luar biasa!', 'Tepat sekali!'],
+    praiseHelp: ['Ya! Kamu berhasil menghitungnya.', 'Betul. Usaha yang bagus!', 'Kamu berhasil! Makin sering berlatih, makin mudah.'],
+    retry: ['Hampir! Coba lagi.', 'Belum tepat. Coba lagi, kamu pasti bisa!', 'Usaha yang bagus! Periksa sekali lagi.'], orShow: ' Atau ketuk "Tunjukkan caranya".',
+    together: 'Tidak apa-apa. Ayo kita hitung bersama, langkah demi langkah.',
+    howTitle: q => `Cara menghitung ${q}`, nextStep: 'Langkah berikutnya', back: 'Kembali', typeAnswer: 'Sekarang tulis jawabanmu', sayAgain: 'Ulangi',
+    head: ['Bagus, kamu sudah selesai!', 'Kerja bagus!', 'Bintang super!'],
+    msg: [f => `Kamu benar ${f} dari 10 pada percobaan pertama. Setiap percobaan membuat otakmu makin kuat. Lihat lagi pelajarannya, lalu coba sekali lagi.`,
+      f => `Kamu benar ${f} dari 10 pada percobaan pertama. Sedikit latihan lagi dan kamu dapat 3 bintang.`,
+      f => `Kamu benar ${f} dari 10 pada percobaan pertama. Kamu benar-benar paham.`],
+    newBest: ' Rekor baru!', nextLevel: 'Level berikutnya', playAgain: 'Main lagi', seeLesson: 'Lihat pelajaran', home: 'Beranda',
+    soonToast: (t, x) => `${t} masih menyiapkan ${x.toLowerCase()}. Segera hadir!`,
+    voiceOn: 'Suara menyala!', voiceOffLabel: 'Matikan suara', voiceOnLabel: 'Nyalakan suara', language: 'Bahasa',
+    voiceLabel: 'Suara guru (Indonesia)', voiceAuto: 'Otomatis', voiceTry: 'Coba', voiceSample: 'Halo! Beginilah aku akan membacakan matematika untukmu.',
+    voiceNone: 'Perangkat ini belum punya suara bahasa Indonesia. Tambahkan di Pengaturan → Aksesibilitas, di pengaturan pembacaan dan suara.',
+    askQ: (q, missing) => missing ? q : `${q} sama dengan berapa?`,
+    place: P, one: P, def: P, lab: ['S', 'P', 'R', 'Rb'],
+    tensW: n => `${n} puluhan`, onesW: n => `${n} satuan`,
+    tensLbl: 'puluhan', onesLbl: 'satuan', checkLbl: 'periksa', numberLine: 'Garis bilangan', colAdd: 'Penjumlahan bersusun', colSub: 'Pengurangan bersusun',
+    blocksAria: (n, h, t, o) => `${n}: ${h ? h + ' ratusan, ' : ''}${t} puluhan dan ${o} satuan`, splitAria: (w, a, b) => `${w} dipecah menjadi ${a} dan ${b}`,
+    startOver: 'Mulai ulang', startOverAsk: 'Mulai ronde ini lagi dari soal 1?', startOverYes: 'Ya, mulai ulang', startOverNo: 'Lanjutkan',
+    stillStuck: 'Aku masih belum paham', otherWayTitle: 'Cara lain',
+    otherWayIntro: ['Tidak apa-apa! Ayo kita lihat dengan cara lain.', 'Tenang saja! Ini cara lain untuk memikirkannya.', 'Ayo coba cara baru.'],
+    noMoreWays: 'Tidak apa-apa, soal ini memang sulit! Minta orang dewasa mencobanya bersamamu, atau lihat cara pertama lagi.', firstWayAgain: 'Lihat cara pertama lagi',
+    redoText: e => `Kamu perlu sedikit bantuan untuk ${e}. Mau coba soal yang mirip?`, redoBtn: 'Coba soal baru', redoNo: 'Nanti saja',
+    redoLabel: k => `Coba lagi untuk soal ${k}`, redoBack: 'Kembali ke ronde', redoBackResults: 'Kembali ke bintangku',
+    fixedPraise: ['Hebat! Lingkaran itu sekarang hijau.', 'Kamu berhasil memperbaikinya! Lingkaran hijau!', 'Ya! Sekarang kamu bisa soal ini.'],
+    redoHint: 'Ketuk lingkaran kuning untuk mencoba soal yang mirip lagi.', dotOk: 'Soal ini kamu jawab benar pada percobaan pertama!',
+    lockedText: (d, t) => `Selesaikan Penjumlahan dan Pengurangan untuk membuka (${d} dari ${t} level)`,
+    lockedToast: n => `${n} menunggumu! Selesaikan dulu semua level Penjumlahan dan Pengurangan.`,
+    unlockedNow: 'Kamu sudah membuka Perkalian dan Pembagian!', unlockAllLabel: 'Buka semua pelajaran sekarang',
+    dotLabel: (k, st) => `Soal ${k}: ${st}`, dotStates: { ok: 'benar pada percobaan pertama', help: 'perlu bantuan, ketuk untuk mencoba lagi', fixed: 'diperbaiki dengan soal baru', cur: 'sekarang', '': 'belum' },
+    mathsSection: 'Matematika', spellSection: 'Ejaan', langFixed: 'Indonesia',
+    stories: {
+      '+': [(a, b) => `Profesor Hoot punya ${a} biji pohon. Dia menemukan ${b} lagi. Berapa biji pohon yang dia punya sekarang?`,
+        (a, b) => `Ada ${a} anak di dalam bus. ${b} anak lagi naik. Berapa anak yang ada di bus?`,
+        (a, b) => `Bu Daisy membaca ${a} halaman pada hari Senin dan ${b} halaman pada hari Selasa. Berapa halaman yang dia baca seluruhnya?`,
+        (a, b) => `Sebuah toko punya ${a} balon merah dan ${b} balon biru. Berapa jumlah balon semuanya?`,
+        (a, b) => `Kilau mengumpulkan ${a} kerang pada pagi hari dan ${b} kerang pada sore hari. Berapa kerang yang dia punya?`],
+      '-': [(a, b) => `Pak Kumis punya ${a} camilan ikan. Dia makan ${b}. Berapa yang tersisa?`,
+        (a, b) => `Ada ${a} burung di pohon. ${b} burung terbang pergi. Berapa burung yang masih di pohon?`,
+        (a, b) => `Bu Daisy punya ${a} stiker. Dia memberikan ${b} kepada temannya. Berapa stiker yang dia punya sekarang?`,
+        (a, b) => `Di dalam kantong ada ${a} permen. ${b} permen dimakan. Berapa permen yang tersisa di kantong?`,
+        (a, b) => `Kilau butuh ${a} bintang untuk kalungnya. Dia punya ${b}. Berapa bintang lagi yang dia perlukan?`]
+    },
+    levels: {
+      a1: { title: 'Menghitung lanjut', goal: 'Penjumlahan sampai 10', what: 'Saat menjumlahkan, kita menggabungkan dua kelompok. Simpan satu angka di kepala, lalu hitung lanjut.', why: 'Kalau mulai dari angka yang lebih besar, kamu hanya perlu menghitung sedikit lagi. Lebih cepat dan lebih kecil kemungkinan salah hitung.' },
+      a2: { title: 'Teman 10', goal: 'Pasangan yang hasilnya 10', what: 'Beberapa pasangan angka cocok dan hasilnya tepat 10, seperti 7 dan 3. Kita menyebutnya teman 10.', why: 'Sepuluh adalah angka paling berguna dalam matematika. Kalau kamu hafal pasangan yang hasilnya 10, banyak soal yang lebih besar jadi mudah.' },
+      a3: { title: 'Buat sepuluh', goal: 'Penjumlahan yang melewati 10', what: 'Kalau hasilnya lebih dari 10, penuhi dulu sepuluh. Lalu tambahkan sisanya.', why: 'Menambah ke 10 itu mudah: 10 + 3 adalah 13. Jadi satu soal sulit kita ubah menjadi dua soal mudah dengan membuat 10 dulu.' },
+      a4: { title: 'Puluhan dan satuan', goal: 'Menambah ke bilangan dua angka', what: 'Bilangan dua angka terdiri dari puluhan dan satuan. 34 adalah 3 puluhan dan 4 satuan. Lihat bagian mana yang berubah saat kamu menambah.', why: 'Puluhan dan satuan berbeda ukuran, seperti batang panjang dan kubus kecil. Saat menambah satuan, hanya satuannya yang berubah, kecuali kalau melewati puluhan berikutnya.' },
+      a5: { title: 'Bilangan besar', goal: 'Penjumlahan dua dan tiga angka', what: 'Pecah bilangan besar menjadi puluhan dan satuan, atau tulis bersusun: ratusan, puluhan, dan satuan.', why: 'Menghitung setiap kolom sendiri-sendiri membuat soal besar jadi rapi. Kalau satu kolom hasilnya 10 atau lebih, puluhan tambahan pindah ke kolom berikutnya. Itu disebut menyimpan.' },
+      a6: { title: 'Kembar dan hampir kembar', goal: 'Menambah angka dengan dirinya sendiri, atau satu lebih', what: 'Penjumlahan kembar adalah angka ditambah angka yang sama, seperti 7 + 7. Hampir kembar memakai dua angka berurutan, seperti 7 + 8.', why: 'Penjumlahan kembar mudah diingat. Kalau sudah hafal, hampir kembar hanyalah kembar ditambah 1.' },
+      a7: { title: 'Menambah 9 dan 11', goal: 'Pakai sepuluh, lalu perbaiki', what: 'Untuk menambah 9, tambahkan 10 lalu kurangi 1. Untuk menambah 11, tambahkan 10 lalu tambah 1 lagi.', why: 'Menambah satu puluhan penuh itu cepat. Memperbaiki jawaban dengan 1 jauh lebih mudah daripada menambah 9 di kepala.' },
+      a8: { title: 'Tiga angka', goal: 'Menjumlahkan tiga angka', what: 'Saat menjumlahkan tiga angka, cari dulu dua angka yang hasilnya 10.', why: 'Kamu boleh menjumlahkan angka dengan urutan apa saja, hasilnya tetap sama. Jadi pilih pasangan yang paling mudah dulu.' },
+      a9: { title: 'Teman 100', goal: 'Pasangan yang hasilnya 100', what: 'Teman 100 adalah pasangan seperti 30 dan 70, atau 45 dan 55. Hitung naik ke puluhan berikutnya, lalu per puluhan sampai 100.', why: 'Teman 100 bekerja seperti teman 10: 3 + 7 = 10, jadi 30 + 70 = 100.' },
+      a10: { title: 'Menambah puluhan dan ratusan', goal: 'Menambah puluhan dan ratusan ke bilangan tiga angka', what: 'Kalau kamu hanya menambah puluhan, hanya angka puluhan yang berubah. Kalau hanya menambah ratusan, hanya angka ratusan yang berubah.', why: 'Setiap angka punya tempatnya sendiri. Menambah di satu tempat tidak mengubah yang lain, selama tidak melewati 9.' },
+      a11: { title: 'Melewati seratus', goal: 'Soal yang melewati 100, 200, 300 …', what: 'Kalau hasilnya melewati ratusan, lompat dulu ke ratusan itu, lalu tambahkan sisanya.', why: 'Ratusan adalah angka yang ramah, sama seperti puluhan. Berhenti di ratusan mengubah satu lompatan besar menjadi dua lompatan mudah.' },
+      a12: { title: 'Angka yang hilang', goal: 'Cari bagian yang hilang', what: 'Dalam soal seperti 38 + □ = 50, hitung naik dari 38 sampai 50 untuk menemukan angka yang hilang.', why: 'Penjumlahan dan pengurangan saling berlawanan. Bagian yang hilang adalah jarak antara kedua angka.' },
+      a13: { title: 'Menyimpan dua kali', goal: 'Penjumlahan tiga angka dengan dua kali menyimpan', what: 'Susun kolomnya dan mulai dari satuan. Kali ini kamu akan menyimpan lebih dari sekali.', why: 'Setiap kolom hanya bisa berisi sampai 9. Setiap puluhan tambahan pindah ke kolom berikutnya, bahkan sampai ribuan.' },
+      a14: { title: 'Soal cerita', goal: 'Penjumlahan dalam cerita', what: 'Baca ceritanya dengan teliti. Kalau jumlahnya digabung, atau ada yang bertambah, kamu menjumlahkan.', why: 'Matematika ada di mana-mana dalam kehidupan sehari-hari. Menemukan soal di dalam cerita adalah kekuatan super.' },
+      a15: { title: 'Ribuan', goal: 'Penjumlahan bersusun empat angka', what: 'Bilangan besar sama seperti bilangan tiga angka: susun ribuan, ratusan, puluhan, dan satuan, lalu mulai dari satuan.', why: 'Cara bersusun berhasil untuk bilangan sebesar apa pun, karena setiap kolom mengikuti aturan yang sama.' },
+      s1: { title: 'Mengambil', goal: 'Pengurangan sampai 10', what: 'Pengurangan artinya mulai dari satu kelompok lalu mengambil sebagian. Kita mencari berapa yang tersisa.', why: 'Mencoret membuatmu bisa melihat dengan jelas apa yang tersisa. Kamu selalu bisa memeriksa dengan menambahkan kembali: sisa ditambah yang diambil sama dengan angka awal.' },
+      s2: { title: 'Kembali ke sepuluh', goal: 'Pengurangan sampai 20', what: 'Kalau mengurangi melewati 10, lompat dulu kembali ke 10. Lalu lompat mundur sisanya.', why: 'Berhenti di 10 mengubah satu lompatan sulit menjadi dua lompatan kecil yang mudah, dan dari 10 kamu bisa memakai teman 10.' },
+      s3: { title: 'Puluhan dan satuan', goal: 'Pengurangan dari bilangan dua angka', what: 'Lihat angka yang dikurangkan. Apakah satuan atau puluhan? Dari situ kamu tahu bagian mana yang berubah.', why: 'Mengurangi 3 hanya mengubah satuan. Mengurangi 30 hanya mengubah puluhan. Kalau satuannya habis, berhenti di puluhan dalam perjalanan.' },
+      s4: { title: 'Puluhan dulu', goal: 'Dua angka dikurangi dua angka', what: 'Pecah angka yang dikurangkan menjadi puluhan dan satuan. Kurangi puluhannya dulu, lalu satuannya.', why: 'Dua lompatan kecil lebih mudah daripada satu lompatan besar. Mengurangi puluhan dulu membuat lompatan satuan tetap kecil, dan kamu bisa memeriksa dengan menjumlahkan.' },
+      s5: { title: 'Pengurangan bersusun', goal: 'Tiga angka dengan meminjam', what: 'Tulis angkanya bersusun dan mulai dari satuan. Kalau angka atas terlalu kecil, pinjam 1 dari kolom berikutnya.', why: 'Meminjam menukar 1 puluhan menjadi 10 satuan (atau 1 ratusan menjadi 10 puluhan). Bilangannya tetap sama, hanya dibagi dengan cara lain supaya bisa dikurangi.' },
+      s6: { title: 'Hitung naik', goal: 'Mencari selisih', what: 'Kalau dua angka berdekatan, hitung naik dari angka yang lebih kecil ke yang lebih besar.', why: 'Pengurangan juga berarti mencari selisih. Menghitung naik pada jarak yang kecil lebih cepat daripada menghitung mundur.' },
+      s7: { title: 'Mengurangi 9 dan 11', goal: 'Pakai sepuluh, lalu perbaiki', what: 'Untuk mengurangi 9, kurangi 10 lalu tambahkan kembali 1. Untuk mengurangi 11, kurangi 10 lalu kurangi 1 lagi.', why: 'Mengurangi satu puluhan penuh itu mudah. Setelah itu kamu hanya perlu memperbaiki jawaban dengan 1.' },
+      s8: { title: 'Dari puluhan penuh', goal: 'Seperti 40 − 7', what: 'Untuk mengurangi angka kecil dari puluhan penuh, ambil satu puluhan dan pakai teman 10.', why: '10 − 7 = 3, jadi 40 − 7 adalah 30 dan 3, yaitu 33. Teman 10 yang bekerja.' },
+      s9: { title: 'Mengurangi dari 100', goal: 'Seperti 100 − 37', what: 'Untuk mengurangi dari 100, hitung naik dari angka kecil sampai 100.', why: 'Jawabannya adalah teman 100 dari angka itu. Cara termudah adalah menghitung naik dengan lompatan yang ramah.' },
+      s10: { title: 'Mengurangi puluhan dan ratusan', goal: 'Mengurangi puluhan dan ratusan dari bilangan tiga angka', what: 'Kalau kamu hanya mengurangi puluhan, hanya angka puluhan yang berubah. Begitu juga dengan ratusan.', why: 'Setiap angka punya tempatnya sendiri. Mengurangi dari satu tempat tidak mengubah yang lain, selama jumlahnya cukup.' },
+      s11: { title: 'Mundur melewati seratus', goal: 'Seperti 203 − 5', what: 'Kalau mengurangi melewati ratusan, lompat dulu mundur ke ratusan itu, lalu sisanya.', why: 'Berhenti di ratusan mengubah satu lompatan sulit menjadi dua lompatan mudah, sama seperti berhenti di puluhan.' },
+      s12: { title: 'Angka yang hilang', goal: 'Cari bagian yang hilang', what: 'Pada 62 − □ = 40, hitung naik dari 40 sampai 62. Pada □ − 15 = 30, jumlahkan 30 dan 15.', why: 'Penjumlahan dan pengurangan saling berlawanan, jadi kamu bisa membalik pertanyaannya.' },
+      s13: { title: 'Ada nol di tengah', goal: 'Meminjam melewati nol', what: 'Kalau kolom berikutnya berisi 0, kamu tidak bisa meminjam dari situ. Pergi satu kolom lagi, lalu pinjam langkah demi langkah.', why: '400 sama dengan 3 ratusan dan 10 puluhan, yang sama dengan 3 ratusan, 9 puluhan, dan 10 satuan. Bilangannya tidak pernah berubah.' },
+      s14: { title: 'Soal cerita', goal: 'Pengurangan dalam cerita', what: 'Baca ceritanya. Kalau ada yang diambil atau dipakai, atau kamu harus mencari berapa lagi yang dibutuhkan, kamu mengurangi.', why: 'Menemukan matematika di dalam cerita adalah keterampilan yang akan kamu pakai setiap hari.' },
+      s15: { title: 'Ribuan', goal: 'Pengurangan bersusun empat angka', what: 'Susun ribuan, ratusan, puluhan, dan satuan. Mulai dari satuan dan pinjam kalau angka atas terlalu kecil.', why: 'Cara bersusun berhasil untuk bilangan sebesar apa pun, karena setiap kolom mengikuti aturan yang sama.' },
+      m1: { title: 'Kelompok yang sama', goal: 'Perkalian 2', what: 'Kali artinya kelompok yang sama besar. 4 × 2 artinya 4 kelompok berisi 2. Hitung loncat 2 untuk menemukan jawabannya.', why: 'Perkalian adalah cara cepat menjumlahkan angka yang sama berulang-ulang.' },
+      m2: { title: 'Perkalian 10', goal: 'Hitung loncat 10', what: 'Kali 10 artinya kelompok berisi sepuluh. 6 × 10 adalah 6 puluhan, yaitu 60.', why: 'Saat dikali 10, setiap angka pindah satu tempat ke kiri dan angka 0 mengisi tempat satuan.' },
+      m3: { title: 'Perkalian 5', goal: 'Hitung loncat 5', what: 'Hitung loncat 5: 5, 10, 15, 20 … Atau pakai perkalian 10 lalu ambil setengahnya.', why: '5 adalah setengah dari 10, jadi 5 kali sebuah angka adalah setengah dari 10 kali angka itu. Perkalian 5 selalu berakhir dengan 5 atau 0.' },
+      m4: { title: 'Susunan dan tukar tempat', goal: 'Balik urutannya', what: 'Susunan adalah baris-baris titik. 5 × 7 adalah 5 baris berisi 7, dan juga 7 baris berisi 5.', why: 'Kamu boleh menukar tempat angka dalam perkalian dan hasilnya tetap sama. Pilih cara yang paling mudah.' },
+      m5: { title: 'Perkalian 3', goal: 'Hitung loncat 3', what: '3 kelompok adalah 2 kelompok ditambah satu lagi. Gandakan angkanya, lalu tambahkan angka itu sekali lagi.', why: 'Kalau kamu hafal penjumlahan kembar, kamu bisa menghitung semua perkalian 3.' },
+      m6: { title: 'Perkalian 4', goal: 'Dua kali perkalian 2', what: '4 adalah dua kali 2. Untuk mengali 4, gandakan angkanya, lalu gandakan lagi.', why: 'Perkalian 4 adalah dua kali perkalian 2.' },
+      m7: { title: 'Perkalian 8', goal: 'Dua kali perkalian 4', what: '8 adalah dua kali 4. Untuk mengali 8, gandakan tiga kali.', why: 'Setiap kali digandakan, hasilnya jadi dua kali lebih besar: 2, 4, lalu 8.' },
+      m8: { title: 'Perkalian campuran', goal: 'Perkalian 3, 4, dan 8', what: 'Lihat angka pengalinya dan pilih triknya: tambah satu kelompok untuk 3, gandakan dua kali untuk 4, gandakan tiga kali untuk 8.', why: 'Kalau punya trik untuk setiap perkalian, kamu selalu bisa menghitungnya, walaupun lupa.' },
+      m9: { title: 'Angka yang hilang', goal: 'Seperti □ × 4 = 20', what: 'Hitung loncat sampai mencapai hasilnya. Banyaknya loncatan adalah angka yang hilang.', why: 'Angka yang hilang dalam perkalian sebenarnya adalah soal pembagian. Perkalian dan pembagian saling berlawanan.' },
+      m10: { title: 'Perkalian lebih besar', goal: 'Dua angka dikali satu angka', what: 'Pecah angka yang besar menjadi puluhan dan satuan. Kalikan setiap bagian, lalu jumlahkan.', why: 'Memecah angka mengubah satu perkalian sulit menjadi dua perkalian mudah yang sudah kamu kuasai.' },
+      d1: { title: 'Membagi rata', goal: 'Membagi kepada 2 dan 3', what: 'Membagi artinya memberi semua orang jumlah yang sama. Bagikan satu per satu.', why: 'Pembagian yang adil menghasilkan kelompok yang sama besar. Kamu bisa memeriksanya dengan perkalian.' },
+      d2: { title: 'Membuat kelompok', goal: 'Ada berapa 5 atau 10?', what: '20 : 5 bisa berarti: berapa kelompok berisi 5 yang muat dalam 20? Hitung loncat 5 dan hitung loncatannya.', why: 'Pembagian adalah kebalikan dari perkalian, jadi hitung loncat membantumu menemukan jawabannya.' },
+      d3: { title: 'Pakai perkalianmu', goal: 'Membagi dengan 2, 5, dan 10', what: 'Untuk menghitung 35 : 5, pikirkan: berapa kali 5 sama dengan 35?', why: 'Setiap fakta perkalian memberimu fakta pembagian gratis. 7 × 5 = 35, jadi 35 : 5 = 7.' },
+      d4: { title: 'Membagi dua', goal: 'Setengah dari bilangan yang lebih besar', what: 'Membagi dengan 2 artinya membagi dua. Bagi dua puluhan dan satuannya masing-masing, lalu jumlahkan.', why: 'Setengah dari puluhan dan satuan itu mudah, dan kalau digabung lagi kamu mendapat setengah dari bilangan itu.' },
+      d5: { title: 'Membagi dengan 3', goal: 'Pakai perkalian 3', what: 'Untuk menghitung 24 : 3, hitung loncat 3 sampai 24 dan hitung loncatannya.', why: 'Perkalian 3 yang dibalik membagi menjadi 3 kelompok yang sama besar.' },
+      d6: { title: 'Membagi dengan 4', goal: 'Bagi dua, lalu bagi dua lagi', what: 'Membagi dengan 4 sama dengan membagi dua sebanyak dua kali.', why: '4 adalah 2 × 2, jadi dua kali dibagi dua menghasilkan 4 bagian yang sama besar.' },
+      d7: { title: 'Membagi dengan 8', goal: 'Pakai perkalian 8', what: 'Untuk menghitung 56 : 8, pikirkan: berapa kali 8 sama dengan 56? Atau bagi dua tiga kali.', why: '8 adalah 2 × 2 × 2, jadi dibagi dua tiga kali menghasilkan 8 bagian yang sama besar.' },
+      d8: { title: 'Pembagian campuran', goal: 'Membagi dengan 3, 4, dan 8', what: 'Lihat angka pembaginya dan pilih triknya: perkalian 3, bagi dua dua kali untuk 4, atau perkalian 8.', why: 'Setiap pembagian bisa diperiksa dengan perkalian.' },
+      d9: { title: 'Angka yang hilang', goal: 'Seperti □ : 4 = 6', what: 'Balik dengan perkalian: □ : 4 = 6 artinya 6 × 4 = □.', why: 'Pembagian dan perkalian saling berlawanan, jadi yang satu selalu bisa membatalkan yang lain.' },
+      d10: { title: 'Pembagian lebih besar', goal: 'Dua angka dibagi satu angka', what: 'Pecah angkanya menjadi bagian yang mudah dibagi, seperti 40 dan 8. Bagi setiap bagian, lalu jumlahkan.', why: 'Memecah menjadi bagian yang ramah membuatmu bisa memakai perkalian yang sudah kamu kuasai.' }
+    },
+    ex: {
+      countOn: { s1: (a, b) => `Ayo hitung ${a} + ${b}. Penjumlahan artinya menggabungkan kelompok untuk mencari berapa semuanya.`, trick: (big, small) => `Ini triknya: mulai dari angka yang lebih besar, ${big}. Jadi kamu hanya perlu menghitung lanjut ${small}.`, count: (big, small, l) => `Simpan ${big} di kepala, lalu hitung lanjut ${small}: ${l}.`, land: (a, b, s) => `Kita sampai di ${s}. Jadi ${a} + ${b} = ${s}!`, why: 'Menghitung lanjut dari angka yang lebih besar lebih cepat daripada menghitung semuanya dari 1.' },
+      bond10: { s1: (q, a) => `${q}. Bingkai sepuluh punya 10 kotak. ${a} sudah terisi.`, s2: (l, b) => `Hitung kotak yang kosong: ${l}. Masih kurang ${b}.`, s3: (a, b) => `Jadi ${a} + ${b} = 10. ${a} dan ${b} adalah teman 10!`, why: 'Teman 10 adalah 1 dan 9, 2 dan 8, 3 dan 7, 4 dan 6, serta 5 dan 5. Kalau sudah hafal, soal yang lebih besar jadi jauh lebih mudah.' },
+      bridgeAdd: { s1: (a, b, ten, big, swap) => `${a} + ${b} melewati ${ten}, jadi kita pakai ${ten} sebagai batu loncatan.${swap ? ` Kita mulai dari angka yang lebih besar, ${big}.` : ''}`, s2: (big, need, ten, small, rest) => `${big} perlu ${need} lagi untuk menjadi ${ten}. Jadi kita pecah ${small} menjadi ${need} dan ${rest}.`, s3: (big, need, ten) => `Pertama: ${big} + ${need} = ${ten}.`, s4: (ten, rest, s) => `Lalu: ${ten} + ${rest} = ${s}. Menambah ke puluhan penuh itu mudah!`, s5: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: ten => `Puluhan adalah angka yang ramah. Membuat ${ten} dulu mengubah satu soal sulit menjadi dua soal mudah.` },
+      onesAdd: { s1: (big, t, o, small) => `${big} adalah ${t} puluhan dan ${o} satuan. Kita menambah ${small} satuan.`, s2: (o, small, t) => `Hanya satuannya yang berubah: ${o} + ${small} = ${o + small}. Puluhannya tetap ${t}.`, s3: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Kalau kamu menambah beberapa satuan dan tidak melewati 9, puluhannya tetap. Hanya angka satuan yang berubah.' },
+      tensAdd: { s1: (a, b) => `${a} adalah ${a / 10} puluhan dan ${b} adalah ${b / 10} puluhan.`, s2: (x, y, z) => `${x} puluhan + ${y} puluhan = ${z} puluhan. Sama seperti ${x} + ${y} = ${z}!`, s3: (a, b, s) => `${s / 10} puluhan adalah ${s}. Jadi ${a} + ${b} = ${s}.`, why: 'Menjumlahkan puluhan sama seperti menjumlahkan angka kecil. Kamu menghitung puluhan, bukan satuan.' },
+      placeAdd: { s1: (a, aT, aO, b, bT, bO) => `Pecah kedua angka menjadi puluhan dan satuan: ${a} = ${aT} + ${aO} dan ${b} = ${bT} + ${bO}.`, s2: (x, y, z) => `Jumlahkan puluhannya: ${x} + ${y} = ${z}.`, s3: (x, y, z) => `Jumlahkan satuannya: ${x} + ${y} = ${z}.${z >= 10 ? ` Itu lebih dari 9 satuan, jadi 10 di antaranya menjadi satu puluhan baru: ${z} = 10 + ${z - 10}.` : ''}`, s4: (T, O, s) => `Gabungkan lagi: ${T} + ${O} = ${s}.`, why: 'Puluhan dan satuan berbeda ukuran, seperti batang panjang dan kubus kecil. Menjumlahkan masing-masing membuat semuanya rapi.' },
+      columnAdd: { s1: 'Tulis angkanya bersusun: ratusan (R), puluhan (P), dan satuan (S). Pastikan angkanya lurus di bawah satu sama lain.', carryOver: i => `Angka 1 yang disimpan pindah ke kolom ${P[i]}. Tulis 1.`, col: (i, x, y, c, t) => `${cap(P[i])}: ${x} + ${y}${c ? ' + 1 simpanan' : ''} = ${t}.`, carry: (i, t) => ` Itu 10 atau lebih, jadi tulis ${t % 10} dan simpan 1 ke kolom ${P[i + 1]}.`, write: t => ` Tulis ${t}.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Kita selalu mulai dari satuan. Kalau hasilnya 10 atau lebih, puluhan tambahan pindah ke kolom puluhan. Itu disebut menyimpan.' },
+      takeAway: { s1: (a, b) => `${a} ${M} ${b} artinya: mulai dari ${a}, lalu ambil ${b}.`, s2: b => `Coret ${b}.`, left: (l, d) => `Hitung yang tersisa: ${l}. Tersisa ${d}.`, none: (a, b) => `Tidak ada yang tersisa! ${a} dikurangi ${b} adalah 0.`, end: (a, b, d) => `Jadi ${a} ${M} ${b} = ${d}. Periksa: ${d} + ${b} = ${a}.`, why: 'Pengurangan artinya mencari berapa yang tersisa. Kamu bisa memeriksa dengan menambahkan kembali: sisa ditambah yang diambil sama dengan angka awal.' },
+      onesSub: { s1: (a, t, o) => `${a} adalah ${t} puluhan dan ${o} satuan.`, s2: (b, o) => `Ambil ${b} dari satuannya: ${o} ${M} ${b} = ${o - b}. Puluhannya tidak berubah.`, end: (a, b, d) => `Jadi ${a} ${M} ${b} = ${d}.`, why: 'Kalau satuannya cukup untuk diambil, hanya satuan yang berubah. Puluhannya tetap.' },
+      bridgeSub: { s1: (a, b, ten) => `${a} ${M} ${b} adalah lompatan yang sulit, jadi kita berhenti di ${ten} dalam perjalanan.`, s2: (b, down, rest, ten) => `Pecah ${b} menjadi ${down} dan ${rest}. Dengan ${down} kita turun ke ${ten}.`, s3: (a, down, ten) => `Pertama, lompat mundur ${down}: ${a} ${M} ${down} = ${ten}.`, s4: (ten, rest, d) => `Lalu lompat mundur ${rest} lagi: ${ten} ${M} ${rest} = ${d}.`, end: (a, b, d) => `Jadi ${a} ${M} ${b} = ${d}. Periksa: ${d} + ${b} = ${a}.`, why: 'Berhenti di puluhan mengubah satu lompatan sulit menjadi dua lompatan kecil yang mudah.' },
+      tensSub: { s1: (a, b, at, bt) => `${b} adalah ${bt} puluhan, jadi hanya puluhan yang berubah. ${a} punya ${at} puluhan.`, s2: (at, bt) => `${at} puluhan dikurangi ${bt} puluhan menjadi ${at - bt} puluhan. Sama seperti ${at} ${M} ${bt} = ${at - bt}!`, end: (a, b, d) => `Jadi ${a} ${M} ${b} = ${d}.`, why: (at, bt) => `Mengurangi puluhan sama seperti mengurangi angka kecil. ${at} ${M} ${bt} = ${at - bt}, jadi ${at} puluhan ${M} ${bt} puluhan = ${at - bt} puluhan.` },
+      placeSub: { s1: (a, b, bT, bO) => `${a} ${M} ${b}. Pecah ${b} menjadi puluhan dan satuan: ${bT} dan ${bO}.`, s2: (a, bT, x) => `Kurangi puluhannya dulu: ${a} ${M} ${bT} = ${x}.`, ones: (x, bO, d) => `Sekarang kurangi satuannya: ${x} ${M} ${bO} = ${d}.`, bridge: (bO, down, ten, rest, d) => `Sekarang kurangi ${bO} satuan. Lompat mundur ${down} ke ${ten}, lalu ${rest} lagi ke ${d}.`, end: (a, b, d) => `Jadi ${a} ${M} ${b} = ${d}. Periksa dengan penjumlahan: ${d} + ${b} = ${a}.`, why: 'Mengurangi puluhan dulu, lalu satuan, membuat setiap lompatan tetap kecil. Menjumlahkan kembali jawabannya adalah cara bagus untuk memeriksa.' },
+      columnSub: { s1: 'Tulis angkanya bersusun dengan angka yang lebih besar di atas. Mulai dari satuan.', exchange: (i, bot, was, before, after, now) => `${cap(P[i])}: kita tidak bisa mengambil ${bot} dari ${was}. Pinjam 1 ${P[i + 1]} menjadi 10 ${P[i]}. Angka ${P[i + 1]} berubah dari ${before} menjadi ${after}, dan ${P[i]} berubah dari ${was} menjadi ${now}.`, col: (i, t, b, r) => `${cap(P[i])}: ${t} ${M} ${b} = ${r}. Tulis ${r}.`, end: (a, b, d) => `Jadi ${a} ${M} ${b} = ${d}. Periksa: ${d} + ${b} = ${a}.`, why: 'Kalau angka atas terlalu kecil, kita meminjam 1 dari kolom berikutnya menjadi 10 di kolom ini. Bilangannya tetap sama, hanya dibagi dengan cara lain.',
+        noNext: (i, bot, was, j) => `${cap(P[i])}: kita tidak bisa mengambil ${bot} dari ${was}, dan tidak ada ${P[i + 1]} untuk dipinjam. Jadi kita pergi dulu ke ${P[j]}.`, exch: (k, before, after, low, lowAfter) => `Pinjam 1 ${P[k]} menjadi 10 ${P[k - 1]}. Angka ${P[k]} berubah dari ${before} menjadi ${after}, dan ${P[k - 1]} berubah dari ${low} menjadi ${lowAfter}.` },
+      story: { intro: (op, q) => op === '+' ? `Ayo cari soalnya di dalam cerita. Jumlahnya digabung, jadi kita menjumlahkan: ${q}.` : `Ayo cari soalnya di dalam cerita. Ada yang diambil, atau kita mencari yang kurang, jadi kita mengurangi: ${q}.`, end: n => `Jadi jawaban ceritanya adalah ${n}.` },
+      doubles: { s1: a => `${a} + ${a} adalah penjumlahan kembar: angka yang sama dua kali.`, split: (t, o) => `Gandakan puluhan dan satuannya: dua kali ${t} adalah ${2 * t}, dan dua kali ${o} adalah ${2 * o}.`, know: (a, s) => `Kalau kamu hafal penjumlahan kembar, kamu langsung tahu: dua kali ${a} adalah ${s}.`, end: (a, s) => `Jadi ${a} + ${a} = ${s}.`, why: 'Penjumlahan kembar mudah diingat, dan membantu banyak soal lain, seperti hampir kembar.' },
+      nearDouble: { s1: (a, b) => `${a} dan ${b} adalah angka berurutan, jadi ini hampir kembar.`, s2: sm => `Gandakan angka yang lebih kecil: ${sm} + ${sm} = ${2 * sm}.`, s3: (big, sm, d) => `${big} adalah satu lebih dari ${sm}, jadi tambah 1 lagi: ${d} + 1 = ${d + 1}.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Kalau kamu hafal penjumlahan kembar, hampir kembar hanyalah kembar ditambah satu.' },
+      compAdd: { s1: (b, ten) => `${b} sangat dekat dengan ${ten}, dan menambah ${ten} itu mudah!`, s2: (a, ten) => `Tambahkan ${ten} dulu: ${a} + ${ten} = ${a + ten}.`, minus: (x, s) => `Tapi kita menambah 1 terlalu banyak, jadi kurangi 1: ${x} − 1 = ${s}.`, plus: (x, s) => `Kita masih perlu menambah 1 lagi: ${x} + 1 = ${s}.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Menambah satu puluhan penuh itu cepat. Lalu kamu tinggal memperbaikinya dengan 1. Trik ini berhasil untuk 9, 11, 19, dan 21.' },
+      threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. Dengan tiga angka, cari dulu dua angka yang mudah dijumlahkan.`, ten: (x, y) => `${x} dan ${y} adalah teman 10! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} dan ${y} adalah kembar: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Mulai dari dua angka pertama: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Sekarang tambahkan angka terakhir: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `Jadi ${a} + ${b} + ${c} = ${s}.`, why: 'Kamu boleh menjumlahkan dengan urutan apa saja. Menemukan pasangan yang hasilnya 10 dulu membuat sisanya mudah.' },
+      threeLeft: { s1: (a, b, ab) => `Ayo hitung dari kiri ke kanan. Pertama: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Lalu tambahkan angka terakhir: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `Jadi ${a} + ${b} + ${c} = ${s}.`, why: 'Menjumlahkan dua angka sekaligus selalu berhasil, urutan apa pun yang kamu pilih.' },
+      bond100: { s1: a => `${a} + □ = 100. Seberapa jauh dari ${a} ke 100?`, toTen: (a, up, nt) => `Lompat dulu ke puluhan berikutnya: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Lalu lompat per puluhan sampai 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Jumlahkan lompatannya: ${j1} + ${j2} = ${b}.`, end: (a, b) => `Jadi ${a} + ${b} = 100. ${a} dan ${b} adalah teman 100!`, why: 'Teman 100 bekerja seperti teman 10. 30 + 70 = 100 karena 3 + 7 = 10.' },
+      placeBig: { s1: (b, k, col) => `${b} adalah ${k} ${P[col]}, jadi hanya angka ${P[col]} yang berubah.`, s2: (d, k, col) => `${d} ${P[col]} + ${k} ${P[col]} = ${d + k} ${P[col]}. Angka lainnya tetap sama.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Kalau kamu hanya menambah puluhan atau hanya ratusan, angka lainnya tetap sama, selama tidak melewati 9.' },
+      placeBigSub: { s1: (b, k, col) => `${b} adalah ${k} ${P[col]}, jadi hanya angka ${P[col]} yang berubah.`, s2: (d, k, col) => `${d} ${P[col]} − ${k} ${P[col]} = ${d - k} ${P[col]}. Angka lainnya tetap sama.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Kalau kamu hanya mengurangi puluhan atau hanya ratusan, angka lainnya tetap sama, selama jumlahnya cukup.' },
+      missingAdd: { s1: (q, known, c) => `${q}. Pikirkan: berapa yang harus ditambahkan ke ${known} supaya menjadi ${c}?`, jump: (x, y, j) => `Hitung naik dari ${x} sampai ${y}: itu ${j}.`, add: (js, ans) => `Jumlahkan lompatannya: ${js} = ${ans}.`, end: (ans, e) => `Angka yang hilang adalah ${ans}. Periksa: ${e}.`, why: (c, known, ans) => `Penjumlahan dan pengurangan saling berlawanan. Kamu juga bisa mengurangi: ${c} − ${known} = ${ans}.` },
+      missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Ada yang diambil dari ${a} dan tersisa ${c}. Hitung naik dari ${c} sampai ${a} untuk menemukannya.`, s1a: (b, c) => `□ − ${b} = ${c}. Kita mengambil ${b} dan tersisa ${c}.`, back: (c, b, a) => `Jadi angka awalnya adalah sisa ditambah yang diambil: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Hitung naik dari ${x} sampai ${y}: itu ${j}.`, add: (js, ans) => `Jumlahkan lompatannya: ${js} = ${ans}.`, end: (ans, e) => `Angka yang hilang adalah ${ans}. Periksa: ${e}.`, why: 'Pengurangan dan penjumlahan saling berlawanan, jadi kamu selalu bisa membalik soal angka yang hilang.' },
+      countUpAny: { s1: (a, b) => `${a} − ${b}: ayo hitung naik dari ${b} sampai ${a} dengan angka yang ramah.`, jump: (x, y, j) => `Dari ${x} naik ke ${y}: itu ${j}.`, add: (js, d) => `Jumlahkan lompatannya: ${js} = ${d}.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Pengurangan juga berarti mencari selisih. Menghitung naik jaraknya dengan lompatan ramah selalu berhasil.' },
+      compSub: { s1: (b, ten) => `${b} sangat dekat dengan ${ten}, dan mengurangi ${ten} itu mudah!`, s2: (a, ten) => `Kurangi ${ten} dulu: ${a} − ${ten} = ${a - ten}.`, plus: (x, d) => `Tapi kita mengurangi 1 terlalu banyak, jadi tambahkan kembali 1: ${x} + 1 = ${d}.`, minus: (x, d) => `Kita masih perlu mengurangi 1 lagi: ${x} − 1 = ${d}.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Mengurangi satu puluhan penuh itu cepat. Lalu perbaiki dengan 1: tambahkan kembali 1 untuk 9, kurangi 1 lagi untuk 11.' },
+      fromTen: { s1: (a, b) => `${a} − ${b}. Pecah ${a} menjadi ${a - 10} dan 10.`, s2: b => `Pakai teman 10: 10 − ${b} = ${10 - b}.`, s3: (r, f, d) => `Gabungkan lagi: ${r} + ${f} = ${d}.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Mengurangi angka kecil dari puluhan penuh memakai teman 10: angka satuan jawabannya adalah teman 10 dari angka yang dikurangkan.' },
+      from100: { s1: b => `100 − ${b}. Hitung naik dari ${b} sampai 100 dengan lompatan ramah.`, jump: (x, y, j) => `Dari ${x} naik ke ${y}: itu ${j}.`, add: (js, d) => `Jumlahkan lompatannya: ${js} = ${d}.`, end: (b, d) => `Jadi 100 − ${b} = ${d}. ${b} dan ${d} adalah teman 100!`, why: 'Mengurangi dari 100 sama dengan mencari teman 100.' },
+      countAll: { s1: (a, b) => `Ayo hitung semuanya. Ini ${a} keping oranye dan ${b} keping biru.`, s2: l => `Tunjuk setiap keping dan hitung: ${l}.`, end: (a, b, s) => `Semuanya ada ${s}. Jadi ${a} + ${b} = ${s}.`, why: 'Menghitung semuanya selalu berhasil. Memang lebih lama, tapi cara yang bagus untuk memeriksa.' },
+      jumpAdd: { s1: (a, b, parts) => `Mulai di ${a} pada garis bilangan. Pecah ${b} menjadi ${parts} dan lompat satu bagian setiap kali.`, jump: (pt, at) => `Lompat +${pt}: kita sampai di ${at}.`, end: (a, b, s) => `Kita sampai di ${s}. Jadi ${a} + ${b} = ${s}.`, why: 'Melompat per ratusan, puluhan, dan satuan membuat soal besar mudah diikuti.' },
+      jumpSub: { s1: (a, b, parts) => `Mulai di ${a} pada garis bilangan. Pecah ${b} menjadi ${parts} dan lompat mundur satu bagian setiap kali.`, jump: (pt, at) => `Lompat mundur ${pt}: kita sampai di ${at}.`, end: (a, b, d) => `Kita sampai di ${d}. Jadi ${a} − ${b} = ${d}.`, why: 'Melompat mundur per ratusan, puluhan, dan satuan mengubah pengurangan besar menjadi langkah kecil yang mudah.' },
+      partitionAdd: { s1: (a, pa, b, pb) => `Pecah kedua angka menjadi bagian-bagiannya: ${a} = ${pa} dan ${b} = ${pb}.`, place: (i, x, y, s) => `Jumlahkan ${P[i]}: ${x} + ${y} = ${s}.`, join: (parts, s) => `Sekarang jumlahkan semua bagian: ${parts} = ${s}.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Menjumlahkan setiap tempat sendiri-sendiri lalu menggabungkannya sama seperti cara bersusun, hanya diucapkan.' },
+      countBack: { s1: (a, b, l) => `Mulai di ${a} dan hitung mundur ${b}: ${l}.`, end: (a, b, d) => `Kita sampai di ${d}. Jadi ${a} − ${b} = ${d}.`, why: 'Menghitung mundur satu per satu memang lama, tapi selalu berhasil untuk angka kecil.' },
+      groups: { s1: (a, b, x) => `${a} ${x} ${b} artinya ${a} kelompok berisi ${b}.`, s2: (b, l) => `Hitung loncat ${b}, satu kelompok setiap kali: ${l}.`, end: (a, b, r, x) => `Jadi ${a} ${x} ${b} = ${r}.`, why: (a, b, x) => `Perkalian adalah cara cepat menjumlahkan kelompok yang sama. ${a} ${x} ${b} adalah ${b} dijumlahkan ${a} kali.` },
+      tensMul: { s1: (a, x) => `${a} ${x} 10 artinya ${a} kelompok berisi sepuluh. Itu ${a} puluhan.`, s2: (a, r) => `${a} puluhan adalah ${r}. Setiap angka pindah satu tempat ke kiri, dan angka 0 mengisi tempat satuan.`, end: (a, r, x) => `Jadi ${a} ${x} 10 = ${r}.`, why: 'Kali 10 membuat setiap angka bernilai sepuluh kali lebih besar, jadi setiap angka pindah satu tempat ke kiri.' },
+      fives: { s1: (a, x, l) => `${a} ${x} 5: hitung loncat 5, sebanyak ${a} kali: ${l}.`, trick: (a, t, r, x) => `Ini triknya: ${a} ${x} 10 = ${t}, dan 5 adalah setengah dari 10, jadi ambil setengah dari ${t}. Hasilnya ${r}.`, end: (a, r, x) => `Jadi ${a} ${x} 5 = ${r}.`, why: '5 adalah setengah dari 10, jadi perkalian 5 adalah setengah dari perkalian 10. Perkalian 5 selalu berakhir dengan 5 atau 0.' },
+      array: { s1: (a, b, x) => `${a} ${x} ${b} bisa digambar sebagai susunan: ${a} baris dengan ${b} titik di setiap baris.`, s2: (a, b, x) => `Putar susunannya dan kamu mendapat ${b} baris berisi ${a}. Titiknya sama! Jadi ${a} ${x} ${b} = ${b} ${x} ${a}.`, s3: (a, b, l) => `Pakai perkalian ${a}: hitung loncat ${a}, sebanyak ${b} kali: ${l}.`, end: (a, b, r, x) => `Jadi ${a} ${x} ${b} = ${r}.`, why: 'Kamu boleh menukar tempat angka dalam perkalian dan hasilnya tetap sama. Pilih urutan yang paling mudah untukmu.' },
+      threes: { s1: (a, x) => `${a} ${x} 3 sama dengan 3 kelompok berisi ${a}.`, s2: (a, d, r, x) => `Trik: 2 kelompok berisi ${a} adalah dua kali ${a}, yaitu ${d}. Satu kelompok lagi berisi ${a}: ${d} + ${a} = ${r}.`, end: (a, r, x) => `Jadi ${a} ${x} 3 = ${r}.`, why: 'Tiga kelompok adalah dua kelompok ditambah satu kelompok lagi. Kalau kamu hafal penjumlahan kembar, kamu bisa menghitung semua perkalian 3.' },
+      fours: { s1: (a, x) => `${a} ${x} 4: empat adalah dua kali 2, jadi kita bisa menggandakan dua kali.`, s2: (a, d, x) => `Dua kali ${a} adalah ${d}. Itu ${a} ${x} 2.`, s3: (d, r, a, x) => `Gandakan lagi: ${d} + ${d} = ${r}. Itu ${a} ${x} 4.`, end: (a, r, x) => `Jadi ${a} ${x} 4 = ${r}.`, why: 'Perkalian 4 adalah dua kali perkalian 2.' },
+      eights: { s1: (a, x) => `${a} ${x} 8: delapan adalah digandakan tiga kali, jadi kita gandakan tiga kali!`, d1: (a, d) => `Dua kali ${a}: ${d}.`, d2: (d, e) => `Gandakan lagi: ${e}.`, d3: (e, r) => `Dan sekali lagi: ${r}.`, end: (a, r, x) => `Jadi ${a} ${x} 8 = ${r}.`, why: 'Setiap kali digandakan, hasilnya dua kali lebih besar: 2, lalu 4, lalu 8.' },
+      skipCount: { s1: (a, b, x) => `${a} ${x} ${b}: lompat ${b} di sepanjang garis bilangan, sebanyak ${a} kali.`, s2: (b, l) => `Ucapkan angkanya sambil melompat: ${l}.`, end: (a, b, r, x) => `Kita sampai di ${r}. Jadi ${a} ${x} ${b} = ${r}.`, why: 'Menghitung dengan lompatan yang sama besar adalah dasar dari perkalian.' },
+      repeatAdd: { s1: (a, b, x, sum) => `${a} ${x} ${b} artinya menjumlahkan ${b} sebanyak ${a} kali: ${sum}.`, s2: l => `Jumlahkan satu per satu: ${l}.`, end: (a, b, r, x) => `Jadi ${a} ${x} ${b} = ${r}.`, why: 'Kali adalah cara singkat menulis angka yang sama dijumlahkan berulang-ulang.' },
+      partitionMul: { s1: (a, b, T, O, x) => `${a} ${x} ${b}. Pecah ${a} menjadi ${T} dan ${O}.`, part: (n, b, r, x) => `${n} ${x} ${b} = ${r}.`, add: (x1, x2, r) => `Jumlahkan kedua hasilnya: ${x1} + ${x2} = ${r}.`, end: (a, b, r, x) => `Jadi ${a} ${x} ${b} = ${r}.`, why: 'Memecah angka besar menjadi puluhan dan satuan mengubah satu perkalian sulit menjadi dua perkalian mudah.' },
+      missingMul: { s1: (q, k, c) => `${q}. Angka berapa dikali ${k} sama dengan ${c}?`, s2: (k, c, l) => `Hitung loncat ${k} sampai mencapai ${c}: ${l}.`, s3: ans => `Itu ${ans} lompatan, jadi angka yang hilang adalah ${ans}.`, end: (ans, e) => `Periksa: ${e}.`, why: (c, k, ans, dv) => `Angka yang hilang dalam perkalian sebenarnya soal pembagian: ${c} ${dv} ${k} = ${ans}.` },
+      share: { s1: (a, b, dv) => `${a} ${dv} ${b} artinya bagi ${a} sama rata kepada ${b}.`, s2: b => `Berikan satu kepada masing-masing dari ${b}, terus berulang, sampai habis.`, end: (a, b, q, dv) => `Masing-masing mendapat ${q}. Jadi ${a} ${dv} ${b} = ${q}.`, why: (b, q, a, x) => `Membagi dengan adil artinya semua mendapat jumlah yang sama. Periksa dengan perkalian: ${b} ${x} ${q} = ${a}.` },
+      group: { s1: (a, b, dv) => `${a} ${dv} ${b} bisa berarti: berapa kelompok berisi ${b} yang muat dalam ${a}?`, s2: (b, a, l) => `Lompat ${b} dari 0 sampai ${a} dan hitung lompatannya: ${l}.`, end: (a, b, q, dv) => `Itu ${q} lompatan. Jadi ${a} ${dv} ${b} = ${q}.`, why: b => `Pembagian adalah kebalikan dari perkalian. Menghitung lompatan ${b} adalah perkalian ${b} yang dibalik.` },
+      inverse: { s1: (a, b, dv, x) => `${a} ${dv} ${b}: pikirkan perkalian ${b}. Angka berapa dikali ${b} sama dengan ${a}?`, s2: (b, l, a, q) => `Hitung loncat ${b}: ${l}. ${a} adalah yang ke-${q}.`, end: (a, b, q, dv, x) => `${q} ${x} ${b} = ${a}, jadi ${a} ${dv} ${b} = ${q}.`, why: 'Kalau kamu hafal perkalian, kamu juga tahu pembagiannya. Keduanya saling berlawanan.' },
+      halve: { s1: (a, dv) => `${a} ${dv} 2 artinya setengah dari ${a}. Pecah ${a} menjadi puluhan dan satuan.`, s2: (T, O) => `Setengah dari ${T} adalah ${T / 2}, dan setengah dari ${O} adalah ${O / 2}.`, s3: (x, y, h) => `Gabungkan kedua setengahnya: ${x} + ${y} = ${h}.`, whole: (a, h) => `Setengah dari ${a} adalah ${h}.`, end: (a, h, dv) => `Jadi ${a} ${dv} 2 = ${h}.`, why: 'Membagi dua puluhan dan satuan secara terpisah membuat bilangan besar mudah dibagi dua.' },
+      quarter: { s1: (a, dv) => `${a} ${dv} 4: membagi dengan 4 sama dengan membagi dua dua kali.`, h1: (a, h) => `Setengah dari ${a} adalah ${h}.`, h2: (h, q) => `Setengah dari ${h} adalah ${q}.`, end: (a, q, dv) => `Jadi ${a} ${dv} 4 = ${q}.`, why: '4 adalah 2 × 2, jadi membagi dua dua kali sama dengan membagi menjadi 4 bagian yang sama.' },
+      eighth: { s1: (a, dv) => `${a} ${dv} 8: membagi dengan 8 sama dengan membagi dua tiga kali.`, h1: (a, h) => `Setengah dari ${a} adalah ${h}.`, h2: (h, q) => `Setengah dari ${h} adalah ${q}.`, h3: (q, e) => `Dan setengah dari ${q} adalah ${e}.`, end: (a, e, dv) => `Jadi ${a} ${dv} 8 = ${e}.`, why: '8 adalah 2 × 2 × 2, jadi membagi dua tiga kali membagi menjadi 8 bagian yang sama.' },
+      partitionDiv: { s1: (a, b, ch, rest, dv) => `${a} ${dv} ${b}. Pecah ${a} menjadi bagian yang mudah dibagi: ${ch} dan ${rest}.`, part: (n, b, r, dv) => `${n} ${dv} ${b} = ${r}.`, add: (x, y, q) => `Jumlahkan hasilnya: ${x} + ${y} = ${q}.`, end: (a, b, q, dv) => `Jadi ${a} ${dv} ${b} = ${q}.`, why: 'Memecah bilangan besar menjadi bagian yang mudah membuatmu bisa memakai perkalian yang sudah kamu kuasai.' },
+      missingDiv: { s1a: (b, c, dv) => `□ ${dv} ${b} = ${c}. Sebuah angka dibagi menjadi ${b} kelompok berisi ${c}.`, s2a: (b, c, a, x) => `Jadi angkanya adalah ${b} kelompok berisi ${c}: ${b} ${x} ${c} = ${a}.`, s1b: (a, c, dv) => `${a} ${dv} □ = ${c}. ${a} dibagi menjadi kelompok berisi ${c}. Berapa kelompoknya?`, s2b: (c, a, l, ans) => `Hitung loncat ${c} sampai ${a}: ${l}. Itu ${ans} kelompok.`, end: (ans, e) => `Angka yang hilang adalah ${ans}. Periksa: ${e}.`, why: 'Pembagian dan perkalian saling berlawanan, jadi kamu bisa membalik pertanyaannya.' },
+      swapMul: { s1: (a, b, x) => `Ayo tukar tempat angkanya: ${b} ${x} ${a} hasilnya sama dengan ${a} ${x} ${b}, karena titiknya sama.`, why: 'Kamu boleh menukar tempat angka dalam perkalian, jadi pilih urutan yang menurutmu paling mudah.' },
+      missingTurn: { s1: (q, q2) => `Ayo kita balik. ${q} sama dengan pertanyaan ${q2}.`, end: (ans, e) => `Jadi angka yang hilang adalah ${ans}: ${e}.` }
+    }
+  };
+})();
+
+/* ---------- four app languages: English, Danish, Swedish, Indonesian ---------- */
+const LANGS = ['en', 'da', 'sv', 'id'];
+(function addLanguages() {
+  const merge = (t, src) => { for (const [k, v] of Object.entries(src)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
+  const clone = o => Array.isArray(o) ? o.map(clone) : o && typeof o === 'object' ? Object.fromEntries(Object.entries(o).map(([k, v]) => [k, clone(v)])) : o;
+  merge(I18N.en, { langName: 'English', voiceLang: 'en-GB', sym: { x: '×', d: '÷' }, say: { minus: ' minus ', plus: ' plus ', eq: ' equals ', blank: ' blank ', times: ' times ', div: ' divided by ', gap: ' blank ' } });
+  merge(I18N.da, { langName: 'Dansk', voiceLang: 'da-DK', sym: { x: '·', d: ':' }, say: { minus: ' minus ', plus: ' plus ', eq: ' er lig med ', blank: ' hvad ', times: ' gange ', div: ' divideret med ', gap: ' tom plads ' } });
+  // anything not yet translated falls back to English instead of breaking
+  I18N.sv = clone(I18N.en); merge(I18N.sv, SV);
+  I18N.id = clone(I18N.en); merge(I18N.id, ID);
+})();
+
 /* ---------- speech ---------- */
 let lastSaid = { text: '', tid: 'hoot' };
 // Best voice first: Premium, then Enhanced/natural voices (any accent), then UK English or Danish.
 // A grown-up can also pick one exact voice in "For grown-ups"; that choice wins while it is installed.
 function voicesFor(lang) {
-  try { return speechSynthesis.getVoices().filter(v => lang === 'da' ? /^da/i.test(v.lang) : /^en/i.test(v.lang)); } catch (e) { return []; }
+  try { return speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().replace('_', '-').startsWith(lang)); } catch (e) { return []; }
 }
 function voiceRank(v) {
   const s = `${v.name} ${v.voiceURI}`.toLowerCase();
@@ -2622,13 +3032,13 @@ function fillVoicePicker() {
   const none = document.getElementById('voice-none'); if (none) none.hidden = list.length > 0;
 }
 function toSpeech(t) {
-  const da = curLang() === 'da';
+  const w = tr().say || I18N.en.say;
   return t.replace(/<[^>]+>/g, ' ')
-    .replace(/−/g, ' minus ').replace(/\+/g, ' plus ')
-    .replace(/=/g, da ? ' er lig med ' : ' equals ').replace(/□/g, da ? ' hvad ' : ' blank ')
-    .replace(/×/g, da ? ' gange ' : ' times ').replace(/÷/g, da ? ' divideret med ' : ' divided by ')
-    .replace(/_{2,}/g, da ? ' tom plads ' : ' blank ')
-    .replace(/\s·\s/g, da ? ' gange ' : ' times ').replace(/\s:\s/g, da ? ' divideret med ' : ' divided by ')
+    .replace(/−/g, w.minus).replace(/\+/g, w.plus)
+    .replace(/=/g, w.eq).replace(/□/g, w.blank)
+    .replace(/×/g, w.times).replace(/÷/g, w.div)
+    .replace(/_{2,}/g, w.gap)
+    .replace(/\s·\s/g, w.times).replace(/\s:\s/g, w.div).replace(/\s\/\s/g, w.div)
     .replace(/\((H|T|O|E)\)/g, '');
 }
 function speak(text, tid) {
@@ -2639,7 +3049,7 @@ function speak(text, tid) {
     const busy = speechSynthesis.speaking || speechSynthesis.pending;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(toSpeech(text)), v = voiceFor(curLang());
-    u.lang = v ? v.lang : curLang() === 'da' ? 'da-DK' : 'en-GB'; if (v) u.voice = v;
+    u.lang = v ? v.lang : (tr().voiceLang || 'en-GB'); if (v) u.voice = v;
     u.rate = .9; u.pitch = TEACHERS[tid]?.pitch || 1;
     if (busy) setTimeout(() => speechSynthesis.speak(u), 120); else speechSynthesis.speak(u);
   } catch (e) {}
@@ -2664,10 +3074,7 @@ function topbar() {
     <button class="brand" data-act="home" aria-label="${t.brand}"><span class="brand-mark"><b>+</b></span><span class="brand-name">${t.brand}</span></button>
     <span class="spacer"></span>
     <span class="pill" aria-label="${t.starsAria(totalStars())}">${ICON.star(true)} ${totalStars()}</span>
-    ${forced ? `<span class="pill lang-fixed" lang="${forced}">${t.langFixed}</span>` : `<div class="lang" role="group" aria-label="${t.language}">
-      <button data-act="lang" data-l="en" lang="en" aria-pressed="${store.lang === 'en'}" aria-label="English">EN</button>
-      <button data-act="lang" data-l="da" lang="da" aria-pressed="${store.lang === 'da'}" aria-label="Dansk">DA</button>
-    </div>`}
+    ${forced ? `<span class="pill lang-fixed" lang="${forced}">${t.langFixed}</span>` : `<label class="lang-pick"><span class="sr-only">${t.language}</span><select id="lang-select" aria-label="${t.language}">${LANGS.map(l => `<option value="${l}" lang="${l}"${l === store.lang ? ' selected' : ''}>${l.toUpperCase()} · ${I18N[l].langName}</option>`).join('')}</select></label>`}
     <button class="icon-btn" data-act="sound" aria-pressed="${store.sound}" aria-label="${store.sound ? t.voiceOffLabel : t.voiceOnLabel}">${ICON.sound(store.sound)}</button>
   </header>`;
 }
@@ -2842,7 +3249,7 @@ const LOCK_SVG = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="t
 function topicCard(tp) {
   const t = tr(), st = tp.levels.reduce((s, l) => s + (store.best[l.id] || 0), 0), lk = lockInfo(tp);
   if (lk) return `<button class="topic soon" data-act="locked" data-id="${tp.id}" style="${tcStyle(tp.teacher)}">
-    <span class="topic-sign" aria-hidden="true">${tp.sign}</span>
+    <span class="topic-sign" aria-hidden="true">${tp.id === 'mul' ? XS() : tp.id === 'div' ? DS() : tp.sign}</span>
     <span class="topic-art">${charSvg(tp.teacher)}</span>
     <span class="topic-text">
       <span class="topic-title">${topicTitle(tp)}</span>
@@ -2851,7 +3258,7 @@ function topicCard(tp) {
     </span>
   </button>`;
   return `<button class="topic${tp.soon ? ' soon' : ''}" data-act="${tp.soon ? 'soon' : 'topic'}" data-id="${tp.id}" style="${tcStyle(tp.teacher)}">
-    <span class="topic-sign" aria-hidden="true">${tp.sign}</span>
+    <span class="topic-sign" aria-hidden="true">${tp.id === 'mul' ? XS() : tp.id === 'div' ? DS() : tp.sign}</span>
     <span class="topic-art">${charSvg(tp.teacher)}</span>
     <span class="topic-text">
       <span class="topic-title">${topicTitle(tp)}</span>
@@ -3164,6 +3571,7 @@ app.addEventListener('click', e => {
   const fn = ACTIONS[b.dataset.act]; if (fn) fn(b.dataset, b);
 });
 app.addEventListener('change', e => {
+  if (e.target.id === 'lang-select') { switchLang(e.target.value); return; }
   if (e.target.id === 'unlock-all') { store.unlockAll = e.target.checked; save(); const g = $('.grownups'); show('home'); const g2 = $('.grownups'); if (g && g2) g2.open = true; return; }
   if (e.target.id !== 'voice-select') return;
   store.voice = { ...(store.voice || {}), [store.lang]: e.target.value || null }; save();
