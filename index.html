@@ -444,6 +444,9 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
   .key{height:74px;font-size:36px}
   .key-sm{font-size:19px}
   .pr-actions .btn{min-height:62px}
+  /* the question sits beside the number pad here, so size it to its own card, not the screen */
+  .practice:not(.spelling) .qcard,.placement .qcard{container-type:inline-size}
+  .practice:not(.spelling) .qcard .q{font-size:clamp(34px,calc(118cqi / var(--n,9)),76px)}
 }
 
 /* lesson: side-by-side on wide screens such as an iPad in landscape */
@@ -544,6 +547,8 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
 .pa-title{font-size:clamp(28px,4.4vw,38px)}
 .pa-tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}
 .pa-tabs::-webkit-scrollbar{display:none}
+/* on a phone all five tabs wrap onto two rows, so none hides off the edge */
+@media (max-width:600px){.pa-tabs{flex-wrap:wrap;overflow-x:visible}}
 .pa-tab{flex:none;min-height:44px;padding:8px 16px;border-radius:999px;border:0;background:var(--card);color:var(--ink);box-shadow:var(--shadow);font-family:var(--font-display);font-weight:600;font-size:16px}
 .pa-tab[aria-pressed="true"]{background:var(--ink);color:var(--card)}
 .pa-card{background:var(--card);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -605,6 +610,34 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
   .wrow .w-in{grid-column:1;grid-row:1}.wrow [data-act=le-reroll]{grid-column:2;grid-row:1}.wrow [data-act=le-rm]{grid-column:3;grid-row:1}
   .wrow .w-tiles{grid-column:1/-1;grid-row:2}.wrow .w-wrong{grid-column:1/-1;grid-row:3;padding:0 4px 4px}
 }
+/* ---------- welcome story and first-time tips ---------- */
+.intro{display:flex;flex-direction:column;justify-content:center;gap:18px;max-width:760px;margin:0 auto;width:100%;min-height:calc(100vh - 140px)}
+.intro .ob-nav{position:sticky;bottom:0;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--sky-deep) 35%)}
+.intro-stage{display:flex;justify-content:center;align-items:flex-end;gap:6px;min-height:200px;flex-wrap:wrap}
+.intro-actor{animation:introIn .7s cubic-bezier(.2,.9,.3,1.3) var(--d,0s) both}
+.intro-actor.wave .cw{animation:introWave 1.6s ease-in-out calc(var(--d,0s) + .7s) 2}
+@keyframes introIn{from{opacity:0;transform:translateY(40px) scale(.7)}to{opacity:1;transform:none}}
+@keyframes introWave{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.intro-card{background:var(--card);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;animation:introIn .6s ease-out .2s both}
+.intro-say{font-family:var(--font-display);font-weight:600;font-size:clamp(22px,3.6vw,30px);line-height:1.3}
+.intro-lines,.intro-promises{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.intro-lines li,.intro-promises li{display:flex;align-items:center;gap:12px;font-size:clamp(19px,2.8vw,23px);animation:introIn .6s ease-out var(--d,0s) both}
+.il-dot{flex:none;width:16px;height:16px;border-radius:50%;background:var(--tc)}
+.ip-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;font-family:var(--font-display);font-weight:700}
+.ip-steps{background:var(--div-soft);color:var(--div);font-size:15px}
+.ip-circle{background:var(--sun);color:#3A2A00;font-size:26px}
+.ip-star{background:var(--card-2)}
+.ip-star .star{width:32px;height:32px}
+.intro-dots{display:flex;gap:8px;justify-content:center}
+.intro-dots i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.intro-dots i.on{background:var(--tc)}
+.tip-line{font-weight:700;color:var(--ink);background:var(--sun-soft,var(--card-2));border-radius:12px;padding:6px 10px;margin-top:8px}
+.coach{position:relative;outline:4px solid var(--sun);outline-offset:4px;border-radius:18px;animation:coachPulse 1.4s ease-in-out 4}
+.pd.coach{border-radius:50%;outline-offset:3px}
+@keyframes coachPulse{50%{outline-color:transparent}}
+@media (min-width:601px){ .intro-stage .cw-sm{width:120px} }
+@media (max-width:600px){ .intro{gap:12px} .intro-stage{min-height:0;flex-wrap:nowrap} .intro-stage .cw-lg{width:140px} .intro-stage .cw-sm{width:min(84px,21vw)} .intro-card{padding:16px} }
+@media (max-height:700px){ .intro-stage .cw-lg{width:110px} .intro-stage .cw-sm{width:min(64px,19vw)} .intro-say{font-size:20px} .intro-lines li,.intro-promises li{font-size:17px} .ip-ic{width:42px;height:42px} }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -679,6 +712,7 @@ function cleanKid(k) {
   if (!Array.isArray(k.review)) k.review = [];
   if (!Number.isInteger(k.start) || k.start < 0) k.start = 0;
   if (k.spLangs && !Array.isArray(k.spLangs)) k.spLangs = null;
+  if (k.known && !Array.isArray(k.known)) k.known = [];
   if (typeof k.sound !== 'boolean') k.sound = true;
   return k;
 }
@@ -736,8 +770,9 @@ async function pushCloud() {
 /* one child's progress from two devices: the best stars of both, everything else from the newer copy */
 function mergeKid(a, r) {
   if (!a) return r; if (!r) return a;
-  if ((r.resetAt || 0) > (a.savedAt || 0)) return { ...a, ...r };
-  if ((a.resetAt || 0) > (r.savedAt || 0)) return a;
+  // a reset wins over a copy that has not seen it yet, even if that copy saved later
+  if ((r.resetAt || 0) > (a.resetAt || 0)) return { ...a, ...r };
+  if ((a.resetAt || 0) > (r.resetAt || 0)) return { ...r, ...a };
   const best = { ...(r.best || {}) };
   for (const [k, v] of Object.entries(a.best || {})) best[k] = Math.max(best[k] || 0, v);
   const w = (r.savedAt || 0) > (a.savedAt || 0) ? r : a;
@@ -836,7 +871,7 @@ const I18N = {
     newBest: ' New best!', nextLevel: 'Next level', playAgain: 'Play again', seeLesson: 'See the lesson', home: 'Home',
     soonToast: (t, x) => `${t} is still getting ${x.toLowerCase()} ready. Coming soon!`,
     voiceOn: 'Voice is on!', voiceOffLabel: 'Turn voice off', voiceOnLabel: 'Turn voice on', language: 'Language',
-    voicesTitle: 'Voices on this device', voicesHelp: 'Pick one voice for each language. On this device, it reads for every teacher. For a better voice on an iPad, open Settings → Accessibility → Read & Speak (or Spoken Content) → Voices. Choose the language and download a voice marked Premium or Enhanced. Then close and reopen this app.', voiceNoneFor: l => `No ${l} voice is installed on this device.`, voiceMissing: n => `${n} is not installed on this device, so the best other voice is used.`,
+    voicesTitle: 'Voices on this device', voicesHelp: 'Pick one voice for each language. On this device, it reads for every teacher. For a better voice on an iPad, open Settings → Accessibility → Read & Speak (or Spoken Content) → Voices. Choose the language and download a voice marked Premium or Enhanced. Then close and reopen this app.', voiceNoneFor: l => `No ${l} voice is installed on this device.`, langWord: { en: 'English', da: 'Danish', sv: 'Swedish', id: 'Indonesian' }, voiceMissing: n => `${n} is not installed on this device, so the best other voice is used.`,
     voiceLabel: 'Teacher voice (English)', voiceAuto: 'Automatic', voiceTry: 'Try it', voiceSample: 'Hello! This is how I will read the maths to you.',
     voiceNone: 'This device has no English voice installed. Add one in Settings → Accessibility → Read & Speak (or Spoken Content) → Voices.',
     askQ: (q, missing) => missing ? q : `${q} equals?`,
@@ -981,7 +1016,7 @@ const I18N = {
     newBest: ' Ny rekord!', nextLevel: 'Næste niveau', playAgain: 'Spil igen', seeLesson: 'Se lektionen', home: 'Forside',
     soonToast: (t, x) => `${t} er stadig ved at gøre ${x.toLowerCase()} klar. Kommer snart!`,
     voiceOn: 'Stemmen er tændt!', voiceOffLabel: 'Sluk for stemmen', voiceOnLabel: 'Tænd for stemmen', language: 'Sprog',
-    voicesTitle: 'Stemmer på denne enhed', voicesHelp: 'Vælg én stemme til hvert sprog. På denne enhed læser den op for alle lærerne. Vil du have en bedre stemme på en iPad, så åbn Indstillinger → Tilgængelighed → Læs og tal (eller Oplæsning) → Stemmer. Vælg sproget, og hent en stemme, der er markeret Premium eller Forbedret. Luk derefter appen, og åbn den igen.', voiceNoneFor: l => `Der er ingen stemme på ${l} på denne enhed.`, voiceMissing: n => `${n} er ikke installeret på denne enhed, så den bedste anden stemme bruges.`,
+    voicesTitle: 'Stemmer på denne enhed', voicesHelp: 'Vælg én stemme til hvert sprog. På denne enhed læser den op for alle lærerne. Vil du have en bedre stemme på en iPad, så åbn Indstillinger → Tilgængelighed → Læs og tal (eller Oplæsning) → Stemmer. Vælg sproget, og hent en stemme, der er markeret Premium eller Forbedret. Luk derefter appen, og åbn den igen.', voiceNoneFor: l => `Der er ingen stemme på ${l} på denne enhed.`, langWord: { en: 'engelsk', da: 'dansk', sv: 'svensk', id: 'indonesisk' }, voiceMissing: n => `${n} er ikke installeret på denne enhed, så den bedste anden stemme bruges.`,
     voiceLabel: 'Lærerstemme (dansk)', voiceAuto: 'Automatisk', voiceTry: 'Prøv den', voiceSample: 'Hej! Sådan kommer jeg til at læse matematikken op for dig.',
     voiceNone: 'Der er ingen danske stemmer på denne enhed. Tilføj en under Indstillinger → Tilgængelighed, i indstillingerne for oplæsning og stemmer.',
     askQ: (q, missing) => missing ? q : `${q} er lig med hvad?`,
@@ -3489,7 +3524,7 @@ const SV = (() => {
     newBest: ' Nytt rekord!', nextLevel: 'Nästa nivå', playAgain: 'Spela igen', seeLesson: 'Se lektionen', home: 'Hem',
     soonToast: (t, x) => `${t} håller fortfarande på att göra ${x.toLowerCase()} klart. Kommer snart!`,
     voiceOn: 'Rösten är på!', voiceOffLabel: 'Stäng av rösten', voiceOnLabel: 'Slå på rösten', language: 'Språk',
-    voicesTitle: 'Röster på den här enheten', voicesHelp: 'Välj en röst för varje språk. På den här enheten läser den för alla lärare. För en bättre röst på en iPad: öppna Inställningar → Hjälpmedel → Läs och tala (eller Uppläst innehåll) → Röster. Välj språket och hämta en röst som är märkt Premium eller Förbättrad. Stäng sedan appen och öppna den igen.', voiceNoneFor: l => `Det finns ingen röst på ${l} på den här enheten.`, voiceMissing: n => `${n} är inte installerad på den här enheten, så den bästa andra rösten används.`,
+    voicesTitle: 'Röster på den här enheten', voicesHelp: 'Välj en röst för varje språk. På den här enheten läser den för alla lärare. För en bättre röst på en iPad: öppna Inställningar → Hjälpmedel → Läs och tala (eller Uppläst innehåll) → Röster. Välj språket och hämta en röst som är märkt Premium eller Förbättrad. Stäng sedan appen och öppna den igen.', voiceNoneFor: l => `Det finns ingen röst på ${l} på den här enheten.`, langWord: { en: 'engelska', da: 'danska', sv: 'svenska', id: 'indonesiska' }, voiceMissing: n => `${n} är inte installerad på den här enheten, så den bästa andra rösten används.`,
     voiceLabel: 'Lärarröst (svenska)', voiceAuto: 'Automatiskt', voiceTry: 'Prova', voiceSample: 'Hej! Så här kommer jag att läsa matten för dig.',
     voiceNone: 'Den här enheten har inga svenska röster. Lägg till en under Inställningar → Hjälpmedel, i inställningarna för uppläsning och röster.',
     askQ: (q, missing) => missing ? q : `${q} är lika med vad?`,
@@ -3690,7 +3725,7 @@ const ID = (() => {
     newBest: ' Rekor baru!', nextLevel: 'Level berikutnya', playAgain: 'Main lagi', seeLesson: 'Lihat pelajaran', home: 'Beranda',
     soonToast: (t, x) => `${t} masih menyiapkan ${x.toLowerCase()}. Segera hadir!`,
     voiceOn: 'Suara menyala!', voiceOffLabel: 'Matikan suara', voiceOnLabel: 'Nyalakan suara', language: 'Bahasa',
-    voicesTitle: 'Suara di perangkat ini', voicesHelp: 'Pilih satu suara untuk setiap bahasa. Di perangkat ini, suara itu membacakan untuk semua guru. Untuk suara yang lebih bagus di iPad, buka Pengaturan → Aksesibilitas → Baca & Ucapkan (atau Konten Lisan) → Suara. Pilih bahasanya, lalu unduh suara bertanda Premium atau Ditingkatkan. Setelah itu, tutup dan buka lagi aplikasi ini.', voiceNoneFor: l => `Belum ada suara ${l} di perangkat ini.`, voiceMissing: n => `${n} tidak terpasang di perangkat ini, jadi suara terbaik lainnya yang dipakai.`,
+    voicesTitle: 'Suara di perangkat ini', voicesHelp: 'Pilih satu suara untuk setiap bahasa. Di perangkat ini, suara itu membacakan untuk semua guru. Untuk suara yang lebih bagus di iPad, buka Pengaturan → Aksesibilitas → Baca & Ucapkan (atau Konten Lisan) → Suara. Pilih bahasanya, lalu unduh suara bertanda Premium atau Ditingkatkan. Setelah itu, tutup dan buka lagi aplikasi ini.', voiceNoneFor: l => `Belum ada suara bahasa ${l} di perangkat ini.`, langWord: { en: 'Inggris', da: 'Denmark', sv: 'Swedia', id: 'Indonesia' }, voiceMissing: n => `${n} tidak terpasang di perangkat ini, jadi suara terbaik lainnya yang dipakai.`,
     voiceLabel: 'Suara guru (Indonesia)', voiceAuto: 'Otomatis', voiceTry: 'Coba', voiceSample: 'Halo! Beginilah aku akan membacakan matematika untukmu.',
     voiceNone: 'Perangkat ini belum punya suara bahasa Indonesia. Tambahkan di Pengaturan → Aksesibilitas, di pengaturan pembacaan dan suara.',
     askQ: (q, missing) => missing ? q : `${q} sama dengan berapa?`,
@@ -3902,6 +3937,13 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     colIntro: l => `Write the numbers in columns: ${l}. Line the digits up carefully.`, andWord: 'and',
     ex: { jumpAdd: { s1one: (a, b) => `Start at ${a} on the number line and jump +${b}.` }, jumpSub: { s1one: (a, b) => `Start at ${a} on the number line and jump back ${b}.` },
       partitionAdd: { s1b: (n, pn) => `Split ${n} into its parts: ${n} = ${pn}.` }, columnSub: { whyNone: 'We take away one column at a time, starting with the ones. Here every top digit was big enough, so nothing needed exchanging.' } },
+    introSkip: 'Skip', introStart: "Let's begin", introReplay: 'Watch the welcome again',
+    intro1: (b, n) => `Welcome to ${b}! I'm ${n}, and I help with adding. We are a team of teachers, and we help you understand maths, not just get the answer right.`,
+    intro2a: n => `I'm ${n}. I help with taking away.`, intro2b: n => `I'm ${n}. Times tables are my thing!`, intro2c: n => `I'm ${n}. I love sharing things fairly.`,
+    intro3: 'And we help with spelling, in four languages! Hello!',
+    introPromises: 'Our three promises', promise1: "If you get stuck, we show you how, step by step.", promise2: 'Mistakes are fine. A yellow circle means you can try again.', promise3: 'Every round earns stars, and every day you get a little better.',
+    tip_pad: 'Tap the numbers to type your answer. Then press Check.', tip_letters: 'Tap the letters to spell it. Then press Check.', tip_pick: 'Tap the spelling you think is right.',
+    tip_how: "Stuck? Tap “Show me how”, and I'll help you step by step.", tip_circle: 'See the yellow circle? Tap it to try a question like it again.', tip_path: "This is your next step. Tap Start when you're ready!",
     obNew: "There's something new: your own profile! It only takes a minute.",
     obLangQ: 'Which language do you want to play in?', obNameQ: "What's your name?", obAvatarQ: 'Pick a buddy to be you!',
     obYearQ: 'Which school year are you in?', yearN: n => `Year ${n}`, ageHint: n => `age ${n + 4}–${n + 5}`, yearUnsure: 'Not sure',
@@ -3955,7 +3997,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     saveList: 'Save list', deleteList: 'Delete list', deleteListAsk: 'Delete this word list?', noWordsYet: 'No words yet.',
     wordsTitle: n => `Words (${n})`, wordN: i => `Word ${i}`, newMistakes: 'Other wrong spellings', removeWord: 'Remove word',
     needWords: 'Add at least 3 words first.', listDefault: n => `Word list ${n}`, listSaved: 'Word list saved.', listDeleted: 'Word list deleted.',
-    badWords: w => `Left out because they use letters the keyboard doesn't have: ${w}`,
+    badWords: w => `Left out: ${w}. A word needs 2 to 20 letters, all ones the keyboard has (no hyphens or numbers).`,
     pinEnter: 'Enter the grown-up PIN', pinCreate: 'Create a 4-digit grown-up PIN', pinAgain: 'Type the PIN again',
     pinCreateText: 'The PIN keeps this area for grown-ups, so children cannot change settings or delete lists.',
     pinReset: (a, b) => `To make a new PIN, answer this: ${a} × ${b} = ?`, pinOk: 'OK', pinForgot: 'Forgot the PIN?',
@@ -3973,6 +4015,13 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     colIntro: l => `Stil tallene op under hinanden: ${l}. Sørg for, at cifrene står lige under hinanden.`, andWord: 'og',
     ex: { jumpAdd: { s1one: (a, b) => `Start ved ${a} på tallinjen, og hop +${b}.` }, jumpSub: { s1one: (a, b) => `Start ved ${a} på tallinjen, og hop ${b} tilbage.` },
       partitionAdd: { s1b: (n, pn) => `Del ${n} op i sine dele: ${n} = ${pn}.` }, columnSub: { whyNone: 'Vi trækker fra én kolonne ad gangen og starter med enerne. Her var hvert tal øverst stort nok, så der skulle ikke veksles.' } },
+    introSkip: 'Spring over', introStart: 'Lad os starte', introReplay: 'Se velkomsten igen',
+    intro1: (b, n) => `Velkommen til ${b}! Jeg er ${n}, og jeg hjælper med plus. Vi er et hold af lærere, og vi hjælper dig med at forstå matematik, ikke bare med at få det rigtige svar.`,
+    intro2a: n => `Jeg er ${n}. Jeg hjælper med minus.`, intro2b: n => `Jeg er ${n}. Gangetabeller er lige mig!`, intro2c: n => `Jeg er ${n}. Jeg elsker at dele ligeligt.`,
+    intro3: 'Og vi hjælper med stavning, på fire sprog! Hej!',
+    introPromises: 'Vores tre løfter', promise1: 'Hvis du går i stå, viser vi dig hvordan, trin for trin.', promise2: 'Det er helt okay at lave fejl. En gul cirkel betyder, at du kan prøve igen.', promise3: 'Hver runde giver stjerner, og hver dag bliver du lidt bedre.',
+    tip_pad: 'Tryk på tallene for at skrive dit svar. Tryk så på Tjek.', tip_letters: 'Tryk på bogstaverne for at stave det. Tryk så på Tjek.', tip_pick: 'Tryk på den stavemåde, du tror er rigtig.',
+    tip_how: 'Går du i stå? Tryk på “Vis mig hvordan”, så hjælper jeg dig trin for trin.', tip_circle: 'Kan du se den gule cirkel? Tryk på den for at prøve en opgave, der ligner.', tip_path: 'Det her er dit næste skridt. Tryk på Start, når du er klar!',
     obNew: 'Der er noget nyt: din egen profil! Det tager kun et minut.',
     obLangQ: 'Hvilket sprog vil du spille på?', obNameQ: 'Hvad hedder du?', obAvatarQ: 'Vælg en ven, der skal være dig!',
     obYearQ: 'Hvilket skoleår går du i?', yearN: n => `Skoleår ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Ved ikke',
@@ -4026,7 +4075,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     saveList: 'Gem listen', deleteList: 'Slet listen', deleteListAsk: 'Slet denne ordliste?', noWordsYet: 'Ingen ord endnu.',
     wordsTitle: n => `Ord (${n})`, wordN: i => `Ord ${i}`, newMistakes: 'Andre forkerte stavemåder', removeWord: 'Fjern ord',
     needWords: 'Tilføj mindst 3 ord først.', listDefault: n => `Ordliste ${n}`, listSaved: 'Ordlisten er gemt.', listDeleted: 'Ordlisten er slettet.',
-    badWords: w => `Udeladt (bogstaver, tastaturet ikke har): ${w}`,
+    badWords: w => `Udeladt: ${w}. Et ord skal have 2 til 20 bogstaver, som alle findes på tastaturet (ingen bindestreger eller tal).`,
     pinEnter: 'Skriv voksen-koden', pinCreate: 'Lav en voksen-kode på 4 cifre', pinAgain: 'Skriv koden igen',
     pinCreateText: 'Koden holder dette område for voksne, så børn ikke kan ændre indstillinger eller slette lister.',
     pinReset: (a, b) => `Svar på det her for at lave en ny kode: ${a} · ${b} = ?`, pinOk: 'OK', pinForgot: 'Glemt koden?',
@@ -4044,6 +4093,13 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     colIntro: l => `Ställ upp talen: ${l}. Se till att siffrorna står rakt under varandra.`, andWord: 'och',
     ex: { jumpAdd: { s1one: (a, b) => `Börja på ${a} på tallinjen och hoppa +${b}.` }, jumpSub: { s1one: (a, b) => `Börja på ${a} på tallinjen och hoppa ${b} bakåt.` },
       partitionAdd: { s1b: (n, pn) => `Dela upp ${n} i sina delar: ${n} = ${pn}.` }, columnSub: { whyNone: 'Vi subtraherar en kolumn i taget och börjar med entalen. Här var varje siffra överst tillräckligt stor, så ingen växling behövdes.' } },
+    introSkip: 'Hoppa över', introStart: 'Nu börjar vi', introReplay: 'Se välkomsten igen',
+    intro1: (b, n) => `Välkommen till ${b}! Jag är ${n}, och jag hjälper till med plus. Vi är ett gäng lärare, och vi hjälper dig att förstå matte, inte bara att få rätt svar.`,
+    intro2a: n => `Jag är ${n}. Jag hjälper till med minus.`, intro2b: n => `Jag är ${n}. Gångertabeller är min grej!`, intro2c: n => `Jag är ${n}. Jag älskar att dela rättvist.`,
+    intro3: 'Och vi hjälper till med stavning, på fyra språk! Hej!',
+    introPromises: 'Våra tre löften', promise1: 'Om du kör fast visar vi dig hur, steg för steg.', promise2: 'Det är okej att göra fel. En gul cirkel betyder att du kan försöka igen.', promise3: 'Varje omgång ger stjärnor, och varje dag blir du lite bättre.',
+    tip_pad: 'Tryck på siffrorna för att skriva ditt svar. Tryck sedan på Kolla.', tip_letters: 'Tryck på bokstäverna för att stava det. Tryck sedan på Kolla.', tip_pick: 'Tryck på den stavning du tror är rätt.',
+    tip_how: 'Kör du fast? Tryck på “Visa mig hur”, så hjälper jag dig steg för steg.', tip_circle: 'Ser du den gula cirkeln? Tryck på den för att prova en liknande uppgift.', tip_path: 'Det här är ditt nästa steg. Tryck på Börja när du är redo!',
     obNew: 'Det finns något nytt: din egen profil! Det tar bara en minut.',
     obLangQ: 'Vilket språk vill du spela på?', obNameQ: 'Vad heter du?', obAvatarQ: 'Välj en kompis som får vara du!',
     obYearQ: 'Vilket skolår går du i?', yearN: n => `Skolår ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Vet inte',
@@ -4097,7 +4153,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     saveList: 'Spara listan', deleteList: 'Radera listan', deleteListAsk: 'Radera den här ordlistan?', noWordsYet: 'Inga ord än.',
     wordsTitle: n => `Ord (${n})`, wordN: i => `Ord ${i}`, newMistakes: 'Andra felstavningar', removeWord: 'Ta bort ordet',
     needWords: 'Lägg till minst 3 ord först.', listDefault: n => `Ordlista ${n}`, listSaved: 'Ordlistan är sparad.', listDeleted: 'Ordlistan är raderad.',
-    badWords: w => `Utelämnade (bokstäver som tangentbordet saknar): ${w}`,
+    badWords: w => `Utelämnade: ${w}. Ett ord behöver 2 till 20 bokstäver, som alla finns på tangentbordet (inga bindestreck eller siffror).`,
     pinEnter: 'Skriv vuxenkoden', pinCreate: 'Gör en vuxenkod med 4 siffror', pinAgain: 'Skriv koden igen',
     pinCreateText: 'Koden håller det här området för vuxna, så att barn inte kan ändra inställningar eller radera listor.',
     pinReset: (a, b) => `Svara på det här för att göra en ny kod: ${a} · ${b} = ?`, pinOk: 'OK', pinForgot: 'Glömt koden?',
@@ -4115,6 +4171,13 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     colIntro: l => `Tulis angkanya bersusun: ${l}. Pastikan angkanya lurus di bawah satu sama lain.`, andWord: 'dan',
     ex: { jumpAdd: { s1one: (a, b) => `Mulai dari ${a} di garis bilangan, lalu lompat +${b}.` }, jumpSub: { s1one: (a, b) => `Mulai dari ${a} di garis bilangan, lalu lompat mundur ${b}.` },
       partitionAdd: { s1b: (n, pn) => `Pecah ${n} menjadi bagian-bagiannya: ${n} = ${pn}.` }, columnSub: { whyNone: 'Kita mengurangi satu kolom setiap kali, mulai dari satuan. Di sini setiap angka di atas sudah cukup besar, jadi tidak perlu meminjam.' } },
+    introSkip: 'Lewati', introStart: 'Ayo mulai', introReplay: 'Lihat sambutan lagi',
+    intro1: (b, n) => `Selamat datang di ${b}! Aku ${n}, dan aku membantu penjumlahan. Kami adalah tim guru. Kami membantumu memahami matematika, bukan hanya mendapat jawaban yang benar.`,
+    intro2a: n => `Aku ${n}. Aku membantu pengurangan.`, intro2b: n => `Aku ${n}. Perkalian adalah kesukaanku!`, intro2c: n => `Aku ${n}. Aku suka membagi dengan adil.`,
+    intro3: 'Dan kami membantu ejaan, dalam empat bahasa! Halo!',
+    introPromises: 'Tiga janji kami', promise1: 'Kalau kamu bingung, kami tunjukkan caranya, langkah demi langkah.', promise2: 'Salah itu tidak apa-apa. Lingkaran kuning artinya kamu bisa mencoba lagi.', promise3: 'Setiap ronde memberi bintang, dan setiap hari kamu jadi sedikit lebih hebat.',
+    tip_pad: 'Ketuk angkanya untuk menulis jawabanmu. Lalu tekan Periksa.', tip_letters: 'Ketuk hurufnya untuk mengejanya. Lalu tekan Periksa.', tip_pick: 'Ketuk ejaan yang menurutmu benar.',
+    tip_how: 'Bingung? Ketuk “Tunjukkan caranya”, dan aku akan membantumu langkah demi langkah.', tip_circle: 'Lihat lingkaran kuning itu? Ketuk untuk mencoba soal yang mirip lagi.', tip_path: 'Ini langkahmu berikutnya. Ketuk Mulai kalau kamu sudah siap!',
     obNew: 'Ada yang baru: profilmu sendiri! Hanya butuh satu menit.',
     obLangQ: 'Kamu mau bermain dalam bahasa apa?', obNameQ: 'Siapa namamu?', obAvatarQ: 'Pilih teman yang akan menjadi kamu!',
     obYearQ: 'Kamu di tahun sekolah berapa?', yearN: n => `Tahun ${n}`, ageHint: n => `usia ${n + 4}–${n + 5}`, yearUnsure: 'Belum tahu',
@@ -4168,7 +4231,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     saveList: 'Simpan daftar', deleteList: 'Hapus daftar', deleteListAsk: 'Hapus daftar kata ini?', noWordsYet: 'Belum ada kata.',
     wordsTitle: n => `Kata (${n})`, wordN: i => `Kata ${i}`, newMistakes: 'Ejaan salah yang lain', removeWord: 'Hapus kata',
     needWords: 'Tambahkan minimal 3 kata dulu.', listDefault: n => `Daftar kata ${n}`, listSaved: 'Daftar kata disimpan.', listDeleted: 'Daftar kata dihapus.',
-    badWords: w => `Tidak dimasukkan (ada huruf yang tidak ada di papan ketik): ${w}`,
+    badWords: w => `Tidak dimasukkan: ${w}. Kata harus 2 sampai 20 huruf, semuanya ada di papan ketik (tanpa tanda hubung atau angka).`,
     pinEnter: 'Masukkan PIN orang tua', pinCreate: 'Buat PIN orang tua 4 angka', pinAgain: 'Ketik PIN-nya lagi',
     pinCreateText: 'PIN menjaga bagian ini hanya untuk orang tua, supaya anak tidak bisa mengubah pengaturan atau menghapus daftar.',
     pinReset: (a, b) => `Untuk membuat PIN baru, jawab ini: ${a} × ${b} = ?`, pinOk: 'OK', pinForgot: 'Lupa PIN?',
@@ -4216,7 +4279,7 @@ function fillVoicePicker() {
     sel.innerHTML = `<option value="">${t.voiceAuto}${list[0] ? ` (${esc(list[0].name)})` : ''}</option>` +
       list.map(v => `<option value="${esc(v.voiceURI)}"${pickedV && v.voiceURI === pickedV.voiceURI ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
     const note = document.querySelector(`.voice-note[data-lang="${lang}"]`);
-    if (note) note.textContent = !list.length ? t.voiceNoneFor(I18N[lang].langName) : c && !pickedV && c.name ? t.voiceMissing(c.name) : '';
+    if (note) note.textContent = !list.length ? t.voiceNoneFor(t.langWord[lang]) : c && !pickedV && c.name ? t.voiceMissing(c.name) : '';
   }
 }
 function toSpeech(t) {
@@ -4304,6 +4367,7 @@ function show(name, params = {}) { hush(); if (!GROWNUP_SCREENS.includes(name)) 
 const SCREENS = {
   home() {
     if (!store.onboarded) return show('onboard', { step: 'lang', mode: 'first' });
+    if (!store.introSeen) { INTRO = null; return show('onboard', { step: 'intro', mode: 'once' }); }
     const t = tr(), nm = store.name, lists = myListTopics(), sp = shownSpellTopics();
     app.innerHTML = `${topbar()}
     <section class="hero">
@@ -4328,6 +4392,8 @@ const SCREENS = {
     ${sp.length ? `<h2 class="section-title">${t.spellSection}</h2>${lists.length ? '' : `<p class="cl-hint">${t.clHint}</p>`}<section class="topics">${sp.map(topicCard).join('')}</section>` : ''}
     <section class="gu-entry"><button class="btn btn-soft" data-act="grownups">${t.grownups}</button></section>
     <footer class="site-foot">${t.footNote}${ON_SITE ? ` · <a href="privacy.html">${t.privacy}</a>` : ''}</footer>`;
+    // the first visit to the home screen: point at the next step
+    if ($('.path-card [data-act]') && useTip('path')) { coach('.path-card .btn'); const mt = $('.path-card .mixed-text'); if (mt) mt.insertAdjacentHTML('beforeend', `<p class="tip-line">${t.tip_path}</p>`); speak(t.tip_path, 'hoot'); }
   },
   topic({ id }) {
     const t = tr(), tp = TOPICS.find(x => x.id === id), tid = tp.teacher;
@@ -4394,7 +4460,10 @@ const SCREENS = {
     const info = roundInfo(id) || {}, l = info.level || null;
     const tid = info.tid || 'sparkle';
     if (!S.finished) finishRound();
-    const next = l ? l.topic.levels[l.topic.levels.indexOf(l) + 1] : null;
+    // maths levels follow the learning path (the next step not yet learnt); spelling goes to the next level of its subject
+    const path = kidPath(), at = l ? path.indexOf(l.id) : -1;
+    const pathAfter = at < 0 ? null : path.slice(at + 1).map(findLevel).find(x => x && !levelDone(x) && !lockInfo(x.topic));
+    const next = !l ? null : at >= 0 ? pathAfter || null : l.topic.levels[l.topic.levels.indexOf(l) + 1];
     const fixedN = S.marks.filter(m => m === 'fixed').length, head = t.head[n - 1], msg = t.msg[n - 1](first, S.list.length) + (fixedN ? ' ' + t.fixedMore(fixedN) : '');
     app.innerHTML = `${topbar()}
     <section class="results" style="${tcStyle(tid)}">
@@ -4413,7 +4482,10 @@ const SCREENS = {
         <button class="btn btn-soft" data-act="home">${t.home}</button>
       </div>
     </section>`;
-    if (!S.quiet) { confetti(n * 18); speak(`${head} ${msg}${S.unlocked ? ' ' + t.unlockedNow : ''}`, tid); }
+    // the first yellow circle: show that it can be tapped
+    const circleTip = !S.quiet && S.marks.includes('help') && useTip('circle');
+    if (circleTip) { coach('.res-dots .pd.help'); const h = $('.res-hint'); if (h) h.textContent = t.tip_circle; }
+    if (!S.quiet) { confetti(n * 18); speak(`${head} ${msg}${S.unlocked ? ' ' + t.unlockedNow : ''}${circleTip ? ' ' + t.tip_circle : ''}`, tid); }
     S.quiet = false;
   }
 };
@@ -4535,7 +4607,7 @@ function renderPractice(fresh) {
           ${charWrap(tid, S.done ? 'joy' : 'happy', 'md')}
           <div class="bubble"><p class="bubble-who">${tName(tid)}</p><div class="say-row"><p id="pr-say">${greet}</p>${replayBtn()}</div></div>
         </section>
-        <div class="qcard${redo ? ' redo' : ''}${p.sp ? ' spell' : ''}"><span class="q-label">${redo ? t.redoLabel(S.rk + 1) : t.questionN(S.i + 1, S.list.length)}</span>${p.sp ? spellCardTop(p) : p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q${p.sp ? ' q-spell' : ''}" id="q" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
+        <div class="qcard${redo ? ' redo' : ''}${p.sp ? ' spell' : ''}"><span class="q-label">${redo ? t.redoLabel(S.rk + 1) : t.questionN(S.i + 1, S.list.length)}</span>${p.sp ? spellCardTop(p) : p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q${p.sp ? ' q-spell' : ''}" id="q" style="--n:${qLen(p)}" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
         <section class="explain" id="explain" hidden><div id="stepper" class="stepper"></div></section>
       </div>
       <div class="pr-right">
@@ -4554,7 +4626,17 @@ function renderPractice(fresh) {
   </div>`;
   if (S.done) markDone();
   const ask = p.sp ? spellAsk(p) : p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
-  if (fresh) speak(`${greet} ${ask}`, tid);
+  // the very first question of each kind: show where to tap
+  let tip = '';
+  if (fresh && !redo) {
+    const k = p.sp ? (p.fmt === 'pick' ? 'pick' : 'letters') : 'pad';
+    if (useTip(k)) {
+      tip = t['tip_' + k];
+      if (k === 'pick') coach('.opts'); else coach('#pad', '#check-btn');
+      $('#pr-say').innerHTML = `${greet} ${tip}`;
+    }
+  }
+  if (fresh) speak(`${greet} ${ask}${tip ? ' ' + tip : ''}`, tid);
   lastSaid = { text: `${greet} ${ask}`, tid };
 }
 function qHtml(p, state = '') {
@@ -4565,6 +4647,8 @@ function qHtml(p, state = '') {
   const C = p.c != null ? `<span class="op">+</span><span>${p.c}</span>` : '';
   return `${A}${op}${B}${C}<span>=</span>${p.missing ? `<span>${resOf(p)}</span>` : box}`;
 }
+// how wide a sum is, in characters (the answer box counts as wide as the answer), so long sums can be drawn smaller
+const qLen = p => p.sp || p.story != null ? 6 : [p.a, p.b, p.c, resOf(p)].filter(x => x != null).join('').length + (p.c != null ? 3 : 2);
 function updateQ(state) { $('#q').innerHTML = qHtml(cur(), state); }
 function teacherSay(text, mood) {
   const tid = teacherFor(cur());
@@ -4653,7 +4737,8 @@ function check() {
     S.tries++; noteHelp();
     if (p.sp && p.fmt === 'pick') (S.badPicks = S.badPicks || []).push(S.input);
     updateQ('wrong');
-    if (S.tries === 1) teacherSay(pick(t.retry) + t.orShow, 'think');
+    if (S.tries === 1 && useTip('how')) { teacherSay(`${pick(t.retry)} ${t.tip_how}`, 'think'); coach('[data-act="howto"]'); }
+    else if (S.tries === 1) teacherSay(pick(t.retry) + t.orShow, 'think');
     else { teacherSay(p.sp ? t.togetherSp || t.together : t.together, 'think'); openHowTo(); }
     const bad = S.input;
     setTimeout(() => { if (!S.done && S.input === bad && $('#q')) { S.input = ''; updateQ(); } }, 900);
@@ -4756,7 +4841,7 @@ const ACTIONS = {
   'restart-no': () => { const r = $('#restart-row'); r.hidden = true; r.innerHTML = ''; },
   'restart-yes': () => { store.round = null; save(); show('practice', { id: S.id, fresh: true }); },
   'voice-test': d => { const s = store.sound, l = d.l || curLang(); store.sound = true; speak(I18N[l].voiceSample, 'hoot', l); store.sound = s; },
-  'reset-yes': () => { Object.assign(store, { best: {}, round: null, review: [], start: 0, startId: '', resetAt: Date.now() }); save(); show('parent', { tab: 'settings' }); toast(tr().resetDone); }
+  'reset-yes': () => { Object.assign(store, { best: {}, round: null, review: [], start: 0, startId: '', known: [], resetAt: Date.now() }); save(); show('parent', { tab: 'settings' }); toast(tr().resetDone); }
 };
 app.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
@@ -4830,7 +4915,8 @@ function startIdx(k = store) {
   return 0;
 }
 function setStart(i, k = store) { const p = kidPath(k); k.startId = i <= 0 ? '' : i >= p.length ? '#end' : p[i]; k.start = Math.max(0, i); }
-const placedPast = id => { const i = kidPath().indexOf(id); return i > -1 && i < startIdx(); };
+// "known" keeps levels already counted as learnt when a new school year reorders the path
+const placedPast = id => { if ((store.known || []).includes(id)) return true; const i = kidPath().indexOf(id); return i > -1 && i < startIdx(); };
 // A level counts as learnt with 2 stars (7 or more right first time), or when the starting quiz or
 // the school year skipped it. One star means: practise this one again before moving on.
 const PASS = 2;
@@ -5056,7 +5142,56 @@ function reviewCards() {
 }
 
 /* ---------- onboarding: a profile, then the starting quiz ---------- */
-const OB_STEPS = ['lang', 'name', 'avatar', 'year', 'place'];
+/* First-time tips: the teacher points at a button the first time it matters, once per child. */
+const tipSeen = k => !!(store.tips && store.tips[k]);
+function useTip(k) { if (tipSeen(k)) return false; store.tips = { ...(store.tips || {}), [k]: 1 }; save(); return true; }
+// only one thing is pointed at at a time
+function coach(...sels) { document.querySelectorAll('.coach').forEach(e => e.classList.remove('coach')); sels.forEach(q => { const el = $(q); if (el) el.classList.add('coach'); }); }
+const OB_STEPS = ['lang', 'intro', 'name', 'avatar', 'year', 'place'];
+/* The welcome story: the teachers step on stage one by one, then three promises.
+   It plays after the language is picked (so it is in the right language), once per child,
+   and grown-ups can replay it from the settings. */
+let INTRO = null, introTimer = 0;
+const INTRO_SCENES = 4;
+function introScene(i) {
+  const t = tr();
+  if (i === 0) return { cast: ['hoot'], who: 'hoot', say: t.intro1(t.brand, tName('hoot')) };
+  if (i === 1) return { cast: ['daisy', 'whiskers', 'sparkle'], who: 'daisy', say: [t.intro2a(tName('daisy')), t.intro2b(tName('whiskers')), t.intro2c(tName('sparkle'))].join(' '), lines: [['daisy', t.intro2a(tName('daisy'))], ['whiskers', t.intro2b(tName('whiskers'))], ['sparkle', t.intro2c(tName('sparkle'))]] };
+  if (i === 2) return { cast: ['fern', 'pjuske', 'olle', 'uli'], who: 'fern', say: t.intro3, wave: true };
+  return { cast: ['hoot'], who: 'hoot', say: [t.introPromises, t.promise1, t.promise2, t.promise3].join(' '), promises: true };
+}
+function renderIntro(mode) {
+  const t = tr();
+  if (!INTRO || INTRO.mode !== mode) INTRO = { i: 0, mode };
+  S = { step: 'intro', mode };
+  clearTimeout(introTimer);
+  const sc = introScene(INTRO.i), last = INTRO.i === INTRO_SCENES - 1;
+  const cast = sc.cast.map((c, k) => `<div class="intro-actor${sc.wave ? ' wave' : ''}" style="--d:${k * .35}s">${charWrap(c, 'happy', sc.cast.length > 2 ? 'sm' : 'lg')}</div>`).join('');
+  const body = sc.promises
+    ? `<ol class="intro-promises">${[['steps', t.promise1], ['circle', t.promise2], ['star', t.promise3]].map(([ic, txt], k) => `<li style="--d:${.4 + k * .5}s"><span class="ip-ic ip-${ic}" aria-hidden="true">${ic === 'star' ? ICON.star(true) : ic === 'circle' ? '↻' : '1·2·3'}</span><span>${txt}</span></li>`).join('')}</ol>`
+    : sc.lines ? `<ul class="intro-lines">${sc.lines.map(([c, txt], k) => `<li style="--d:${k * .35}s;${tcStyle(c)}"><i class="il-dot" aria-hidden="true"></i>${txt}</li>`).join('')}</ul>`
+    : `<p class="intro-say">${sc.say}</p>`;
+  app.innerHTML = `${obTopbar()}
+  <div class="intro" style="${tcStyle(sc.who)}">
+    <div class="intro-stage" aria-hidden="true">${cast}</div>
+    <section class="intro-card">${sc.promises ? `<h1 class="ob-q">${t.introPromises}</h1>` : ''}${body}</section>
+    <div class="intro-dots" aria-hidden="true">${[...Array(INTRO_SCENES)].map((_, k) => `<i class="${k <= INTRO.i ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="ob-nav"><button class="btn-link" data-act="intro-skip">${t.introSkip}</button>
+      <button class="btn${last ? ' btn-big' : ''}" data-act="intro-next">${last ? t.introStart : t.next}</button></div>
+  </div>`;
+  lastSaid = { text: sc.say, tid: sc.who };
+  speak(sc.say, sc.who);
+  // plays on by itself like a short film; a tap on Next goes faster
+  if (!last) introTimer = setTimeout(() => { if (screen === 'onboard' && S.step === 'intro' && INTRO) { INTRO.i++; renderIntro(mode); } }, Math.max(5000, sc.say.length * 75));
+}
+function introDone() {
+  const mode = INTRO ? INTRO.mode : S.mode;
+  clearTimeout(introTimer);
+  INTRO = null; store.introSeen = true; save();
+  if (mode === 'replay') return show('parent', { tab: 'settings' });
+  if (mode === 'once') return show('home');
+  obNext('intro');
+}
 function obShell(tid, title, body, { back, cancel } = {}) {
   const t = tr();
   return `<div class="ob" style="${tcStyle(tid)}">
@@ -5073,6 +5208,11 @@ function obTopbar() {
 }
 Object.assign(SCREENS, {
   onboard({ step = 'lang', mode = 'first' }) {
+    if (step === 'intro') {
+      // seen already (e.g. went back to change the language): go straight on
+      if (store.introSeen && (mode === 'first' || mode === 'add')) { S = { step, mode }; return obNext('intro'); }
+      return renderIntro(mode);
+    }
     const t = tr(), i = OB_STEPS.indexOf(step), back = i > 0 ? OB_STEPS[i - 1] : null, cancel = mode === 'add';
     S = { step, mode };
     let html = '', say = '';
@@ -5106,7 +5246,7 @@ Object.assign(SCREENS, {
       <div class="pr-grid">
         <div class="pr-left">
           <section class="talk" id="pr-talk">${charWrap('sparkle', 'happy', 'md')}<div class="bubble"><p class="bubble-who">${tName('sparkle')}</p><div class="say-row"><p id="pr-say">${PL.asked ? pick(t.plNext) : t.plFirst}</p>${replayBtn()}</div></div></section>
-          <div class="qcard">${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q" id="q" aria-live="polite">${qHtml(p)}</div></div>
+          <div class="qcard">${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q" id="q" style="--n:${qLen(p)}" aria-live="polite">${qHtml(p)}</div></div>
         </div>
         <div class="pr-right">
           <div class="pad" id="pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button class="key" data-act="key" data-k="${n}">${n}</button>`).join('')}
@@ -5146,6 +5286,9 @@ function plCheckpoint() { const L = findLevel(PL.path[PL.pos]), a = genOne(L); P
 function plStart(from) {
   const len = tablesOpen() ? PATH_ALL.length : ADD_SUB_COUNT;
   PL = { path: kidPath(), len, pos: Math.min(yearStart(), len - 1), lo: -1, hi: len, up: 4, down: 4, checks: 0, asked: 0, from };
+  // open with a plain sum: "find the missing number" levels are harder, so step back past them
+  const blanks = id => { const L = findLevel(id); return !!(L && L.problems.length && L.problems.every(q => q.missing)); };
+  while (PL.pos > 0 && blanks(PL.path[PL.pos])) PL.pos--;
   plCheckpoint(); show('placement');
 }
 function plAnswer(knew) {
@@ -5172,7 +5315,7 @@ function plAnswer(knew) {
   }, 900);
 }
 function plFinish() {
-  setStart(PL.lo + 1); store.placedAt = Date.now(); store.onboarded = true; delete store.legacy;
+  store.known = []; setStart(PL.lo + 1); store.placedAt = Date.now(); store.onboarded = true; store.introSeen = true; delete store.legacy;
   save(); show('placed', { from: PL.from });
 }
 
@@ -5255,6 +5398,7 @@ function paSettings() {
     <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
     <p class="muted">${t.unlockAllHelp}</p>
     <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
+    <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="intro-replay">${t.introReplay}</button></div>
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="pin-change">${t.pinChange}</button></div>
   </section>
   <section class="pa-card grownups-body"><h3>${t.aboutTitle(t.brand)}</h3>${t.gu.map(x => `<p>${x}</p>`).join('')}<p>${t.gu4}</p><p class="muted">${t.footNote}</p></section>`;
@@ -5265,7 +5409,7 @@ function paAccount() {
   if (viaClaude) body = `<p>${t.accClaude}</p>`;
   else if (!FIREBASE_CONFIG) body = `<p>${t.accLocal}</p><p class="muted">${t.accSoon}</p>`;
   else if (!fb) body = `<p class="muted">${t.accLoading}</p>`;
-  else if (fb.user) body = `<p>${t.accSignedIn(`<b>${esc(fb.user.email || fb.user.displayName || '')}</b>`)}</p><p class="muted">${t.accSynced}</p>
+  else if (fb.user) body = `<p>${t.accSignedIn(`<b>${esc(fb.user.email || fb.user.displayName || '')}</b>`)}</p>${cloudFailed ? '' : `<p class="muted">${t.accSynced}</p>`}
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="acc-out">${t.accSignOut}</button></div>
     <div class="confirm-row" id="acc-del"><button class="btn btn-small btn-soft" data-act="acc-del-ask">${t.accDelete}</button></div>`;
   else body = `<p>${t.accSignInText}</p><p class="muted">${t.accKids}</p>
@@ -5382,7 +5526,7 @@ async function initFirebase() {
       fb.user = user;
       if (user) {
         const ref = F.doc(db, 'families', user.uid);
-        try { await attachCloud({ get: async () => { const s = await F.getDoc(ref); return s.exists() ? s.data() : null; }, set: d => F.setDoc(ref, d) }); } catch (e) {}
+        try { await attachCloud({ get: async () => { const s = await F.getDoc(ref); return s.exists() ? s.data() : null; }, set: d => F.setDoc(ref, d) }); cloudFailed = false; } catch (e) { cloudFailed = true; }   // e.g. no internet at that moment
       } else cloud = null;
       if (screen === 'parent' && S.tab === 'account') SCREENS.parent(S);
       if (screen === 'signin') SCREENS.signin(S);
@@ -5407,7 +5551,11 @@ function accMsg(e) {
 function startOnboarding(mode) { show('onboard', { step: 'lang', mode }); }
 function obNext(step) { const i = OB_STEPS.indexOf(step); show('onboard', { step: OB_STEPS[i + 1], mode: S.mode }); }
 Object.assign(ACTIONS, {
-  'ob-go': d => show('onboard', { step: d.step, mode: S.mode }),
+  // Back from the name step goes to the language, not through the story again
+  'ob-go': d => show('onboard', { step: d.step === 'intro' ? 'lang' : d.step, mode: S.mode }),
+  'intro-next': () => { if (!INTRO) return introDone(); clearTimeout(introTimer); if (INTRO.i >= INTRO_SCENES - 1) return introDone(); INTRO.i++; renderIntro(INTRO.mode); },
+  'intro-skip': () => introDone(),
+  'intro-replay': () => { INTRO = null; show('onboard', { step: 'intro', mode: 'replay' }); },
   'ob-lang': d => { store.lang = d.l; save(); applyLang(); obNext('lang'); },
   'ob-avatar': d => { store.avatar = d.a; save(); obNext('avatar'); },
   'ob-year': d => { store.year = +d.n; save(); obNext('year'); },
@@ -5416,7 +5564,7 @@ Object.assign(ACTIONS, {
     DB.gone.push(k.id); delete DB.kids[k.id]; cleanDB(DB); setActive(obPrev && DB.kids[obPrev] ? obPrev : Object.keys(DB.kids)[0]); save(); show('parent', { tab: 'kids' });
   },
   'pl-start': () => plStart(S.mode === 'add' ? 'parent-add' : S.from || 'first'),
-  'pl-skip': () => { setStart(Object.keys(store.best).length ? 0 : yearStart()); store.onboarded = true; delete store.legacy; save(); show('placed', { from: S.mode === 'add' ? 'parent-add' : 'first' }); },
+  'pl-skip': () => { store.known = []; setStart(Object.keys(store.best).length ? 0 : yearStart()); store.onboarded = true; store.introSeen = true; delete store.legacy; save(); show('placed', { from: S.mode === 'add' ? 'parent-add' : 'first' }); },
   'pl-check': () => plAnswer(true),
   'pl-dunno': () => plAnswer(false),
   kids: () => show('kids'),
@@ -5494,7 +5642,11 @@ app.addEventListener('submit', async e => {
   } else if (kind === 'kid-edit') {
     const k = DB.kids[f.dataset.id]; if (!k) return;
     const fd = new FormData(f), sp = fd.getAll('sp');
-    k.name = String(fd.get('name') || '').trim().slice(0, 20) || k.name; k.avatar = fd.get('avatar') || k.avatar; k.year = +fd.get('year') || 0;
+    k.name = String(fd.get('name') || '').trim().slice(0, 20) || k.name; k.avatar = fd.get('avatar') || k.avatar;
+    // a new school year can reorder the path (times tables join it from Year 4): keep exactly the levels already counted as learnt
+    const wasOpen = tablesOpen(k), known = PATH_ALL.filter(id => { const l = findLevel(id); return l && levelSkipped(l, k); });
+    k.year = +fd.get('year') || 0;
+    if (tablesOpen(k) !== wasOpen) { const np = kidPath(k); let j = 0; while (j < np.length && known.includes(np[j])) j++; setStart(j, k); k.known = known; }
     k.lang = LANG_IDS.includes(fd.get('lang')) ? fd.get('lang') : k.lang; k.spLangs = sp.length && sp.length < 4 ? sp : null;
     save(); applyLang(); show('parent', { tab: 'kids' }); toast(t.saved);
   } else if (kind === 'le-type') {
