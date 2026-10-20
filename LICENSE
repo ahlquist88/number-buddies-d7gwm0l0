@@ -1,20 +1,41 @@
 Number Buddies
 Copyright (c) 2026 Number Buddies
 
-This work is licensed under the Creative Commons
+Number Buddies is licensed under the Creative Commons
 Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+This applies to the app, its texts, its pictures and its code.
 
 You are free to:
-  - Share: copy and redistribute the material in any medium or format
-  - Adapt: remix, transform, and build upon the material
+  - Share: copy and redistribute the material in any medium or format.
+  - Adapt: remix, transform and build upon the material.
 
 Under the following terms:
-  - Attribution: you must give appropriate credit and indicate if changes were made.
-  - NonCommercial: you may not use the material for commercial purposes,
-    including selling it or charging for access to it.
+  - Attribution: you must give appropriate credit ("Number Buddies"), provide a
+    link to the licence, and indicate if changes were made.
+  - NonCommercial: you may not use the material for commercial purposes.
+    For example, you may not sell it, charge for access to it, or put
+    advertising in it.
+  - No additional restrictions: you may not add legal terms or technical
+    measures that stop others from doing anything the licence permits.
 
 Full licence text: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+Short summary:     https://creativecommons.org/licenses/by-nc/4.0/
+If this summary and the full licence text differ, the full licence text applies.
 
-The app is provided "as is", without warranty of any kind. It is a free hobby
-project made by a parent. Progress stays on the device unless a grown-up chooses to
-create a free family account; see privacy.html.
+No warranty
+Number Buddies is a free hobby project made by a parent. It is provided
+"as is", without warranty of any kind, express or implied, including
+fitness for a particular purpose. To the extent allowed by law, the author
+is not liable for any loss or damage arising from its use. This repeats
+Section 5 of the licence and does not limit any rights you have by law.
+
+Fonts and outside code
+The fonts (Andika, Fredoka), the Firebase code and the word-reading program
+(Tesseract) are not part of this licence. They are loaded from their
+providers and keep their own licences.
+
+Privacy
+Without an account, the app keeps everything on the device it runs on. If a
+grown-up creates an optional free family account, the family's data is also
+stored with Google Firebase. Opening the website contacts GitHub, Google and,
+when reading a photo, jsDelivr. See privacy.html for the details.
