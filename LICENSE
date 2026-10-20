@@ -30,9 +30,11 @@ is not liable for any loss or damage arising from its use. This repeats
 Section 5 of the licence and does not limit any rights you have by law.
 
 Fonts and outside code
-The fonts (Andika, Fredoka), the Firebase code and the word-reading program
-(Tesseract) are not part of this licence. They are loaded from their
-providers and keep their own licences.
+The fonts (Andika and Fredoka) are not part of this licence. They are
+included in the fonts folder under the SIL Open Font License 1.1; see
+fonts/OFL-Andika.txt and fonts/OFL-Fredoka.txt. The Firebase code and the
+word-reading program (Tesseract) are not part of this licence either. They
+are loaded from their providers and keep their own licences.
 
 Privacy
 Without an account, the app keeps everything on the device it runs on. If a
