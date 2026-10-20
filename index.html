@@ -1620,7 +1620,7 @@ function similarTo(p) {
 
 /* ---------- topic locking ---------- */
 function lockInfo(tp) {
-  if (!tp.requires || store.unlockAll || store.year >= 2) return null;
+  if (!tp.requires || store.unlockAll || tablesOpen()) return null;
   const need = tp.requires.flatMap(id => TOPICS.find(t => t.id === id).levels), done = need.filter(l => store.best[l.id] || placedPast(l.id)).length;
   return done >= need.length ? null : { done, total: need.length };
 }
@@ -4350,7 +4350,7 @@ const ACTIONS = {
   'restart-no': () => { const r = $('#restart-row'); r.hidden = true; r.innerHTML = ''; },
   'restart-yes': () => { store.round = null; save(); show('practice', { id: S.id, fresh: true }); },
   'voice-test': d => { const s = store.sound, l = d.l || curLang(); store.sound = true; speak(I18N[l].voiceSample, 'hoot', l); store.sound = s; },
-  'reset-yes': () => { Object.assign(store, { best: {}, round: null, review: [], start: 0, resetAt: Date.now() }); save(); show('parent', { tab: 'settings' }); toast(tr().resetDone); }
+  'reset-yes': () => { Object.assign(store, { best: {}, round: null, review: [], start: 0, startId: '', resetAt: Date.now() }); save(); show('parent', { tab: 'settings' }); toast(tr().resetDone); }
 };
 app.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
@@ -4397,20 +4397,40 @@ const ON_SITE = true; /*SITE*/
 const FIREBASE_CONFIG = {"apiKey": "AIzaSyDYH2Akddsa9mZefagVx5MMeZZc6PKud-E", "authDomain": "number-buddies-c9103.firebaseapp.com", "projectId": "number-buddies-c9103", "storageBucket": "number-buddies-c9103.firebasestorage.app", "messagingSenderId": "757407002845", "appId": "1:757407002845:web:5807f9c1460a72d4452b34"}; /*FIREBASE*/
 
 /* ---------- the learning path: every maths level in a sensible order ---------- */
-const PATH = ['a1', 's1', 'a2', 'a6', 's2', 'a3', 'a4', 's3', 'a7', 's7', 'm1', 'm2', 'm3', 'd1', 'd2', 'a8', 's8', 'a9', 's6', 's4',
+const PATH_ALL = ['a1', 's1', 'a2', 'a6', 's2', 'a3', 'a4', 's3', 'a7', 's7', 'm1', 'm2', 'm3', 'd1', 'd2', 'a8', 's8', 'a9', 's6', 's4',
   'a12', 's12', 'a5', 's5', 'a10', 's10', 'a11', 's11', 's9', 'm4', 'm5', 'm6', 'd3', 'd4', 'd5', 'd6', 'm7', 'd7', 'm8', 'd8',
   'a14', 's14', 'a13', 's13', 'm9', 'd9', 'm10', 'd10', 'a15', 's15'];
+// Times tables and sharing come at the very end of Year 3, so up to Year 3 (and "not sure")
+// the path does all the adding and taking away first; from Year 4 they are mixed in.
+const isAddSub = id => /^[as]\d/.test(id);
+const PATH_EARLY = [...PATH_ALL.filter(isAddSub), ...PATH_ALL.filter(id => !isAddSub(id))];
+const ADD_SUB_COUNT = PATH_ALL.filter(isAddSub).length;
+const tablesOpen = (k = store) => (k.year || 0) >= 4;
+const kidPath = (k = store) => tablesOpen(k) ? PATH_ALL : PATH_EARLY;
+const PATH = PATH_ALL;   // every path has the same 50 levels, only the order differs
 // where the starting quiz begins for each school year (0 = not sure)
-const YEAR_START = { 0: PATH.indexOf('a4'), 1: 0, 2: PATH.indexOf('a4'), 3: PATH.indexOf('a5'), 4: PATH.indexOf('m4'), 5: PATH.indexOf('m9'), 6: PATH.indexOf('m9') };
-const placedPast = id => { const i = PATH.indexOf(id); return i > -1 && i < (store.start || 0); };
+const YEAR_START_ID = { 0: 'a4', 1: 'a1', 2: 'a4', 3: 'a5', 4: 'm4', 5: 'm9', 6: 'm9' };
+const yearStart = (k = store) => Math.max(0, kidPath(k).indexOf(YEAR_START_ID[k.year || 0] || 'a4'));
+/* The start of a child's path is kept as the first level they still need, so it stays right
+   if a grown-up later changes the school year. Saves from before kept a position instead. */
+function startIdx(k = store) {
+  const p = kidPath(k);
+  if (k.startId === '#end') return p.length;
+  if (k.startId) { const i = p.indexOf(k.startId); return i < 0 ? 0 : i; }
+  if (k.start > 0) { const id = PATH_ALL[k.start]; return id ? Math.max(0, p.indexOf(id)) : p.length; }
+  return 0;
+}
+function setStart(i, k = store) { const p = kidPath(k); k.startId = i <= 0 ? '' : i >= p.length ? '#end' : p[i]; k.start = Math.max(0, i); }
+const placedPast = id => { const i = kidPath().indexOf(id); return i > -1 && i < startIdx(); };
 function pathNext() {
-  for (let i = store.start || 0; i < PATH.length; i++) {
-    const l = findLevel(PATH[i]);
+  const p = kidPath();
+  for (let i = startIdx(); i < p.length; i++) {
+    const l = findLevel(p[i]);
     if (l && !store.best[l.id] && !lockInfo(l.topic)) return { l, i };
   }
   return null;
 }
-const pathDoneCount = () => PATH.filter((id, i) => i < (store.start || 0) || store.best[id]).length;
+const pathDoneCount = () => { const p = kidPath(), s0 = startIdx(); return p.filter((id, i) => i < s0 || store.best[id]).length; };
 
 /* ---------- special rounds: mixed, and practising tricky questions again ---------- */
 const isReviewId = id => id === 'review' || String(id).startsWith('review-sp-');
@@ -4601,7 +4621,7 @@ function reviewCards() {
 }
 
 /* ---------- onboarding: a profile, then the starting quiz ---------- */
-const OB_STEPS = ['lang', 'name', 'avatar', 'year', 'spell', 'place'];
+const OB_STEPS = ['lang', 'name', 'avatar', 'year', 'place'];
 function obShell(tid, title, body, { back, cancel } = {}) {
   const t = tr();
   return `<div class="ob" style="${tcStyle(tid)}">
@@ -4633,17 +4653,12 @@ Object.assign(SCREENS, {
     } else if (step === 'year') {
       say = t.obYearQ;
       html = obShell('hoot', say, `<div class="ob-grid ob-years">${[1, 2, 3, 4, 5, 6, 0].map(n => `<button class="ob-opt${store.year === n && store.onboarded ? ' on' : ''}" data-act="ob-year" data-n="${n}">${yearLabel(n)}</button>`).join('')}</div>`, { back, cancel });
-    } else if (step === 'spell') {
-      say = t.obSpellQ;
-      const on = store.spLangs || [...new Set([store.lang, 'en'])];
-      html = obShell('fern', say, `<form class="ob-form ob-checks" data-form="ob-spell">${spellSubjects().map(tp => `<label class="check-row ob-check" style="${tcStyle(tp.teacher)}"><input type="checkbox" name="sp" value="${tp.lang}"${on.includes(tp.lang) ? ' checked' : ''}> <span class="mini-av">${charSvg(tp.teacher)}</span> ${topicTitle(tp)}</label>`).join('')}
-        <button class="btn" type="submit">${t.next}</button></form>`, { back, cancel });
     } else {
       say = t.obPlaceQ;
       html = obShell('sparkle', say, `<p class="ob-text">${t.obPlaceText}</p><div class="ob-row"><button class="btn btn-big" data-act="pl-start">${t.obPlaceGo}</button><button class="btn btn-soft" data-act="pl-skip">${t.obPlaceSkip}</button></div>`, { back, cancel });
     }
     app.innerHTML = obTopbar() + html;
-    speak(say.replace(/<[^>]+>/g, ' '), step === 'avatar' ? 'daisy' : step === 'spell' ? 'fern' : step === 'place' ? 'sparkle' : 'hoot');
+    speak(say.replace(/<[^>]+>/g, ' '), step === 'avatar' ? 'daisy' : step === 'place' ? 'sparkle' : 'hoot');
     if (step === 'name') setTimeout(() => $('#ob-name')?.focus(), 50);
   },
   placement() {
@@ -4691,9 +4706,10 @@ function genOne(L, not) {
   for (let i = 0; i < 80; i++) { const q = L.gen(Math.random); if (q && (!not || qKey(q) !== qKey(not))) { q.lv = L.id; return q; } }
   return { ...L.problems[0], lv: L.id };
 }
-function plCheckpoint() { const L = findLevel(PATH[PL.pos]), a = genOne(L); PL.qs = [a, genOne(L, a)]; PL.qi = 0; PL.right = 0; }
+function plCheckpoint() { const L = findLevel(PL.path[PL.pos]), a = genOne(L); PL.qs = [a, genOne(L, a)]; PL.qi = 0; PL.right = 0; }
 function plStart(from) {
-  PL = { pos: Math.min(YEAR_START[store.year] ?? YEAR_START[0], PATH.length - 1), lo: -1, hi: PATH.length, up: 4, down: 4, checks: 0, asked: 0, from };
+  const len = tablesOpen() ? PATH_ALL.length : ADD_SUB_COUNT;
+  PL = { path: kidPath(), len, pos: Math.min(yearStart(), len - 1), lo: -1, hi: len, up: 4, down: 4, checks: 0, asked: 0, from };
   plCheckpoint(); show('placement');
 }
 function plAnswer(knew) {
@@ -4712,15 +4728,15 @@ function plAnswer(knew) {
     if (pass) PL.lo = Math.max(PL.lo, PL.pos); else PL.hi = Math.min(PL.hi, PL.pos);
     // bigger jumps while it keeps going the same way, then halve the gap once both ends are known
     let np;
-    if (PL.lo >= 0 && PL.hi < PATH.length) np = Math.floor((PL.lo + PL.hi) / 2);
-    else if (pass) { np = Math.min(PL.pos + PL.up, PATH.length - 1); PL.up *= 2; }
+    if (PL.lo >= 0 && PL.hi < PL.len) np = Math.floor((PL.lo + PL.hi) / 2);
+    else if (pass) { np = Math.min(PL.pos + PL.up, PL.len - 1); PL.up *= 2; }
     else { np = Math.max(PL.pos - PL.down, 0); PL.down *= 2; }
     if (PL.checks >= 7 || np <= PL.lo || np >= PL.hi || PL.hi - PL.lo <= 2) return plFinish();
     PL.pos = np; plCheckpoint(); SCREENS.placement();
   }, 900);
 }
 function plFinish() {
-  store.start = PL.lo + 1; store.placedAt = Date.now(); store.onboarded = true; delete store.legacy;
+  setStart(PL.lo + 1); store.placedAt = Date.now(); store.onboarded = true; delete store.legacy;
   save(); show('placed', { from: PL.from });
 }
 
@@ -4951,7 +4967,7 @@ Object.assign(ACTIONS, {
     DB.gone.push(k.id); delete DB.kids[k.id]; cleanDB(DB); setActive(obPrev && DB.kids[obPrev] ? obPrev : Object.keys(DB.kids)[0]); save(); show('parent', { tab: 'kids' });
   },
   'pl-start': () => plStart(S.mode === 'add' ? 'parent-add' : S.from || 'first'),
-  'pl-skip': () => { store.start = Object.keys(store.best).length ? 0 : (YEAR_START[store.year] ?? 0); store.onboarded = true; delete store.legacy; save(); show('placed', { from: S.mode === 'add' ? 'parent-add' : 'first' }); },
+  'pl-skip': () => { setStart(Object.keys(store.best).length ? 0 : yearStart()); store.onboarded = true; delete store.legacy; save(); show('placed', { from: S.mode === 'add' ? 'parent-add' : 'first' }); },
   'pl-check': () => plAnswer(true),
   'pl-dunno': () => plAnswer(false),
   kids: () => show('kids'),
@@ -5008,9 +5024,6 @@ app.addEventListener('submit', async e => {
   if (kind === 'ob-name') {
     const v = $('#ob-name').value.trim(); if (!v) return;
     store.name = v.slice(0, 20); save(); obNext('name');
-  } else if (kind === 'ob-spell') {
-    const on = [...f.querySelectorAll('input[name="sp"]:checked')].map(x => x.value);
-    store.spLangs = on.length ? on : null; save(); obNext('spell');
   } else if (kind === 'pin') {
     const v = $('#pin-input').value.trim(), msg = $('#pin-msg'), { mode, next } = S;
     if (mode === 'forgot') { if (pinSum && Number(v) === pinSum[0] * pinSum[1]) { pinSum = null; gateUntil = Date.now() + 10 * 60e3; show('gate', { next, mode: 'create' }); } else msg.textContent = t.pinWrongSum; return; }
