@@ -815,6 +815,7 @@ const I18N = {
     newBest: ' New best!', nextLevel: 'Next level', playAgain: 'Play again', seeLesson: 'See the lesson', home: 'Home',
     soonToast: (t, x) => `${t} is still getting ${x.toLowerCase()} ready. Coming soon!`,
     voiceOn: 'Voice is on!', voiceOffLabel: 'Turn voice off', voiceOnLabel: 'Turn voice on', language: 'Language',
+    voicesTitle: 'Voices on this device', voicesHelp: 'Pick one voice for each language. It reads for every teacher on this device. To get a better voice on iPad: open Settings → Accessibility → Read & Speak (or Spoken Content) → Voices, pick the language and download a voice marked Premium or Enhanced, such as Ava. Then close and reopen this app.', voiceNoneFor: l => `No ${l} voice is installed on this device.`, voiceMissing: n => `${n} is not installed on this device, so the best other voice is used.`,
     voiceLabel: 'Teacher voice (English)', voiceAuto: 'Automatic', voiceTry: 'Try it', voiceSample: 'Hello! This is how I will read the maths to you.',
     voiceNone: 'This device has no English voices installed. Add one in Settings → Accessibility → Read & Speak → Voices.',
     askQ: (q, missing) => missing ? q : `${q} equals?`,
@@ -959,6 +960,7 @@ const I18N = {
     newBest: ' Ny rekord!', nextLevel: 'Næste niveau', playAgain: 'Spil igen', seeLesson: 'Se lektionen', home: 'Forside',
     soonToast: (t, x) => `${t} er stadig ved at gøre ${x.toLowerCase()} klar. Kommer snart!`,
     voiceOn: 'Stemmen er tændt!', voiceOffLabel: 'Sluk for stemmen', voiceOnLabel: 'Tænd for stemmen', language: 'Sprog',
+    voicesTitle: 'Stemmer på denne enhed', voicesHelp: 'Vælg én stemme til hvert sprog. Den læser op for alle lærerne på denne enhed. Sådan får du en bedre stemme på iPad: Åbn Indstillinger → Tilgængelighed → Læs og tal (eller Oplæsning) → Stemmer, vælg sproget, og hent en stemme, der er markeret Premium eller Forbedret. Luk så appen, og åbn den igen.', voiceNoneFor: l => `Der er ingen stemme på ${l} på denne enhed.`, voiceMissing: n => `${n} er ikke installeret på denne enhed, så den bedste anden stemme bruges.`,
     voiceLabel: 'Lærerstemme (dansk)', voiceAuto: 'Automatisk', voiceTry: 'Prøv den', voiceSample: 'Hej! Sådan kommer jeg til at læse matematikken op for dig.',
     voiceNone: 'Der er ingen danske stemmer på denne enhed. Tilføj en under Indstillinger → Tilgængelighed, i indstillingerne for oplæsning og stemmer.',
     askQ: (q, missing) => missing ? q : `${q} er lig med hvad?`,
@@ -3126,6 +3128,7 @@ const SV = (() => {
     newBest: ' Nytt rekord!', nextLevel: 'Nästa nivå', playAgain: 'Spela igen', seeLesson: 'Se lektionen', home: 'Hem',
     soonToast: (t, x) => `${t} håller fortfarande på att göra ${x.toLowerCase()} klart. Kommer snart!`,
     voiceOn: 'Rösten är på!', voiceOffLabel: 'Stäng av rösten', voiceOnLabel: 'Slå på rösten', language: 'Språk',
+    voicesTitle: 'Röster på den här enheten', voicesHelp: 'Välj en röst för varje språk. Den läser för alla lärare på den här enheten. Så får du en bättre röst på iPad: öppna Inställningar → Hjälpmedel → Läs och tala (eller Uppläst innehåll) → Röster, välj språket och hämta en röst som är märkt Premium eller Förbättrad. Stäng sedan appen och öppna den igen.', voiceNoneFor: l => `Det finns ingen röst på ${l} på den här enheten.`, voiceMissing: n => `${n} är inte installerad på den här enheten, så den bästa andra rösten används.`,
     voiceLabel: 'Lärarröst (svenska)', voiceAuto: 'Automatiskt', voiceTry: 'Prova', voiceSample: 'Hej! Så här kommer jag att läsa matten för dig.',
     voiceNone: 'Den här enheten har inga svenska röster. Lägg till en under Inställningar → Hjälpmedel, i inställningarna för uppläsning och röster.',
     askQ: (q, missing) => missing ? q : `${q} är lika med vad?`,
@@ -3322,6 +3325,7 @@ const ID = (() => {
     newBest: ' Rekor baru!', nextLevel: 'Level berikutnya', playAgain: 'Main lagi', seeLesson: 'Lihat pelajaran', home: 'Beranda',
     soonToast: (t, x) => `${t} masih menyiapkan ${x.toLowerCase()}. Segera hadir!`,
     voiceOn: 'Suara menyala!', voiceOffLabel: 'Matikan suara', voiceOnLabel: 'Nyalakan suara', language: 'Bahasa',
+    voicesTitle: 'Suara di perangkat ini', voicesHelp: 'Pilih satu suara untuk setiap bahasa. Suara itu membacakan untuk semua guru di perangkat ini. Cara mendapatkan suara yang lebih bagus di iPad: buka Pengaturan → Aksesibilitas → Baca & Ucapkan (atau Konten Lisan) → Suara, pilih bahasanya dan unduh suara bertanda Premium atau Ditingkatkan. Lalu tutup dan buka lagi aplikasi ini.', voiceNoneFor: l => `Belum ada suara ${l} di perangkat ini.`, voiceMissing: n => `${n} tidak terpasang di perangkat ini, jadi suara terbaik lainnya yang dipakai.`,
     voiceLabel: 'Suara guru (Indonesia)', voiceAuto: 'Otomatis', voiceTry: 'Coba', voiceSample: 'Halo! Beginilah aku akan membacakan matematika untukmu.',
     voiceNone: 'Perangkat ini belum punya suara bahasa Indonesia. Tambahkan di Pengaturan → Aksesibilitas, di pengaturan pembacaan dan suara.',
     askQ: (q, missing) => missing ? q : `${q} sama dengan berapa?`,
@@ -3782,17 +3786,35 @@ function voiceRank(v) {
   return (/premium/.test(s) ? 30 : /enhanced|neural|natural/.test(s) ? 20 : 0) + (/^(en-gb|da)/i.test(v.lang) ? 2 : 0) + (v.localService ? 1 : 0);
 }
 const rankedVoices = lang => voicesFor(lang).sort((a, b) => voiceRank(b) - voiceRank(a) || a.name.localeCompare(b.name));
-function voiceFor(lang) {
-  const list = rankedVoices(lang), chosen = store.voice && store.voice[lang];
-  return (chosen && list.find(v => v.voiceURI === chosen)) || list[0] || null;
+/* The voice is a setting of this device (voices are installed per device), one per language,
+   and the same voice reads for every teacher. It is remembered by its id and its name, so it is
+   still found after a system update renames the id. */
+const DEV_KEY = 'numberBuddies.device';
+let DEV = {};
+try { DEV = JSON.parse(localStorage.getItem(DEV_KEY) || '{}') || {}; } catch (e) {}
+if (!DEV.voice) {
+  // earlier versions kept the choice with the child
+  DEV.voice = {};
+  for (const k of Object.values(DB.kids)) for (const [l, uri] of Object.entries(k.voice || {})) if (uri && !DEV.voice[l]) DEV.voice[l] = { uri, name: '' };
 }
-try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => fillVoicePicker(); } catch (e) {}
+const saveDev = () => { try { localStorage.setItem(DEV_KEY, JSON.stringify(DEV)); } catch (e) {} };
+function chosenVoice(lang) {
+  const c = DEV.voice && DEV.voice[lang]; if (!c) return null;
+  const all = voicesFor(lang);
+  return all.find(v => v.voiceURI === c.uri) || (c.name && all.find(v => v.name === c.name)) || (c.name && all.find(v => v.name.split(' (')[0] === c.name.split(' (')[0])) || null;
+}
+function voiceFor(lang) { return chosenVoice(lang) || rankedVoices(lang)[0] || null; }
+let voicesReady = false;
+try { voicesReady = speechSynthesis.getVoices().length > 0; speechSynthesis.onvoiceschanged = () => { voicesReady = true; fillVoicePicker(); }; } catch (e) {}
 function fillVoicePicker() {
-  const sel = document.getElementById('voice-select'); if (!sel) return;
-  const t = tr(), list = rankedVoices(store.lang), chosen = store.voice && store.voice[store.lang];
-  sel.innerHTML = `<option value="">${t.voiceAuto}${list[0] ? ` (${esc(list[0].name)})` : ''}</option>` +
-    list.map(v => `<option value="${esc(v.voiceURI)}"${v.voiceURI === chosen ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
-  const none = document.getElementById('voice-none'); if (none) none.hidden = list.length > 0;
+  const t = tr();
+  for (const sel of document.querySelectorAll('.voice-sel')) {
+    const lang = sel.dataset.lang, list = rankedVoices(lang), c = DEV.voice[lang], pickedV = chosenVoice(lang);
+    sel.innerHTML = `<option value="">${t.voiceAuto}${list[0] ? ` (${esc(list[0].name)})` : ''}</option>` +
+      list.map(v => `<option value="${esc(v.voiceURI)}"${pickedV && v.voiceURI === pickedV.voiceURI ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
+    const note = document.querySelector(`.voice-note[data-lang="${lang}"]`);
+    if (note) note.textContent = !list.length ? t.voiceNoneFor(I18N[lang].langName) : c && !pickedV && c.name ? t.voiceMissing(c.name) : '';
+  }
 }
 function toSpeech(t) {
   const w = tr().say || I18N.en.say;
@@ -3804,16 +3826,21 @@ function toSpeech(t) {
     .replace(/\s·\s/g, w.times).replace(/\s:\s/g, w.div).replace(/\s\/\s/g, w.div)
     .replace(/\((H|T|O|E)\)/g, '');
 }
-function speak(text, tid) {
+function speak(text, tid, lang) {
   lastSaid = { text, tid };
   if (!store.sound) return;
+  // iPad loads its voices a moment after the page; speaking before that would use the device's default voice
+  if (!voicesReady) { try { if (speechSynthesis.getVoices().length) voicesReady = true; } catch (e) {} }
+  if (!voicesReady) { const want = { text, tid, lang }; speak.waiting = want; setTimeout(() => { if (speak.waiting === want) { voicesReady = true; speak(text, tid, lang); } }, 700); return; }
   try {
     // iPad Safari drops an utterance queued right after cancel(), so wait a moment when something was playing
     const busy = speechSynthesis.speaking || speechSynthesis.pending;
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(toSpeech(text)), v = voiceFor(curLang());
-    u.lang = v ? v.lang : (tr().voiceLang || 'en-GB'); if (v) u.voice = v;
-    u.rate = .9; u.pitch = TEACHERS[tid]?.pitch || 1;
+    const L = lang || curLang(), picked = chosenVoice(L), v = picked || voiceFor(L);
+    const u = new SpeechSynthesisUtterance(toSpeech(text));
+    u.lang = v ? v.lang : (I18N[L].voiceLang || 'en-GB'); if (v) u.voice = v;
+    // a voice the grown-up chose keeps its own sound; otherwise each teacher gets a slightly different pitch
+    u.rate = .9; u.pitch = picked ? 1 : TEACHERS[tid]?.pitch || 1;
     if (busy) setTimeout(() => speechSynthesis.speak(u), 120); else speechSynthesis.speak(u);
   } catch (e) {}
 }
@@ -4142,7 +4169,9 @@ function teacherSay(text, mood) {
 }
 function markDone() {
   const t = tr(), btn = $('#check-btn');
-  btn.textContent = S.mode === 'redo' ? (S.fromResults ? t.redoBackResults : t.redoBack) : S.i === S.list.length - 1 ? t.seeStars : t.nextQ;
+  // after a redo: back to the stars, back to the question still waiting, or on to the next one
+  const last = S.i === S.list.length - 1;
+  btn.textContent = S.mode === 'redo' ? (S.fromResults ? t.redoBackResults : S.saved && S.saved.done ? (last ? t.seeStars : t.nextQ) : t.redoBack) : last ? t.seeStars : t.nextQ;
   btn.style.setProperty('--tc', 'var(--good)');
 }
 function pressKey(k) {
@@ -4259,6 +4288,7 @@ function enterRedo(k) {
 function exitRedo() {
   Object.assign(S, S.saved || {}); S.mode = null; S.rp = null;
   if (S.fromResults) { S.fromResults = false; S.quiet = true; show('results', S); return; }
+  if (S.done) { nextQ(); return; }   // the question they came from was already answered
   renderPractice(false);
   window.scrollTo({ top: 0 });
 }
@@ -4319,7 +4349,7 @@ const ACTIONS = {
   'restart-ask': () => { const t = tr(), r = $('#restart-row'); r.hidden = false; r.innerHTML = `<span>${t.startOverAsk}</span><button class="btn btn-small" data-act="restart-yes">${t.startOverYes}</button><button class="btn btn-small btn-soft" data-act="restart-no">${t.startOverNo}</button>`; },
   'restart-no': () => { const r = $('#restart-row'); r.hidden = true; r.innerHTML = ''; },
   'restart-yes': () => { store.round = null; save(); show('practice', { id: S.id, fresh: true }); },
-  'voice-test': () => { const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s; },
+  'voice-test': d => { const s = store.sound, l = d.l || curLang(); store.sound = true; speak(I18N[l].voiceSample, 'hoot', l); store.sound = s; },
   'reset-yes': () => { Object.assign(store, { best: {}, round: null, review: [], start: 0, resetAt: Date.now() }); save(); show('parent', { tab: 'settings' }); toast(tr().resetDone); }
 };
 app.addEventListener('click', e => {
@@ -4329,9 +4359,10 @@ app.addEventListener('click', e => {
 app.addEventListener('change', e => {
   if (e.target.id === 'lang-select') { switchLang(e.target.value); return; }
   if (e.target.id === 'unlock-all') { store.unlockAll = e.target.checked; save(); return; }
-  if (e.target.id !== 'voice-select') return;
-  store.voice = { ...(store.voice || {}), [store.lang]: e.target.value || null }; save();
-  const s = store.sound; store.sound = true; speak(tr().voiceSample, 'hoot'); store.sound = s;
+  if (!e.target.classList.contains('voice-sel')) return;
+  const l = e.target.dataset.lang, v = rankedVoices(l).find(x => x.voiceURI === e.target.value);
+  DEV.voice[l] = v ? { uri: v.voiceURI, name: v.name } : null; saveDev(); fillVoicePicker();
+  const s = store.sound; store.sound = true; speak(I18N[l].voiceSample, 'hoot', l); store.sound = s;
 });
 app.addEventListener('submit', e => {
   e.preventDefault();
@@ -4765,9 +4796,10 @@ function paSettings() {
   const t = tr();
   return `<section class="pa-card grownups-body">
     <h3>${t.settingsFor(esc(store.name || '?'))}</h3>
-    <div class="voice-row"><label for="voice-select">${t.voiceLabel}</label>
-      <div class="row"><select id="voice-select"></select><button class="btn btn-small btn-soft" type="button" data-act="voice-test">${t.voiceTry}</button></div>
-      <p id="voice-none" hidden>${t.voiceNone}</p></div>
+    <h3>${t.voicesTitle}</h3><p class="muted">${t.voicesHelp}</p>
+    ${LANG_IDS.map(l => `<div class="voice-row"><label for="voice-${l}">${I18N[l].langName}</label>
+      <div class="row"><select id="voice-${l}" class="voice-sel" data-lang="${l}"></select><button class="btn btn-small btn-soft" type="button" data-act="voice-test" data-l="${l}">${t.voiceTry}</button></div>
+      <p class="voice-note muted" data-lang="${l}"></p></div>`).join('')}
     <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
     <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="pin-change">${t.pinChange}</button></div>
