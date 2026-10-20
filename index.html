@@ -195,7 +195,7 @@ h1,h2,h3,.topic-title,.st-title,.bubble,.lv-title{-webkit-hyphens:auto;hyphens:a
 .lvl-text span{color:var(--ink-soft);font-size:16px}
 .lvl-stars{display:flex;gap:2px}
 .lvl-actions{display:flex;gap:8px;align-items:center;margin-left:auto}
-.tag{display:inline-block;align-self:flex-start;margin-top:4px;padding:2px 10px;border-radius:999px;background:var(--sun);color:#3A2A00;font-family:var(--font-display);font-weight:600;font-size:13px;letter-spacing:.4px;text-transform:uppercase}
+.tag,.lvl-text .tag{display:inline-block;align-self:flex-start;margin-top:4px;padding:2px 10px;border-radius:999px;background:var(--sun);color:#3A2A00;font-family:var(--font-display);font-weight:600;font-size:13px;letter-spacing:.4px;text-transform:uppercase}
 
 /* lesson */
 .why-card{background:var(--tc-soft);border-radius:var(--r);padding:16px 20px;display:flex;flex-direction:column;gap:4px}
@@ -331,6 +331,7 @@ h1,h2,h3,.topic-title,.st-title,.bubble,.lv-title{-webkit-hyphens:auto;hyphens:a
 .opt.right{border-color:var(--good);background:var(--good-soft);color:var(--good)}
 .opt.wrong{border-color:var(--oops);background:var(--oops-soft);color:var(--oops);text-decoration:line-through;text-decoration-thickness:3px}
 .opt:disabled{cursor:default}
+@media (max-width:360px){.opt{font-size:24px}}   /* the longest spelling words still fit on small phones */
 .tiles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .tile{display:grid;place-items:center;min-width:46px;height:58px;padding:0 6px;border-radius:12px;background:var(--card-2);font-family:var(--font-display);font-weight:700;font-size:36px}
 .tile.hl{background:var(--sun);color:#2A1E00}
@@ -2907,13 +2908,321 @@ kebakaran | Petugas memadamkan ___. | kebakarran, kebakran | ke | ke + bakar + a
 penjelasan | Guru memberi ___ yang jelas. | penjelassan, pejelasan | pen | pe + jelas + an.` }
 ];
 
+/* ---------- spelling by school year: easier levels for Year 1, harder ones for Years 4–6 ----------
+   Level ids keep their meaning (saved stars and rounds use them); only the order on the topic
+   screen changes. SPELL_ORDER is easy → hard, and SPELL_YEAR_START says where each school year begins. */
+SPELL_LEVELS.en.push(
+  { id: 'e11', title: 'Short words', goal: 'cat, dog and sun',
+    what: 'Short words are made of sounds you can hear: c-a-t makes cat. Say each sound and write a letter for it.', why: 'When you can hear every sound, you can spell lots of words on your own.',
+    words: `cat | The ___ drank some milk. | kat, catt | a |
+dog | The ___ wagged its tail. | dogg, dag | o |
+sun | The ___ is hot today. | sunn, sonn | u |
+pig | The ___ rolled in the mud. | pigg, pyg | i |
+bed | It is time for ___. | bedd, bedt | e |
+hat | Put on your ___. | hatt, het | a |
+cup | I drink from a ___. | kup, cupp | u |
+red | A strawberry is ___. | redd, rad | e |
+map | We looked at the ___. | mapp, mep | a |
+bus | We go to school on the ___. | buss, bas | u |` },
+  { id: 'e12', title: 'sh, ch and th', goal: 'ship, chip and this',
+    what: 'Some sounds need two letters: sh in ship, ch in chip and th in this.', why: 'Two letters make one new sound. If you leave one out, the word does not work.',
+    words: `ship | The ___ sailed on the sea. | sip, shipp | sh |
+shop | We went to the ___. | sop, shopp | sh |
+fish | A ___ swims in the pond. | fis, fich | sh |
+chip | Can I have a ___? | cip, chipp | ch |
+chin | I have jam on my ___. | cin, shin | ch | Your shin is on your leg. Your chin is on your face.
+much | Thank you very ___! | muc, mush | ch |
+this | Is ___ your bag? | tis, thiss | th |
+that | Look at ___ big bird! | tat, thatt | th |
+with | Come and play ___ me. | wiv, wit | th |
+moth | A ___ flew to the lamp. | mof, mot | th |` },
+  { id: 'e13', title: 'The -ous ending', goal: 'famous and dangerous',
+    what: 'Many describing words end with a "us" sound. It is usually spelled -ous, like in famous and nervous.', why: '-ous means "full of". Dangerous means full of danger.',
+    words: `famous | She is a ___ singer. | famus, faimous | ous |
+nervous | I feel ___ before a test. | nervus, nervouse | ous |
+dangerous | Fire can be ___. | dangerus, dangrous | ous | danger + ous.
+enormous | An elephant is ___. | enormus, enourmous | ous |
+jealous | The cat was ___ of the new puppy. | jelous, jealus | ea |
+various | We tried ___ games. | varius, vairious | ious |
+poisonous | Some mushrooms are ___. | poisonus, poisnous | ous | poison + ous.
+curious | The ___ monkey looked in the box. | curius, curous | ious |
+serious | This is a ___ problem. | serius, searious | ious |
+mountainous | Norway is a ___ country. | mountanous, mountainus | ain | mountain + ous: the ain stays.` },
+  { id: 'e14', title: 'Year 4 words', goal: 'Words from the Year 3 and 4 list',
+    what: 'These are harder words from the Year 3 and 4 spelling list. Look carefully at the tricky part of each one.', why: 'Most of each word is easy. Learn the tricky part, and the whole word is yours.',
+    words: `answer | Do you know the ___? | anser, answar | sw | You cannot hear the w in answer.
+breath | Take a deep ___. | breth, braeth | ea |
+certain | Are you ___ it is right? | sertain, certin | ain |
+exercise | Running is good ___. | exersise, excercise | cise |
+forward | Take one step ___. | foward, forwerd | rw |
+group | Get into a ___ of three. | groop, grup | ou |
+height | What is your ___? | hight, heigth | eigh |
+imagine | ___ you can fly! | imagin, emagine | gine |
+medicine | The ___ helped me feel better. | medisin, medecine | dici |
+address | Write your ___ on the letter. | adress, addres | dd | Address has two d's and two s's.` },
+  { id: 'e15', title: '-cious and -tious', goal: 'delicious and cautious',
+    what: 'The "shus" sound at the end of a word is spelled -cious or -tious. If the root word ends in -ce, use -cious: grace → gracious.', why: 'Looking at the root word gives you a clue: space → spacious, ambition → ambitious.',
+    words: `delicious | This cake is ___! | delishus, delitious | cious |
+precious | The ring is very ___. | preshus, pretious | cious |
+vicious | The dragon was ___. | vishus, vitious | cious |
+spacious | Our new house is ___. | spashus, spatious | cious | space → spacious.
+suspicious | The dog was ___ of the stranger. | suspishus, suspitious | cious |
+conscious | He was ___ of the noise. | conshus, concious | scious |
+ambitious | She has an ___ plan. | ambishus, ambicious | tious | ambition → ambitious.
+cautious | Be ___ near the edge. | caushus, caucious | tious |
+nutritious | Fruit is a ___ snack. | nutrishus, nutricious | tious | nutrition → nutritious.
+infectious | A cold is ___. | infecshus, infecsious | tious |` },
+  { id: 'e16', title: 'Year 5 and 6 words', goal: 'Words from the Year 5 and 6 list',
+    what: 'These words come from the Year 5 and 6 spelling list. Many have double letters or letters you cannot hear.', why: 'Grown-ups get these wrong too! Learning them now will help you for years.',
+    words: `necessary | It is ___ to wear a helmet. | neccessary, necesary | cess | One collar and two sleeves: one c, two s's.
+embarrass | Please do not ___ me! | embarass, embaras | rr | Two r's and two s's: really red, so shy.
+definite | Is that a ___ yes? | definate, defenite | nite | There is a "finite" in definite.
+achieve | You can ___ your goal. | acheive, achive | ie |
+available | Is this seat ___? | availible, avalable | able |
+environment | We must look after the ___. | enviroment, environmant | nm | There is "iron" in envIRONment.
+familiar | That song sounds ___. | familar, fammiliar | iar |
+rhythm | Clap to the ___ of the music. | rythm, rhythum | rh | Rhythm Helps Your Two Hips Move.
+category | Put each animal in a ___. | catagory, categry | ego |
+bruise | I have a ___ on my knee. | bruse, brewse | ui |` }
+);
+SPELL_LEVELS.da.push(
+  { id: 'k11', title: 'Korte ord', goal: 'kat, sol og hus',
+    what: 'Korte ord kan du lytte dig frem til: k-a-t bliver til kat. Sig hver lyd, og skriv et bogstav for den.', why: 'Når du kan høre alle lydene, kan du selv stave mange ord.',
+    words: `kat | Vores ___ sover på sofaen. | katt, kad | a |
+sol | ___ skinner i dag. | soll, sool | o |
+is | Jeg vil gerne have en ___. | iis, ies | i |
+bil | Far kører i en rød ___. | bill, biil | i |
+hus | Vi bor i et gult ___. | huss, huus | u |
+mor | Min ___ læser en bog for mig. | morr, moor | o |
+far | Min ___ laver mad. | farr, faar | a |
+ost | Jeg spiser ___ på brødet. | oost, osd | o |
+fisk | En ___ svømmer i vandet. | fesk, fiisk | i |
+bus | Vi tager ___ til byen. | buss, bos | u |` },
+  { id: 'k12', title: 'To konsonanter først', goal: 'stol, skib og spil',
+    what: 'Nogle ord starter med to konsonanter lige efter hinanden: st i stol, sk i skib og sp i spil.', why: 'Det er let at glemme den ene konsonant. Sig ordet langsomt, så hører du dem begge.',
+    words: `stol | Sæt dig på en ___. | sol, sstol | st |
+sten | Jeg fandt en flot ___. | sen, stenn | st |
+skib | Et stort ___ sejler forbi. | kib, sib | sk |
+sko | Jeg har nye ___. | ko, sco | sk |
+spil | Skal vi spille et ___? | pil, spill | sp |
+slik | Vi får ___ om lørdagen. | sik, slikk | sl |
+grå | Elefanten er ___. | gå, gråå | gr |
+frø | Vi sår et ___ i jorden. | fø, frøø | fr |
+blomst | Jeg plukker en ___. | bomst, blomts | bl |
+krabbe | Der går en ___ på stranden. | kabbe, rabbe | kr |` },
+  { id: 'k13', title: 'Nutids-r', goal: 'løber, spiser og leger',
+    what: 'Når noget sker nu, ender ordet tit på -r: Jeg løber. Hun spiser. Vi leger.', why: 'Mange glemmer r\'et, fordi det næsten ikke kan høres. Prøv at sætte "i dag" foran: I dag løber jeg. Så skal der r på.',
+    words: `løber | Hunden ___ efter bolden. | løbe, løbber | er | I dag løber hunden: så skal der r på.
+spiser | Vi ___ aftensmad nu. | spise, spisser | er |
+leger | Børnene ___ i haven. | lege, legger | er |
+hopper | Frøen ___ i vandet. | hoppe, hopr | er |
+sover | Katten ___ i solen. | sove, sovver | er |
+drikker | Hun ___ et glas mælk. | drikke, driker | er |
+tegner | Jeg ___ en flot hest. | tegne, tejner | er |
+svømmer | Han ___ i havet. | svømme, svømer | er |
+cykler | Vi ___ til skole. | cykle, sykler | er |
+synger | Fuglen ___ i træet. | synge, syngger | er |` },
+  { id: 'k14', title: 'Endelserne -ing og -else', goal: 'tegning og følelse',
+    what: 'Mange navneord ender på -ing, -ning eller -else: tegne bliver til tegning, føle bliver til følelse.', why: 'Når du kender det ord, endelsen sidder på, er det let at stave hele ordet.',
+    words: `tegning | Jeg har lavet en ___. | tejning, tegnig | ing | tegne + ing.
+bygning | Det er en meget høj ___. | byning, bygnig | ing | bygge + ning.
+åbning | Der er en ___ i hegnet. | åpning, åbnig | ing |
+løsning | Vi fandt en god ___. | løssning, løsnig | ing |
+forklaring | Læreren gav en god ___. | forklarring, forklarig | ing |
+følelse | Glæde er en dejlig ___. | følse, føllelse | else | føle + else.
+begyndelse | Det var kun ___ på eventyret. | begyndese, begynnelse | else |
+oplevelse | Turen var en stor ___. | oplevese, opplevelse | else |
+overraskelse | Vi har en ___ til dig. | overaskelse, overraskese | rr |
+forståelse | Tak for din ___. | forstålse, forsståelse | else |` },
+  { id: 'k15', title: 'Fremmedord', goal: 'station, chokolade og cykel',
+    what: 'Nogle ord kommer fra andre sprog, så de staves ikke, som de lyder på dansk: station, chokolade, garage.', why: 'Ordene har beholdt deres stavemåde fra det sprog, de kommer fra. Lær den svære del udenad.',
+    words: `station | Toget holder ved ___. | stasjon, stashon | tion | Det hedder "sjon", men vi skriver tion.
+information | Her kan du få ___. | informasjon, informashon | tion |
+chokolade | Jeg elsker varm ___. | sjokolade, chokolate | ch |
+garage | Bilen står i ___. | garasje, garrage | ge |
+journalist | Hun er ___ på en avis. | sjournalist, jurnalist | jour |
+restaurant | Vi spiste på en ___. | restorant, restaurang | au |
+cykel | Min ___ er blå. | sykel, cyckel | cy |
+centrum | Vi bor tæt på ___. | sentrum, centerum | ce |
+cirkus | Vi så klovne i ___. | sirkus, cirkkus | ci |
+giraf | En ___ har en lang hals. | sjiraf, giraff | gi |` },
+  { id: 'k16', title: 'Svære lange ord', goal: 'selvfølgelig og pludselig',
+    what: 'Disse ord er lange, og nogle af bogstaverne kan ikke høres. Del ordet op, og se godt på det svære stykke.', why: 'Mange voksne staver også disse ord forkert. Når du kan dem, skriver du som en voksen.',
+    words: `selvfølgelig | Du må ___ være med. | selfølgelig, selvfølgelit | selv | selv + følge + lig.
+pludselig | ___ begyndte det at regne. | plutselig, pluselig | dse |
+desværre | ___ kan jeg ikke komme. | desvære, disværre | rr |
+egentlig | Hvad hedder du ___? | egenlig, eientlig | ntl | egen + t + lig.
+overhovedet | Jeg er ___ ikke træt. | overhovedt, overhoved | hoved | over + hoved + et.
+efterhånden | Det bliver ___ mørkt. | efterhånen, efterhåndn | hånd | efter + hånd + en.
+interessant | Bogen er meget ___. | interesant, intressant | ss |
+forskellige | Vi har ___ farver. | forskelige, forsjellige | ll |
+nemlig | Jeg er ___ syv år. | nemli, nemmelig | lig |
+særlig | Det er en ___ dag. | særli, særrlig | lig |` }
+);
+SPELL_LEVELS.sv.push(
+  { id: 'v11', title: 'Korta ord', goal: 'sol, bil och hus',
+    what: 'Korta ord kan du lyssna dig fram till: s-o-l blir sol. Säg varje ljud och skriv en bokstav för det.', why: 'När du hör alla ljuden kan du stava många ord själv.',
+    words: `sol | ___ skiner i dag. | soll, sool | o |
+bil | Pappa kör en röd ___. | bill, biil | i |
+hus | Vi bor i ett gult ___. | huss, huus | u |
+mus | En liten ___ åt osten. | muss, muus | u |
+fisk | En ___ simmar i sjön. | fesk, fiisk | i |
+bok | Jag läser en ___. | bock, book | o |
+mat | Nu är det dags för ___. | matt, maat | a |
+ost | Jag äter ___ på mackan. | oost, osst | o |
+hav | Vi badar i ___. | haav, haf | a |
+lek | Vi har en rolig ___. | leck, leek | e |` },
+  { id: 'v12', title: 'Två konsonanter först', goal: 'stol, sko och glad',
+    what: 'Några ord börjar med två konsonanter efter varandra: st i stol, sk i sko och gl i glad.', why: 'Det är lätt att glömma en av konsonanterna. Säg ordet långsamt, så hör du båda.',
+    words: `stol | Sätt dig på en ___. | sol, sstol | st |
+sten | Jag hittade en fin ___. | sen, stenn | st |
+sko | Jag har nya ___. | so, sco | sk |
+skog | Vi går i ___. | sog, skogg | sk |
+spel | Ska vi spela ett ___? | pel, spell | sp |
+glad | Jag är ___ i dag. | gad, gladd | gl |
+blå | Himlen är ___. | bå, bllå | bl |
+gris | En ___ säger nöff. | gis, griss | gr |
+krona | Kungen har en ___. | kona, kronna | kr |
+flagga | Vi hissar en ___. | fagga, flaga | fl |` },
+  { id: 'v13', title: 'Ändelsen -de och -te', goal: 'ringde, läste och lekte',
+    what: 'När något redan har hänt slutar ordet ofta på -de eller -te: jag ringde, jag läste. Efter k, p, s och t skriver vi -te.', why: 'Lyssna på ljudet före ändelsen. Är det hårt, som k, p, s eller t, blir det -te: lek → lekte.',
+    words: `ringde | Mormor ___ i går. | ringte, rinde | de |
+byggde | Vi ___ en koja. | byggte, bygde | de |
+körde | Pappa ___ bilen. | körte, kördde | de |
+hörde | Jag ___ en fågel. | hörte, hörrde | de |
+vände | Hon ___ sig om. | vänte, vännde | de |
+läste | Jag ___ en bok. | läsde, lässte | te | läs slutar på s, så det blir -te.
+köpte | Vi ___ glass. | köpde, köppte | te | köp slutar på p, så det blir -te.
+lekte | Barnen ___ ute. | lekde, leckte | te | lek slutar på k, så det blir -te.
+åkte | Vi ___ tåg till stan. | åkde, åckte | te |
+hoppade | Grodan ___ i vattnet. | hoppde, hopade | ade |` },
+  { id: 'v14', title: 'Ändelsen -tion', goal: 'station och lektion',
+    what: 'Många ord slutar med ett "schon"-ljud. Det stavas nästan alltid -tion: station, lektion.', why: 'Orden kommer från latin och har kvar sin gamla stavning. När du hör "schon" i slutet, skriv -tion.',
+    words: `station | Tåget står vid ___. | staschon, stasjon | tion |
+lektion | Nu börjar ___. | lekschon, lecktion | tion |
+information | Här finns ___ om djuren. | informaschon, infomation | tion |
+portion | Jag vill ha en stor ___. | porschon, portsion | tion |
+nation | Hela ___ tittade på matchen. | naschon, nasjon | tion |
+position | Ställ dig på din ___. | poschon, posision | tion |
+tradition | Det är en gammal ___. | tradischon, tradision | tion |
+situation | Det var en svår ___. | situaschon, situasion | tion |
+operation | Hunden fick en ___. | operaschon, opperation | tion |
+generation | Mormor är från en annan ___. | generaschon, jenneration | tion |` },
+  { id: 'v15', title: 'Främmande ord', goal: 'garage, cykel och citron',
+    what: 'Vissa ord kommer från andra språk, så de stavas inte som de låter på svenska: garage, cykel, citron.', why: 'Orden har kvar sin stavning från språket de kommer ifrån. Lär dig den svåra delen utantill.',
+    words: `garage | Bilen står i ___. | garasch, garrage | ge |
+journalist | Hon är ___ på en tidning. | schurnalist, jornalist | jour |
+restaurang | Vi åt på en ___. | restorang, restaurant | au |
+cykel | Min ___ är blå. | sykel, cyckel | cy |
+cirkus | Vi såg clowner på ___. | sirkus, circkus | ci |
+giraff | En ___ har lång hals. | schiraff, giraf | gi |
+ingenjör | Hon jobbar som ___. | ingenjöör, insjenjör | ngen |
+chans | Du får en ___ till. | schans, chanss | ch |
+citron | En ___ är sur. | sitron, citrron | ci |
+schampo | Jag tvättar håret med ___. | sjampo, champo | sch |` },
+  { id: 'v16', title: 'Långa svåra ord', goal: 'egentligen och tillsammans',
+    what: 'De här orden är långa, och några bokstäver hörs nästan inte. Dela upp ordet och titta noga på den svåra biten.', why: 'Många vuxna stavar också fel på de här orden. När du kan dem skriver du som en vuxen.',
+    words: `egentligen | Vad heter du ___? | egenligen, egentlien | ntl | egen + t + ligen.
+förmodligen | Det blir ___ regn i morgon. | förmoligen, förmodlien | dl |
+självklart | ___ får du vara med! | sjävklart, självklar | lv | själv + klart.
+någonting | Jag har ___ i fickan. | nånting, någonging | gon |
+ingenting | Det finns ___ kvar. | inting, ingenring | gen |
+verkligen | Det var ___ roligt! | verklien, värkligen | erk |
+tillsammans | Vi leker ___. | tillsamans, tilsammans | mm | till + samman + s.
+intressant | Boken är ___. | intresant, interessant | ss |
+annorlunda | Den här är ___. | anorlunda, annolunda | nn |
+överraskning | Vi har en ___ till dig. | överaskning, överrasking | rr |` }
+);
+SPELL_LEVELS.id.push(
+  { id: 'i11', title: 'Kata pendek', goal: 'buku, bola dan mata',
+    what: 'Kata pendek bisa ditulis dengan mendengar bunyinya: bu-ku menjadi buku. Ucapkan setiap suku kata, lalu tulis hurufnya.', why: 'Dalam bahasa Indonesia, kata ditulis seperti bunyinya. Kalau kamu bisa mendengar setiap bunyi, kamu bisa menulis banyak kata sendiri.',
+    words: `buku | Aku membaca ___ cerita. | bukku, boku | uku |
+bola | Ayo main ___ di lapangan. | bolla, bula | ola |
+mata | Aku melihat dengan ___. | matta, mada | ata |
+kaki | ___ kucing ada empat. | kakki, kaky | aki |
+roti | Ibu membeli ___ di toko. | rotti, roty | oti |
+susu | Aku minum ___ setiap pagi. | sussu, sosu | usu |
+sapi | ___ makan rumput. | sappi, sapy | api |
+topi | Pakai ___ supaya tidak panas. | toppi, tupi | opi |
+meja | Buku ada di atas ___. | mejja, meya | eja |
+gigi | Sikat ___ sebelum tidur. | giggi, gici | igi |` },
+  { id: 'i12', title: 'Huruf c dan j', goal: 'kucing, cuci dan jeruk',
+    what: 'Huruf c dibaca seperti "ch", dan huruf j dibaca seperti "dj". Kedua bunyi ini mirip, jadi dengarkan baik-baik.', why: 'Kalau c dan j tertukar, katanya menjadi salah. Ucapkan katanya pelan-pelan untuk mendengar bedanya.',
+    words: `kucing | ___ itu tidur di sofa. | kuching, kujing | c |
+cuci | Ayo ___ tangan. | cuchi, cuji | c |
+cicak | Ada ___ di dinding. | chichak, cicah | c |
+kaca | Jendela itu dari ___. | kacha, kaja | c |
+celana | Aku memakai ___ biru. | chelana, jelana | c |
+jalan | Mobil lewat di ___. | djalan, calan | j |
+jeruk | ___ ini manis sekali. | djeruk, ceruk | j |
+baju | Ibu mencuci ___. | badju, bacu | j |
+jendela | Tolong tutup ___ itu. | djendela, cendela | j |
+jam | Sekarang ___ tujuh pagi. | djam, cam | j |` },
+  { id: 'i13', title: 'Awalan di-', goal: 'ditulis, dibaca dan dimakan',
+    what: 'Kalau di- adalah awalan pada kata kerja, tulis bersambung: ditulis, dibaca. Kalau di menunjuk tempat, tulis terpisah: di rumah.', why: 'Coba ganti dengan awalan me-. Kalau bisa (dibaca → membaca), di- ditulis bersambung.',
+    words: `ditulis | Surat itu ___ oleh Ani. | di tulis, ditullis | di | Bisa jadi menulis, jadi ditulis bersambung.
+dibaca | Buku itu sudah ___. | di baca, dibacca | di |
+dimakan | Kue itu ___ oleh adik. | di makan, dimakkan | di |
+diambil | Bola itu ___ oleh kakak. | di ambil, diambbil | di |
+dicuci | Piring itu sudah ___. | di cuci, dicucci | di |
+dibuka | Pintu itu ___ pelan-pelan. | di buka, dibukka | di |
+disimpan | Mainan ___ di dalam kotak. | di simpan, dissimpan | di |
+dijual | Sayur itu ___ di pasar. | di jual, dijjual | di |
+ditanam | Pohon itu ___ oleh ayah. | di tanam, ditannam | di |
+dipakai | Topi itu ___ oleh adik. | di pakai, dipakkai | di |` },
+  { id: 'i14', title: 'Awalan ter-', goal: 'terbang, tertawa dan terbesar',
+    what: 'Awalan ter- ditulis bersambung dengan kata dasarnya: ter + bang = terbang, ter + besar = terbesar.', why: 'Ter- bisa berarti "paling" (terbesar) atau "tidak sengaja" (terjatuh). Kata dasarnya tidak berubah.',
+    words: `terbang | Burung itu ___ tinggi. | trebang, terrbang | ter |
+tertawa | Semua anak ___. | tetawa, ter tawa | ter |
+terjatuh | Adik ___ dari sepeda. | trejatuh, ter jatuh | ter |
+terbesar | Gajah adalah hewan ___. | terbessar, ter besar | ter | ter + besar.
+tertinggi | Itu gunung ___ di sini. | tertingi, ter tinggi | ter |
+terlambat | Jangan ___ ke sekolah. | telambat, terlambad | ter |
+tersenyum | Ibu ___ kepadaku. | tesenyum, tersenyun | ter |
+terbuka | Pintunya ___ lebar. | trebuka, ter buka | ter |
+terkejut | Aku ___ mendengar suara itu. | tekejut, terkejud | ter |
+tertidur | Kakak ___ di kursi. | tetidur, ter tidur | ter |` },
+  { id: 'i15', title: 'Kata serapan baku', goal: 'kualitas, sistem dan aktivitas',
+    what: 'Banyak kata berasal dari bahasa lain. Ejaan bakunya kadang berbeda dari cara orang sering menulisnya: kualitas, bukan kwalitas.', why: 'Kata baku dipakai di sekolah, buku dan berita. Kalau ragu, cek di kamus (KBBI).',
+    words: `kualitas | Kain ini ___ bagus. | kwalitas, kualitet | ku | Tulis ku, bukan kw.
+kuitansi | Simpan ___ belanja ini. | kwitansi, kwitangsi | ku |
+sistem | Tata surya adalah ___ planet. | sistim, sitem | tem |
+aktivitas | Ini ___ yang seru. | aktifitas, aktivitis | tiv | aktif menjadi aktivitas, dengan v.
+kreatif | Adik sangat ___. | kreativ, kriatif | tif |
+teknik | Dia punya ___ menggambar yang bagus. | tehnik, tekhnik | kn |
+objek | Foto itu punya ___ yang menarik. | obyek, objec | bj |
+analisis | Guru membuat ___ soal. | analisa, analisys | sis |
+frekuensi | Radio itu punya ___ yang kuat. | frekwensi, frekuwensi | ku |
+ekspor | Kopi adalah barang ___. | eksport, ekpor | ks |` },
+  { id: 'i16', title: 'Imbuhan memper- dan me-kan', goal: 'memperbaiki dan menyelesaikan',
+    what: 'Kata panjang ini dibuat dari kata dasar dengan imbuhan: memper + baik + i = memperbaiki, me + selesai + kan = menyelesaikan.', why: 'Kalau kamu menemukan kata dasarnya, kata panjangnya jadi mudah ditulis.',
+    words: `memperbaiki | Ayah ___ sepeda. | memperbaikki, memerbaiki | memper | memper + baik + i.
+memperhatikan | Kami ___ guru. | memerhatikan, memperhatiin | memper |
+memperkenalkan | Aku ___ temanku. | memperkenalkkan, memperkenal | memper |
+mempelajari | Kami ___ sejarah. | mempelajarri, memplajari | mempe | memper + ajar + i.
+menyelesaikan | Aku ___ tugasku. | menyelesaian, menselesaikan | meny | me + selesai + kan: s menjadi ny.
+mengerjakan | Kakak ___ PR. | mengerjaan, mengkerjakan | meng |
+menghasilkan | Lebah ___ madu. | menghasilan, menhasilkan | meng |
+membersihkan | Kami ___ kelas. | membersian, mebersihkan | mem |
+menyebabkan | Hujan ___ banjir. | menyebapkan, mensebabkan | meny |
+mengumpulkan | Kami ___ sampah. | mengumpulan, mengumpukan | meng |` }
+);
+const SPELL_ORDER = {
+  en: ['e11', 'e12', 'e6', 'e8', 'e5', 'e1', 'e3', 'e4', 'e7', 'e2', 'e9', 'e10', 'e13', 'e14', 'e15', 'e16'],
+  da: ['k11', 'k12', 'k6', 'k8', 'k1', 'k2', 'k10', 'k7', 'k5', 'k3', 'k4', 'k9', 'k13', 'k14', 'k15', 'k16'],
+  sv: ['v11', 'v12', 'v1', 'v8', 'v2', 'v3', 'v7', 'v10', 'v5', 'v4', 'v6', 'v9', 'v13', 'v14', 'v15', 'v16'],
+  id: ['i11', 'i12', 'i1', 'i8', 'i9', 'i3', 'i6', 'i5', 'i7', 'i4', 'i2', 'i10', 'i13', 'i14', 'i15', 'i16']
+};
+// position in SPELL_ORDER where each school year starts (0 = not sure, like the maths path: Year 2)
+const SPELL_YEAR_START = { 0: 2, 1: 0, 2: 2, 3: 7, 4: 12, 5: 14, 6: 14 };
+
 /* ---------- spelling: topics, questions, pictures and explanations ---------- */
 const SPELL_FORMATS = i => i < 3 ? 'pick' : i < 6 ? 'fill' : 'type';   // easy → hard within a round
 const spItem = (wd, fmt, lv) => ({ sp: true, op: 'sp', w: wd.w, fmt, lv, s: 'spellRule' });
 const wordInfo = p => findLevel(p.lv).words.find(x => x.w === p.w);
 (function addSpelling() {
   for (const [lang, id, teacher] of [['en', 'spen', 'fern'], ['da', 'spda', 'pjuske'], ['sv', 'spsv', 'olle'], ['id', 'spid', 'uli']]) {
-    const levels = SPELL_LEVELS[lang].map(L => {
+    const levels = SPELL_ORDER[lang].map(lid => SPELL_LEVELS[lang].find(x => x.id === lid)).map(L => {
       const words = L.words.split('\n').map(line => {
         const [w, s, wrong, focus, tip] = line.split('|').map(x => x.trim());
         return { w, s, wrong: wrong.split(',').map(x => x.trim()), focus, tip: tip || '' };
@@ -2931,6 +3240,8 @@ const wordInfo = p => findLevel(p.lv).words.find(x => x.w === p.w);
   }
 })();
 const isSpellTopic = t => t && t.kind === 'spell';
+// where a child's school year starts in a spelling subject (the family's own word lists have one level)
+const spellStart = (tp, k = store) => isSpellTopic(tp) && !tp.custom ? Math.min(SPELL_YEAR_START[k.year || 0] ?? 2, tp.levels.length - 1) : 0;
 const mathTopics = () => TOPICS.filter(t => !isSpellTopic(t));
 
 /* letter tiles: the tricky letters in yellow, blanks as empty boxes */
@@ -3486,15 +3797,17 @@ const LANGS = ['en', 'da', 'sv', 'id'];
 (function addSpellingLanguages() {
   const merge = (t, src) => { for (const [k, v] of Object.entries(src)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
   const intro = {
-    spsv: 'Hej, jag är Olle! Vi ska lära oss att stava svenska ord, och varför de stavas så. Börja på nivå 1.',
-    spid: 'Halo, aku Uli! Ayo belajar menulis kata bahasa Indonesia dengan benar, dan mengapa ditulis begitu. Mulai dari level 1.'
+    spen: "Hi, I'm Fern! Let's learn how English words are spelled, and why. Start at the level that says Start here.",
+    spda: 'Hej, jeg er Pjuske! Vi skal lære at stave danske ord, og hvorfor de staves sådan. Start ved det niveau, hvor der står Start her.',
+    spsv: 'Hej, jag är Olle! Vi ska lära oss att stava svenska ord, och varför de stavas så. Börja på nivån där det står Börja här.',
+    spid: 'Halo, aku Uli! Ayo belajar menulis kata bahasa Indonesia dengan benar, dan mengapa ditulis begitu. Mulai dari level yang bertanda Mulai di sini.'
   };
   merge(I18N.en, { teachers: { olle: 'Olle the Moose', uli: 'Uli the Orangutan' }, topics: { spsv: 'Swedish spelling', spid: 'Indonesian spelling' }, topicIntro: intro,
-    gu4: "In the Spelling section, the whole app switches to that subject's language, including the voice and the keyboard." });
+    gu4: "In the Spelling section, the whole app switches to that subject's language, including the voice and the keyboard. Each spelling subject has 16 levels, from Year 1 to Year 6, and 'Start here' marks the level that fits the child's school year. Earlier levels count as done in the progress view, but they stay open to practise." });
   merge(I18N.da, { teachers: { olle: 'Elgen Olle', uli: 'Orangutangen Uli' }, topics: { spsv: 'Svensk stavning', spid: 'Indonesisk stavning' }, topicIntro: intro,
-    gu4: 'I Stavning skifter hele appen til fagets sprog, også stemmen og tastaturet.' });
+    gu4: 'I Stavning skifter hele appen til fagets sprog, også stemmen og tastaturet. Hvert stavefag har 16 niveauer fra Year 1 til Year 6, og "Start her" viser det niveau, der passer til barnets skoleår. Tidligere niveauer tæller som klaret i oversigten, men de kan stadig øves.' });
   merge(I18N.sv, { teachers: { olle: 'Älgen Olle', uli: 'Orangutangen Uli' }, topics: { spsv: 'Svensk stavning', spid: 'Indonesisk stavning' }, topicIntro: intro,
-    gu4: 'I Stavning byter hela appen till ämnets språk, även rösten och tangentbordet.',
+    gu4: 'I Stavning byter hela appen till ämnets språk, även rösten och tangentbordet. Varje stavningsämne har 16 nivåer från Year 1 till Year 6, och "Börja här" visar nivån som passar barnets skolår. Tidigare nivåer räknas som klara i översikten, men de går fortfarande att öva på.',
     spPrompt: { pick: 'Vilken stavning är rätt?', fill: 'Skriv bokstäverna som saknas.', type: 'Lyssna och skriv sedan ordet.' },
     hearWord: 'Hör ordet', pickFirst: 'Tryck på den stavning du tror är rätt.', fillFirst: 'Skriv först alla bokstäver som saknas.', typeFirst2: 'Skriv först ordet med bokstavstangenterna.',
     howSpell: w => `Så stavas ${w}`,
@@ -3505,7 +3818,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
       spellLook: { look: w => `Titta noga på ${w}. Lägg märke till de gula bokstäverna.`, say: l => `Säg bokstäverna högt: ${l}.`, cover: () => 'Täck nu över ordet och se det framför dig i huvudet.', write: () => 'Skriv det ur minnet, bokstav för bokstav.', check: w => `Kolla: står det ${w}? Bra jobbat om det stämmer!`, why: 'Titta, säg, täck, skriv, kolla är ett sätt som många barn lär sig sina stavningsord på i skolan.' }
     } });
   merge(I18N.id, { teachers: { olle: 'Rusa Olle', uli: 'Orangutan Uli' }, topics: { spsv: 'Ejaan Swedia', spid: 'Ejaan Indonesia' }, topicIntro: intro,
-    gu4: 'Di bagian Ejaan, seluruh aplikasi berganti ke bahasa pelajaran itu, termasuk suara dan papan ketiknya.',
+    gu4: 'Di bagian Ejaan, seluruh aplikasi berganti ke bahasa pelajaran itu, termasuk suara dan papan ketiknya. Setiap pelajaran ejaan punya 16 level dari Year 1 sampai Year 6, dan "Mulai di sini" menandai level yang cocok dengan tahun sekolah anak. Level sebelumnya dihitung selesai di ringkasan kemajuan, tetapi tetap bisa dilatih.',
     spPrompt: { pick: 'Ejaan mana yang benar?', fill: 'Tulis huruf yang hilang.', type: 'Dengarkan, lalu tulis katanya.' },
     hearWord: 'Dengar katanya', pickFirst: 'Ketuk ejaan yang menurutmu benar.', fillFirst: 'Tulis dulu semua huruf yang hilang.', typeFirst2: 'Tulis dulu katanya dengan tombol huruf.',
     howSpell: w => `Cara menulis ${w}`,
@@ -3928,7 +4241,7 @@ const SCREENS = {
   },
   topic({ id }) {
     const t = tr(), tp = TOPICS.find(x => x.id === id), tid = tp.teacher;
-    const first = tp.levels.find(l => !store.best[l.id]);
+    const s0 = spellStart(tp), first = tp.levels.find((l, i) => i >= s0 && !store.best[l.id]) || tp.levels.find(l => !store.best[l.id]);
     app.innerHTML = `${topbar()}
     <div class="crumbs"><button class="btn-link" data-act="home">${t.allSubjects}</button></div>
     <section class="talk" style="${tcStyle(tid)}">
@@ -4793,7 +5106,7 @@ function paProgress(kidId) {
   const t = tr(), k = DB.kids[kidId] || store;
   {
     const rows = mathTopics().concat(TOPICS.filter(isSpellTopic)).map(tp => {
-      const st = tp.levels.reduce((s, l) => s + (k.best[l.id] || 0), 0), done = tp.levels.filter(l => k.best[l.id]).length;
+      const st = tp.levels.reduce((s, l) => s + (k.best[l.id] || 0), 0), s0 = spellStart(tp, k), done = tp.levels.filter((l, i) => k.best[l.id] || i < s0).length;
       return `<tr><th scope="row">${topicTitle(tp)}</th><td>${t.progStars(st, tp.levels.length * 3)}</td><td>${t.progLevels(done, tp.levels.length)}</td></tr>`;
     }).join('');
     const weak = allLevels().filter(l => k.best[l.id] === 1).map(l => `${topicTitle(l.topic)}: ${lvlText(l).title}`);
