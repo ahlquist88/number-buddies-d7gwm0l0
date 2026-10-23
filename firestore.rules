@@ -1,14 +1,70 @@
 rules_version = '2';
-// Number Buddies: each signed-in grown-up can read and write only their own family record.
-// Everything else is closed.
+// Number Buddies.
+// Each signed-in grown-up can read and write only their own family record.
+// Friends (optional): a child's friend card can be read only by its own family and by the families
+// that family has approved. Friend codes stop working after 7 days. Everything else is closed.
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+
     match /families/{uid} {
-      allow read, delete: if request.auth != null && request.auth.uid == uid;
-      allow create, update: if request.auth != null && request.auth.uid == uid
+      allow read, delete: if signedIn() && me() == uid;
+      allow create, update: if signedIn() && me() == uid
                             && request.resource.data.v == 2
                             && request.resource.data.kids is map
                             && request.resource.data.lists is list;
+    }
+
+    // a child's friend card: nickname, buddy picture and this week's rounds, stars and days
+    function okCard(d) {
+      return d.keys().hasOnly(['owner', 'nick', 'avatar', 'wk', 'viewers', 'updated'])
+        && d.owner == me()
+        && d.nick is string && d.nick.size() > 0 && d.nick.size() <= 20
+        && d.avatar is string && d.avatar.size() <= 12
+        && d.wk is map && d.wk.keys().hasOnly(['id', 'rounds', 'stars', 'days'])
+        && d.viewers is list && d.viewers.size() <= 50
+        && d.updated is int;
+    }
+    match /players/{pid} {
+      allow get: if signedIn() && (resource.data.owner == me() || me() in resource.data.viewers);
+      allow create: if signedIn() && pid.size() == 20 && okCard(request.resource.data);
+      allow update: if signedIn() && resource.data.owner == me() && okCard(request.resource.data);
+      allow delete: if signedIn() && resource.data.owner == me();
+    }
+
+    // a friend code, made by a grown-up and passed on in person
+    match /codes/{code} {
+      allow get: if signedIn();
+      allow create, update: if signedIn() && code.size() == 8
+        && (resource == null || resource.data.owner == me())
+        && request.resource.data.keys().hasOnly(['pid', 'owner', 'nick', 'avatar', 'expires'])
+        && request.resource.data.owner == me()
+        && request.resource.data.nick is string && request.resource.data.nick.size() <= 20
+        && request.resource.data.expires is int
+        && request.resource.data.expires <= request.time.toMillis() + 8 * 86400000;
+      allow delete: if signedIn() && resource.data.owner == me();
+    }
+
+    // a friend request: only with a real, unexpired code from the family it goes to
+    function codeOf(r) { return get(/databases/$(database)/documents/codes/$(r.code)).data; }
+    // and only from the sender's own card, already opened to the family it goes to
+    function cardOf(r) { return get(/databases/$(database)/documents/players/$(r.from)).data; }
+    match /requests/{rid} {
+      allow get, list: if signedIn() && (resource.data.toOwner == me() || resource.data.fromOwner == me());
+      allow create, update: if signedIn()
+        && (resource == null || resource.data.fromOwner == me())
+        && request.resource.data.keys().hasOnly(['to', 'toOwner', 'from', 'fromOwner', 'fromNick', 'fromAvatar', 'code', 'created'])
+        && request.resource.data.fromOwner == me()
+        && request.resource.data.fromNick is string && request.resource.data.fromNick.size() <= 20
+        && request.resource.data.code is string && request.resource.data.code.size() == 8
+        && codeOf(request.resource.data).owner == request.resource.data.toOwner
+        && codeOf(request.resource.data).pid == request.resource.data.to
+        && codeOf(request.resource.data).expires > request.time.toMillis()
+        && cardOf(request.resource.data).owner == me()
+        && cardOf(request.resource.data).nick == request.resource.data.fromNick
+        && request.resource.data.toOwner in cardOf(request.resource.data).viewers;
+      allow delete: if signedIn() && (resource.data.toOwner == me() || resource.data.fromOwner == me());
     }
   }
 }

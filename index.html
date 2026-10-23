@@ -638,6 +638,193 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
 @media (min-width:601px){ .intro-stage .cw-sm{width:120px} }
 @media (max-width:600px){ .intro{gap:12px} .intro-stage{min-height:0;flex-wrap:nowrap} .intro-stage .cw-lg{width:140px} .intro-stage .cw-sm{width:min(84px,21vw)} .intro-card{padding:16px} }
 @media (max-height:700px){ .intro-stage .cw-lg{width:110px} .intro-stage .cw-sm{width:min(64px,19vw)} .intro-say{font-size:20px} .intro-lines li,.intro-promises li{font-size:17px} .ip-ic{width:42px;height:42px} }
+/* ---------- Buddy in Space ---------- */
+.game-art{flex:none;width:84px;height:84px;border-radius:50%;padding:8px;background:linear-gradient(#0B1530,#24366B)}
+.game-art .char{width:100%;height:100%}
+.game-card.locked .game-art{filter:grayscale(.6)}
+.game-lock{flex:none;color:var(--ink-soft)} .game-lock svg{width:34px;height:34px}
+.game{max-width:760px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:10px}
+.game-bar{display:flex;align-items:center;gap:16px;font-family:var(--font-display);font-weight:700;font-size:20px;min-height:44px}
+.game-bar .g-time{margin-left:auto;font-variant-numeric:tabular-nums}
+.g-shields{color:#FF5A6E;letter-spacing:1px;font-size:20px}
+.g-q{background:var(--card);border-radius:20px;box-shadow:var(--shadow);text-align:center;font-family:var(--font-display);font-weight:700;font-size:clamp(28px,6vw,44px);padding:8px 12px;font-variant-numeric:tabular-nums;min-height:1.5em}
+.g-q.miss{color:var(--oops)}
+.space{position:relative;overflow:hidden;height:min(860px,calc(100vh - 200px));height:min(860px,calc(100dvh - 200px));min-height:340px;border-radius:24px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:crosshair;
+  background:radial-gradient(1.6px 1.6px at 20% 30%,#fff,transparent),radial-gradient(1.4px 1.4px at 70% 60%,#fff,transparent),radial-gradient(1px 1px at 40% 80%,#cfe8ff,transparent),radial-gradient(1.2px 1.2px at 85% 15%,#fff,transparent),linear-gradient(#0B1530,#1B2A55);
+  background-size:180px 180px,220px 220px,150px 150px,260px 260px,100% 100%}
+.space.hurt{animation:gHurt .4s}
+@keyframes gHurt{30%{box-shadow:inset 0 0 0 6px #FF5A6E}}
+.rock{position:absolute;left:0;top:0;display:grid;place-items:center;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:radial-gradient(circle at 35% 30%,#C2AE95,#7A6450 70%);color:#fff;font-family:var(--font-display);font-weight:700;line-height:1;text-shadow:0 2px 0 rgba(0,0,0,.4);box-shadow:inset -6px -8px 0 rgba(0,0,0,.18);will-change:transform;pointer-events:none;font-variant-numeric:tabular-nums}
+.rock.wrong{background:radial-gradient(circle at 35% 30%,#F3A3A3,#B04848 70%);animation:gShake .35s}
+.rock.boom{animation:gBoom .35s forwards}
+.rock.fade{transition:opacity .4s;opacity:0}
+@keyframes gShake{25%{rotate:-12deg}75%{rotate:12deg}}
+@keyframes gBoom{to{scale:1.7;opacity:0}}
+.g-ship{position:absolute;left:0;bottom:6px;width:clamp(64px,16vw,96px);will-change:transform;pointer-events:none;filter:drop-shadow(0 6px 12px rgba(90,170,255,.6))}
+.g-ship .char{width:100%;height:auto;display:block}
+.beam{position:absolute;width:6px;margin-left:-3px;border-radius:3px;background:linear-gradient(#FFF6A8,#FFC93C);box-shadow:0 0 14px #FFD84D;pointer-events:none;animation:gBeam .26s forwards}
+@keyframes gBeam{to{opacity:0}}
+.g-plus{position:absolute;margin-left:-18px;font-family:var(--font-display);font-weight:700;font-style:normal;font-size:30px;color:#FFD84D;pointer-events:none;animation:gPlus .8s forwards}
+@keyframes gPlus{to{translate:0 -50px;opacity:0}}
+.g-hint{position:absolute;left:16px;right:16px;top:40%;margin:0;text-align:center;color:#fff;font-size:19px;font-weight:700;pointer-events:none;animation:gFade 1s 4s forwards}
+@keyframes gFade{to{opacity:0}}
+/* ---------- the games menu and the five other games ---------- */
+.game-card{flex-wrap:wrap}
+.game-grid{flex-basis:100%;display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:10px}
+.game-tile{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:96px;padding:10px 8px;border:0;border-radius:18px;background:var(--card-2);color:var(--ink);font-family:var(--font-display);font-weight:600;font-size:16px;line-height:1.2;text-align:center;box-shadow:inset 0 -4px 0 rgba(0,0,0,.08)}
+.game-tile:disabled{opacity:.5}
+.gt-ic{font-size:34px;line-height:1.1}
+.gt-best{font-size:13px;color:var(--ink-soft);font-weight:500}
+.mg-fruit .space,.mg-letters .space{background:linear-gradient(#BFE6FF,#E8F7FF 70%,#9ED48A 70%,#7BBF63)}
+.mg-letters .space{background:linear-gradient(#20305E,#3B4F8A 72%,#6A5A44 72%,#4E4232)}
+.mg-bubbles .space{background:linear-gradient(#3FA7D6,#1D5F8E)}
+.mg-hop .space{background:linear-gradient(#CDEBFF,#F2FAFF 58%,#A6D98F 58%,#86C46D)}
+.mg-memory .space{background:linear-gradient(#2E7D5B,#1F5E43);overflow-y:auto}
+.game[class*="mg-"] .g-q{font-size:clamp(20px,4.2vw,32px);line-height:1.2}
+.mg-area{height:min(860px,calc(100vh - 230px));height:min(860px,calc(100dvh - 230px))}
+.mg-area .g-hint{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.g-q.flash{animation:gFlash .8s}
+@keyframes gFlash{30%{background:var(--sun)}}
+.basket{position:absolute;left:0;bottom:4px;width:clamp(76px,20vw,110px);display:flex;flex-direction:column;align-items:center;pointer-events:none;will-change:transform}
+.bk-buddy{width:62%} .bk-buddy .char{width:100%;height:auto;display:block}
+.bk-bowl{font-size:clamp(40px,10vw,58px);line-height:.8;margin-top:-18%}
+.faller{position:absolute;left:0;top:0;display:grid;place-items:center;pointer-events:none;will-change:transform;line-height:1}
+.fruit .fx{grid-area:1/1}
+.fruit b,.letter b{grid-area:1/1;font-family:var(--font-display);font-weight:700;color:#fff;font-size:.42em;text-shadow:0 0 3px #000,0 2px 0 #000,0 0 6px rgba(0,0,0,.6)}
+.letter{border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE58A,#F4A62A 75%);box-shadow:0 0 12px rgba(255,215,90,.7)}
+.letter b{font-size:.62em}
+.gbub{border-radius:50%;background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.95) 0 8%,rgba(255,255,255,.25) 9% 55%,rgba(255,255,255,.12) 70%);border:2px solid rgba(255,255,255,.75);color:#fff;font-family:var(--font-display);font-weight:700;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none}
+.gbub.boom{animation:gBoom .35s forwards}
+.gbub.wrong{border-color:#FF8A8A;background:rgba(255,90,110,.45)}
+.gbub.fade{transition:opacity .4s;opacity:0}
+.hop-line{position:absolute;left:0;right:0;top:62%;height:4px;background:#3E5A2E;border-radius:2px}
+.tick{position:absolute;top:-6px;width:2px;height:16px;margin-left:-1px;background:#3E5A2E}
+.tick.major{top:-10px;height:24px;width:3px}
+.tick span{position:absolute;top:26px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-weight:700;font-size:15px;color:#24361A;font-style:normal}
+.tick.hl{background:var(--div);width:4px;top:-12px;height:28px;z-index:1}
+.tick.hl span{top:30px;font-size:20px;color:var(--div);background:#fff;border-radius:8px;padding:0 6px}
+.tick.hl.up span{top:auto;bottom:34px}
+.tick.hl.up~.hop-flag{z-index:2}
+@media (max-width:400px){ .hop-opts .hop-btn{min-width:0;flex:1 1 0;min-height:54px;font-size:22px;padding:8px 6px} .hop-opts{gap:8px} .hop-line{top:56%} .hop-flag{top:calc(56% - 48px)} .hop-buddy{top:calc(56% - 74px)} }
+.hop-flag{position:absolute;top:calc(62% - 48px);margin-left:-6px;font-size:40px;line-height:1;pointer-events:none}
+.hop-buddy{position:absolute;top:calc(62% - 74px);width:72px;margin-left:-36px;transition:left .6s ease-in-out;pointer-events:none}
+.hop-buddy.still{transition:none}
+.hop-buddy .char{width:100%;height:auto;display:block}
+.hop-buddy.hopping .char{animation:hopArc .6s ease-in-out}
+@keyframes hopArc{50%{transform:translateY(-70px)}}
+.hop-opts{position:absolute;left:12px;right:12px;bottom:14px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.hop-btn{min-width:88px;min-height:60px;font-size:26px;--tc:var(--div)}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px;min-height:100%;align-content:center}
+@media (max-width:600px){.mem-grid{grid-template-columns:repeat(3,1fr);gap:8px;padding:10px}}
+.mcard{min-height:84px;border:0;border-radius:16px;background:linear-gradient(#5B6BF0,#3F4ED0);color:#fff;font-family:var(--font-display);font-weight:700;font-size:clamp(20px,5vw,28px);box-shadow:inset 0 -5px 0 rgba(0,0,0,.2);padding:6px 4px;line-height:1.15}
+.mcard .mc-face{display:none}
+.mcard.up{background:#fff;color:#111;animation:flipIn .25s}
+.mcard.q.up{background:#FFF4CC}
+.mcard.up .mc-face{display:block} .mcard.up .mc-back{display:none}
+.mcard.done,.mcard.q.done{background:#BFEFCF;color:#0B2E1A}
+@keyframes flipIn{from{transform:scaleX(.2)}}
+.mc-back{font-size:30px;opacity:.8}
+.lw-word{letter-spacing:4px} .lw-word i{font-style:normal;color:var(--ink-soft);margin:0 2px} .lw-word b{color:var(--good);margin:0 2px}
+.lw-tag{font-size:.55em;color:var(--ink-soft);letter-spacing:0}
+.g-q .replay{vertical-align:middle}
+/* ---------- game banner, story games scene and eight more games ---------- */
+.g-banner{position:absolute;left:8%;right:8%;top:30%;z-index:5;padding:14px 18px;border-radius:22px;background:rgba(255,255,255,.96);color:#111;text-align:center;font-family:var(--font-display);font-weight:700;font-size:clamp(24px,6vw,40px);line-height:1.15;box-shadow:0 10px 30px rgba(0,0,0,.35);pointer-events:none;animation:gBan var(--ms,2200ms) ease-out forwards}
+.g-banner small{display:block;font-size:.55em;color:#B5541B;letter-spacing:.5px;text-transform:uppercase}
+@keyframes gBan{0%{opacity:0;transform:scale(.4) rotate(-4deg)}12%{opacity:1;transform:scale(1.08)}20%{transform:scale(1)}80%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.9) translateY(-20px)}}
+.intro-games{display:flex;flex-wrap:wrap;gap:8px;font-size:32px;justify-content:center}
+.intro-games span{animation:introIn .5s ease-out var(--d,0s) both}
+.mg-col{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:10px;padding:12px}
+.mg-go{--tc:var(--div);min-width:160px}
+.shake{animation:gShake .35s}
+.mg-clock .space,.mg-pizza .space,.mg-shop .space,.mg-jug .space,.mg-build .space,.mg-spot .space{background:linear-gradient(#FFF6E0,#FFE7B8)}
+.mg-snake .space{background:linear-gradient(#CFF0C4,#9FD98E)}
+.mg-mole .space{background:linear-gradient(#BDE8A8,#7FBF5F)}
+.clock{width:min(78%,52vh,420px);height:auto;touch-action:none;cursor:grab}
+.c-face{fill:#fff;stroke:#3F4ED0;stroke-width:6}
+.c-tick{stroke:#8B97B5;stroke-width:1.5} .c-tick.big{stroke:#1F2D47;stroke-width:3}
+.c-num{font-family:var(--font-display);font-weight:700;font-size:19px;fill:#1F2D47;text-anchor:middle}
+.c-hour{stroke:#1F2D47;stroke-width:9;stroke-linecap:round} .c-min{stroke:#E8553D;stroke-width:6;stroke-linecap:round} .c-pin{fill:#1F2D47}
+.shop-item{display:flex;align-items:center;gap:14px}
+.shop-emoji{font-size:clamp(54px,14vw,80px);line-height:1}
+.shop-tag{background:#fff;color:#111;border:3px dashed #B5541B;border-radius:14px;padding:6px 14px;font-family:var(--font-display);font-weight:700;font-size:clamp(26px,6vw,38px)}
+.shop-tray{min-height:62px;width:100%;max-width:560px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;background:rgba(255,255,255,.7);border-radius:18px;padding:8px}
+.shop-coins{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px}
+.coin{width:58px;height:58px;border-radius:50%;border:0;font-family:var(--font-display);font-weight:700;font-size:17px;color:#3A2A00;background:radial-gradient(circle at 35% 30%,#FFF1A8,#E2B43A 70%);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),0 2px 4px rgba(0,0,0,.2)}
+.coin.c1{background:radial-gradient(circle at 35% 30%,#F4F4F4,#B9BEC7 70%);color:#111} .coin.c0{background:radial-gradient(circle at 35% 30%,#F3C29A,#B8733E 70%);color:#fff}
+.coin.note{width:76px;height:46px;border-radius:8px;background:linear-gradient(135deg,#B8E6C9,#6FBF8E);color:#0B2E1A}
+.coin.sm{width:44px;height:44px;font-size:13px} .coin.note.sm{width:56px;height:36px}
+.pizza{width:min(76%,52vh,400px);height:auto}
+.crust{fill:#E2A35A}
+.slice{fill:#FFE7A3;stroke:#C98A3E;stroke-width:2;cursor:pointer}
+.slice.on{fill:#E8553D}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 4px;font-size:.85em}
+.frac b{border-bottom:3px solid currentColor;padding:0 4px} .frac i{font-style:normal}
+.jug{position:relative;width:min(46%,200px);height:min(52%,360px);min-height:220px;border:5px solid #3F6FA0;border-top:0;border-radius:0 0 26px 26px;background:rgba(255,255,255,.75);overflow:hidden}
+.j-water{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#7CC8F2,#3E9AD6)}
+.j-mark{position:absolute;left:0;width:18%;height:2px;background:#3F6FA0} .j-mark.big{width:34%;height:3px}
+.j-mark span{position:absolute;left:110%;top:-10px;font-family:var(--font-display);font-weight:700;font-size:14px;color:#1F3B5C;font-style:normal}
+.jug-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.j-pour{--tc:#3E9AD6;touch-action:none;user-select:none;-webkit-user-select:none} .j-pour.on{transform:scale(.96)}
+.snake-path{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.snake-path polyline{fill:none;stroke:#3B8C2E;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.s-tile,.s-start{position:absolute;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;border:0;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:20px;background:#fff;color:#111;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.s-start{background:#3B8C2E;color:#fff}
+.s-tile.eaten{background:#3B8C2E;color:#fff}
+.holes{position:absolute;inset:10px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px}
+.hole{position:relative;overflow:hidden;border-radius:50% 50% 18px 18px/40% 40% 18px 18px;background:radial-gradient(ellipse at 50% 85%,#4A3426 0 38%,transparent 40%)}
+.mole{position:absolute;left:50%;bottom:-100%;width:min(90%,110px);aspect-ratio:1;transform:translateX(-50%);border:0;background:none;display:grid;place-items:center;transition:bottom .2s;padding:0}
+.mole span{font-size:clamp(46px,12vw,72px);line-height:1;grid-area:1/1}
+.mole b{grid-area:1/1;align-self:end;background:#fff;color:#111;border-radius:10px;padding:2px 8px;font-family:var(--font-display);font-size:clamp(17px,4.5vw,24px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.mole.up{bottom:6%} .mole.hit{animation:gBoom .4s forwards} .mole.wrong b{background:#FFC2C2}
+.b-clue{margin:0;text-align:center;font-size:clamp(19px,4.5vw,26px);color:#111;max-width:600px}
+.b-gap{display:inline-block;min-width:2.4em;border-bottom:3px dashed #B5541B;color:#B5541B}
+.b-slots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.b-slot{width:44px;height:52px;border-radius:12px;border:3px dashed #8B97B5;background:#fff;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:26px;color:#111}
+.b-slot.full{border-style:solid;border-color:#3F4ED0;cursor:pointer}
+.b-slots.right .b-slot{background:#BFEFCF;border-color:#2E9C5A}
+.b-tiles{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.b-tile{width:52px;height:56px;border-radius:14px;border:0;background:linear-gradient(#FFD36E,#F4A62A);color:#111;font-family:var(--font-display);font-weight:700;font-size:28px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)}
+.spot{justify-content:center}
+.sp-opt{min-width:min(80%,320px);min-height:64px;border:0;border-radius:20px;background:#fff;color:#111;font-family:var(--font-display);font-weight:700;font-size:clamp(26px,6.5vw,38px);box-shadow:0 4px 0 rgba(0,0,0,.15);animation:introIn .4s ease-out var(--d,0s) both}
+.sp-opt.right{background:#BFEFCF} .sp-opt.wrong{background:#FFD0D0;text-decoration:line-through;opacity:.7}
+@media (min-width:601px){ .coin{width:72px;height:72px;font-size:20px} .coin.note{width:92px;height:56px} .b-slot{width:52px;height:60px;font-size:30px} .b-tile{width:60px;height:64px;font-size:32px} }
+@media (max-width:600px){ .coin{width:50px;height:50px;font-size:15px} .coin.note{width:64px;height:42px} .b-slot{width:36px;height:46px;font-size:22px} .b-tile{width:46px;height:50px} .s-tile,.s-start{width:54px;height:54px;margin:-27px 0 0 -27px;font-size:17px} }
+/* ---------- third review: smaller fixes ---------- */
+.fruit b{font-size:.4em;background:rgba(20,24,40,.82);color:#fff;text-shadow:none;border-radius:9px;padding:1px 6px;align-self:end;margin-bottom:-4px}
+.g-q .replay{display:inline-grid;vertical-align:middle;margin-left:8px}
+.gt-name{min-width:0;max-width:100%;overflow-wrap:anywhere;-webkit-hyphens:auto;hyphens:auto}
+@media (max-width:600px){
+  .game-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .game-tile{min-height:78px;padding:8px 4px;font-size:13px}
+  .gt-ic{font-size:28px}
+  table.prog tr{display:flex;flex-wrap:wrap;gap:2px 14px;padding:6px 0;border-top:1px solid var(--line)}
+  table.prog th{flex-basis:100%}
+  table.prog td,table.prog th{border:0;padding:0;white-space:normal}
+  .table-wrap{overflow-x:visible}
+}
+/* ---------- friends ---------- */
+.fr-list{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fr-list li{display:flex;align-items:center;gap:10px;background:var(--card-2);border-radius:14px;padding:6px 10px;min-height:48px}
+.fr-list li.me{outline:3px solid var(--tc);outline-offset:-3px}
+.fr-list li.muted{background:none;padding:0}
+.fr-rank{flex:none;width:28px;text-align:center;font-family:var(--font-display);font-size:20px;color:var(--tc)}
+.fr-av{flex:none;width:40px;height:40px} .fr-av .char{width:100%;height:100%}
+.fr-name{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere}
+.fr-nums{flex:none;font-size:14px;color:var(--ink-soft);text-align:right}
+.fr-mini .fr-nums{max-width:46%}
+.fr-page{max-width:640px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:12px}
+.fr-sort{display:flex;gap:8px;flex-wrap:wrap}
+.fr-pa h4{margin:14px 0 6px;font-size:17px}
+.fr-reqs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.fr-reqs li{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fr-reqs li>span:first-child{flex:none;width:40px;height:40px} .fr-reqs .char{width:100%;height:100%}
+.fr-reqs li>span:nth-child(2){flex:1;min-width:140px}
+.fr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.fr-form .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fr-form input{font:inherit;font-size:18px;padding:10px 12px;border-radius:14px;border:3px solid var(--line);background:var(--card-2);color:var(--ink);min-width:0;flex:1 1 160px}
+.fr-form label{display:block;margin:4px 0}
+.fr-code-show{font-size:18px;margin:0} .fr-code-show b{font-family:var(--font-display);letter-spacing:3px;font-size:24px}
+@media (max-width:600px){ .fr-list li{flex-wrap:wrap} .fr-nums{flex-basis:100%;text-align:left;padding-left:78px} .fr-mini .fr-nums{max-width:none} }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -713,6 +900,7 @@ function cleanKid(k) {
   if (!Number.isInteger(k.start) || k.start < 0) k.start = 0;
   if (k.spLangs && !Array.isArray(k.spLangs)) k.spLangs = null;
   if (k.known && !Array.isArray(k.known)) k.known = [];
+  if (k.fr && (typeof k.fr !== 'object' || !k.fr.pid)) delete k.fr;
   if (typeof k.sound !== 'boolean') k.sound = true;
   return k;
 }
@@ -1780,7 +1968,7 @@ Object.assign(EXPLAIN, {
   placeBig({ a, b }, X) {
     const col = b % 100 === 0 ? 2 : 1, k = b / 10 ** col, s = a + b, dA = digits(a, 3)[col];
     return { steps: [
-      { say: X.s1(b, k, col), v: pvChart(a, col, 3) },
+      { say: (X.lead ? X.lead(a, b) + ' ' : '') + X.s1(b, k, col), v: pvChart(a, col, 3) },
       { say: X.s2(dA, k, col), v: pvChart(s, col, 3) },
       { say: X.end(a, b, s), v: eq(`${a} + ${b} = ${mk(s)}`) }
     ], why: X.why };
@@ -1788,7 +1976,7 @@ Object.assign(EXPLAIN, {
   placeBigSub({ a, b }, X) {
     const col = b % 100 === 0 ? 2 : 1, k = b / 10 ** col, d = a - b, dA = digits(a, 3)[col];
     return { steps: [
-      { say: X.s1(b, k, col), v: pvChart(a, col, 3) },
+      { say: (X.lead ? X.lead(a, b) + ' ' : '') + X.s1(b, k, col), v: pvChart(a, col, 3) },
       { say: X.s2(dA, k, col), v: pvChart(d, col, 3) },
       { say: X.end(a, b, d), v: eq(`${a} ${M} ${b} = ${mk(d)}`, chk(d, b, a)) }
     ], why: X.why };
@@ -2155,7 +2343,7 @@ function altsFor(p) {
       "Stars count only answers that are right first time: 9 or 10 gives 3 stars, 7 or 8 gives 2, and a finished round always gives 1. A question the child needed help with gets a yellow circle. Tapping it gives a similar question; getting that right turns the circle green, but it doesn't add stars.",
       'The mixed challenge only uses levels the child has reached. Questions the child needed help with come back under “Practise again” after 1, then 3, then 7 days.',
       'Turn on the voice with the speaker button at the top right, and the teachers read everything aloud. Choose the language in the menu next to it.'],
-    mixedText: '10 surprise questions from everything you have unlocked.',
+    mixedText: '10 surprise questions from the levels you have reached.',
     topicIntro: { mul: 'Meow! Times tables are a quick way to add equal groups. Start at the level that says Start here, and work your way up.',
       div: "Hello, I'm Sparkle! Sharing means splitting things into equal groups. Start at the level that says Start here." },
     startOver: 'Start over', startOverAsk: 'Start this round again from question 1?', startOverYes: 'Yes, start over', startOverNo: 'Keep going',
@@ -2234,8 +2422,8 @@ function altsFor(p) {
       threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. With three numbers, look for two that are easy to add first.`, ten: (x, y) => `${x} and ${y} are friends of 10! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} and ${y} are a double: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Start with the first two: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Now add the last number: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `So ${a} + ${b} + ${c} = ${s}.`, why: 'You can add numbers in any order. Finding a pair that makes 10 first makes the rest easy.' },
       threeLeft: { s1: (a, b, ab) => `Let's go from left to right. First: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Then add the last number: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `So ${a} + ${b} + ${c} = ${s}.`, why: 'Adding two numbers at a time always works, whichever order you choose.' },
       bond100: { s1: a => `${a} + □ = 100. How far is it from ${a} to 100?`, toTen: (a, up, nt) => `First jump to the next ten: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Then jump in tens up to 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Add the jumps together: ${j1} + ${j2} = ${b}.`, end: (a, b) => `So ${a} + ${b} = 100. ${a} and ${b} are friends of 100!`, why: 'Friends of 100 work like friends of 10. 30 + 70 = 100 because 3 + 7 = 10.' },
-      placeBig: { s1: (b, k, col) => `${b} is ${k} ${EN[col]}, so only the ${EN[col]} digit changes.`, s2: (d, k, col) => `${d} ${EN[col]} + ${k} ${EN[col]} = ${d + k} ${EN[col]}. The other digits stay the same.`, end: (a, b, s) => `So ${a} + ${b} = ${s}.`, why: 'When you add only tens or only hundreds, the other digits stay the same, as long as nothing goes past 9.' },
-      placeBigSub: { s1: (b, k, col) => `${b} is ${k} ${EN[col]}, so only the ${EN[col]} digit changes.`, s2: (d, k, col) => `${d} ${EN[col]} − ${k} ${EN[col]} = ${d - k} ${EN[col]}. The other digits stay the same.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'When you take away only tens or only hundreds, the other digits stay the same, as long as there are enough.' },
+      placeBig: { lead: (a, b) => `Let's work out ${a} + ${b}.`, s1: (b, k, col) => `${b} is ${k} ${k === 1 ? I18N.en.one[col] : EN[col]}, so only the ${EN[col]} digit changes.`, s2: (d, k, col) => `${d} ${EN[col]} + ${k} ${EN[col]} = ${d + k} ${EN[col]}. The other digits stay the same.`, end: (a, b, s) => `So ${a} + ${b} = ${s}.`, why: 'When you add only tens or only hundreds, the other digits stay the same, as long as nothing goes past 9.' },
+      placeBigSub: { lead: (a, b) => `Let's work out ${a} − ${b}.`, s1: (b, k, col) => `${b} is ${k} ${k === 1 ? I18N.en.one[col] : EN[col]}, so only the ${EN[col]} digit changes.`, s2: (d, k, col) => `${d} ${EN[col]} − ${k} ${EN[col]} = ${d - k} ${EN[col]}. The other digits stay the same.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'When you take away only tens or only hundreds, the other digits stay the same, as long as there are enough.' },
       missingAdd: { s1: (q, known, c) => `${q}. To find the missing number, think: what do we add to ${known} to make ${c}?`, jump: (x, y, j) => `Count up from ${x} to ${y}: that's ${j}.`, add: (js, ans) => `Add the jumps: ${js} = ${ans}.`, end: (ans, e) => `The missing number is ${ans}. Check: ${e}.`, why: (c, known, ans) => `Adding and taking away are opposites. You could also take away: ${c} − ${known} = ${ans}.` },
       missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Something was taken from ${a} and ${c} was left. Count up from ${c} to ${a} to find it.`, s1a: (b, c) => `□ − ${b} = ${c}. We took ${b} away and ${c} was left.`, back: (c, b, a) => `So the start number is what was left plus what was taken: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Count up from ${x} to ${y}: that's ${j}.`, add: (js, ans) => `Add the jumps: ${js} = ${ans}.`, end: (ans, e) => `The missing number is ${ans}. Check: ${e}.`, why: 'Taking away and adding are opposites, so you can always turn a missing number question around.' },
       countUpAny: { s1: (a, b) => `${a} − ${b}: let's count up from ${b} to ${a}, using friendly numbers.`, jump: (x, y, j) => `From ${x} up to ${y}: that's ${j}.`, add: (js, d) => `Add the jumps: ${js} = ${d}.`, end: (a, b, d) => `So ${a} − ${b} = ${d}.`, why: 'Taking away also means finding the difference. Counting up the gap in friendly jumps always works.' },
@@ -2278,7 +2466,7 @@ function altsFor(p) {
       'Stjerner tæller kun svar, der er rigtige i første forsøg: 9 eller 10 giver 3 stjerner, 7 eller 8 giver 2, og en færdig runde giver altid 1. En opgave, som barnet fik hjælp til, får en gul cirkel. Et tryk på cirklen giver en opgave, der ligner; et rigtigt svar gør cirklen grøn, men giver ikke flere stjerner.',
       'Den blandede udfordring bruger kun niveauer, som barnet er nået til. Opgaver, som barnet fik hjælp til, kommer igen under “Øv igen” efter 1, så 3 og så 7 dage.',
       'Tænd for stemmen med højttalerknappen øverst til højre, så læser lærerne alt højt. Vælg sprog i menuen ved siden af.'],
-    mixedText: 'Ti overraskelsesopgaver fra alt det, du har låst op.',
+    mixedText: 'Ti overraskelsesopgaver fra de niveauer, du er nået til.',
     topicIntro: { mul: 'Miav! Gangetabeller er en hurtig måde at lægge lige store grupper sammen på. Start ved det niveau, hvor der står Start her, og arbejd dig op.',
       div: 'Hej, jeg er Glimmer! Division betyder at dele noget op i lige store grupper. Start ved det niveau, hvor der står Start her.' },
     startOver: 'Start forfra', startOverAsk: 'Vil du starte runden forfra fra opgave 1?', startOverYes: 'Ja, start forfra', startOverNo: 'Fortsæt',
@@ -2357,8 +2545,8 @@ function altsFor(p) {
       threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. Med tre tal kigger du først efter to, der er lette at lægge sammen.`, ten: (x, y) => `${x} og ${y} er tiervenner! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} og ${y} er dobbelt: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Start med de to første: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Læg nu det sidste tal til: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `Så er ${a} + ${b} + ${c} = ${s}.`, why: 'Du kan lægge tal sammen i hvilken som helst rækkefølge. Når du først finder et par, der giver 10, bliver resten let.' },
       threeLeft: { s1: (a, b, ab) => `Lad os regne fra venstre mod højre. Først: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Læg så det sidste tal til: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `Så er ${a} + ${b} + ${c} = ${s}.`, why: 'Det virker altid at lægge to tal sammen ad gangen, uanset hvilken rækkefølge du vælger.' },
       bond100: { s1: a => `${a} + □ = 100. Hvor langt er der fra ${a} til 100?`, toTen: (a, up, nt) => `Hop først til næste tier: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Hop så i tiere op til 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Læg hoppene sammen: ${j1} + ${j2} = ${b}.`, end: (a, b) => `Så er ${a} + ${b} = 100. ${a} og ${b} er 100-venner!`, why: '100-venner virker ligesom tiervenner. 30 + 70 = 100, fordi 3 + 7 = 10.' },
-      placeBig: { s1: (b, k, col) => `${b} er ${k} ${DA[col]}, så det er kun ${['ener', 'tier', 'hundred'][col]}cifferet, der ændrer sig.`, s2: (d, k, col) => `${d} ${DA[col]} + ${k} ${DA[col]} = ${d + k} ${DA[col]}. De andre cifre er de samme.`, end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`, why: 'Når du kun lægger tiere eller kun hundreder til, er de andre cifre de samme, så længe intet går over 9.' },
-      placeBigSub: { s1: (b, k, col) => `${b} er ${k} ${DA[col]}, så det er kun ${['ener', 'tier', 'hundred'][col]}cifferet, der ændrer sig.`, s2: (d, k, col) => `${d} ${DA[col]} − ${k} ${DA[col]} = ${d - k} ${DA[col]}. De andre cifre er de samme.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Når du kun trækker tiere eller kun hundreder fra, er de andre cifre de samme, så længe der er nok.' },
+      placeBig: { lead: (a, b) => `Lad os regne ${a} + ${b} ud.`, s1: (b, k, col) => `${b} er ${k} ${k === 1 ? ['ener', 'tier', 'hundrede'][col] : DA[col]}, så det er kun ${['ener', 'tier', 'hundred'][col]}cifferet, der ændrer sig.`, s2: (d, k, col) => `${d} ${DA[col]} + ${k} ${DA[col]} = ${d + k} ${DA[col]}. De andre cifre er de samme.`, end: (a, b, s) => `Så er ${a} + ${b} = ${s}.`, why: 'Når du kun lægger tiere eller kun hundreder til, er de andre cifre de samme, så længe intet går over 9.' },
+      placeBigSub: { lead: (a, b) => `Lad os regne ${a} − ${b} ud.`, s1: (b, k, col) => `${b} er ${k} ${k === 1 ? ['ener', 'tier', 'hundrede'][col] : DA[col]}, så det er kun ${['ener', 'tier', 'hundred'][col]}cifferet, der ændrer sig.`, s2: (d, k, col) => `${d} ${DA[col]} − ${k} ${DA[col]} = ${d - k} ${DA[col]}. De andre cifre er de samme.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Når du kun trækker tiere eller kun hundreder fra, er de andre cifre de samme, så længe der er nok.' },
       missingAdd: { s1: (q, known, c) => `${q}. Tænk: Hvad skal vi lægge til ${known} for at få ${c}?`, jump: (x, y, j) => `Tæl op fra ${x} til ${y}: det er ${j}.`, add: (js, ans) => `Læg hoppene sammen: ${js} = ${ans}.`, end: (ans, e) => `Det manglende tal er ${ans}. Tjek: ${e}.`, why: (c, known, ans) => `Plus og minus er hinandens modsætninger. Du kan også trække fra: ${c} − ${known} = ${ans}.` },
       missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Der blev taget noget fra ${a}, og der var ${c} tilbage. Tæl op fra ${c} til ${a} for at finde det.`, s1a: (b, c) => `□ − ${b} = ${c}. Vi tog ${b} væk, og der var ${c} tilbage.`, back: (c, b, a) => `Så starttallet er det, der var tilbage, plus det, der blev taget: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Tæl op fra ${x} til ${y}: det er ${j}.`, add: (js, ans) => `Læg hoppene sammen: ${js} = ${ans}.`, end: (ans, e) => `Det manglende tal er ${ans}. Tjek: ${e}.`, why: 'Minus og plus er hinandens modsætninger, så du kan altid vende et spørgsmål med et manglende tal om.' },
       countUpAny: { s1: (a, b) => `${a} − ${b}: Lad os tælle op fra ${b} til ${a} med venlige tal.`, jump: (x, y, j) => `Fra ${x} op til ${y}: det er ${j}.`, add: (js, d) => `Læg hoppene sammen: ${js} = ${d}.`, end: (a, b, d) => `Så er ${a} − ${b} = ${d}.`, why: 'Minus betyder også at finde forskellen. Det virker altid at tælle afstanden op i venlige hop.' },
@@ -3482,7 +3670,7 @@ const SV = (() => {
     askName: 'Vad heter du?', namePh: 'Skriv ditt namn', save: 'Spara', helloSpoken: n => `Hej ${n}! Välj ett ämne för att börja.`,
     chooseSubject: 'Välj ett ämne', withTeacher: n => `med ${n}`, soon: 'Kommer snart',
     topicMeta: (s, m, n) => `${s} av ${m} stjärnor · ${n} nivåer`,
-    mixedTitle: 'Blandad utmaning', mixedText: '10 överraskningsfrågor från allt du har låst upp.', letsGo: 'Kör!',
+    mixedTitle: 'Blandad utmaning', mixedText: '10 överraskningsfrågor från nivåerna du har kommit till.', letsGo: 'Kör!',
     grownups: 'För vuxna',
     gu: ['Number Buddies har 50 mattenivåer med 10 uppgifter i varje. Plus och Minus har 15 nivåer var, från små tal upp till uppställning med fyrsiffriga tal. Gångertabeller och Division har 10 nivåer var.',
       'Startquizen tar reda på var varje barn ska börja. Den börjar ett steg under barnets skolår och brukar ta ungefär 7 uppgifter. Sedan visar vägen på startsidan nästa nivå.',
@@ -3631,8 +3819,8 @@ const SV = (() => {
       threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. Med tre tal letar du först efter två som är lätta att lägga ihop.`, ten: (x, y) => `${x} och ${y} är tiokompisar! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} och ${y} är en dubbla: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Börja med de två första: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Lägg nu till det sista talet: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `Så ${a} + ${b} + ${c} = ${s}.`, why: 'Du kan lägga ihop tal i vilken ordning som helst. När du först hittar ett par som blir 10 blir resten lätt.' },
       threeLeft: { s1: (a, b, ab) => `Vi räknar från vänster till höger. Först: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Lägg sedan till det sista talet: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `Så ${a} + ${b} + ${c} = ${s}.`, why: 'Att lägga ihop två tal i taget fungerar alltid, vilken ordning du än väljer.' },
       bond100: { s1: a => `${a} + □ = 100. Hur långt är det från ${a} till 100?`, toTen: (a, up, nt) => `Hoppa först till nästa tia: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Hoppa sedan i tiotal upp till 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Lägg ihop hoppen: ${j1} + ${j2} = ${b}.`, end: (a, b) => `Så ${a} + ${b} = 100. ${a} och ${b} är hundrakompisar!`, why: 'Hundrakompisar fungerar som tiokompisar. 30 + 70 = 100 eftersom 3 + 7 = 10.' },
-      placeBig: { s1: (b, k, col) => `${b} är ${k} ${P[col]}, så bara ${P[col]}ssiffran ändras.`, s2: (d, k, col) => `${d} ${P[col]} + ${k} ${P[col]} = ${d + k} ${P[col]}. De andra siffrorna är desamma.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'När du bara lägger till tiotal eller bara hundratal är de andra siffrorna desamma, så länge inget går över 9.' },
-      placeBigSub: { s1: (b, k, col) => `${b} är ${k} ${P[col]}, så bara ${P[col]}ssiffran ändras.`, s2: (d, k, col) => `${d} ${P[col]} − ${k} ${P[col]} = ${d - k} ${P[col]}. De andra siffrorna är desamma.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'När du bara tar bort tiotal eller bara hundratal är de andra siffrorna desamma, så länge det finns tillräckligt.' },
+      placeBig: { lead: (a, b) => `Vi räknar ut ${a} + ${b}.`, s1: (b, k, col) => `${b} är ${k} ${P[col]}, så bara ${P[col]}ssiffran ändras.`, s2: (d, k, col) => `${d} ${P[col]} + ${k} ${P[col]} = ${d + k} ${P[col]}. De andra siffrorna är desamma.`, end: (a, b, s) => `Så ${a} + ${b} = ${s}.`, why: 'När du bara lägger till tiotal eller bara hundratal är de andra siffrorna desamma, så länge inget går över 9.' },
+      placeBigSub: { lead: (a, b) => `Vi räknar ut ${a} − ${b}.`, s1: (b, k, col) => `${b} är ${k} ${P[col]}, så bara ${P[col]}ssiffran ändras.`, s2: (d, k, col) => `${d} ${P[col]} − ${k} ${P[col]} = ${d - k} ${P[col]}. De andra siffrorna är desamma.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'När du bara tar bort tiotal eller bara hundratal är de andra siffrorna desamma, så länge det finns tillräckligt.' },
       missingAdd: { s1: (q, known, c) => `${q}. Tänk: vad ska vi lägga till ${known} för att få ${c}?`, jump: (x, y, j) => `Räkna upp från ${x} till ${y}: det är ${j}.`, add: (js, ans) => `Lägg ihop hoppen: ${js} = ${ans}.`, end: (ans, e) => `Det saknade talet är ${ans}. Kolla: ${e}.`, why: (c, known, ans) => `Plus och minus är varandras motsatser. Du kan också räkna minus: ${c} − ${known} = ${ans}.` },
       missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Något togs bort från ${a} och ${c} blev kvar. Räkna upp från ${c} till ${a} för att hitta det.`, s1a: (b, c) => `□ − ${b} = ${c}. Vi tog bort ${b} och ${c} blev kvar.`, back: (c, b, a) => `Så starttalet är det som blev kvar plus det som togs bort: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Räkna upp från ${x} till ${y}: det är ${j}.`, add: (js, ans) => `Lägg ihop hoppen: ${js} = ${ans}.`, end: (ans, e) => `Det saknade talet är ${ans}. Kolla: ${e}.`, why: 'Minus och plus är varandras motsatser, så du kan alltid vända på en fråga med ett saknat tal.' },
       countUpAny: { s1: (a, b) => `${a} − ${b}: vi räknar upp från ${b} till ${a} med vänliga tal.`, jump: (x, y, j) => `Från ${x} upp till ${y}: det är ${j}.`, add: (js, d) => `Lägg ihop hoppen: ${js} = ${d}.`, end: (a, b, d) => `Så ${a} − ${b} = ${d}.`, why: 'Minus betyder också att hitta skillnaden. Att räkna upp avståndet i vänliga hopp fungerar alltid.' },
@@ -3683,7 +3871,7 @@ const ID = (() => {
     askName: 'Siapa namamu?', namePh: 'Tulis namamu', save: 'Simpan', helloSpoken: n => `Halo ${n}! Pilih pelajaran untuk mulai.`,
     chooseSubject: 'Pilih pelajaran', withTeacher: n => `bersama ${n}`, soon: 'Segera hadir',
     topicMeta: (s, m, n) => `${s} dari ${m} bintang · ${n} level`,
-    mixedTitle: 'Tantangan campuran', mixedText: '10 soal kejutan dari semua yang sudah kamu buka.', letsGo: 'Ayo!',
+    mixedTitle: 'Tantangan campuran', mixedText: '10 soal kejutan dari level yang sudah kamu capai.', letsGo: 'Ayo!',
     grownups: 'Untuk orang tua',
     gu: ['Number Buddies punya 50 level matematika, masing-masing berisi 10 soal. Penjumlahan dan Pengurangan masing-masing punya 15 level, dari angka kecil sampai cara bersusun dengan bilangan empat angka. Perkalian dan Pembagian masing-masing punya 10 level.',
       'Kuis awal mencari tempat mulai yang tepat untuk setiap anak. Kuis dimulai satu langkah di bawah tahun sekolah anak dan biasanya sekitar 7 soal. Setelah itu, jalur di beranda menunjukkan level berikutnya.',
@@ -3832,8 +4020,8 @@ const ID = (() => {
       threeAdd: { s1: (a, b, c) => `${a} + ${b} + ${c}. Dengan tiga angka, cari dulu dua angka yang mudah dijumlahkan.`, ten: (x, y) => `${x} dan ${y} adalah teman 10! ${x} + ${y} = 10.`, double: (x, y, xy) => `${x} dan ${y} adalah kembar: ${x} + ${y} = ${xy}.`, start: (x, y, xy) => `Mulai dari dua angka pertama: ${x} + ${y} = ${xy}.`, last: (xy, z, s) => `Sekarang tambahkan angka terakhir: ${xy} + ${z} = ${s}.`, end: (a, b, c, s) => `Jadi ${a} + ${b} + ${c} = ${s}.`, why: 'Kamu boleh menjumlahkan dengan urutan apa saja. Menemukan pasangan yang hasilnya 10 dulu membuat sisanya mudah.' },
       threeLeft: { s1: (a, b, ab) => `Ayo hitung dari kiri ke kanan. Pertama: ${a} + ${b} = ${ab}.`, s2: (ab, c, s) => `Lalu tambahkan angka terakhir: ${ab} + ${c} = ${s}.`, end: (a, b, c, s) => `Jadi ${a} + ${b} + ${c} = ${s}.`, why: 'Menjumlahkan dua angka sekaligus selalu berhasil, urutan apa pun yang kamu pilih.' },
       bond100: { s1: a => `${a} + □ = 100. Seberapa jauh dari ${a} ke 100?`, toTen: (a, up, nt) => `Lompat dulu ke puluhan berikutnya: ${a} + ${up} = ${nt}.`, toHundred: (nt, j) => `Lalu lompat per puluhan sampai 100: ${nt} + ${j} = 100.`, add: (j1, j2, b) => `Jumlahkan lompatannya: ${j1} + ${j2} = ${b}.`, end: (a, b) => `Jadi ${a} + ${b} = 100. ${a} dan ${b} adalah teman 100!`, why: 'Teman 100 bekerja seperti teman 10. 30 + 70 = 100 karena 3 + 7 = 10.' },
-      placeBig: { s1: (b, k, col) => `${b} adalah ${k} ${P[col]}, jadi hanya angka ${P[col]} yang berubah.`, s2: (d, k, col) => `${d} ${P[col]} + ${k} ${P[col]} = ${d + k} ${P[col]}. Angka lainnya tetap sama.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Kalau kamu hanya menambah puluhan atau hanya ratusan, angka lainnya tetap sama, selama tidak melewati 9.' },
-      placeBigSub: { s1: (b, k, col) => `${b} adalah ${k} ${P[col]}, jadi hanya angka ${P[col]} yang berubah.`, s2: (d, k, col) => `${d} ${P[col]} − ${k} ${P[col]} = ${d - k} ${P[col]}. Angka lainnya tetap sama.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Kalau kamu hanya mengurangi puluhan atau hanya ratusan, angka lainnya tetap sama, selama jumlahnya cukup.' },
+      placeBig: { lead: (a, b) => `Ayo hitung ${a} + ${b}.`, s1: (b, k, col) => `${b} adalah ${k} ${P[col]}, jadi hanya angka ${P[col]} yang berubah.`, s2: (d, k, col) => `${d} ${P[col]} + ${k} ${P[col]} = ${d + k} ${P[col]}. Angka lainnya tetap sama.`, end: (a, b, s) => `Jadi ${a} + ${b} = ${s}.`, why: 'Kalau kamu hanya menambah puluhan atau hanya ratusan, angka lainnya tetap sama, selama tidak melewati 9.' },
+      placeBigSub: { lead: (a, b) => `Ayo hitung ${a} − ${b}.`, s1: (b, k, col) => `${b} adalah ${k} ${P[col]}, jadi hanya angka ${P[col]} yang berubah.`, s2: (d, k, col) => `${d} ${P[col]} − ${k} ${P[col]} = ${d - k} ${P[col]}. Angka lainnya tetap sama.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Kalau kamu hanya mengurangi puluhan atau hanya ratusan, angka lainnya tetap sama, selama jumlahnya cukup.' },
       missingAdd: { s1: (q, known, c) => `${q}. Pikirkan: berapa yang harus ditambahkan ke ${known} supaya menjadi ${c}?`, jump: (x, y, j) => `Hitung naik dari ${x} sampai ${y}: itu ${j}.`, add: (js, ans) => `Jumlahkan lompatannya: ${js} = ${ans}.`, end: (ans, e) => `Angka yang hilang adalah ${ans}. Periksa: ${e}.`, why: (c, known, ans) => `Penjumlahan dan pengurangan saling berlawanan. Kamu juga bisa mengurangi: ${c} − ${known} = ${ans}.` },
       missingSub: { s1b: (a, c) => `${a} − □ = ${c}. Ada yang diambil dari ${a} dan tersisa ${c}. Hitung naik dari ${c} sampai ${a} untuk menemukannya.`, s1a: (b, c) => `□ − ${b} = ${c}. Kita mengambil ${b} dan tersisa ${c}.`, back: (c, b, a) => `Jadi angka awalnya adalah sisa ditambah yang diambil: ${c} + ${b} = ${a}.`, jump: (x, y, j) => `Hitung naik dari ${x} sampai ${y}: itu ${j}.`, add: (js, ans) => `Jumlahkan lompatannya: ${js} = ${ans}.`, end: (ans, e) => `Angka yang hilang adalah ${ans}. Periksa: ${e}.`, why: 'Pengurangan dan penjumlahan saling berlawanan, jadi kamu selalu bisa membalik soal angka yang hilang.' },
       countUpAny: { s1: (a, b) => `${a} − ${b}: ayo hitung naik dari ${b} sampai ${a} dengan angka yang ramah.`, jump: (x, y, j) => `Dari ${x} naik ke ${y}: itu ${j}.`, add: (js, d) => `Jumlahkan lompatannya: ${js} = ${d}.`, end: (a, b, d) => `Jadi ${a} − ${b} = ${d}.`, why: 'Pengurangan juga berarti mencari selisih. Menghitung naik jaraknya dengan lompatan ramah selalu berhasil.' },
@@ -3944,6 +4132,45 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     introPromises: 'Our three promises', promise1: "If you get stuck, we show you how, step by step.", promise2: 'Mistakes are fine. A yellow circle means you can try again.', promise3: 'Every round earns stars, and every day you get a little better.',
     tip_pad: 'Tap the numbers to type your answer. Then press Check.', tip_letters: 'Tap the letters to spell it. Then press Check.', tip_pick: 'Tap the spelling you think is right.',
     tip_how: "Stuck? Tap “Show me how”, and I'll help you step by step.", tip_circle: 'See the yellow circle? Tap it to try a question like it again.', tip_path: "This is your next step. Tap Start when you're ready!",
+    gameName: 'Buddy in Space', gameLabel: 'Mini-game', gamePlay: 'Play', gameStop: 'Stop',
+    gameLocked: n => `Learn 3 levels (2 or 3 stars) to unlock the mini-games. You have ${n} of 3.`,
+    gamePlays: n => n === 1 ? 'You have 1 game to play.' : `You have ${n} games to play.`,
+    gameNone: 'Learn a new level with 2 or 3 stars to earn another game.', gameBest: n => `Best score: ${n}`,
+    gameHow: 'Tap under an asteroid to shoot it. Hit the right answer!',
+    gameTimeUp: 'Time is up!', gameOut: 'Your shields are used up!', gameNewBest: 'New best score!',
+    gameResult: n => n === 1 ? 'You hit 1 right answer.' : `You hit ${n} right answers.`,
+    gameAgain: n => `Play again (${n} left)`, gameEarned: 'You earned a mini-game!',
+    gameScoreAria: n => `${n} points`, gameShieldsAria: n => `${n} shields left`,
+    gamesLabel: 'Mini-games',
+    gamesHelp: 'The mini-games open once 3 levels are learnt (2 or 3 stars). After that, each new level learnt earns one more game of about 1½ minutes. The games practise maths and spelling your child has already reached.',
+    gamesTitle: 'Pick a game', gamePick: 'Pick another game',
+    gameNames: { space: 'Buddy in Space', clock: 'Set the clock', shop: 'Corner shop', pizza: 'Pizza party', jug: 'Fill the jug', snake: 'Counting snake', mole: 'Whack-a-mole', build: 'Word builder', spot: 'Spot the spelling', fruit: 'Catch the fruit', bubbles: 'Bubble pop', hop: 'Hop the number line', memory: 'Memory pairs', letters: 'Letter catcher' },
+    gameHows: { clock: 'Drag the clock hands to show the time. Then press Check.', shop: 'Tap coins to pay exactly the right amount. Then press Pay.', pizza: 'Tap slices to put topping on the right part of the pizza. Then press Check.', jug: 'Hold the pour button to fill the jug to the right line. Then press Check.', snake: 'Tap the numbers in order to feed the snake.', mole: 'Bonk the mole with the right answer!', build: 'Tap the letters in the right order to spell the word.', spot: 'Tap the word that is spelled right.', fruit: 'Move the basket with your finger. Catch only the fruit that fits the rule!', bubbles: 'Pop the bubbles that make the number at the top.', hop: 'Tap how far your buddy should hop to land on the flag.', memory: 'Turn over two cards. Find a sum and its answer.', letters: 'Look at the word. Then catch its letters in the right order.' },
+    gameResults: { clock: n => n === 1 ? 'You set 1 clock right.' : `You set ${n} clocks right.`, shop: n => n === 1 ? 'You paid exactly right 1 time.' : `You paid exactly right ${n} times.`, pizza: n => n === 1 ? 'You made 1 pizza right.' : `You made ${n} pizzas right.`, jug: n => n === 1 ? 'You filled 1 jug right.' : `You filled ${n} jugs right.`, snake: n => n === 1 ? 'You fed the snake 1 number.' : `You fed the snake ${n} numbers.`, mole: n => n === 1 ? 'You bonked 1 right mole.' : `You bonked ${n} right moles.`, build: n => n === 1 ? 'You built 1 word.' : `You built ${n} words.`, spot: n => n === 1 ? 'You spotted 1 right spelling.' : `You spotted ${n} right spellings.`, fruit: n => n === 1 ? 'You caught 1 right fruit.' : `You caught ${n} right fruits.`, bubbles: n => n === 1 ? 'You popped 1 right bubble.' : `You popped ${n} right bubbles.`, hop: n => n === 1 ? 'You landed on the flag 1 time.' : `You landed on the flag ${n} times.`, memory: n => n === 1 ? 'You found 1 pair.' : `You found ${n} pairs.`, letters: n => n === 1 ? 'You spelled 1 word.' : `You spelled ${n} words.` },
+    mgEven: 'Catch the even numbers', mgOdd: 'Catch the odd numbers', mgMore: k => `Catch numbers bigger than ${k}`, mgLess: k => `Catch numbers smaller than ${k}`, mgTable: k => `Catch numbers in the ${k} times table`,
+    mgMake: n => `Pop the bubbles that make ${n}`, mgHop: (a, b) => `Hop from ${a} to ${b}`, mgPairs: (n, m) => `Pairs found: ${n} of ${m}`, mgDone: 'All pairs found!', mgLook: 'Look:', mgHear: 'Hear the word',
+    introGamesTitle: 'Earn mini-games!', introGames1: 'Learn 3 levels (get 2 or 3 stars), and the mini-games open.', introGames2: 'After that, every new level you learn earns you another game to play.',
+    mgNewRule: 'New rule!', mgNewWord: 'New word!',
+    clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `${h} o'clock` : m === 15 ? `quarter past ${h}` : m === 30 ? `half past ${h}` : m === 45 ? `quarter to ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
+    mgClock: s => `Set the clock to ${s}`, mgPay: p => `Pay exactly ${p}`, mgPayBtn: 'Pay', mgGave: v => `You gave ${v}.`,
+    mgPizza: f => `Put topping on ${f} of the pizza`, mgJug: v => `Fill the jug to ${v} ml`, mgPour: 'Hold to pour', mgEmpty: 'Empty', mgJugShows: v => `That is about ${v} ml.`,
+    mgCount: (k, s) => `Count in ${k}s from ${s}`, mgBuild: 'Spell the word', mgSpot: 'Which one is spelled right?',
+    tabFriends: 'Friends',
+    frSite: 'Friends work on the website, with a free family account in both families.',
+    frAccount: 'Friends need a free family account. Sign in on the Account tab first.', frGoAccount: 'Go to Account',
+    frIntro: n => `Let ${n} add friends from other families. Friends see only a nickname, the buddy picture and this week's practice: rounds, stars and days. There is no chat. A grown-up in both families must agree to each friendship.`,
+    frNickLabel: 'Nickname that friends see', frNickHint: 'A nickname, not the full name', frTurnOn: n => `Turn on friends for ${n}`, frSeenAs: n => `friends see “${n}”`,
+    frReqs: 'Waiting for your answer', frReqText: (a, b) => `${a} would like to be friends with ${b}.`, frApprove: 'Approve', frDecline: 'Decline',
+    frList: 'Friends', frNone: 'No friends yet.', frWaiting: 'waiting for their grown-up to approve', frRemove: 'Remove',
+    frAddTitle: 'Add a friend', frMakeCode: 'Make a friend code',
+    frCodeShow: (c, d) => `Friend code: <b>${c}</b>. Give it to the other child's grown-up. It works until ${d}.`,
+    frEnter: "Got a code from another grown-up? Type it here:", frAdd: 'Add',
+    frBadCode: 'That code does not work. Check it, or ask for a new one.', frOwnCode: "That is this child's own code.", frAlready: n => `${n} is already on the list.`,
+    frSent: n => `Sent! ${n}'s grown-up needs to approve it.`, frErr: 'Something went wrong. Check the internet connection and try again.',
+    frTurnOff: 'Turn off friends', frOffAsk: 'This removes all friends and the shared card.', frOffYes: 'Turn off',
+    frTitle: 'Friends this week', frSeeAll: 'See all', frYou: 'You', frByDays: 'Most days', frByStars: 'Most stars', frByRounds: 'Most rounds',
+    frRow: (s, r, d) => `★ ${s} · ${r} ${r === 1 ? 'round' : 'rounds'} · ${d} ${d === 1 ? 'day' : 'days'}`,
+    frWeekNote: 'A new week starts every Monday.', frEmpty: 'No friends yet. Ask a grown-up to add one.', frLoading: 'Loading…',
     obNew: "There's something new: your own profile! It only takes a minute.",
     obLangQ: 'Which language do you want to play in?', obNameQ: "What's your name?", obAvatarQ: 'Pick a buddy to be you!',
     obYearQ: 'Which school year are you in?', yearN: n => `Year ${n}`, ageHint: n => `age ${n + 4}–${n + 5}`, yearUnsure: 'Not sure',
@@ -3970,7 +4197,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     remove: 'Remove', removeAsk: n => `Remove ${n} and all their stars from this family?`, removeYes: 'Yes, remove', keep: 'Keep', addChild: 'Add a child',
     listsIntro: 'Add the weekly spelling words from school. Take a photo of the list or type the words, and the app makes a practice round from them.',
     everyone: 'Everyone', addList: 'Add a word list', noLists: 'No word lists yet.',
-    progStars: (s, m) => `${s} of ${m} stars`, progLevels: (d, n) => `${d} of ${n} levels`, progPath: (i, n) => `Path: ${i} of ${n} steps done`,
+    progNotStarted: 'Not started yet', progStars: (s, m) => `${s} of ${m} stars`, progLevels: (d, n) => `${d} of ${n} levels`, progPath: (i, n) => `Path: ${i} of ${n} steps done`,
     progReview: n => n === 1 ? '1 tricky question is saved to practise again.' : `${n} tricky questions are saved to practise again.`,
     progWeak: 'Levels to practise again (1 star)', progNone: 'None right now.',
     settingsFor: n => `Settings for ${n}`, pinChange: 'Change the grown-up PIN', aboutTitle: b => `About ${b}`,
@@ -4022,6 +4249,45 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     introPromises: 'Vores tre løfter', promise1: 'Hvis du går i stå, viser vi dig hvordan, trin for trin.', promise2: 'Det er helt okay at lave fejl. En gul cirkel betyder, at du kan prøve igen.', promise3: 'Hver runde giver stjerner, og hver dag bliver du lidt bedre.',
     tip_pad: 'Tryk på tallene for at skrive dit svar. Tryk så på Tjek.', tip_letters: 'Tryk på bogstaverne for at stave det. Tryk så på Tjek.', tip_pick: 'Tryk på den stavemåde, du tror er rigtig.',
     tip_how: 'Går du i stå? Tryk på “Vis mig hvordan”, så hjælper jeg dig trin for trin.', tip_circle: 'Kan du se den gule cirkel? Tryk på den for at prøve en opgave, der ligner.', tip_path: 'Det her er dit næste skridt. Tryk på Start, når du er klar!',
+    gameName: 'Ven i rummet', gameLabel: 'Minispil', gamePlay: 'Spil', gameStop: 'Stop',
+    gameLocked: n => `Lær 3 niveauer (2 eller 3 stjerner) for at låse minispillene op. Du har ${n} af 3.`,
+    gamePlays: n => n === 1 ? 'Du har 1 spil at spille.' : `Du har ${n} spil at spille.`,
+    gameNone: 'Lær et nyt niveau med 2 eller 3 stjerner for at tjene et spil mere.', gameBest: n => `Bedste score: ${n}`,
+    gameHow: 'Tryk under en asteroide for at skyde den. Ram det rigtige svar!',
+    gameTimeUp: 'Tiden er gået!', gameOut: 'Dine skjolde er brugt op!', gameNewBest: 'Ny rekord!',
+    gameResult: n => n === 1 ? 'Du ramte 1 rigtigt svar.' : `Du ramte ${n} rigtige svar.`,
+    gameAgain: n => `Spil igen (${n} tilbage)`, gameEarned: 'Du har tjent et minispil!',
+    gameScoreAria: n => `${n} point`, gameShieldsAria: n => `${n} skjolde tilbage`,
+    gamesLabel: 'Minispil',
+    gamesHelp: 'Minispillene låses op, når 3 niveauer er lært (2 eller 3 stjerner). Derefter giver hvert nyt niveau, der bliver lært, ét spil mere på cirka 1½ minut. Spillene øver matematik og stavning, som barnet allerede er nået til.',
+    gamesTitle: 'Vælg et spil', gamePick: 'Vælg et andet spil',
+    gameNames: { space: 'Ven i rummet', clock: 'Stil uret', shop: 'Købmanden', pizza: 'Pizzafest', jug: 'Fyld kanden', snake: 'Tælleslangen', mole: 'Muldvarpejagt', build: 'Ordbyggeren', spot: 'Find stavemåden', fruit: 'Grib frugten', bubbles: 'Boblepop', hop: 'Hop på tallinjen', memory: 'Vendespil', letters: 'Bogstavfangeren' },
+    gameHows: { clock: 'Træk i viserne, så uret viser tiden. Tryk så på Tjek.', shop: 'Tryk på mønterne for at betale præcis det rigtige beløb. Tryk så på Betal.', pizza: 'Tryk på stykkerne for at komme fyld på den rigtige del af pizzaen. Tryk så på Tjek.', jug: 'Hold hældeknappen nede for at fylde kanden til den rigtige streg. Tryk så på Tjek.', snake: 'Tryk på tallene i rækkefølge for at fodre slangen.', mole: 'Bank på muldvarpen med det rigtige svar!', build: 'Tryk på bogstaverne i den rigtige rækkefølge for at stave ordet.', spot: 'Tryk på ordet, der er stavet rigtigt.', fruit: 'Flyt kurven med fingeren. Grib kun den frugt, der passer til reglen!', bubbles: 'Pop boblerne, der giver tallet øverst.', hop: 'Tryk på, hvor langt din makker skal hoppe for at lande på flaget.', memory: 'Vend to kort. Find et regnestykke og dets svar.', letters: 'Se på ordet. Grib så bogstaverne i den rigtige rækkefølge.' },
+    gameResults: { clock: n => n === 1 ? 'Du stillede 1 ur rigtigt.' : `Du stillede ${n} ure rigtigt.`, shop: n => n === 1 ? 'Du betalte præcis rigtigt 1 gang.' : `Du betalte præcis rigtigt ${n} gange.`, pizza: n => n === 1 ? 'Du lavede 1 pizza rigtigt.' : `Du lavede ${n} pizzaer rigtigt.`, jug: n => n === 1 ? 'Du fyldte 1 kande rigtigt.' : `Du fyldte ${n} kander rigtigt.`, snake: n => `Du fodrede slangen med ${n} tal.`, mole: n => n === 1 ? 'Du ramte 1 rigtig muldvarp.' : `Du ramte ${n} rigtige muldvarpe.`, build: n => `Du byggede ${n} ord.`, spot: n => n === 1 ? 'Du fandt 1 rigtig stavemåde.' : `Du fandt ${n} rigtige stavemåder.`, fruit: n => n === 1 ? 'Du greb 1 rigtig frugt.' : `Du greb ${n} rigtige frugter.`, bubbles: n => n === 1 ? 'Du poppede 1 rigtig boble.' : `Du poppede ${n} rigtige bobler.`, hop: n => n === 1 ? 'Du landede på flaget 1 gang.' : `Du landede på flaget ${n} gange.`, memory: n => n === 1 ? 'Du fandt 1 par.' : `Du fandt ${n} par.`, letters: n => n === 1 ? 'Du stavede 1 ord.' : `Du stavede ${n} ord.` },
+    mgEven: 'Grib de lige tal', mgOdd: 'Grib de ulige tal', mgMore: k => `Grib tal, der er større end ${k}`, mgLess: k => `Grib tal, der er mindre end ${k}`, mgTable: k => `Grib tal i ${k}-tabellen`,
+    mgMake: n => `Pop boblerne, der giver ${n}`, mgHop: (a, b) => `Hop fra ${a} til ${b}`, mgPairs: (n, m) => `Par fundet: ${n} af ${m}`, mgDone: 'Alle par er fundet!', mgLook: 'Se:', mgHear: 'Hør ordet',
+    introGamesTitle: 'Tjen minispil!', introGames1: 'Lær 3 niveauer (få 2 eller 3 stjerner), så åbner minispillene.', introGames2: 'Derefter giver hvert nyt niveau, du lærer, dig et spil mere.',
+    mgNewRule: 'Ny regel!', mgNewWord: 'Nyt ord!',
+    clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `klokken ${h}` : m === 15 ? `kvart over ${h}` : m === 30 ? `halv ${nx}` : m === 45 ? `kvart i ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
+    mgClock: s => `Stil uret på ${s}`, mgPay: p => `Betal præcis ${p}`, mgPayBtn: 'Betal', mgGave: v => `Du gav ${v}.`,
+    mgPizza: f => `Kom fyld på ${f} af pizzaen`, mgJug: v => `Fyld kanden til ${v} ml`, mgPour: 'Hold for at hælde', mgEmpty: 'Tøm', mgJugShows: v => `Det er cirka ${v} ml.`,
+    mgCount: (k, s) => `Tæl ${k} ad gangen fra ${s}`, mgBuild: 'Stav ordet', mgSpot: 'Hvilket ord er stavet rigtigt?',
+    tabFriends: 'Venner',
+    frSite: 'Venner virker på hjemmesiden, med en gratis familiekonto i begge familier.',
+    frAccount: 'Venner kræver en gratis familiekonto. Log ind under Konto først.', frGoAccount: 'Gå til Konto',
+    frIntro: n => `Lad ${n} få venner fra andre familier. Venner ser kun et kaldenavn, makkerbilledet og denne uges øvning: runder, stjerner og dage. Der er ingen chat. En voksen i begge familier skal sige ja til hvert venskab.`,
+    frNickLabel: 'Kaldenavn, som venner ser', frNickHint: 'Et kaldenavn, ikke det fulde navn', frTurnOn: n => `Slå venner til for ${n}`, frSeenAs: n => `venner ser “${n}”`,
+    frReqs: 'Venter på dit svar', frReqText: (a, b) => `${a} vil gerne være ven med ${b}.`, frApprove: 'Godkend', frDecline: 'Afvis',
+    frList: 'Venner', frNone: 'Ingen venner endnu.', frWaiting: 'venter på, at deres voksne godkender', frRemove: 'Fjern',
+    frAddTitle: 'Tilføj en ven', frMakeCode: 'Lav en vennekode',
+    frCodeShow: (c, d) => `Vennekode: <b>${c}</b>. Giv den til den anden families voksne. Den virker til og med ${d}.`,
+    frEnter: 'Har du fået en kode fra en anden voksen? Skriv den her:', frAdd: 'Tilføj',
+    frBadCode: 'Den kode virker ikke. Tjek den, eller bed om en ny.', frOwnCode: 'Det er barnets egen kode.', frAlready: n => `${n} er allerede på listen.`,
+    frSent: n => `Sendt! ${n}s voksne skal godkende det.`, frErr: 'Noget gik galt. Tjek internetforbindelsen, og prøv igen.',
+    frTurnOff: 'Slå venner fra', frOffAsk: 'Det fjerner alle venner og det delte kort.', frOffYes: 'Slå fra',
+    frTitle: 'Venner denne uge', frSeeAll: 'Se alle', frYou: 'Dig', frByDays: 'Flest dage', frByStars: 'Flest stjerner', frByRounds: 'Flest runder',
+    frRow: (s, r, d) => `★ ${s} · ${r} ${r === 1 ? 'runde' : 'runder'} · ${d} ${d === 1 ? 'dag' : 'dage'}`,
+    frWeekNote: 'En ny uge starter hver mandag.', frEmpty: 'Ingen venner endnu. Bed en voksen om at tilføje en.', frLoading: 'Henter…',
     obNew: 'Der er noget nyt: din egen profil! Det tager kun et minut.',
     obLangQ: 'Hvilket sprog vil du spille på?', obNameQ: 'Hvad hedder du?', obAvatarQ: 'Vælg en ven, der skal være dig!',
     obYearQ: 'Hvilket skoleår går du i?', yearN: n => `Skoleår ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Ved ikke',
@@ -4048,7 +4314,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     remove: 'Fjern', removeAsk: n => `Fjern ${n} og alle stjernerne fra familien?`, removeYes: 'Ja, fjern', keep: 'Behold', addChild: 'Tilføj et barn',
     listsIntro: 'Tilføj ugens staveord fra skolen. Tag et billede af listen, eller skriv ordene, så laver appen en øverunde med dem.',
     everyone: 'Alle', addList: 'Tilføj en ordliste', noLists: 'Ingen ordlister endnu.',
-    progStars: (s, m) => `${s} af ${m} stjerner`, progLevels: (d, n) => `${d} af ${n} niveauer`, progPath: (i, n) => `Vejen: ${i} af ${n} skridt klaret`,
+    progNotStarted: 'Ikke startet endnu', progStars: (s, m) => `${s} af ${m} stjerner`, progLevels: (d, n) => `${d} af ${n} niveauer`, progPath: (i, n) => `Vejen: ${i} af ${n} skridt klaret`,
     progReview: n => n === 1 ? '1 svær opgave er gemt til at øve igen.' : `${n} svære opgaver er gemt til at øve igen.`,
     progWeak: 'Niveauer, der skal øves igen (1 stjerne)', progNone: 'Ingen lige nu.',
     settingsFor: n => `Indstillinger for ${n}`, pinChange: 'Skift voksen-koden', aboutTitle: b => `Om ${b}`,
@@ -4100,6 +4366,45 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     introPromises: 'Våra tre löften', promise1: 'Om du kör fast visar vi dig hur, steg för steg.', promise2: 'Det är okej att göra fel. En gul cirkel betyder att du kan försöka igen.', promise3: 'Varje omgång ger stjärnor, och varje dag blir du lite bättre.',
     tip_pad: 'Tryck på siffrorna för att skriva ditt svar. Tryck sedan på Kolla.', tip_letters: 'Tryck på bokstäverna för att stava det. Tryck sedan på Kolla.', tip_pick: 'Tryck på den stavning du tror är rätt.',
     tip_how: 'Kör du fast? Tryck på “Visa mig hur”, så hjälper jag dig steg för steg.', tip_circle: 'Ser du den gula cirkeln? Tryck på den för att prova en liknande uppgift.', tip_path: 'Det här är ditt nästa steg. Tryck på Börja när du är redo!',
+    gameName: 'Kompis i rymden', gameLabel: 'Minispel', gamePlay: 'Spela', gameStop: 'Stopp',
+    gameLocked: n => `Lär dig 3 nivåer (2 eller 3 stjärnor) för att låsa upp minispelen. Du har ${n} av 3.`,
+    gamePlays: n => n === 1 ? 'Du har 1 spel att spela.' : `Du har ${n} spel att spela.`,
+    gameNone: 'Lär dig en ny nivå med 2 eller 3 stjärnor för att tjäna ett spel till.', gameBest: n => `Bästa poäng: ${n}`,
+    gameHow: 'Tryck under en asteroid för att skjuta den. Träffa rätt svar!',
+    gameTimeUp: 'Tiden är slut!', gameOut: 'Dina sköldar är slut!', gameNewBest: 'Nytt rekord!',
+    gameResult: n => n === 1 ? 'Du träffade 1 rätt svar.' : `Du träffade ${n} rätta svar.`,
+    gameAgain: n => `Spela igen (${n} kvar)`, gameEarned: 'Du har tjänat ett minispel!',
+    gameScoreAria: n => `${n} poäng`, gameShieldsAria: n => `${n} sköldar kvar`,
+    gamesLabel: 'Minispel',
+    gamesHelp: 'Minispelen låses upp när 3 nivåer är inlärda (2 eller 3 stjärnor). Sedan ger varje ny inlärd nivå ett spel till på ungefär 1½ minut. Spelen övar matte och stavning som barnet redan har kommit till.',
+    gamesTitle: 'Välj ett spel', gamePick: 'Välj ett annat spel',
+    gameNames: { space: 'Kompis i rymden', clock: 'Ställ klockan', shop: 'Affären', pizza: 'Pizzafest', jug: 'Fyll kannan', snake: 'Räkneormen', mole: 'Mullvadsjakt', build: 'Ordbyggaren', spot: 'Hitta stavningen', fruit: 'Fånga frukten', bubbles: 'Bubbelpop', hop: 'Hoppa på tallinjen', memory: 'Memory', letters: 'Bokstavsfångaren' },
+    gameHows: { clock: 'Dra i visarna så att klockan visar tiden. Tryck sedan på Kolla.', shop: 'Tryck på mynten för att betala exakt rätt summa. Tryck sedan på Betala.', pizza: 'Tryck på bitarna för att lägga topping på rätt del av pizzan. Tryck sedan på Kolla.', jug: 'Håll in häll-knappen för att fylla kannan till rätt streck. Tryck sedan på Kolla.', snake: 'Tryck på talen i ordning för att mata ormen.', mole: 'Bonka mullvaden med rätt svar!', build: 'Tryck på bokstäverna i rätt ordning för att stava ordet.', spot: 'Tryck på ordet som är rätt stavat.', fruit: 'Flytta korgen med fingret. Fånga bara frukt som passar regeln!', bubbles: 'Poppa bubblorna som blir talet högst upp.', hop: 'Tryck på hur långt din kompis ska hoppa för att landa på flaggan.', memory: 'Vänd två kort. Hitta en uträkning och dess svar.', letters: 'Titta på ordet. Fånga sedan bokstäverna i rätt ordning.' },
+    gameResults: { clock: n => n === 1 ? 'Du ställde 1 klocka rätt.' : `Du ställde ${n} klockor rätt.`, shop: n => n === 1 ? 'Du betalade exakt rätt 1 gång.' : `Du betalade exakt rätt ${n} gånger.`, pizza: n => n === 1 ? 'Du gjorde 1 pizza rätt.' : `Du gjorde ${n} pizzor rätt.`, jug: n => n === 1 ? 'Du fyllde 1 kanna rätt.' : `Du fyllde ${n} kannor rätt.`, snake: n => `Du matade ormen med ${n} tal.`, mole: n => n === 1 ? 'Du bonkade 1 rätt mullvad.' : `Du bonkade ${n} rätta mullvadar.`, build: n => `Du byggde ${n} ord.`, spot: n => n === 1 ? 'Du hittade 1 rätt stavning.' : `Du hittade ${n} rätta stavningar.`, fruit: n => n === 1 ? 'Du fångade 1 rätt frukt.' : `Du fångade ${n} rätta frukter.`, bubbles: n => n === 1 ? 'Du poppade 1 rätt bubbla.' : `Du poppade ${n} rätta bubblor.`, hop: n => n === 1 ? 'Du landade på flaggan 1 gång.' : `Du landade på flaggan ${n} gånger.`, memory: n => n === 1 ? 'Du hittade 1 par.' : `Du hittade ${n} par.`, letters: n => n === 1 ? 'Du stavade 1 ord.' : `Du stavade ${n} ord.` },
+    mgEven: 'Fånga de jämna talen', mgOdd: 'Fånga de udda talen', mgMore: k => `Fånga tal som är större än ${k}`, mgLess: k => `Fånga tal som är mindre än ${k}`, mgTable: k => `Fånga tal i ${k}:ans tabell`,
+    mgMake: n => `Poppa bubblorna som blir ${n}`, mgHop: (a, b) => `Hoppa från ${a} till ${b}`, mgPairs: (n, m) => `Par hittade: ${n} av ${m}`, mgDone: 'Alla par är hittade!', mgLook: 'Titta:', mgHear: 'Lyssna på ordet',
+    introGamesTitle: 'Tjäna minispel!', introGames1: 'Lär dig 3 nivåer (få 2 eller 3 stjärnor), så öppnas minispelen.', introGames2: 'Sedan ger varje ny nivå du lär dig ett spel till.',
+    mgNewRule: 'Ny regel!', mgNewWord: 'Nytt ord!',
+    clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `klockan ${h}` : m === 15 ? `kvart över ${h}` : m === 30 ? `halv ${nx}` : m === 45 ? `kvart i ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
+    mgClock: s => `Ställ klockan på ${s}`, mgPay: p => `Betala exakt ${p}`, mgPayBtn: 'Betala', mgGave: v => `Du gav ${v}.`,
+    mgPizza: f => `Lägg topping på ${f} av pizzan`, mgJug: v => `Fyll kannan till ${v} ml`, mgPour: 'Håll in för att hälla', mgEmpty: 'Töm', mgJugShows: v => `Det är ungefär ${v} ml.`,
+    mgCount: (k, s) => `Räkna ${k} i taget från ${s}`, mgBuild: 'Stava ordet', mgSpot: 'Vilket ord är rätt stavat?',
+    tabFriends: 'Vänner',
+    frSite: 'Vänner fungerar på webbplatsen, med ett gratis familjekonto i båda familjerna.',
+    frAccount: 'Vänner kräver ett gratis familjekonto. Logga in under Konto först.', frGoAccount: 'Gå till Konto',
+    frIntro: n => `Låt ${n} få vänner från andra familjer. Vänner ser bara ett smeknamn, kompisbilden och veckans övning: omgångar, stjärnor och dagar. Det finns ingen chatt. En vuxen i båda familjerna måste säga ja till varje vänskap.`,
+    frNickLabel: 'Smeknamn som vänner ser', frNickHint: 'Ett smeknamn, inte hela namnet', frTurnOn: n => `Slå på vänner för ${n}`, frSeenAs: n => `vänner ser ”${n}”`,
+    frReqs: 'Väntar på ditt svar', frReqText: (a, b) => `${a} vill vara vän med ${b}.`, frApprove: 'Godkänn', frDecline: 'Avböj',
+    frList: 'Vänner', frNone: 'Inga vänner än.', frWaiting: 'väntar på att deras vuxna godkänner', frRemove: 'Ta bort',
+    frAddTitle: 'Lägg till en vän', frMakeCode: 'Gör en vänkod',
+    frCodeShow: (c, d) => `Vänkod: <b>${c}</b>. Ge den till den andra familjens vuxna. Den gäller till och med ${d}.`,
+    frEnter: 'Har du fått en kod från en annan vuxen? Skriv den här:', frAdd: 'Lägg till',
+    frBadCode: 'Den koden fungerar inte. Kontrollera den, eller be om en ny.', frOwnCode: 'Det är barnets egen kod.', frAlready: n => `${n} finns redan på listan.`,
+    frSent: n => `Skickat! ${n}s vuxna behöver godkänna det.`, frErr: 'Något gick fel. Kontrollera internetanslutningen och försök igen.',
+    frTurnOff: 'Stäng av vänner', frOffAsk: 'Det tar bort alla vänner och det delade kortet.', frOffYes: 'Stäng av',
+    frTitle: 'Vänner den här veckan', frSeeAll: 'Se alla', frYou: 'Du', frByDays: 'Flest dagar', frByStars: 'Flest stjärnor', frByRounds: 'Flest omgångar',
+    frRow: (s, r, d) => `★ ${s} · ${r} ${r === 1 ? 'omgång' : 'omgångar'} · ${d} ${d === 1 ? 'dag' : 'dagar'}`,
+    frWeekNote: 'En ny vecka börjar varje måndag.', frEmpty: 'Inga vänner än. Be en vuxen lägga till en.', frLoading: 'Hämtar…',
     obNew: 'Det finns något nytt: din egen profil! Det tar bara en minut.',
     obLangQ: 'Vilket språk vill du spela på?', obNameQ: 'Vad heter du?', obAvatarQ: 'Välj en kompis som får vara du!',
     obYearQ: 'Vilket skolår går du i?', yearN: n => `Skolår ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Vet inte',
@@ -4126,7 +4431,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     remove: 'Ta bort', removeAsk: n => `Ta bort ${n} och alla stjärnor från familjen?`, removeYes: 'Ja, ta bort', keep: 'Behåll', addChild: 'Lägg till ett barn',
     listsIntro: 'Lägg till veckans stavningsord från skolan. Ta en bild av listan eller skriv orden, så gör appen en övningsrunda av dem.',
     everyone: 'Alla', addList: 'Lägg till en ordlista', noLists: 'Inga ordlistor än.',
-    progStars: (s, m) => `${s} av ${m} stjärnor`, progLevels: (d, n) => `${d} av ${n} nivåer`, progPath: (i, n) => `Vägen: ${i} av ${n} steg klara`,
+    progNotStarted: 'Inte påbörjad än', progStars: (s, m) => `${s} av ${m} stjärnor`, progLevels: (d, n) => `${d} av ${n} nivåer`, progPath: (i, n) => `Vägen: ${i} av ${n} steg klara`,
     progReview: n => n === 1 ? '1 svår uppgift är sparad att öva på igen.' : `${n} svåra uppgifter är sparade att öva på igen.`,
     progWeak: 'Nivåer att öva på igen (1 stjärna)', progNone: 'Inga just nu.',
     settingsFor: n => `Inställningar för ${n}`, pinChange: 'Byt vuxenkoden', aboutTitle: b => `Om ${b}`,
@@ -4178,6 +4483,45 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     introPromises: 'Tiga janji kami', promise1: 'Kalau kamu bingung, kami tunjukkan caranya, langkah demi langkah.', promise2: 'Salah itu tidak apa-apa. Lingkaran kuning artinya kamu bisa mencoba lagi.', promise3: 'Setiap ronde memberi bintang, dan setiap hari kamu jadi sedikit lebih hebat.',
     tip_pad: 'Ketuk angkanya untuk menulis jawabanmu. Lalu tekan Periksa.', tip_letters: 'Ketuk hurufnya untuk mengejanya. Lalu tekan Periksa.', tip_pick: 'Ketuk ejaan yang menurutmu benar.',
     tip_how: 'Bingung? Ketuk “Tunjukkan caranya”, dan aku akan membantumu langkah demi langkah.', tip_circle: 'Lihat lingkaran kuning itu? Ketuk untuk mencoba soal yang mirip lagi.', tip_path: 'Ini langkahmu berikutnya. Ketuk Mulai kalau kamu sudah siap!',
+    gameName: 'Sahabat di Luar Angkasa', gameLabel: 'Gim mini', gamePlay: 'Main', gameStop: 'Berhenti',
+    gameLocked: n => `Kuasai 3 level (2 atau 3 bintang) untuk membuka gim mini. Kamu punya ${n} dari 3.`,
+    gamePlays: n => n === 1 ? 'Kamu punya 1 gim untuk dimainkan.' : `Kamu punya ${n} gim untuk dimainkan.`,
+    gameNone: 'Kuasai level baru dengan 2 atau 3 bintang untuk mendapat satu gim lagi.', gameBest: n => `Skor terbaik: ${n}`,
+    gameHow: 'Ketuk di bawah asteroid untuk menembaknya. Kenai jawaban yang benar!',
+    gameTimeUp: 'Waktu habis!', gameOut: 'Perisaimu sudah habis!', gameNewBest: 'Skor terbaik baru!',
+    gameResult: n => n === 1 ? 'Kamu mengenai 1 jawaban benar.' : `Kamu mengenai ${n} jawaban benar.`,
+    gameAgain: n => `Main lagi (sisa ${n})`, gameEarned: 'Kamu mendapat satu gim mini!',
+    gameScoreAria: n => `${n} poin`, gameShieldsAria: n => `Sisa ${n} perisai`,
+    gamesLabel: 'Gim mini',
+    gamesHelp: 'Gim mini terbuka setelah 3 level dikuasai (2 atau 3 bintang). Setelah itu, setiap level baru yang dikuasai memberi satu gim lagi, sekitar 1½ menit. Gim ini melatih matematika dan ejaan yang sudah dicapai anak.',
+    gamesTitle: 'Pilih gim', gamePick: 'Pilih gim lain',
+    gameNames: { space: 'Sahabat di Luar Angkasa', clock: 'Atur Jam', shop: 'Warung', pizza: 'Pesta Pizza', jug: 'Isi Teko', snake: 'Ular Berhitung', mole: 'Pukul Tikus Tanah', build: 'Penyusun Kata', spot: 'Temukan Ejaan', fruit: 'Tangkap Buah', bubbles: 'Letus Gelembung', hop: 'Lompat di Garis Bilangan', memory: 'Pasangan Memori', letters: 'Penangkap Huruf' },
+    gameHows: { clock: 'Geser jarum jam agar menunjukkan waktunya. Lalu tekan Periksa.', shop: 'Ketuk koin untuk membayar dengan uang pas. Lalu tekan Bayar.', pizza: 'Ketuk potongan untuk memberi topping pada bagian pizza yang benar. Lalu tekan Periksa.', jug: 'Tahan tombol tuang untuk mengisi teko sampai garis yang benar. Lalu tekan Periksa.', snake: 'Ketuk angka secara berurutan untuk memberi makan ular.', mole: 'Pukul tikus tanah yang membawa jawaban benar!', build: 'Ketuk huruf dengan urutan yang benar untuk mengeja kata.', spot: 'Ketuk kata yang ejaannya benar.', fruit: 'Gerakkan keranjang dengan jarimu. Tangkap hanya buah yang sesuai aturan!', bubbles: 'Letuskan gelembung yang hasilnya angka di atas.', hop: 'Ketuk seberapa jauh sahabatmu harus melompat agar mendarat di bendera.', memory: 'Buka dua kartu. Temukan soal dan jawabannya.', letters: 'Lihat katanya. Lalu tangkap hurufnya dengan urutan yang benar.' },
+    gameResults: { clock: n => `Kamu mengatur ${n} jam dengan benar.`, shop: n => `Kamu membayar pas ${n} kali.`, pizza: n => `Kamu membuat ${n} pizza dengan benar.`, jug: n => `Kamu mengisi ${n} teko dengan benar.`, snake: n => `Kamu memberi makan ular ${n} angka.`, mole: n => `Kamu memukul ${n} tikus tanah yang benar.`, build: n => `Kamu menyusun ${n} kata.`, spot: n => `Kamu menemukan ${n} ejaan yang benar.`, fruit: n => `Kamu menangkap ${n} buah yang benar.`, bubbles: n => `Kamu meletuskan ${n} gelembung yang benar.`, hop: n => `Kamu mendarat di bendera ${n} kali.`, memory: n => `Kamu menemukan ${n} pasangan.`, letters: n => `Kamu mengeja ${n} kata.` },
+    mgEven: 'Tangkap bilangan genap', mgOdd: 'Tangkap bilangan ganjil', mgMore: k => `Tangkap bilangan yang lebih dari ${k}`, mgLess: k => `Tangkap bilangan yang kurang dari ${k}`, mgTable: k => `Tangkap bilangan kelipatan ${k}`,
+    mgMake: n => `Letuskan gelembung yang hasilnya ${n}`, mgHop: (a, b) => `Lompat dari ${a} ke ${b}`, mgPairs: (n, m) => `Pasangan ketemu: ${n} dari ${m}`, mgDone: 'Semua pasangan ketemu!', mgLook: 'Lihat:', mgHear: 'Dengar katanya',
+    introGamesTitle: 'Dapatkan gim mini!', introGames1: 'Kuasai 3 level (dapatkan 2 atau 3 bintang), lalu gim mini terbuka.', introGames2: 'Setelah itu, setiap level baru yang kamu kuasai memberimu satu gim lagi.',
+    mgNewRule: 'Aturan baru!', mgNewWord: 'Kata baru!',
+    clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `pukul ${h}` : m === 15 ? `pukul ${h} lewat seperempat` : m === 30 ? `pukul setengah ${nx}` : m === 45 ? `pukul ${nx} kurang seperempat` : `${h}:${String(m).padStart(2, '0')}`; },
+    mgClock: s => `Atur jam ke ${s}`, mgPay: p => `Bayar pas ${p}`, mgPayBtn: 'Bayar', mgGave: v => `Kamu memberi ${v}.`,
+    mgPizza: f => `Beri topping pada ${f} pizza`, mgJug: v => `Isi teko sampai ${v} ml`, mgPour: 'Tahan untuk menuang', mgEmpty: 'Kosongkan', mgJugShows: v => `Itu sekitar ${v} ml.`,
+    mgCount: (k, s) => `Berhitung loncat ${k} dari ${s}`, mgBuild: 'Eja katanya', mgSpot: 'Mana yang ejaannya benar?',
+    tabFriends: 'Teman',
+    frSite: 'Fitur teman ada di situs web, dengan akun keluarga gratis di kedua keluarga.',
+    frAccount: 'Fitur teman butuh akun keluarga gratis. Masuk dulu di tab Akun.', frGoAccount: 'Ke Akun',
+    frIntro: n => `Biarkan ${n} berteman dengan anak dari keluarga lain. Teman hanya melihat nama panggilan, gambar sahabat, dan latihan minggu ini: ronde, bintang, dan hari. Tidak ada obrolan. Orang dewasa di kedua keluarga harus setuju untuk setiap pertemanan.`,
+    frNickLabel: 'Nama panggilan yang dilihat teman', frNickHint: 'Nama panggilan, bukan nama lengkap', frTurnOn: n => `Nyalakan fitur teman untuk ${n}`, frSeenAs: n => `teman melihat “${n}”`,
+    frReqs: 'Menunggu jawabanmu', frReqText: (a, b) => `${a} ingin berteman dengan ${b}.`, frApprove: 'Setujui', frDecline: 'Tolak',
+    frList: 'Teman', frNone: 'Belum ada teman.', frWaiting: 'menunggu persetujuan orang dewasa mereka', frRemove: 'Hapus',
+    frAddTitle: 'Tambah teman', frMakeCode: 'Buat kode teman',
+    frCodeShow: (c, d) => `Kode teman: <b>${c}</b>. Berikan kepada orang dewasa dari anak yang lain. Berlaku sampai ${d}.`,
+    frEnter: 'Dapat kode dari orang dewasa lain? Ketik di sini:', frAdd: 'Tambah',
+    frBadCode: 'Kode itu tidak berlaku. Periksa lagi, atau minta kode baru.', frOwnCode: 'Itu kode milik anak ini sendiri.', frAlready: n => `${n} sudah ada di daftar.`,
+    frSent: n => `Terkirim! Orang dewasa ${n} perlu menyetujuinya.`, frErr: 'Ada yang salah. Periksa koneksi internet, lalu coba lagi.',
+    frTurnOff: 'Matikan fitur teman', frOffAsk: 'Ini menghapus semua teman dan kartu yang dibagikan.', frOffYes: 'Matikan',
+    frTitle: 'Teman minggu ini', frSeeAll: 'Lihat semua', frYou: 'Kamu', frByDays: 'Hari terbanyak', frByStars: 'Bintang terbanyak', frByRounds: 'Ronde terbanyak',
+    frRow: (s, r, d) => `★ ${s} · ${r} ronde · ${d} hari`,
+    frWeekNote: 'Minggu baru dimulai setiap hari Senin.', frEmpty: 'Belum ada teman. Minta orang dewasa menambahkannya.', frLoading: 'Memuat…',
     obNew: 'Ada yang baru: profilmu sendiri! Hanya butuh satu menit.',
     obLangQ: 'Kamu mau bermain dalam bahasa apa?', obNameQ: 'Siapa namamu?', obAvatarQ: 'Pilih teman yang akan menjadi kamu!',
     obYearQ: 'Kamu di tahun sekolah berapa?', yearN: n => `Tahun ${n}`, ageHint: n => `usia ${n + 4}–${n + 5}`, yearUnsure: 'Belum tahu',
@@ -4204,7 +4548,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     remove: 'Hapus', removeAsk: n => `Hapus ${n} dan semua bintangnya dari keluarga ini?`, removeYes: 'Ya, hapus', keep: 'Simpan', addChild: 'Tambah anak',
     listsIntro: 'Tambahkan kata ejaan mingguan dari sekolah. Foto daftarnya atau ketik katanya, lalu aplikasi membuat latihan dari kata-kata itu.',
     everyone: 'Semua', addList: 'Tambah daftar kata', noLists: 'Belum ada daftar kata.',
-    progStars: (s, m) => `${s} dari ${m} bintang`, progLevels: (d, n) => `${d} dari ${n} level`, progPath: (i, n) => `Jalur: ${i} dari ${n} langkah selesai`,
+    progNotStarted: 'Belum dimulai', progStars: (s, m) => `${s} dari ${m} bintang`, progLevels: (d, n) => `${d} dari ${n} level`, progPath: (i, n) => `Jalur: ${i} dari ${n} langkah selesai`,
     progReview: n => `${n} soal sulit disimpan untuk dilatih lagi.`,
     progWeak: 'Level yang perlu dilatih lagi (1 bintang)', progNone: 'Tidak ada saat ini.',
     settingsFor: n => `Pengaturan untuk ${n}`, pinChange: 'Ganti PIN orang tua', aboutTitle: b => `Tentang ${b}`,
@@ -4389,10 +4733,13 @@ const SCREENS = {
       <div class="mixed-text"><h3>${t.mixedTitle}</h3><p>${t.mixedText}</p></div>
       <button class="btn" data-act="practice" data-id="mixed" style="--tc:var(--div)">${t.letsGo}</button>
     </section>
+    ${gameCard()}
+    ${friendsCard()}
     ${sp.length ? `<h2 class="section-title">${t.spellSection}</h2>${lists.length ? '' : `<p class="cl-hint">${t.clHint}</p>`}<section class="topics">${sp.map(topicCard).join('')}</section>` : ''}
     <section class="gu-entry"><button class="btn btn-soft" data-act="grownups">${t.grownups}</button></section>
     <footer class="site-foot">${t.footNote}${ON_SITE ? ` · <a href="privacy.html">${t.privacy}</a>` : ''}</footer>`;
     // the first visit to the home screen: point at the next step
+    if ($('#fr-mini')) fillFriendsCard();
     if ($('.path-card [data-act]') && useTip('path')) { coach('.path-card .btn'); const mt = $('.path-card .mixed-text'); if (mt) mt.insertAdjacentHTML('beforeend', `<p class="tip-line">${t.tip_path}</p>`); speak(t.tip_path, 'hoot'); }
   },
   topic({ id }) {
@@ -4464,6 +4811,7 @@ const SCREENS = {
     const path = kidPath(), at = l ? path.indexOf(l.id) : -1;
     const pathAfter = at < 0 ? null : path.slice(at + 1).map(findLevel).find(x => x && !levelDone(x) && !lockInfo(x.topic));
     const next = !l ? null : at >= 0 ? pathAfter || null : l.topic.levels[l.topic.levels.indexOf(l) + 1];
+    const earnedGame = S.newPass && gameLeft() > 0;
     const fixedN = S.marks.filter(m => m === 'fixed').length, head = t.head[n - 1], msg = t.msg[n - 1](first, S.list.length) + (fixedN ? ' ' + t.fixedMore(fixedN) : '');
     app.innerHTML = `${topbar()}
     <section class="results" style="${tcStyle(tid)}">
@@ -4472,6 +4820,7 @@ const SCREENS = {
       <h1 style="font-size:clamp(34px,6vw,52px)">${head}</h1>
       <p style="max-width:52ch">${msg}${S.improved && l ? t.newBest : ''}</p>
       ${S.unlocked ? `<p class="unlocked">${LOCK_SVG} ${t.unlockedNow}</p>` : ''}
+      ${earnedGame ? `<p class="unlocked">🚀 ${t.gameEarned}</p>` : ''}
       <div class="pdots res-dots" role="group">${dotsHtml()}</div>
       ${S.marks.includes('help') ? `<p class="res-hint">${t.redoHint}</p>` : ''}
       <section class="redo-card" id="redo-card" hidden></section>
@@ -4479,6 +4828,7 @@ const SCREENS = {
         ${next && n >= 2 ? `<button class="btn btn-big" data-act="lesson" data-id="${next.id}">${t.nextLevel}</button>` : ''}
         <button class="btn ${next && n >= 2 ? 'btn-soft' : 'btn-big'}" data-act="practice" data-id="${id}">${t.playAgain}</button>
         ${l ? `<button class="btn btn-soft" data-act="lesson" data-id="${id}">${t.seeLesson}</button>` : ''}
+        ${earnedGame ? `<button class="btn btn-soft" data-act="games">${t.gamesTitle}</button>` : ''}
         <button class="btn btn-soft" data-act="home">${t.home}</button>
       </div>
     </section>`;
@@ -4691,14 +5041,25 @@ function saveRound() {
 function finishRound() {
   S.finished = true;
   const was = lockedNow();
-  recordStars();
+  recordStars(); wkAdd(S.gained || 0);
   store.round = null;
-  save();
+  save(); frPublish();
   S.unlocked = was && !lockedNow();
 }
 function recordStars() {
-  const n = starsFor(S.first, S.list.length);
-  if (!isSpecialRound(S.id) && n > (store.best[S.id] || 0)) { store.best[S.id] = n; S.improved = true; }
+  const n = starsFor(S.first, S.list.length), before = store.best[S.id] || 0;
+  if (!isSpecialRound(S.id) && n > before) { store.best[S.id] = n; S.improved = true; S.newPass = before < PASS && n >= PASS; S.gained = (S.gained || 0) + n - before; }
+}
+/* This week's practice (Monday to Sunday): rounds finished, new stars and days played.
+   Friends see only these three numbers. */
+function weekId(t = Date.now()) {
+  const d = new Date(t); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+const wkNow = (k = store) => k.wk && k.wk.id === weekId() ? k.wk : { id: weekId(), rounds: 0, stars: 0, days: [] };
+function wkAdd(stars) {
+  const w = wkNow(), day = (new Date().getDay() + 6) % 7;
+  store.wk = { id: w.id, rounds: (w.rounds || 0) + 1, stars: (w.stars || 0) + Math.max(0, stars), days: [...new Set([...(w.days || []), day])] };
 }
 const lockedNow = () => TOPICS.some(tp => lockInfo(tp));
 function refreshAfterSync(prevLang, prevKid) {
@@ -4725,7 +5086,7 @@ function check() {
       if (S.finished) { recordStars(); save(); } else saveRound();
     } else {
       if (firstTry) S.first++;
-      S.marks[S.i] = firstTry ? 'ok' : 'help';
+      S.marks[S.i] = firstTry ? 'ok' : 'help'; document.querySelectorAll('.coach').forEach(e => e.classList.remove('coach'));
       if (isReviewId(S.id)) reviewResult(p, firstTry); else if (!firstTry) reviewAdd(p);
       const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
       teacherSay(firstTry ? `${pick(t.praise(nm))} ${p.sp ? t.spelledAs(p.w) : fullEq(p) + '.'}` : pick(t.praiseHelp), 'joy');
@@ -4770,7 +5131,8 @@ function askRedo(k) {
   speak(card.querySelector('p').textContent, teacherFor(p));
 }
 function enterRedo(k) {
-  S.saved = { input: S.input, tries: S.tries, helped: S.helped, done: S.done };
+  // going from one retry straight to another keeps the place in the round from before the first
+  if (S.mode !== 'redo') S.saved = { input: S.input, tries: S.tries, helped: S.helped, done: S.done };
   S.mode = 'redo'; S.rk = k; S.rp = similarTo(S.list[k]);
   screen = 'practice';
   renderPractice(true);
@@ -4831,7 +5193,7 @@ const ACTIONS = {
   'first-way': () => otherWay(true),
   dot: d => {
     const k = +d.i, m = S.marks && S.marks[k];
-    if (S.mode === 'redo') return;
+    if (S.mode === 'redo') { if (S.done && m === 'help' && k !== S.rk) askRedo(k); return; }
     if (m === 'help') askRedo(k);
     else if (m === 'ok' || m === 'fixed') toast(tr().dotOk);
   },
@@ -4850,6 +5212,7 @@ app.addEventListener('click', e => {
 app.addEventListener('change', e => {
   if (e.target.id === 'lang-select') { switchLang(e.target.value); return; }
   if (e.target.id === 'unlock-all') { store.unlockAll = e.target.checked; save(); return; }
+  if (e.target.id === 'games-on') { store.gamesOff = !e.target.checked; save(); return; }
   if (!e.target.classList.contains('voice-sel')) return;
   const l = e.target.dataset.lang, v = rankedVoices(l).find(x => x.voiceURI === e.target.value);
   DEV.voice[l] = v ? { uri: v.voiceURI, name: v.name } : null; saveDev(); fillVoicePicker();
@@ -5119,7 +5482,8 @@ const yearLabel = n => n ? `${tr().yearN(n)} <span class="muted">(${tr().ageHint
 
 /* ---------- home screen pieces ---------- */
 function pathCard() {
-  const t = tr(), nx = pathNext(), done = pathDoneCount();
+  const t = tr(), nx = pathNext(), done = pathDoneCount(), r = savedRound();
+  if (nx && r && r.id === nx.l.id) return '';
   if (!nx) return `<section class="mixed path-card" style="--tc:var(--div)">${charWrap('sparkle', 'joy', 'sm')}
     <div class="mixed-text"><span class="path-label">${t.nextUp}</span><h3>${t.pathDone}</h3><p>${t.pathDoneText}</p></div>
     <button class="btn" data-act="practice" data-id="mixed">${t.letsGo}</button></section>`;
@@ -5141,6 +5505,915 @@ function reviewCards() {
   }).join('');
 }
 
+/* ---------- Buddy in Space: a mini-game earned with 3-star levels ----------
+   3 stars on 3 levels opens it; after that every new 3-star level earns one more game.
+   The asteroids carry answers to sums from levels the child has reached. */
+const GAME_NEED = 3, GAME_SECS = 90, GAME_LANES = 4, GAME_SHIELDS = 5;
+// levels learnt with stars (2 or 3); each one from the third on earns a game
+const threeStars = () => allLevels().filter(l => (store.best[l.id] || 0) >= PASS).length;
+const gameLeft = () => store.gamesOff ? 0 : Math.max(0, threeStars() - GAME_NEED + 1 - ((store.game || {}).used || 0));
+const GAME_LIST = ['space', 'fruit', 'bubbles', 'hop', 'memory', 'clock', 'shop', 'pizza', 'jug', 'snake', 'mole', 'letters', 'build', 'spot'];
+const GAME_ICON = { space: '🚀', fruit: '🍎', bubbles: '🎈', hop: '🐸', memory: '🃏', clock: '🕐', shop: '🪙', pizza: '🍕', jug: '🥤', snake: '🐍', mole: '🐹', letters: '🔤', build: '🧩', spot: '🔍' };
+const gameBest = id => ((store.game || {}).bests || {})[id] || (id === 'space' ? (store.game || {}).best || 0 : 0);
+function gameSaveBest(id, score) {
+  const g = store.game || {}, was = gameBest(id), bests = { ...(g.bests || {}), [id]: Math.max(was, score) };
+  store.game = { ...g, bests, ...(id === 'space' ? { best: bests.space } : {}) }; save();
+  return score > was;
+}
+function gameCard() {
+  if (store.gamesOff) return '';
+  const t = tr(), have = threeStars(), left = gameLeft(), open = have >= GAME_NEED;
+  return `<section class="mixed game-card${open ? '' : ' locked'}" id="games" style="--tc:var(--div)">
+    <div class="game-art" aria-hidden="true">${charSvg(avatarOf(store), 'joy')}</div>
+    <div class="mixed-text"><span class="path-label">${t.gameLabel}</span><h3>${t.gamesTitle}</h3>
+      <p>${!open ? t.gameLocked(have) : left ? t.gamePlays(left) : t.gameNone}</p></div>
+    ${open ? `<div class="game-grid">${GAME_LIST.map(g => `<button class="game-tile" data-act="game" data-g="${g}"${left ? '' : ' disabled'}>
+      <span class="gt-ic" aria-hidden="true">${GAME_ICON[g]}</span><span class="gt-name">${t.gameNames[g]}</span>${gameBest(g) ? `<span class="gt-best">${t.gameBest(gameBest(g))}</span>` : ''}</button>`).join('')}</div>`
+      : `<span class="game-lock" aria-hidden="true">${LOCK_SVG}</span>`}
+  </section>`;
+}
+let G = null;
+function gameQuestion() {
+  let ls = mixedLevels().filter(l => !l.words && !isSpellTopic(l.topic));
+  if (!ls.length) ls = [findLevel('a1')];
+  for (let i = 0; i < 60; i++) {
+    const l = pick(ls), p = l.gen ? l.gen(Math.random) : pick(l.problems);
+    if (p && p.story == null && Number.isInteger(answerOf(p)) && answerOf(p) >= 0) return p;
+  }
+  return findLevel('a1').problems[0];
+}
+// wrong answers that look like the right one: a little more or less, ten more or less, the digits swapped
+function gameWrong(ans, n) {
+  const near = [ans + 1, ans - 1, ans + 2, ans - 2], far = [ans + 10, ans - 10, ans + 5, ans - 5];
+  const s = String(ans); if (s.length === 2 && s[0] !== s[1]) far.push(+(s[1] + s[0]));
+  const ok = x => x >= (ans > 3 ? 1 : 0) && x !== ans;   // no silly 0 for bigger answers
+  return [...new Set([...shuffle(near.filter(ok)).slice(0, 2), ...shuffle(far.filter(ok)), ...near.filter(ok)])].slice(0, n);
+}
+const gameTime = ms => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+function gameBar() {
+  const t = tr();
+  $('.g-score').textContent = `★ ${G.score}`; $('.g-score').setAttribute('aria-label', t.gameScoreAria(G.score));
+  $('.g-shields').textContent = '♥'.repeat(G.shields) + '♡'.repeat(GAME_SHIELDS - G.shields); $('.g-shields').setAttribute('aria-label', t.gameShieldsAria(G.shields));
+}
+function gameLayout() {
+  const sp = $('#space'); if (!sp || !G) return;
+  G.W = sp.clientWidth; G.H = sp.clientHeight; G.lw = G.W / GAME_LANES; G.shipW = G.ship.offsetWidth; G.shipH = G.ship.offsetHeight;
+  for (const k of G.rocks) k.x = G.lw * (k.lane + .5);
+  G.x = G.lw * (G.lane + .5); G.ship.style.transform = `translateX(${G.x - G.shipW / 2}px)`;
+}
+function gameStart() {
+  const sp = $('#space');
+  G = { t0: performance.now(), sp, ship: $('#g-ship'), rocks: [], score: 0, shields: GAME_SHIELDS, lane: 1, last: performance.now(), end: performance.now() + GAME_SECS * 1000, busy: true, raf: 0, pause: 0 };
+  gameLayout(); gameBar();
+  sp.addEventListener('pointerdown', e => { e.preventDefault(); if (!G) return; const r = sp.getBoundingClientRect(); gameFire(Math.max(0, Math.min(GAME_LANES - 1, Math.floor((e.clientX - r.left) / G.lw)))); });
+  speak(tr().gameHow, 'hoot');
+  setTimeout(() => { if (G) gameWave(); }, 600);
+  G.raf = requestAnimationFrame(gameTick);
+}
+function gameWave() {
+  if (!G) return;
+  const p = gameSum(), ans = answerOf(p), vals = shuffle([ans, ...gameWrong(ans, GAME_LANES - 1)]);
+  G.p = p; G.busy = false;
+  const q = $('#g-q'); q.classList.remove('miss'); q.innerHTML = qHtmlStatic(p);
+  G.rocks.forEach(k => k.el.remove());
+  const r = Math.min(G.lw * .42, 54), speed = G.H / (reduced() ? 15 : 11) * Math.min(1.6, 1 + G.score * .04);
+  G.rocks = vals.map((v, lane) => {
+    const el = document.createElement('div'); el.className = 'rock'; el.textContent = v;
+    el.style.width = el.style.height = 2 * r + 'px'; el.style.fontSize = Math.max(15, r * (String(v).length > 3 ? .48 : String(v).length > 2 ? .58 : .7)) + 'px';
+    G.sp.appendChild(el);
+    return { el, v, ok: v === ans, lane, x: G.lw * (lane + .5), y: -r - Math.random() * G.H * .3, r, vy: speed * (.85 + Math.random() * .3), dead: false };
+  });
+}
+function gameTick(now) {
+  if (!G || G.kind) return;
+  if (screen !== 'game') { G = null; return; }
+  const dt = Math.min(.05, (now - G.last) / 1000), left = G.end - now; G.last = now;
+  $('.g-time').textContent = gameTime(Math.max(0, left));
+  if (left <= 0) return gameOver('time');
+  G.x += (G.lw * (G.lane + .5) - G.x) * Math.min(1, dt * 14);
+  G.ship.style.transform = `translateX(${G.x - G.shipW / 2}px)`;
+  for (const k of G.rocks) {
+    if (k.dead) continue;
+    k.y += k.vy * dt; k.el.style.transform = `translate(${k.x - k.r}px,${k.y - k.r}px)`;
+    if (k.y + k.r > G.H - G.shipH * .55) {   // reached the buddy's level
+      k.dead = true; k.el.remove();
+      if (k.ok && !G.busy) gameMiss();
+    }
+  }
+  if (G) G.raf = requestAnimationFrame(gameTick);
+}
+function gameFire(lane) {
+  if (!G) return;
+  G.lane = lane;
+  if (G.busy) return;
+  const x = G.lw * (lane + .5), hit = G.rocks.filter(k => !k.dead && k.lane === lane && k.y > 0).sort((a, b) => b.y - a.y)[0];
+  const beam = document.createElement('i'); beam.className = 'beam';
+  beam.style.left = x + 'px'; beam.style.top = (hit ? hit.y : 0) + 'px'; beam.style.bottom = G.shipH * .8 + 'px';
+  G.sp.appendChild(beam); setTimeout(() => beam.remove(), 260);
+  if (!hit) return;
+  if (hit.ok) {
+    G.score++; G.busy = true; hit.dead = true; hit.el.classList.add('boom');
+    const plus = document.createElement('i'); plus.className = 'g-plus'; plus.textContent = '+1'; plus.style.left = x + 'px'; plus.style.top = hit.y + 'px';
+    G.sp.appendChild(plus); setTimeout(() => plus.remove(), 820);
+    G.rocks.forEach(k => { if (!k.dead) k.el.classList.add('fade'); });
+    $('#g-q').innerHTML = qHtmlStatic(G.p, answerOf(G.p));
+    gameBar(); setTimeout(gameWave, 650);
+  } else {
+    hit.el.classList.remove('wrong'); void hit.el.offsetWidth; hit.el.classList.add('wrong');
+    gameHurt();
+  }
+}
+function gameHurt() {
+  G.shields--; gameBar();
+  G.sp.classList.remove('hurt'); void G.sp.offsetWidth; G.sp.classList.add('hurt');
+  if (G.shields <= 0) setTimeout(() => G && gameOver('shields'), 500);
+}
+// the right answer got away: show it, then the next sum
+function gameMiss() {
+  G.busy = true;
+  const q = $('#g-q'); q.innerHTML = qHtmlStatic(G.p, answerOf(G.p)); q.classList.add('miss');
+  setTimeout(gameWave, 1500);
+}
+function gameOver(why) {
+  if (!G) return;
+  cancelAnimationFrame(G.raf);
+  const score = G.score, id = G.kind || 'space', best = gameSaveBest(id, score);
+  G = null;
+  show('gameEnd', { id, score, why, best });
+}
+document.addEventListener('visibilitychange', () => {
+  if (!G) return;
+  if (document.hidden) G.pause = performance.now();
+  else if (G.pause) { const d = performance.now() - G.pause; G.end += d; G.last += d; G.pause = 0; }
+});
+document.addEventListener('keydown', e => {
+  if (!G || screen !== 'game') return;
+  if (G.kind) { if (G.bk && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) { G.btx = Math.max(G.bw / 2, Math.min(G.W - G.bw / 2, G.btx + (e.key === 'ArrowLeft' ? -60 : 60))); e.preventDefault(); } return; }
+  if (e.key === 'ArrowLeft') { G.lane = Math.max(0, G.lane - 1); e.preventDefault(); }
+  else if (e.key === 'ArrowRight') { G.lane = Math.min(GAME_LANES - 1, G.lane + 1); e.preventDefault(); }
+  else if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp') { gameFire(G.lane); e.preventDefault(); }
+});
+addEventListener('resize', () => { if (!G) return; if (G.ship) gameLayout(); else if (G.sp) { G.W = G.sp.clientWidth; G.H = G.sp.clientHeight; } });
+/* ---------- five more mini-games, built the same way (90 seconds; most have 3 shields) ---------- */
+const MG = {};
+const FRUITS = ['🍎', '🍐', '🍊', '🍋', '🍓', '🍑', '🍉', '🍇'];
+const tablesReached = () => mixedLevels().some(l => l.topic && (l.topic.id === 'mul' || l.topic.id === 'div'));
+// small numbers (to 20) until the child works with bigger ones
+function gameRange() { let m = 10; for (let i = 0; i < 30; i++) m = Math.max(m, answerOf(gameQuestion())); return m <= 20 ? 20 : 100; }
+function gameSum() {
+  for (let i = 0; i < 60; i++) { const p = gameQuestion(); if (!p.missing && p.c == null && answerOf(p) <= 100 && p.a <= 100 && p.b <= 100) return p; }
+  for (let i = 0; i < 40; i++) { const p = gameQuestion(); if (!p.missing) return p; }
+  return findLevel('a1').problems[0];
+}
+const sumText = p => qText({ ...p, missing: null });
+// a big message across the play area, so a new rule or word is impossible to miss
+function gameBanner(html, ms = 2200) {
+  if (!G || !G.sp) return;
+  G.sp.querySelectorAll('.g-banner').forEach(b => b.remove());
+  const h = G.sp.querySelector('.g-hint'); if (h) h.remove();
+  const b = document.createElement('div'); b.className = 'g-banner'; b.innerHTML = html; b.style.setProperty('--ms', ms + 'ms');
+  G.sp.appendChild(b); setTimeout(() => b.remove(), ms + 100);
+}
+function gamePlus(x, y, txt = '+1') { if (!G) return; const el = document.createElement('i'); el.className = 'g-plus'; el.textContent = txt; el.style.left = x + 'px'; el.style.top = y + 'px'; G.sp.appendChild(el); setTimeout(() => el.remove(), 820); }
+function gameScore(x, y, txt) { G.score++; gameBar(); gamePlus(x, y, txt); }
+function mgScreen(g) {
+  const t = tr();
+  app.innerHTML = `<div class="game mg-${g}">
+    <div class="game-bar"><button class="btn-link" data-act="game-stop">${t.gameStop}</button>
+      <span class="g-time">${gameTime(GAME_SECS * 1000)}</span><span class="g-score">★ 0</span><span class="g-shields"${g === 'memory' ? ' hidden' : ''}>♥♥♥♥♥</span></div>
+    <div class="g-q" id="g-q" aria-live="polite">&nbsp;</div>
+    <div class="space mg-area" id="space" aria-label="${t.gameNames[g]}"><p class="g-hint">${t.gameHows[g]}</p></div>
+  </div>`;
+  const sp = $('#space');
+  G = { t0: performance.now(), kind: g, sp, rocks: [], score: 0, shields: GAME_SHIELDS, last: performance.now(), end: performance.now() + GAME_SECS * 1000, raf: 0, pause: 0, W: sp.clientWidth, H: sp.clientHeight };
+  gameBar(); speak(t.gameHows[g], 'hoot');
+  MG[g].start();
+  G.raf = requestAnimationFrame(mgTick);
+}
+function mgTick(now) {
+  if (!G || !G.kind) return;
+  if (screen !== 'game') { G = null; return; }
+  const dt = Math.min(.05, (now - G.last) / 1000), left = G.end - now; G.last = now;
+  $('.g-time').textContent = gameTime(Math.max(0, left));
+  if (left <= 0) return gameOver('time');
+  if (MG[G.kind].step) MG[G.kind].step(dt);
+  if (G) G.raf = requestAnimationFrame(mgTick);
+}
+// a basket the buddy carries: it follows the finger
+function basketInit() {
+  const b = document.createElement('div'); b.className = 'basket';
+  b.innerHTML = `<span class="bk-buddy">${charSvg(avatarOf(store), 'happy')}</span><span class="bk-bowl" aria-hidden="true">🧺</span>`;
+  G.sp.appendChild(b); G.bk = b; G.bw = b.offsetWidth; G.bh = b.offsetHeight; G.bx = G.btx = G.W / 2;
+  const move = e => { if (!G) return; const r = G.sp.getBoundingClientRect(); G.btx = Math.max(G.bw / 2, Math.min(G.W - G.bw / 2, e.clientX - r.left)); };
+  G.sp.addEventListener('pointerdown', e => { e.preventDefault(); move(e); });
+  G.sp.addEventListener('pointermove', move);
+  basketStep(1);
+}
+function basketStep(dt) { G.bx += (G.btx - G.bx) * Math.min(1, dt * 16); G.bk.style.transform = `translateX(${G.bx - G.bw / 2}px)`; }
+function fallerAdd(cls, html, r, vy, data) {
+  const el = document.createElement('div'); el.className = 'faller ' + cls; el.innerHTML = html;
+  el.style.width = el.style.height = 2 * r + 'px'; el.style.fontSize = 1.5 * r + 'px';
+  G.sp.appendChild(el);
+  // not straight above the last one, so two never land in the basket together
+  let x; for (let i = 0; i < 12; i++) { x = r + Math.random() * (G.W - 2 * r); if (G.lastX == null || Math.abs(x - G.lastX) > 3 * r) break; }
+  G.lastX = x;
+  const k = { el, x, y: -r, r, vy, ...data }; G.rocks.push(k); return k;
+}
+function fallersStep(dt, onCatch) {
+  const top = G.H - G.bh * .8;
+  for (const k of G.rocks) {
+    if (k.dead || !G) continue;
+    k.y += k.vy * dt; k.el.style.transform = `translate(${k.x - k.r}px,${k.y - k.r}px)`;
+    if (k.y + k.r * .5 >= top && k.y < G.H - G.bh * .2 && Math.abs(k.x - G.bx) < G.bw * .4) { k.dead = true; k.el.remove(); onCatch(k); }
+    else if (k.y - k.r > G.H) { k.dead = true; k.el.remove(); }
+  }
+  if (G) G.rocks = G.rocks.filter(k => !k.dead);
+}
+
+// Catch the fruit: catch only fruit whose number follows the rule at the top
+MG.fruit = {
+  start() { G.range = gameRange(); G.tables = tablesReached(); G.spawn = .8; basketInit(); MG.fruit.rule(); },
+  rule() {
+    const t = tr(), R = G.range, k = R === 20 ? pick([5, 8, 10, 12, 15]) : pick([20, 30, 40, 50, 60, 70]);
+    const rules = [{ text: t.mgEven, test: n => n % 2 === 0 }, { text: t.mgOdd, test: n => n % 2 === 1 }, { text: t.mgMore(k), test: n => n > k }, { text: t.mgLess(k), test: n => n < k }];
+    if (G.tables) for (const m of [2, 5, 10]) rules.push({ text: t.mgTable(m), test: n => n % m === 0, max: m * 12 });
+    let r; do { r = pick(rules); } while (G.rule && r.text === G.rule.text);
+    G.rule = r; G.ruleLeft = 20; G.rules = (G.rules || 0) + 1;
+    const q = $('#g-q'); q.textContent = r.text; q.classList.remove('flash'); void q.offsetWidth; q.classList.add('flash');
+    gameBanner(`${G.rules > 1 ? `<small>${t.mgNewRule}</small>` : ''}${esc(r.text)}`);
+  },
+  num() { const max = G.rule.max || G.range, want = Math.random() < .5; for (let i = 0; i < 40; i++) { const n = 1 + Math.floor(Math.random() * max); if (G.rule.test(n) === want) return n; } return 1 + Math.floor(Math.random() * max); },
+  step(dt) {
+    basketStep(dt);
+    G.ruleLeft -= dt; if (G.ruleLeft <= 0) MG.fruit.rule();
+    G.spawn -= dt;
+    if (G.spawn <= 0) { G.spawn = 1.3; const n = MG.fruit.num(); fallerAdd('fruit', `<span class="fx" aria-hidden="true">${pick(FRUITS)}</span><b>${n}</b>`, Math.min(36, G.W * .09), G.H / (reduced() ? 7 : 5.5), { n }); }
+    fallersStep(dt, k => { if (G.rule.test(k.n)) gameScore(G.bx, G.H - G.bh - 24); else gameHurt(); });
+  }
+};
+
+// Bubble pop: pop the bubbles whose sum makes the number at the top
+MG.bubbles = {
+  start() {
+    G.range = gameRange(); G.tables = tablesReached();
+    G.sp.addEventListener('pointerdown', e => {
+      e.preventDefault(); if (!G) return;
+      const r = G.sp.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      const b = G.rocks.filter(k => !k.dead && (k.x - x) ** 2 + (k.y - y) ** 2 < (k.r * 1.15) ** 2).sort((a, c) => a.y - c.y)[0];
+      if (b) MG.bubbles.pop(b);
+    });
+    MG.bubbles.target();
+  },
+  exprs(T, n) {
+    const out = new Set(), facs = [2, 3, 4, 5, 10].filter(k => G.tables && T % k === 0 && T / k > 1 && T / k <= 12);
+    for (let i = 0; i < 60 && out.size < n; i++) {
+      const kind = facs.length && out.size === n - 1 ? 'x' : pick(['+', '+', '-']);
+      if (kind === 'x') { const k = pick(facs); out.add(`${k} × ${T / k}`); }
+      else if (kind === '+') { const a = Math.floor(Math.random() * (T + 1)); out.add(`${a} + ${T - a}`); }
+      else { const c = 1 + Math.floor(Math.random() * 9); out.add(`${T + c} − ${c}`); }
+    }
+    return [...out];
+  },
+  target() {
+    const T = G.range === 20 ? 5 + Math.floor(Math.random() * 16) : 10 * (2 + Math.floor(Math.random() * 9));
+    const wrongs = shuffle([T + 1, T - 1, T + 2, T - 2, T + 10, T - 10].filter(w => w >= 2 && w !== T)).slice(0, 3);
+    G.T = T; G.left = 3; G.spawn = .3;
+    G.queue = shuffle([...MG.bubbles.exprs(T, 3).map(s => ({ s, ok: true })), ...wrongs.map(w => ({ s: MG.bubbles.exprs(w, 1)[0], ok: false }))]);
+    $('#g-q').textContent = tr().mgMake(T);
+  },
+  pop(b) {
+    b.dead = true;
+    if (b.ok) {
+      b.el.classList.add('boom'); setTimeout(() => b.el.remove(), 350); gameScore(b.x, b.y);
+      if (--G.left <= 0) { G.queue = []; G.rocks.forEach(k => { if (!k.dead) { k.dead = true; k.el.classList.add('fade'); setTimeout(() => k.el.remove(), 400); } }); setTimeout(() => G && MG.bubbles.target(), 700); }
+    } else { b.el.classList.add('wrong', 'fade'); setTimeout(() => b.el.remove(), 400); gameHurt(); }
+  },
+  step(dt) {
+    G.spawn -= dt;
+    if (G.spawn <= 0 && G.queue.length) {
+      G.spawn = .75; const it = G.queue.shift(), r = Math.min(48, G.W * .13);
+      const el = document.createElement('div'); el.className = 'faller gbub'; el.innerHTML = `<b>${it.s}</b>`;
+      el.style.width = el.style.height = 2 * r + 'px'; el.style.fontSize = Math.max(14, r * .4) + 'px';
+      G.sp.appendChild(el);
+      G.rocks.push({ el, ...it, r, x: r + Math.random() * (G.W - 2 * r), y: G.H + r, vy: G.H / (reduced() ? 9 : 6.5), ph: Math.random() * 6 });
+    }
+    for (const k of G.rocks) {
+      if (k.dead) continue;
+      k.y -= k.vy * dt; k.ph += dt * 2;
+      k.el.style.transform = `translate(${k.x - k.r + Math.sin(k.ph) * 6}px,${k.y - k.r}px)`;
+      if (k.y + k.r < 0) { k.dead = true; k.el.remove(); G.queue.push({ s: k.s, ok: k.ok }); }   // every bubble that floats away comes round again
+    }
+    G.rocks = G.rocks.filter(k => !k.dead || k.el.isConnected);
+  }
+};
+
+// Hop the number line: tap how far the buddy should hop to land on the flag
+MG.hop = {
+  start() {
+    G.range = gameRange(); G.pad = 28;
+    G.sp.insertAdjacentHTML('beforeend', `<div class="hop-line" id="hop-line"></div><div class="hop-flag" id="hop-flag" aria-hidden="true">🚩</div>
+      <div class="hop-buddy" id="hop-buddy">${charSvg(avatarOf(store), 'happy')}</div><div class="hop-opts" id="hop-opts"></div>`);
+    G.sp.addEventListener('click', e => { const b = e.target.closest('[data-hop]'); if (b && G && !G.busy) MG.hop.go(+b.dataset.hop); });
+    MG.hop.next();
+  },
+  x(n) { return G.pad + (G.W - 2 * G.pad) * n / G.span; },
+  place(el, n) { el.style.left = MG.hop.x(n) + 'px'; },
+  next() {
+    const small = G.range === 20, span = small ? 20 : 100;
+    let a, d;
+    do { a = Math.floor(Math.random() * (span + 1)); d = (Math.random() < .5 ? -1 : 1) * (1 + Math.floor(Math.random() * (small ? 9 : 30))); } while (a + d < 0 || a + d > span);
+    G.a = a; G.b = a + d; G.span = span; G.busy = false; G.W = G.sp.clientWidth;
+    const step = small ? 1 : 5, major = small ? 5 : 10;
+    let ticks = '';
+    for (let n = 0; n <= span; n += step) ticks += `<i class="tick${n % major ? '' : ' major'}" style="left:${MG.hop.x(n)}px">${n % major || Math.abs(n - a) < major * .7 || Math.abs(n - a - d) < major * .7 ? '' : `<span>${n}</span>`}</i>`;
+    for (const n of [a, a + d]) ticks += `<i class="tick hl${n === a + d && Math.abs(MG.hop.x(a + d) - MG.hop.x(a)) < 64 ? ' up' : ''}" style="left:${MG.hop.x(n)}px"><span>${n}</span></i>`;
+    $('#hop-line').innerHTML = ticks;
+    MG.hop.place($('#hop-flag'), a + d);
+    const bd = $('#hop-buddy'); bd.classList.add('still'); MG.hop.place(bd, a); void bd.offsetWidth; bd.classList.remove('still');
+    const opts = new Set([d]), more = [d + 1, d - 1, d + 2, d - 2, d + 10, d - 10, -d].filter(x => x !== 0 && x !== d);
+    for (const o of shuffle(more)) { if (opts.size >= 3) break; opts.add(o); }
+    $('#hop-opts').innerHTML = shuffle([...opts]).map(o => `<button class="btn hop-btn" data-hop="${o}">${o > 0 ? '+' : '−'}${Math.abs(o)}</button>`).join('');
+    $('#g-q').textContent = tr().mgHop(a, a + d);
+  },
+  go(j) {
+    G.busy = true;
+    const to = G.a + j, bd = $('#hop-buddy');
+    bd.classList.remove('hopping'); void bd.offsetWidth; bd.classList.add('hopping');
+    MG.hop.place(bd, Math.max(-1, Math.min(G.span + 1, to)));
+    setTimeout(() => {
+      if (!G) return;
+      if (to === G.b) { gameScore(MG.hop.x(G.b), G.H * .3); setTimeout(() => G && MG.hop.next(), 450); }
+      else {
+        gameHurt();
+        setTimeout(() => { if (!G) return; bd.classList.remove('hopping'); void bd.offsetWidth; bd.classList.add('hopping'); MG.hop.place(bd, G.a); setTimeout(() => { if (G) G.busy = false; }, 650); }, 500);
+      }
+    }, 650);
+  }
+};
+
+// Memory pairs: find each sum and its answer (no shields: just as many pairs as possible)
+MG.memory = {
+  start() { G.sp.addEventListener('click', e => { const c = e.target.closest('.mcard'); if (c && G) MG.memory.flip(c); }); MG.memory.deal(); },
+  deal() {
+    const seen = new Set(), pairs = [];
+    for (let i = 0; i < 120 && pairs.length < 6; i++) { const p = gameSum(), a = answerOf(p); if (seen.has(a)) continue; seen.add(a); pairs.push([sumText(p), String(a)]); }
+    const cards = shuffle(pairs.flatMap(([q, a], k) => [{ k, txt: q, q: true }, { k, txt: a }]));
+    const old = G.sp.querySelector('.mem-grid'); if (old) old.remove();
+    G.sp.insertAdjacentHTML('beforeend', `<div class="mem-grid">${cards.map(c => `<button class="mcard${c.q ? ' q' : ''}" data-k="${c.k}" data-txt="${esc(c.txt)}" aria-label="?"><span class="mc-back" aria-hidden="true">?</span><span class="mc-face">${c.txt}</span></button>`).join('')}</div>`);
+    G.open = []; G.found = 0; G.lock = false;
+    $('#g-q').textContent = tr().mgPairs(0, pairs.length); G.pairs = pairs.length;
+  },
+  flip(c) {
+    if (G.lock || c.classList.contains('up')) return;
+    c.classList.add('up'); c.setAttribute('aria-label', c.dataset.txt); G.open.push(c);
+    if (G.open.length < 2) return;
+    const [x, y] = G.open; G.open = [];
+    if (x.dataset.k === y.dataset.k) {
+      x.classList.add('done'); y.classList.add('done'); G.found++;
+      const r = y.getBoundingClientRect(), s = G.sp.getBoundingClientRect(); gameScore(r.left - s.left + r.width / 2, r.top - s.top);
+      $('#g-q').textContent = G.found === G.pairs ? tr().mgDone : tr().mgPairs(G.found, G.pairs);
+      if (G.found === G.pairs) setTimeout(() => G && MG.memory.deal(), 1000);
+    } else {
+      G.lock = true;
+      setTimeout(() => { if (!G) return; for (const z of [x, y]) { z.classList.remove('up'); z.setAttribute('aria-label', '?'); } G.lock = false; }, 950);
+    }
+  }
+};
+
+// Letter catcher: look at a word, then catch its letters in the right order
+function letterWords() {
+  const tps = playedSpellTopics();
+  let ls = tps.flatMap(tp => tp.levels.map(l => [tp, l])).filter(([, l]) => l.words && (store.best[l.id] || levelSkipped(l)));
+  if (!ls.length) ls = tps.map(tp => [tp, tp.levels[spellStart(tp)]]).filter(([, l]) => l && l.words);
+  const out = [];
+  for (const [tp, l] of ls) for (const x of l.words) { const w = String(x.w || '').toLowerCase(); if (w.length >= 3 && w.length <= 9 && [...w].every(c => (ALPHA[tp.lang] || '').includes(c))) out.push({ w, lang: tp.lang }); }
+  return out.length ? out : [{ w: 'cat', lang: 'en' }, { w: 'sun', lang: 'en' }, { w: 'fish', lang: 'en' }];
+}
+MG.letters = {
+  start() { G.words = shuffle(letterWords()); G.n = 0; basketInit(); MG.letters.next(); },
+  next() {
+    const W = G.words[G.n++ % G.words.length];
+    G.word = W.w; G.wl = W.lang; G.got = 0; G.look = 2.8; G.spawn = .5; G.between = false;
+    G.rocks.forEach(k => k.el.remove()); G.rocks = [];
+    MG.letters.render(); speak(G.word, SPELL_TEACHER[G.wl] || 'fern', G.wl);
+    gameBanner(`${G.n > 1 ? `<small>${tr().mgNewWord}</small>` : ''}<span lang="${G.wl}">${esc(G.word)}</span>`, 2700);
+  },
+  render() {
+    const t = tr();
+    $('#g-q').innerHTML = G.look > 0 ? `<span class="lw-tag">${t.mgLook}</span> <span class="lw-word" lang="${G.wl}">${esc(G.word)}</span>`
+      : `<span class="lw-word" lang="${G.wl}">${[...G.word].map((c, i) => i < G.got ? `<b>${esc(c)}</b>` : '<i>_</i>').join('')}</span> <button class="replay" data-act="mg-hear" aria-label="${t.mgHear}">${ICON.replay}</button>`;
+  },
+  step(dt) {
+    basketStep(dt);
+    if (G.look > 0) { G.look -= dt; if (G.look <= 0) MG.letters.render(); return; }
+    if (G.between) return;
+    G.spawn -= dt;
+    if (G.spawn <= 0) {
+      G.spawn = 1.2;
+      const need = G.word[G.got], alpha = [...(ALPHA[G.wl] || ALPHA.en)].filter(c => c !== need);
+      const ch = Math.random() < .55 ? need : pick(alpha);
+      fallerAdd('letter', `<b lang="${G.wl}">${esc(ch)}</b>`, Math.min(32, G.W * .085), G.H / (reduced() ? 8 : 6.5), { ch });
+    }
+    fallersStep(dt, k => {
+      if (k.ch !== G.word[G.got]) return gameHurt();
+      G.got++; MG.letters.render();
+      if (G.got === G.word.length) {
+        G.between = true; gameScore(G.bx, G.H - G.bh - 24, '★');
+        G.rocks.forEach(x => { x.dead = true; x.el.remove(); }); G.rocks = [];
+        setTimeout(() => G && MG.letters.next(), 900);
+      }
+    });
+  }
+};
+
+/* ---------- eight more games: time, money, fractions, measuring, counting in steps, quick facts, spelling ---------- */
+const rnd = n => Math.floor(Math.random() * n);
+const checkBtn = (label, act = 'mg-check') => `<button class="btn btn-big mg-go" data-act="${act}">${label}</button>`;
+function mgAt(el) { const r = el.getBoundingClientRect(), s = G.sp.getBoundingClientRect(); return [r.left - s.left + r.width / 2, r.top - s.top]; }
+function mgShake(el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+
+// Set the clock: drag the hands to show the time
+MG.clock = {
+  start() {
+    const t = tr();
+    let face = '<circle cx="100" cy="100" r="96" class="c-face"/>';
+    for (let i = 0; i < 60; i++) { const big = i % 5 === 0; face += `<line x1="100" y1="${big ? 10 : 8}" x2="100" y2="${big ? 20 : 14}" class="c-tick${big ? ' big' : ''}" transform="rotate(${i * 6} 100 100)"/>`; }
+    for (let h = 1; h <= 12; h++) { const a = h * Math.PI / 6; face += `<text x="${100 + 70 * Math.sin(a)}" y="${100 - 70 * Math.cos(a) + 7}" class="c-num">${h}</text>`; }
+    G.sp.insertAdjacentHTML('beforeend', `<div class="mg-col"><svg class="clock" id="clock" viewBox="0 0 200 200" role="img" aria-label="${t.gameNames.clock}">${face}
+      <line id="c-h" x1="100" y1="108" x2="100" y2="50" class="c-hour"/><line id="c-m" x1="100" y1="112" x2="100" y2="22" class="c-min"/><circle cx="100" cy="100" r="7" class="c-pin"/></svg>
+      ${checkBtn(t.check)}</div>`);
+    const svg = $('#clock'), diff = (a, b) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+    const ang = e => { const r = svg.getBoundingClientRect(), x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2; return { a: (Math.atan2(x, -y) * 180 / Math.PI + 360) % 360, d: Math.hypot(x, y) / (r.width / 2) }; };
+    svg.addEventListener('pointerdown', e => {
+      e.preventDefault(); if (!G) return; const p = ang(e), dh = diff(p.a, MG.clock.hAng()), dm = diff(p.a, G.m * 6);
+      // the short hand when the finger is near its tip or clearly nearer to it
+      G.drag = dh + (p.d < .62 ? -20 : 15) < dm ? 'h' : 'm'; svg.setPointerCapture(e.pointerId); MG.clock.move(p.a);
+    });
+    svg.addEventListener('pointermove', e => { if (G && G.drag) MG.clock.move(ang(e).a); });
+    const up = () => { if (G) G.drag = null; }; svg.addEventListener('pointerup', up); svg.addEventListener('pointercancel', up);
+    MG.clock.next();
+  },
+  hAng() { return ((G.h % 12) + G.m / 60) * 30; },
+  move(a) {
+    if (G.drag === 'm') {
+      const m = Math.round(a / 30) * 5 % 60;
+      if (G.m >= 45 && m <= 10) G.h = G.h % 12 + 1; else if (G.m <= 10 && m >= 45) G.h = (G.h + 10) % 12 + 1;   // the minute hand passing 12 moves the hour on
+      G.m = m;
+    } else { const h = Math.round((a - G.m / 2) / 30); G.h = ((h % 12) + 12) % 12 || 12; }
+    MG.clock.draw();
+  },
+  draw() { $('#c-h').setAttribute('transform', `rotate(${MG.clock.hAng()} 100 100)`); $('#c-m').setAttribute('transform', `rotate(${G.m * 6} 100 100)`); },
+  next() {
+    const t = tr(), words = Math.random() < .6;
+    G.th = 1 + rnd(12); G.tm = words ? pick([0, 15, 30, 45]) : 5 * rnd(12);
+    do { G.h = 1 + rnd(12); G.m = 5 * rnd(12); } while (G.h === G.th && G.m === G.tm);
+    MG.clock.draw();
+    $('#g-q').textContent = t.mgClock(t.clockSay(G.th, G.tm));
+  },
+  check() {
+    if (G.h === G.th && G.m === G.tm) { gameScore(...mgAt($('#clock'))); setTimeout(() => G && MG.clock.next(), 500); }
+    else { mgShake($('#clock')); gameHurt(); }
+  }
+};
+
+// Corner shop: pay exactly the right amount with coins
+const MONEY = {
+  en: { metal: v => v <= 2 ? 'c0' : v <= 50 ? 'c1' : 'c2', coins: [1, 2, 5, 10, 20, 50, 100, 200], notes: [], fmt: v => v >= 100 ? `£${(v / 100).toFixed(2)}` : `${v}p`, price: () => 6 + rnd(94) },
+  da: { metal: v => v <= 5 ? 'c1' : 'c2', coins: [1, 2, 5, 10, 20], notes: [50], fmt: v => `${v} kr`, price: () => 3 + rnd(58) },
+  sv: { metal: v => v <= 2 ? 'c1' : 'c2', coins: [1, 2, 5, 10], notes: [20, 50], fmt: v => `${v} kr`, price: () => 3 + rnd(58) },
+  id: { metal: v => v === 500 ? 'c2' : 'c1', coins: [100, 200, 500, 1000], notes: [2000, 5000], fmt: v => `Rp${v.toLocaleString('id-ID')}`, price: () => 100 * (3 + rnd(58)) }
+};
+const SHOP_ITEMS = ['🍦', '🍪', '🧃', '🍌', '🖍️', '⚽', '🧸', '📒', '🍭', '🥕', '🧁', '🪀'];
+MG.shop = {
+  start() {
+    const t = tr(), M = G.money = MONEY[curLang()] || MONEY.en, short = v => M.fmt(v).replace('Rp', '').replace(' kr', '');
+    G.sp.insertAdjacentHTML('beforeend', `<div class="mg-col shop"><div class="shop-item" id="shop-item"></div>
+      <div class="shop-tray" id="shop-tray" aria-live="polite"></div>
+      <div class="shop-coins">${[...M.coins, ...M.notes].map(v => `<button class="coin${M.notes.includes(v) ? ' note' : ' ' + M.metal(v)}" data-act="mg-coin" data-v="${v}" aria-label="${M.fmt(v)}">${short(v)}</button>`).join('')}</div>
+      ${checkBtn(t.mgPayBtn)}</div>`);
+    MG.shop.next();
+  },
+  next() {
+    const t = tr(), M = G.money; G.price = M.price(); G.paid = [];
+    $('#shop-item').innerHTML = `<span class="shop-emoji" aria-hidden="true">${pick(SHOP_ITEMS)}</span><span class="shop-tag">${M.fmt(G.price)}</span>`;
+    MG.shop.tray(); $('#g-q').textContent = t.mgPay(M.fmt(G.price));
+  },
+  tray() {
+    const M = G.money;
+    $('#shop-tray').innerHTML = G.paid.length ? G.paid.map((v, i) => `<button class="coin sm${M.notes.includes(v) ? ' note' : ' ' + M.metal(v)}" data-act="mg-uncoin" data-i="${i}" aria-label="${M.fmt(v)}">${M.fmt(v).replace('Rp', '').replace(' kr', '')}</button>`).join('') : '<span class="muted">…</span>';
+  },
+  add(v) { if (G.paid.length < 14) { G.paid.push(v); MG.shop.tray(); } },
+  remove(i) { G.paid.splice(i, 1); MG.shop.tray(); },
+  check() {
+    const sum = G.paid.reduce((a, b) => a + b, 0);
+    if (sum === G.price) { gameScore(...mgAt($('#shop-item'))); setTimeout(() => G && MG.shop.next(), 500); }
+    else { mgShake($('#shop-tray')); $('#g-q').textContent = `${tr().mgGave(G.money.fmt(sum))} ${tr().mgPay(G.money.fmt(G.price))}`; gameHurt(); }
+  }
+};
+
+// Pizza party: put topping on the right fraction of the pizza
+const fracHtml = (n, d) => `<span class="frac" aria-label="${n}/${d}"><b>${n}</b><i>${d}</i></span>`;
+MG.pizza = {
+  start() { G.sp.insertAdjacentHTML('beforeend', `<div class="mg-col"><svg class="pizza" id="pizza" viewBox="0 0 200 200"></svg>${checkBtn(tr().check)}</div>`);
+    $('#pizza').addEventListener('click', e => { const p = e.target.closest('.slice'); if (p) p.classList.toggle('on'); });
+    MG.pizza.next(); },
+  next() {
+    const d = pick([2, 3, 4, 4, 5, 6, 8, 10]), n = 1 + rnd(d - 1), slices = d <= 5 && Math.random() < .35 ? d * 2 : d;
+    G.n = n; G.d = d; G.slices = slices;
+    let svg = '<circle cx="100" cy="100" r="97" class="crust"/>';
+    for (let i = 0; i < slices; i++) {
+      const a0 = i / slices * 2 * Math.PI, a1 = (i + 1) / slices * 2 * Math.PI, P = a => `${100 + 88 * Math.sin(a)},${100 - 88 * Math.cos(a)}`;
+      svg += `<path class="slice" d="M100,100 L${P(a0)} A88,88 0 0,1 ${P(a1)} Z"/>`;
+    }
+    $('#pizza').innerHTML = svg;
+    $('#g-q').innerHTML = tr().mgPizza(fracHtml(n, d));
+  },
+  check() {
+    const on = $('#pizza').querySelectorAll('.slice.on').length;
+    if (on * G.d === G.n * G.slices) { gameScore(...mgAt($('#pizza'))); setTimeout(() => G && MG.pizza.next(), 500); }
+    else { mgShake($('#pizza')); gameHurt(); }
+  }
+};
+
+// Fill the jug: hold to pour, stop at the right line on the scale
+MG.jug = {
+  start() {
+    const t = tr();
+    let scale = '';
+    for (let v = 50; v <= 1000; v += 50) scale += `<i class="j-mark${v % 100 ? '' : ' big'}" style="bottom:${v / 10}%">${v % 100 ? '' : `<span>${v}</span>`}</i>`;
+    G.sp.insertAdjacentHTML('beforeend', `<div class="mg-col"><div class="jug" id="jug"><div class="j-water" id="j-water"></div>${scale}</div>
+      <div class="jug-btns"><button class="btn btn-big j-pour" id="j-pour">${t.mgPour}</button><button class="btn btn-soft" data-act="mg-empty">${t.mgEmpty}</button>${checkBtn(t.check)}</div></div>`);
+    const pour = $('#j-pour'), go = on => e => { e.preventDefault(); if (G) G.pouring = on; pour.classList.toggle('on', on); };
+    pour.addEventListener('pointerdown', go(true)); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) pour.addEventListener(ev, go(false));
+    MG.jug.next();
+  },
+  next() { G.T = 50 * (2 + rnd(18)); G.v = 0; G.pouring = false; MG.jug.draw(); $('#g-q').textContent = tr().mgJug(G.T); },
+  draw() { $('#j-water').style.height = G.v / 10 + '%'; },
+  step(dt) { if (G.pouring && G.v < 1000) { G.v = Math.min(1000, G.v + 110 * dt); MG.jug.draw(); } },
+  empty() { G.v = 0; MG.jug.draw(); },
+  check() {
+    G.pouring = false;
+    if (Math.abs(G.v - G.T) <= 20) { gameScore(...mgAt($('#jug'))); setTimeout(() => G && MG.jug.next(), 500); }
+    else { mgShake($('#jug')); $('#g-q').textContent = `${tr().mgJugShows(Math.round(G.v / 10) * 10)} ${tr().mgJug(G.T)}`; gameHurt(); }
+  }
+};
+
+// Counting snake: tap the numbers in order, counting in steps
+MG.snake = {
+  start() { G.sp.insertAdjacentHTML('beforeend', '<svg class="snake-path" id="snake-path"><polyline id="snake-line"/></svg><div id="snake-tiles"></div>');
+    G.sp.addEventListener('click', e => { const b = e.target.closest('.s-tile'); if (b && G && !b.classList.contains('eaten')) MG.snake.tap(b); });
+    MG.snake.next(); },
+  next() {
+    const steps = tablesReached() ? [2, 3, 4, 5, 8, 10, 50, 100] : [2, 5, 10], k = pick(steps), start = k * rnd(5);
+    G.k = k; G.at = start; G.left = 6; G.W = G.sp.clientWidth; G.H = G.sp.clientHeight;
+    const right = [...Array(6)].map((_, i) => start + k * (i + 1)), wrong = new Set();
+    while (wrong.size < 5) { const v = start + k * (1 + rnd(6)) + pick([-1, 1, 2, -2]) * (k >= 50 ? 10 : 1); if (v > 0 && !right.includes(v)) wrong.add(v); }
+    // spread the tiles over a grid so none overlap
+    const cols = G.W < 500 ? 3 : 4, rows = Math.ceil(12 / cols), cw = G.W / cols, ch = (G.H - 70) / rows;
+    const cells = shuffle([...Array(cols * rows).keys()]).slice(0, 11);
+    const vals = shuffle([...right, ...wrong]);
+    G.pts = [[G.W / 2, G.H - 34]];
+    $('#snake-tiles').innerHTML = `<div class="s-start" style="left:${G.W / 2}px;top:${G.H - 34}px">${start}</div>` + vals.map((v, i) => { const c = cells[i]; const x = cw * (c % cols + .5) + rnd(14) - 7, y = ch * (Math.floor(c / cols) + .5) + rnd(14) - 7; return `<button class="s-tile" style="left:${x}px;top:${y}px" data-v="${v}" data-x="${x}" data-y="${y}">${v}</button>`; }).join('');
+    MG.snake.line(); $('#g-q').textContent = tr().mgCount(k, start);
+  },
+  line() { $('#snake-line').setAttribute('points', G.pts.map(p => p.join(',')).join(' ')); },
+  tap(b) {
+    if (+b.dataset.v === G.at + G.k) {
+      G.at += G.k; b.classList.add('eaten'); G.pts.push([+b.dataset.x, +b.dataset.y]); MG.snake.line(); gameScore(+b.dataset.x, +b.dataset.y - 30);
+      if (--G.left <= 0) setTimeout(() => G && MG.snake.next(), 700);
+    } else { mgShake(b); gameHurt(); }
+  }
+};
+
+// Whack-a-mole: bonk the mole holding the right answer
+MG.mole = {
+  start() { G.sp.insertAdjacentHTML('beforeend', `<div class="holes">${[...Array(9)].map((_, i) => `<div class="hole" data-i="${i}"><button class="mole" data-i="${i}" tabindex="-1"><span aria-hidden="true">🐹</span><b></b></button></div>`).join('')}</div>`);
+    G.sp.addEventListener('pointerdown', e => { const m = e.target.closest('.mole.up'); if (m && G) { e.preventDefault(); MG.mole.bonk(m); } });
+    G.holes = [...Array(9)].map(() => ({ v: null, t: 0 })); MG.mole.next(); },
+  next() { G.p = gameSum(); G.ans = answerOf(G.p); G.spawn = .3; G.sinceRight = 0; $('#g-q').innerHTML = qHtmlStatic(G.p); for (let i = 0; i < 9; i++) MG.mole.hide(i); },
+  hide(i) { G.holes[i] = { v: null, t: 0 }; const m = G.sp.querySelectorAll('.mole')[i]; m.classList.remove('up', 'hit', 'wrong'); },
+  step(dt) {
+    G.holes.forEach((h, i) => { if (h.v != null && (h.t -= dt) <= 0) MG.mole.hide(i); });
+    if ((G.spawn -= dt) > 0) return;
+    G.spawn = .75;
+    const free = G.holes.map((h, i) => h.v == null ? i : -1).filter(i => i >= 0); if (!free.length) return;
+    const showing = G.holes.some(h => h.v === G.ans), right = !showing && (G.sinceRight++ >= 1 || Math.random() < .45);
+    let v = G.ans; if (!right) { const w = gameWrong(G.ans, 4); v = pick(w.length ? w : [G.ans + 1]); } else G.sinceRight = 0;
+    const i = pick(free); G.holes[i] = { v, t: 1.9 };
+    const m = G.sp.querySelectorAll('.mole')[i]; m.querySelector('b').textContent = v; m.classList.add('up');
+  },
+  bonk(m) {
+    const i = +m.dataset.i, h = G.holes[i]; if (h.v == null) return;
+    if (h.v === G.ans) { m.classList.add('hit'); gameScore(...mgAt(m)); setTimeout(() => G && MG.mole.next(), 450); h.v = null; }
+    else { m.classList.add('wrong'); h.t = Math.min(h.t, .35); gameHurt(); }
+  }
+};
+
+// words for the spelling games: from the spelling levels the child has reached, in their own language
+// the spelling subjects a child really practises: the ones with stars, otherwise the app's own language
+function playedSpellTopics() {
+  const all = [...shownSpellTopics(), ...myListTopics()], played = all.filter(tp => tp.levels.some(l => store.best[l.id]));
+  if (played.length) return played;
+  const own = all.filter(tp => tp.lang === curLang());
+  return own.length ? own : all.slice(0, 1);
+}
+function spellItems() {
+  const tps = playedSpellTopics();
+  let ls = tps.flatMap(tp => tp.levels.map(l => [tp, l])).filter(([, l]) => l.words && (store.best[l.id] || levelSkipped(l)));
+  if (!ls.length) ls = tps.map(tp => [tp, tp.levels[spellStart(tp)]]).filter(([, l]) => l && l.words);
+  const out = [];
+  for (const [tp, l] of ls) for (const x of l.words) { const w = String(x.w || ''); if (w.length >= 3 && w.length <= 10) out.push({ w, s: x.s || '', wrong: (x.wrong || []).filter(v => v && v !== w), lang: tp.lang }); }
+  return out.length ? out : [{ w: 'cat', s: 'The ___ sat on the mat.', wrong: ['kat', 'catt'], lang: 'en' }, { w: 'fish', s: 'A ___ can swim.', wrong: ['fich', 'fsh'], lang: 'en' }];
+}
+const sayWord = () => G && G.item && speak(G.item.w, SPELL_TEACHER[G.item.lang] || 'fern', G.item.lang);
+
+// Word builder: tap the letter tiles in the right order
+MG.build = {
+  start() { G.items = shuffle(spellItems()); G.n = 0;
+    G.sp.insertAdjacentHTML('beforeend', '<div class="mg-col build"><p class="b-clue" id="b-clue"></p><div class="b-slots" id="b-slots"></div><div class="b-tiles" id="b-tiles"></div></div>');
+    G.sp.addEventListener('click', e => { if (!G) return; const tl = e.target.closest('.b-tile'), sl = e.target.closest('.b-slot.full'); if (tl) MG.build.put(tl); else if (sl) MG.build.back(sl); });
+    MG.build.next(); },
+  next() {
+    const it = G.item = G.items[G.n++ % G.items.length], t = tr(), letters = [...it.w];
+    let mixed; do { mixed = shuffle(letters.map((c, i) => ({ c, i }))); } while (letters.length > 1 && mixed.every((x, i) => x.i === i));
+    G.filled = [];
+    $('#b-slots').innerHTML = letters.map((_, i) => `<span class="b-slot" data-i="${i}"></span>`).join('');
+    $('#b-tiles').innerHTML = mixed.map(x => `<button class="b-tile" lang="${it.lang}" data-c="${esc(x.c)}">${esc(x.c)}</button>`).join('');
+    // a sentence clue when there is one; otherwise look at the word for a moment
+    $('#b-clue').innerHTML = it.s ? `<span lang="${it.lang}">${esc(it.s).replace('___', '<b class="b-gap">?</b>')}</span>` : '';
+    $('#g-q').innerHTML = `${t.mgBuild} <button class="replay" data-act="mg-say" aria-label="${t.mgHear}">${ICON.replay}</button>`;
+    sayWord(); if (!it.s) gameBanner(`<span lang="${it.lang}">${esc(it.w)}</span>`, 2500);
+  },
+  put(tl) {
+    const slot = $('#b-slots').querySelector('.b-slot:not(.full)'); if (!slot) return;
+    slot.textContent = tl.dataset.c; slot.classList.add('full'); slot.tile = tl; tl.hidden = true;
+    if (!$('#b-slots').querySelector('.b-slot:not(.full)')) MG.build.check();
+  },
+  back(sl) { if (sl.tile) sl.tile.hidden = false; sl.textContent = ''; sl.classList.remove('full'); sl.tile = null; },
+  check() {
+    const got = [...$('#b-slots').children].map(x => x.textContent).join('');
+    if (got === G.item.w) { gameScore(...mgAt($('#b-slots')), '★'); $('#b-slots').classList.add('right'); setTimeout(() => { if (G) { $('#b-slots').classList.remove('right'); MG.build.next(); } }, 800); }
+    else { mgShake($('#b-slots')); gameHurt(); setTimeout(() => { if (G) [...$('#b-slots').children].forEach(MG.build.back); }, 450); }
+  }
+};
+
+// Spot the spelling: tap the one spelled right
+MG.spot = {
+  start() { G.items = shuffle(spellItems().filter(x => x.wrong.length >= 2)); if (!G.items.length) G.items = spellItems(); G.n = 0;
+    G.sp.insertAdjacentHTML('beforeend', '<div class="mg-col spot" id="spot"></div>');
+    G.sp.addEventListener('click', e => { const b = e.target.closest('.sp-opt'); if (b && G && !G.busy) MG.spot.pick(b); });
+    MG.spot.next(); },
+  next() {
+    const it = G.item = G.items[G.n++ % G.items.length]; G.busy = false;
+    const opts = shuffle([it.w, ...shuffle(it.wrong).slice(0, 2)]);
+    $('#spot').innerHTML = `${it.s ? `<p class="b-clue" lang="${it.lang}">${esc(it.s).replace('___', '<b class="b-gap">?</b>')}</p>` : ''}` + opts.map((o, i) => `<button class="sp-opt" lang="${it.lang}" style="--d:${i * .12}s" data-ok="${o === it.w ? 1 : ''}">${esc(o)}</button>`).join('');
+    $('#g-q').innerHTML = `${tr().mgSpot} <button class="replay" data-act="mg-say" aria-label="${tr().mgHear}">${ICON.replay}</button>`;
+    sayWord();
+  },
+  pick(b) {
+    if (b.dataset.ok) { G.busy = true; b.classList.add('right'); gameScore(...mgAt(b), '★'); setTimeout(() => G && MG.spot.next(), 650); }
+    else { b.classList.add('wrong'); b.disabled = true; gameHurt(); }
+  }
+};
+Object.assign(ACTIONS, {
+  'mg-check': () => { if (G && MG[G.kind] && MG[G.kind].check) MG[G.kind].check(); },
+  'mg-coin': d => { if (G && G.kind === 'shop') MG.shop.add(+d.v); },
+  'mg-uncoin': d => { if (G && G.kind === 'shop') MG.shop.remove(+d.i); },
+  'mg-empty': () => { if (G && G.kind === 'jug') MG.jug.empty(); },
+  'mg-say': () => sayWord()
+});
+
+Object.assign(SCREENS, {
+  game({ g = 'space' } = {}) {
+    if (g !== 'space') return mgScreen(g);
+    const t = tr();
+    app.innerHTML = `<div class="game">
+      <div class="game-bar"><button class="btn-link" data-act="game-stop">${t.gameStop}</button>
+        <span class="g-time">${gameTime(GAME_SECS * 1000)}</span><span class="g-score">★ 0</span><span class="g-shields">♥♥♥♥♥</span></div>
+      <div class="g-q" id="g-q" aria-live="polite">&nbsp;</div>
+      <div class="space" id="space" aria-label="${t.gameName}">
+        <div class="g-ship" id="g-ship">${charSvg(avatarOf(store), 'happy')}</div>
+        <p class="g-hint">${t.gameHow}</p>
+      </div>
+    </div>`;
+    gameStart();
+  },
+  gameEnd({ id = 'space', score = 0, why = 'time', best = false }) {
+    const t = tr(), left = gameLeft();
+    app.innerHTML = `${topbar()}
+    <section class="results game-end" style="--tc:var(--div)">
+      ${charWrap(avatarOf(store), 'joy', 'lg')}
+      <h1 style="font-size:clamp(30px,6vw,48px)">${why === 'time' ? t.gameTimeUp : t.gameOut}</h1>
+      <p class="muted">${GAME_ICON[id]} ${t.gameNames[id]}</p>
+      <p>${(t.gameResults[id] || t.gameResult)(score)}${best && score >= 3 ? ' ' + t.gameNewBest : ''}</p>
+      <div class="res-actions">
+        ${left ? `<button class="btn btn-big" data-act="game" data-g="${id}">${t.gameAgain(left)}</button><button class="btn btn-soft" data-act="games">${t.gamePick}</button>` : ''}
+        <button class="btn ${left ? 'btn-soft' : 'btn-big'}" data-act="home">${t.home}</button>
+      </div>
+    </section>`;
+    if (score) confetti(Math.min(60, 12 + score * 4));
+    speak(`${why === 'time' ? t.gameTimeUp : t.gameOut} ${(t.gameResults[id] || t.gameResult)(score)}${best && score >= 3 ? ' ' + t.gameNewBest : ''}`, 'hoot');
+  }
+});
+Object.assign(ACTIONS, {
+  // a game is used up when it starts, so leaving early does not give a free one
+  game: d => { if (G) { cancelAnimationFrame(G.raf); G = null; } if (!gameLeft()) return show('home'); store.game = { ...(store.game || {}), used: ((store.game || {}).used || 0) + 1 }; save(); show('game', { g: GAME_LIST.includes(d && d.g) ? d.g : 'space' }); },
+  games: () => { show('home'); const el = $('#games'); if (el) el.scrollIntoView({ block: 'center' }); },
+  'mg-hear': () => { if (G && G.word) speak(G.word, SPELL_TEACHER[G.wl] || 'fern', G.wl); },
+  'game-stop': () => {
+    if (G) {
+      if (performance.now() - G.t0 < 15000 && !G.score) store.game = { ...(store.game || {}), used: Math.max(0, ((store.game || {}).used || 0) - 1) };
+      cancelAnimationFrame(G.raf); G = null; save();
+    }
+    show('home');
+  }
+});
+
+/* ---------- Friends: compare this week's practice with friends from other families ----------
+   Only on the website, with a free family account on both sides. A grown-up in each family agrees:
+   one makes a friend code, the other types it in (their yes), the first approves the request (their yes).
+   A friend sees only a nickname, the buddy picture and this week's rounds, stars and days. No chat.
+   Online: players/{pid} is a child's card, readable only by its own family and the families it approved;
+   codes/{code} lasts 7 days; requests/{id} wait for the other grown-up's answer. */
+const FRI = {
+  ready: () => !!(FIREBASE_CONFIG && !viaClaude && fb && fb.user && fb.db),
+  uid: () => fb.user.uid,
+  ref: (c, id) => fb.F.doc(fb.db, c, id),
+  setPlayer: (pid, d) => fb.F.setDoc(FRI.ref('players', pid), d),
+  getPlayer: async pid => { try { const x = await fb.F.getDoc(FRI.ref('players', pid)); return x.exists() ? x.data() : null; } catch (e) { return null; } },
+  delPlayer: pid => fb.F.deleteDoc(FRI.ref('players', pid)),
+  setCode: (c, d) => fb.F.setDoc(FRI.ref('codes', c), d),
+  getCode: async c => { const x = await fb.F.getDoc(FRI.ref('codes', c)); return x.exists() ? x.data() : null; },
+  delCode: c => fb.F.deleteDoc(FRI.ref('codes', c)),
+  addRequest: (id, d) => fb.F.setDoc(FRI.ref('requests', id), d),
+  mySent: async () => { const F = fb.F, q = F.query(F.collection(fb.db, 'requests'), F.where('fromOwner', '==', FRI.uid())); return (await F.getDocs(q)).docs.map(x => ({ id: x.id, ...x.data() })); },
+  myRequests: async () => { const F = fb.F, q = F.query(F.collection(fb.db, 'requests'), F.where('toOwner', '==', FRI.uid())); return (await F.getDocs(q)).docs.map(x => ({ id: x.id, ...x.data() })); },
+  delRequest: id => fb.F.deleteDoc(FRI.ref('requests', id))
+};
+const CODE_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const randCode = n => { const a = new Uint32Array(n); crypto.getRandomValues(a); return [...a].map(x => CODE_ABC[x % CODE_ABC.length]).join(''); };
+const frNick = v => String(v || '').replace(/\s+/g, ' ').trim().slice(0, 20);
+const frAvatar = a => AVATARS.includes(a) ? a : 'hoot';
+function frCard(k) {
+  const w = wkNow(k);
+  return { owner: FRI.uid(), nick: k.fr.nick, avatar: avatarOf(k), wk: { id: w.id, rounds: w.rounds || 0, stars: w.stars || 0, days: (w.days || []).length }, viewers: k.fr.viewers || [], updated: Date.now() };
+}
+const frTimers = {};
+function frPublish(k = store, now) {
+  if (!k || !k.fr || !FRI.ready()) return Promise.resolve();
+  clearTimeout(frTimers[k.id]);
+  const go = () => FRI.setPlayer(k.fr.pid, frCard(k)).catch(() => {});
+  if (now) return go();
+  frTimers[k.id] = setTimeout(go, 800); return Promise.resolve();
+}
+// the child's own row plus every friend whose grown-up has approved
+async function frRows(k = store) {
+  const w = wkNow(k), rows = [{ me: true, nick: k.fr.nick, avatar: avatarOf(k), stars: w.stars || 0, rounds: w.rounds || 0, days: (w.days || []).length }];
+  // the list can change while the cards load (another device, a grown-up removing a friend)
+  const list = (k.fr.friends || []).slice(), cards = await Promise.all(list.map(f => FRI.getPlayer(f.pid)));
+  let changed = false;
+  cards.forEach((c, i) => {
+    const f = list[i]; if (!c) return;
+    if (f.state !== 'ok' || f.nick !== c.nick) { f.state = 'ok'; f.nick = frNick(c.nick); changed = true; }
+    const cw = c.wk && c.wk.id === weekId() ? c.wk : {};
+    rows.push({ nick: frNick(c.nick), avatar: frAvatar(c.avatar), stars: +cw.stars || 0, rounds: +cw.rounds || 0, days: +cw.days || 0 });
+  });
+  if (changed) save();
+  return rows;
+}
+// effort first: days practised this week, then rounds; stars and rounds are the other choices
+const frSort = (rows, by) => rows.slice().sort((a, b) => by === 'stars' ? b.stars - a.stars || b.days - a.days : by === 'rounds' ? b.rounds - a.rounds || b.days - a.days : b.days - a.days || b.rounds - a.rounds);
+function frRowHtml(r, i) {
+  const t = tr();
+  return `<li class="${r.me ? 'me' : ''}"><b class="fr-rank">${i + 1}</b><span class="fr-av">${charSvg(r.avatar)}</span><span class="fr-name">${r.me ? t.frYou : esc(r.nick)}</span><span class="fr-nums">${t.frRow(r.stars, r.rounds, r.days)}</span></li>`;
+}
+function friendsCard() {
+  if (!store.fr || !FRI.ready()) return '';
+  const t = tr();
+  return `<section class="mixed fr-card" style="--tc:var(--mul)">
+    <div class="mixed-text"><span class="path-label">${t.frTitle}</span><ol class="fr-list fr-mini" id="fr-mini"><li class="muted">${t.frLoading}</li></ol></div>
+    <button class="btn btn-soft" data-act="friends">${t.frSeeAll}</button></section>`;
+}
+async function fillFriendsCard() {
+  const el = $('#fr-mini'); if (!el) return;
+  const rows = await frRows(), t = tr();
+  if (!$('#fr-mini')) return;
+  $('#fr-mini').innerHTML = rows.length > 1 ? frSort(rows, 'days').slice(0, 3).map(frRowHtml).join('') : `<li class="muted">${t.frEmpty}</li>`;
+}
+// the grown-up area: one card per child
+async function paFriends() {
+  const t = tr();
+  if (!FIREBASE_CONFIG || viaClaude) return `<section class="pa-card"><h3>${t.tabFriends}</h3><p>${t.frSite}</p></section>`;
+  if (!fb || !fb.user) return `<section class="pa-card"><h3>${t.tabFriends}</h3><p>${t.frAccount}</p><div class="confirm-row"><button class="btn btn-small" data-act="pa-tab" data-tab="account">${t.frGoAccount}</button></div></section>`;
+  let reqs = [];
+  try { reqs = await FRI.myRequests(); } catch (e) {}
+  const old = Date.now() - 30 * 864e5;
+  for (const x of reqs.filter(x => !(x.created > old))) FRI.delRequest(x.id).catch(() => {});
+  reqs = reqs.filter(x => x.created > old);
+  const kids = Object.values(DB.kids).filter(k => k.onboarded);
+  for (const k of kids) if (k.fr && k.fr.code && !(k.fr.code.expires > Date.now())) { FRI.delCode(k.fr.code.code).catch(() => {}); delete k.fr.code; save(); }
+  return kids.map(k => {
+    const name = esc(k.name || '?');
+    if (!k.fr) return `<section class="pa-card fr-pa" data-kid="${k.id}"><h3>${name}</h3><p class="muted">${t.frIntro(name)}</p>
+      <form class="fr-form" data-form="fr-on" data-kid="${k.id}"><label for="fr-nick-${k.id}">${t.frNickLabel}</label>
+        <div class="row"><input id="fr-nick-${k.id}" name="nick" maxlength="20" required placeholder="${t.frNickHint}" autocomplete="off"><button class="btn btn-small">${t.frTurnOn(name)}</button></div></form></section>`;
+    const fr = k.fr, mine = reqs.filter(r => r.to === fr.pid), code = fr.code && fr.code.expires > Date.now() ? fr.code : null;
+    const friends = fr.friends || [];
+    return `<section class="pa-card fr-pa" data-kid="${k.id}"><h3>${name} <span class="muted">· ${t.frSeenAs(esc(fr.nick))}</span></h3>
+      ${mine.length ? `<h4>${t.frReqs}</h4><ul class="fr-reqs">${mine.map(r => `<li><span>${charSvg(frAvatar(r.fromAvatar))}</span><span>${t.frReqText(esc(frNick(r.fromNick)), name)}</span>
+        <span class="fr-btns"><button class="btn btn-small" data-act="fr-yes" data-kid="${k.id}" data-id="${esc(r.id)}">${t.frApprove}</button><button class="btn btn-small btn-soft" data-act="fr-no" data-id="${esc(r.id)}">${t.frDecline}</button></span></li>`).join('')}</ul>` : ''}
+      <h4>${t.frList}</h4>
+      ${friends.length ? `<ul class="fr-reqs">${friends.map(f => `<li><span>${charSvg(frAvatar(f.avatar))}</span><span>${esc(f.nick)}${f.state === 'ok' ? '' : ` <em class="muted">· ${t.frWaiting}</em>`}</span>
+        <button class="btn btn-small btn-soft" data-act="fr-remove" data-kid="${k.id}" data-pid="${esc(f.pid)}">${t.frRemove}</button></li>`).join('')}</ul>` : `<p class="muted">${t.frNone}</p>`}
+      <h4>${t.frAddTitle}</h4>
+      <div class="confirm-row">${code ? `<p class="fr-code-show">${t.frCodeShow(code.code, new Date(code.expires).toLocaleDateString(curLang() === 'en' ? 'en-GB' : curLang()))}</p>` : `<button class="btn btn-small" data-act="fr-code" data-kid="${k.id}">${t.frMakeCode}</button>`}</div>
+      <form class="fr-form" data-form="fr-use" data-kid="${k.id}"><label for="fr-in-${k.id}">${t.frEnter}</label>
+        <div class="row"><input id="fr-in-${k.id}" name="code" maxlength="10" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD2345"><button class="btn btn-small">${t.frAdd}</button></div>
+        <p class="acc-msg" role="status" id="fr-msg-${k.id}"></p></form>
+      <div class="confirm-row" id="fr-off-${k.id}"><button class="btn btn-small btn-soft" data-act="fr-off-ask" data-kid="${k.id}">${t.frTurnOff}</button></div>
+    </section>`;
+  }).join('') || `<section class="pa-card"><p>${t.frNone}</p></section>`;
+}
+async function frForget(k) {
+  if (!k || !k.fr || !FRI.ready()) return;
+  try { await FRI.delPlayer(k.fr.pid); } catch (e) {}
+  if (k.fr.code) try { await FRI.delCode(k.fr.code.code); } catch (e) {}
+}
+const frMsg = (kid, m) => { const el = $('#fr-msg-' + kid); if (el) el.textContent = m; };
+const frReload = () => { if (screen === 'parent' && S.tab === 'friends') SCREENS.parent(S); };
+app.addEventListener('submit', async e => {
+  const f = e.target, kind = f.dataset.form; if (!kind || !kind.startsWith('fr-')) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const t = tr(), k = DB.kids[f.dataset.kid]; if (!k || !FRI.ready()) return;
+  if (kind === 'fr-on') {
+    const nick = frNick(new FormData(f).get('nick')); if (!nick) return;
+    k.fr = { pid: randCode(20), nick, friends: [], viewers: [] }; save();
+    await frPublish(k, true); frReload();
+  } else if (kind === 'fr-use') {
+    const code = String(new FormData(f).get('code') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (code.length !== 8) return frMsg(k.id, t.frBadCode);
+    let c = null; try { c = await FRI.getCode(code); } catch (err) { return frMsg(k.id, t.frErr); }
+    if (!c || !(c.expires > Date.now())) return frMsg(k.id, t.frBadCode);
+    if (c.pid === k.fr.pid) return frMsg(k.id, t.frOwnCode);
+    if ((k.fr.friends || []).some(x => x.pid === c.pid)) return frMsg(k.id, t.frAlready(esc(frNick(c.nick))));
+    // typing the code is this family's yes: this child's card opens to the other family now
+    k.fr.friends = [...(k.fr.friends || []), { pid: c.pid, owner: c.owner, nick: frNick(c.nick), avatar: frAvatar(c.avatar), state: 'wait' }];
+    k.fr.viewers = [...new Set([...(k.fr.viewers || []), c.owner])]; save();
+    try {
+      await frPublish(k, true);
+      await FRI.addRequest(`${c.pid}_${k.fr.pid}`, { to: c.pid, toOwner: c.owner, from: k.fr.pid, fromOwner: FRI.uid(), fromNick: k.fr.nick, fromAvatar: avatarOf(k), code, created: Date.now() });
+    } catch (err) { return frMsg(k.id, t.frErr); }
+    frReload(); toast(t.frSent(esc(frNick(c.nick))));
+  }
+});
+Object.assign(ACTIONS, {
+  friends: () => show('friends', { by: 'days' }),
+  'fr-sort': d => show('friends', { by: d.by }),
+  'fr-code': async d => {
+    const k = DB.kids[d.kid], t = tr(); if (!k || !k.fr || !FRI.ready()) return;
+    const code = randCode(8), expires = Date.now() + 7 * 864e5;
+    try {
+      if (k.fr.code) await FRI.delCode(k.fr.code.code).catch(() => {});
+      await FRI.setCode(code, { pid: k.fr.pid, owner: FRI.uid(), nick: k.fr.nick, avatar: avatarOf(k), expires });
+    } catch (e) { return toast(t.frErr); }
+    k.fr.code = { code, expires }; save(); frReload();
+  },
+  'fr-yes': async d => {
+    const k = DB.kids[d.kid], t = tr(); if (!k || !k.fr) return;
+    let r = null; try { r = (await FRI.myRequests()).find(x => x.id === d.id); } catch (e) { return toast(t.frErr); }
+    if (!r) return frReload();
+    // approving is this family's yes: this child's card opens to the family that asked
+    k.fr.friends = [...(k.fr.friends || []).filter(x => x.pid !== r.from), { pid: r.from, owner: r.fromOwner, nick: frNick(r.fromNick), avatar: frAvatar(r.fromAvatar), state: 'ok' }];
+    k.fr.viewers = [...new Set([...(k.fr.viewers || []), r.fromOwner])]; save();
+    try { await frPublish(k, true); await FRI.delRequest(r.id); } catch (e) { return toast(t.frErr); }
+    frReload();
+  },
+  'fr-no': async d => { try { await FRI.delRequest(d.id); } catch (e) { return toast(tr().frErr); } frReload(); },
+  'fr-remove': async d => {
+    const k = DB.kids[d.kid]; if (!k || !k.fr) return;
+    k.fr.friends = (k.fr.friends || []).filter(x => x.pid !== d.pid);
+    k.fr.viewers = [...new Set(k.fr.friends.map(x => x.owner))]; save();
+    await frPublish(k, true); frReload();
+  },
+  'fr-off-ask': d => { const t = tr(); $('#fr-off-' + d.kid).innerHTML = `<span>${t.frOffAsk}</span><button class="btn btn-small" style="--tc:var(--oops)" data-act="fr-off" data-kid="${d.kid}">${t.frOffYes}</button><button class="btn btn-small btn-soft" data-act="pa-tab" data-tab="friends">${t.cancel}</button>`; },
+  'fr-off': async d => { const k = DB.kids[d.kid]; if (!k) return; await frForget(k); delete k.fr; save(); frReload(); }
+});
+Object.assign(SCREENS, {
+  friends({ by = 'days' }) {
+    if (!store.fr || !FRI.ready()) return show('home');
+    const t = tr();
+    app.innerHTML = `${topbar()}
+    <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
+    <section class="fr-page" style="--tc:var(--mul)">
+      <h1>${t.frTitle}</h1>
+      <div class="fr-sort" role="group">${[['days', t.frByDays], ['stars', t.frByStars], ['rounds', t.frByRounds]].map(([b, l]) => `<button class="pa-tab" data-act="fr-sort" data-by="${b}" aria-pressed="${b === by}">${l}</button>`).join('')}</div>
+      <ol class="fr-list" id="fr-list"><li class="muted">${t.frLoading}</li></ol>
+      <p class="muted">${t.frWeekNote}</p>
+    </section>`;
+    frRows().then(rows => { const el = $('#fr-list'); if (!el || screen !== 'friends') return; el.innerHTML = rows.length > 1 ? frSort(rows, by).map(frRowHtml).join('') : `<li class="muted">${t.frEmpty}</li>`; });
+  }
+});
+
 /* ---------- onboarding: a profile, then the starting quiz ---------- */
 /* First-time tips: the teacher points at a button the first time it matters, once per child. */
 const tipSeen = k => !!(store.tips && store.tips[k]);
@@ -5152,13 +6425,14 @@ const OB_STEPS = ['lang', 'intro', 'name', 'avatar', 'year', 'place'];
    It plays after the language is picked (so it is in the right language), once per child,
    and grown-ups can replay it from the settings. */
 let INTRO = null, introTimer = 0;
-const INTRO_SCENES = 4;
+const INTRO_SCENES = 5;
 function introScene(i) {
   const t = tr();
   if (i === 0) return { cast: ['hoot'], who: 'hoot', say: t.intro1(t.brand, tName('hoot')) };
   if (i === 1) return { cast: ['daisy', 'whiskers', 'sparkle'], who: 'daisy', say: [t.intro2a(tName('daisy')), t.intro2b(tName('whiskers')), t.intro2c(tName('sparkle'))].join(' '), lines: [['daisy', t.intro2a(tName('daisy'))], ['whiskers', t.intro2b(tName('whiskers'))], ['sparkle', t.intro2c(tName('sparkle'))]] };
   if (i === 2) return { cast: ['fern', 'pjuske', 'olle', 'uli'], who: 'fern', say: t.intro3, wave: true };
-  return { cast: ['hoot'], who: 'hoot', say: [t.introPromises, t.promise1, t.promise2, t.promise3].join(' '), promises: true };
+  if (i === 3) return { cast: ['hoot'], who: 'hoot', say: [t.introPromises, t.promise1, t.promise2, t.promise3].join(' '), promises: true };
+  return { cast: ['sparkle'], who: 'sparkle', say: `${t.introGames1} ${t.introGames2}`, games: true };
 }
 function renderIntro(mode) {
   const t = tr();
@@ -5170,6 +6444,8 @@ function renderIntro(mode) {
   const body = sc.promises
     ? `<ol class="intro-promises">${[['steps', t.promise1], ['circle', t.promise2], ['star', t.promise3]].map(([ic, txt], k) => `<li style="--d:${.4 + k * .5}s"><span class="ip-ic ip-${ic}" aria-hidden="true">${ic === 'star' ? ICON.star(true) : ic === 'circle' ? '↻' : '1·2·3'}</span><span>${txt}</span></li>`).join('')}</ol>`
     : sc.lines ? `<ul class="intro-lines">${sc.lines.map(([c, txt], k) => `<li style="--d:${k * .35}s;${tcStyle(c)}"><i class="il-dot" aria-hidden="true"></i>${txt}</li>`).join('')}</ul>`
+    : sc.games ? `<h1 class="ob-q">${t.introGamesTitle}</h1><p class="intro-say">${t.introGames1}</p><p>${t.introGames2}</p>
+      <div class="intro-games" aria-hidden="true">${GAME_LIST.map((g, k) => `<span style="--d:${.3 + k * .12}s">${GAME_ICON[g]}</span>`).join('')}</div>`
     : `<p class="intro-say">${sc.say}</p>`;
   app.innerHTML = `${obTopbar()}
   <div class="intro" style="${tcStyle(sc.who)}">
@@ -5323,7 +6599,7 @@ function plFinish() {
 let LE = null;   // the word list being edited
 function paTabs(tab) {
   const t = tr();
-  return `<nav class="pa-tabs" aria-label="${t.grownups}">${[['kids', t.tabKids], ['lists', t.tabLists], ['progress', t.tabProgress], ['settings', t.tabSettings], ['account', t.tabAccount]]
+  return `<nav class="pa-tabs" aria-label="${t.grownups}">${[['kids', t.tabKids], ['lists', t.tabLists], ['progress', t.tabProgress], ['friends', t.tabFriends], ['settings', t.tabSettings], ['account', t.tabAccount]]
     .map(([k, label]) => `<button class="pa-tab" data-act="pa-tab" data-tab="${k}" aria-pressed="${k === tab}">${label}</button>`).join('')}</nav>`;
 }
 function paKidForm(k) {
@@ -5373,6 +6649,7 @@ function paProgress(kidId) {
   {
     const rows = mathTopics().concat(TOPICS.filter(isSpellTopic)).map(tp => {
       const st = tp.levels.reduce((s, l) => s + (k.best[l.id] || 0), 0), done = tp.levels.filter(l => levelDone(l, k)).length, sk = tp.levels.filter(l => !(k.best[l.id] || 0) && levelSkipped(l, k)).length;
+      if (isSpellTopic(tp) && !st) return `<tr><th scope="row">${topicTitle(tp)}</th><td colspan="2" class="muted">${t.progNotStarted}</td></tr>`;
       return `<tr><th scope="row">${topicTitle(tp)}</th><td>${t.progStars(st, tp.levels.length * 3)}</td><td>${t.progLevels(done, tp.levels.length)}${sk ? ` <span class="muted">${t.progSkipped(sk)}</span>` : ''}</td></tr>`;
     }).join('');
     const weak = allLevels().filter(l => k.best[l.id] === 1 && !levelSkipped(l, k)).map(l => `${topicTitle(l.topic)}: ${lvlText(l).title}`);
@@ -5397,6 +6674,8 @@ function paSettings() {
       <p class="voice-note muted" data-lang="${l}"></p></div>`).join('')}
     <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
     <p class="muted">${t.unlockAllHelp}</p>
+    <label class="check-row" for="games-on"><input type="checkbox" id="games-on"${store.gamesOff ? '' : ' checked'}> ${t.gamesLabel}</label>
+    <p class="muted">${t.gamesHelp}</p>
     <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="intro-replay">${t.introReplay}</button></div>
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="pin-change">${t.pinChange}</button></div>
@@ -5494,12 +6773,13 @@ Object.assign(SCREENS, {
     if (!gateOpen()) return show('gate', { next: { tab } });
     const t = tr();
     S = { tab, editId, askId, kidId };
-    const body = tab === 'lists' ? paLists() : tab === 'progress' ? paProgress(kidId || store.id) : tab === 'settings' ? paSettings() : tab === 'account' ? paAccount() : paKids(editId, askId);
+    const body = tab === 'friends' ? `<div id="fr-pa"><section class="pa-card"><p class="muted">${t.frLoading}</p></section></div>` : tab === 'lists' ? paLists() : tab === 'progress' ? paProgress(kidId || store.id) : tab === 'settings' ? paSettings() : tab === 'account' ? paAccount() : paKids(editId, askId);
     app.innerHTML = `${topbar()}
     <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
     <h1 class="pa-title">${t.grownups}</h1>${paTabs(tab)}${body}
     <footer class="site-foot">${t.footNote}${ON_SITE ? ` · <a href="privacy.html">${t.privacy}</a>` : ''}</footer>`;
     if (tab === 'settings') fillVoicePicker();
+    if (tab === 'friends') paFriends().then(h => { const el = $('#fr-pa'); if (el && screen === 'parent' && S.tab === 'friends') el.innerHTML = h; });
   },
   listEdit({ id }) {
     if (!gateOpen()) return show('gate', { next: { tab: 'lists' } });
@@ -5528,8 +6808,9 @@ async function initFirebase() {
         const ref = F.doc(db, 'families', user.uid);
         try { await attachCloud({ get: async () => { const s = await F.getDoc(ref); return s.exists() ? s.data() : null; }, set: d => F.setDoc(ref, d) }); cloudFailed = false; } catch (e) { cloudFailed = true; }   // e.g. no internet at that moment
       } else cloud = null;
-      if (screen === 'parent' && S.tab === 'account') SCREENS.parent(S);
+      if (screen === 'parent' && (S.tab === 'account' || S.tab === 'friends')) SCREENS.parent(S);
       if (screen === 'signin') SCREENS.signin(S);
+      if (screen === 'home' && user) { SCREENS.home(S); frPublish(store); }
     });
     if (screen === 'parent' && S.tab === 'account') SCREENS.parent(S);
   } catch (e) { fb = null; }
@@ -5556,7 +6837,7 @@ Object.assign(ACTIONS, {
   'intro-next': () => { if (!INTRO) return introDone(); clearTimeout(introTimer); if (INTRO.i >= INTRO_SCENES - 1) return introDone(); INTRO.i++; renderIntro(INTRO.mode); },
   'intro-skip': () => introDone(),
   'intro-replay': () => { INTRO = null; show('onboard', { step: 'intro', mode: 'replay' }); },
-  'ob-lang': d => { store.lang = d.l; save(); applyLang(); obNext('lang'); },
+  'ob-lang': d => { store.lang = d.l; if (!store.onboarded && !store.spLangs) store.spLangs = [d.l]; save(); applyLang(); obNext('lang'); },
   'ob-avatar': d => { store.avatar = d.a; save(); obNext('avatar'); },
   'ob-year': d => { store.year = +d.n; save(); obNext('year'); },
   'ob-cancel': () => {
@@ -5579,7 +6860,7 @@ Object.assign(ACTIONS, {
   'kid-remove': d => show('parent', { tab: 'kids', askId: d.id }),
   'kid-remove-yes': d => {
     if (Object.keys(DB.kids).length < 2) return;
-    DB.gone.push(d.id); delete DB.kids[d.id]; cleanDB(DB); store = DB.kids[DB.active]; save(); show('parent', { tab: 'kids' });
+    frForget(DB.kids[d.id]); DB.gone.push(d.id); delete DB.kids[d.id]; cleanDB(DB); store = DB.kids[DB.active]; save(); show('parent', { tab: 'kids' });
   },
   'kid-add': () => {
     const prev = store.id, k = newKid({ lang: store.lang, sound: store.sound, voice: store.voice });
@@ -5620,6 +6901,8 @@ Object.assign(ACTIONS, {
     const t = tr();
     try {
       const ref = fb.F.doc(fb.db, 'families', fb.user.uid);
+      for (const k of Object.values(DB.kids)) { await frForget(k); delete k.fr; }
+      try { for (const x of await FRI.mySent()) await FRI.delRequest(x.id); } catch (e) {}
       cloud = null; await fb.F.deleteDoc(ref); await fb.user.delete(); accMsg(t.accDeleted);
     } catch (e) { accMsg(e && e.code === 'auth/requires-recent-login' ? t.accRelogin : e); }
   }
