@@ -700,7 +700,7 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
 .mg-memory .space{background:linear-gradient(#2E7D5B,#1F5E43);overflow-y:auto}
 .game[class*="mg-"] .g-q{font-size:clamp(20px,4.2vw,32px);line-height:1.2}
 .mg-area{height:min(860px,calc(100vh - 230px));height:min(860px,calc(100dvh - 230px))}
-.mg-area .g-hint{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.mg-area .g-hint{top:10px;left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);z-index:5;padding:8px 14px;border-radius:14px;background:rgba(15,20,40,.78);color:#fff;text-shadow:none}   /* a readable label, also over the memory cards */
 .g-q.flash{animation:gFlash .8s}
 @keyframes gFlash{30%{background:var(--sun)}}
 .basket{position:absolute;left:0;bottom:4px;width:clamp(76px,20vw,110px);display:flex;flex-direction:column;align-items:center;pointer-events:none;will-change:transform}
@@ -1023,6 +1023,96 @@ html.easy-read #app .q,html.easy-read #app .g-q,html.easy-read #app .tile,html.e
 .dt-ic{font-size:34px;line-height:1} .dt-ic svg{width:30px;height:30px}
 .dt-buddy{width:64px;padding-top:14px} .dt-buddy .char{width:100%;height:auto;display:block}
 .char.dressed{overflow:visible}
+/* Every day (dy-): Today, the buddy on the home screen, Your turn, the weekly round; the journey (jy-) */
+.char.mood-sleepy .eye-open{transform:scaleY(.14);animation:none}
+.char.mood-sleepy .pupil{opacity:.4}
+.cw .char.mood-sleepy .bob{animation:bob 6s ease-in-out infinite}
+.dy-hero{align-items:center}
+.dy-buddy{flex:none;cursor:pointer}
+.dy-hero .say-row p{font-size:18px}
+.dy-reveal{font:inherit;font-weight:700;padding:0 4px;min-height:0}
+.dy-today{background:var(--card);border-radius:28px;padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;border:3px solid var(--add-soft,var(--line))}
+.dy-today.fin{border-color:var(--good)}
+.dy-head{display:flex;flex-direction:column;gap:2px}
+.dy-foot{display:flex;justify-content:flex-end;margin:-6px 0 -8px}
+.dy-head h2{font-size:24px;line-height:1.2}
+.dy-fin{color:var(--ink);font-weight:600}
+.dy-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.dy-step{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:20px;background:var(--card-2);flex-wrap:wrap}
+.dy-step.next{outline:3px solid var(--tc,var(--add));outline-offset:-3px}
+.dy-dot{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--card);border:3px solid var(--line);font-family:var(--font-display);font-weight:600;font-size:19px}
+.dy-step.done .dy-dot{background:var(--good);border-color:var(--good);color:#fff}
+.dy-step.reward .dy-dot{border-color:var(--sun);font-size:20px}
+.dy-step.reward.done .dy-dot{background:var(--sun);border-color:var(--sun)}
+.dy-txt{flex:1;min-width:160px;display:flex;flex-direction:column;gap:1px}
+.dy-txt b{font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1.25}
+.dy-txt span{color:var(--ink-soft);font-size:16px}
+.dy-step .btn{margin-left:auto}
+.dy-goal{color:var(--ink-soft);font-weight:600;max-width:52ch}
+.dy-trait{color:var(--ink-soft);font-style:italic;max-width:52ch}
+.dy-known{max-width:52ch;font-weight:600}
+.dy-stuck{background:var(--card-2);border-radius:20px;padding:12px 16px;max-width:560px;display:flex;flex-direction:column;gap:8px}
+.dy-gnote{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--ink-soft);font-size:16px}
+.dy-gnote .tag{margin-top:0}
+.dy-suggest{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dy-all{width:100%;display:flex;justify-content:center}
+.dy-yt{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px}
+.dy-yt[hidden]{display:none}
+#yt-top{display:flex;flex-direction:column;gap:14px}
+.dy-yt h3{font-size:24px}
+.dy-yt-q{display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--card-2);border-radius:20px;padding:14px}
+.dy-yt-q .q{font-size:clamp(28px,6vw,44px)}
+.dy-pad{max-width:420px;align-self:center}
+.dy-pad .key{height:56px;font-size:28px}
+.dy-yt .pr-actions{max-width:420px;width:100%;align-self:center}
+.dy-br{display:flex;flex-direction:column;gap:16px;align-items:stretch;max-width:720px;margin:0 auto;width:100%}
+.dy-br .qcard .eq{font-size:clamp(34px,8vw,56px);justify-content:center}
+.dy-br .res-actions{justify-content:center}
+/* the journey: stepping stones in a winding line */
+.jy-page{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.jy-page>p{color:var(--ink-soft)}
+.jy-path{list-style:none;margin:8px 0 24px;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;max-width:520px;overflow:hidden}
+.jy-step{position:relative;transform:translateX(var(--x));display:flex;align-items:center;justify-content:center;min-height:60px}
+.jy-dot{width:52px;height:52px;border-radius:50%;border:4px solid var(--tc);background:var(--card);color:var(--ink);font-family:var(--font-display);font-weight:600;font-size:18px;display:grid;place-items:center;box-shadow:var(--shadow)}
+.jy-dot svg{width:18px;height:18px}
+.jy-s{color:var(--tc);font-size:20px;line-height:1;display:grid;place-items:center}
+.jy-s svg{width:20px;height:20px}
+.jy-step.done .jy-dot{background:var(--tc);color:#fff}
+.jy-step.locked .jy-dot{opacity:.5;border-style:dashed}
+.jy-step.here .jy-dot{width:62px;height:62px;box-shadow:0 0 0 6px var(--tc-soft),var(--shadow)}
+.jy-buddy{position:absolute;right:calc(100% + 6px);top:50%;width:64px;transform:translateY(-55%)}
+.jy-buddy svg{width:100%;height:auto;display:block;overflow:visible}
+.jy-here{position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);width:max-content;max-width:150px;text-align:left;font-size:15px;line-height:1.25;color:var(--ink-soft);display:flex;flex-direction:column}
+.jy-here b{color:var(--ink);font-family:var(--font-display);font-weight:600}
+.jy-mark{margin-top:14px;padding:6px 16px;border-radius:999px;background:var(--tc-soft,var(--card-2));color:var(--ink);font-family:var(--font-display);font-weight:600;font-size:18px;display:flex;align-items:center;gap:8px}
+.jy-sign{font-size:22px;line-height:1;color:var(--tc)}
+.jy-sign svg{width:22px;height:22px}
+@media (max-width:420px){
+  .jy-step{transform:translateX(calc(var(--x) * .55))}
+  .jy-here{max-width:110px;font-size:14px}
+  .jy-buddy{width:52px}
+}
+@media (max-width:760px){
+  .dy-hero .dy-buddy .cw-lg{width:96px}
+  .dy-today{padding:14px}
+  .dy-head h2{font-size:21px}
+  .dy-step{flex-wrap:nowrap;gap:10px;padding:10px}
+  .dy-txt{min-width:0}
+  .dy-txt b{font-size:18px}
+  .dy-dot{width:36px;height:36px;font-size:17px}
+  .dy-step .btn{flex:none;padding:10px 14px}
+  .dy-suggest{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* phones: the Check button stays on the screen while the number pad is in use */
+  .practice .pr-actions{position:sticky;bottom:0;z-index:3;padding:8px 0 calc(8px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--sky-deep) 70%,transparent)}
+}
+@media (max-width:760px) and (max-height:900px){
+  .practice .key{height:48px;font-size:26px}
+  .practice .pad{gap:8px}
+  .practice #pr-talk .cw-md{width:56px}
+  .practice #pr-talk .bubble{padding:8px 12px;font-size:17px}
+  .practice .qcard{padding:10px}
+  .practice,.practice .pr-grid{gap:8px}
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -3868,9 +3958,9 @@ addLearnTopic({ id: 'div', levels: [
 (function addText() {
   const EN = I18N.en.place, DA = I18N.da.place, DD = I18N.da.def;
   const en = {
-    gu: ['Number Buddies has 50 maths levels with 10 questions in each. Adding and Taking away have 15 levels each, from small sums up to 4-digit column methods. Times tables and Sharing have 10 levels each.',
-      'The starting quiz finds the right place for each child to begin. It starts one step below their school year and usually takes about 7 questions. After that, the path on the home screen shows the next level.',
-      'A level counts as learnt with 2 stars (7 or more out of 10 right first time), or when the starting quiz or the school year skips it. Up to Year 3, the Year 1–3 adding and taking-away levels come first, and Times tables and Sharing unlock once those are learnt. From Year 4, all four subjects are mixed. You can unlock everything straight away under Settings.',
+    gu: ['Number Buddies has 93 maths steps with 10 questions in each. Adding and Taking away have 15 levels each, from small sums up to 4-digit column methods. Then come Times tables and Sharing, and Time, Money, Fractions, Measuring, Shapes and Charts.',
+      'The starting quiz finds the right place for each child to begin. It starts one step below their school year and usually takes 4 to 8 questions (never more than 13). After that, “Today” on the home screen shows the next step, then Practise again, and a mini-game when both are done.',
+      'A level counts as learnt with 2 stars (7 or more out of 10 right first time), or when the starting quiz or the school year skips it. Up to Year 3, the Year 1–3 adding and taking-away levels come first, and Times tables, Sharing and Fractions unlock once those are learnt. From Year 4, everything is mixed. You can unlock everything straight away under Settings.',
       'Each level starts with a short lesson that shows <b>what</b> to do and <b>why</b> it works. In practice, a wrong answer gets one more try. After a second wrong answer, the teacher walks through the steps, and “I still don\'t understand” explains it another way.',
       "Stars count only answers that are right first time: 9 or 10 gives 3 stars, 7 or 8 gives 2, and a finished round always gives 1. A question the child needed help with gets a yellow circle. Tapping it gives a similar question; getting that right turns the circle green, but it doesn't add stars.",
       'The mixed challenge only uses levels the child has reached. Questions the child needed help with come back under “Practise again” after 1, then 3, then 7 days.',
@@ -3991,9 +4081,9 @@ addLearnTopic({ id: 'div', levels: [
     }
   };
   const da = {
-    gu: ['Number Buddies har 50 matematikniveauer med 10 opgaver i hvert. Plus og Minus har 15 niveauer hver, fra små regnestykker til opstilling med firecifrede tal. Gangetabeller og Division har 10 niveauer hver.',
-      'Startquizzen finder det rigtige sted for hvert barn at begynde. Den starter et trin under barnets skoleår og tager som regel omkring 7 opgaver. Derefter viser vejen på forsiden det næste niveau.',
-      'Et niveau tæller som lært med 2 stjerner (7 eller flere ud af 10 rigtige i første forsøg), eller når startquizzen eller skoleåret springer det over. Til og med skoleår 3 kommer plus og minus fra skoleår 1–3 først, og Gangetabeller og Division låses op, når de er lært. Fra skoleår 4 blandes alle fire emner. Under Indstillinger kan du låse alt op med det samme.',
+    gu: ['Number Buddies har 93 matematikskridt med 10 opgaver i hvert. Plus og Minus har 15 niveauer hver, fra små regnestykker til opstilling med firecifrede tal. Derefter kommer Gangetabeller og Division samt Klokken, Penge, Brøker, Måling, Figurer og Diagrammer.',
+      'Startquizzen finder det rigtige sted for hvert barn at begynde. Den starter et trin under barnets skoleår og tager som regel 4 til 8 opgaver (aldrig mere end 13). Derefter viser “I dag” på forsiden det næste skridt, så Øv igen, og et minispil, når begge dele er klaret.',
+      'Et niveau tæller som lært med 2 stjerner (7 eller flere ud af 10 rigtige i første forsøg), eller når startquizzen eller skoleåret springer det over. Til og med skoleår 3 kommer plus og minus fra skoleår 1–3 først, og Gangetabeller, Division og Brøker låses op, når de er lært. Fra skoleår 4 blandes det hele. Under Indstillinger kan du låse alt op med det samme.',
       'Hvert niveau starter med en kort lektion, der viser, <b>hvad</b> man skal gøre, og <b>hvorfor</b> det virker. Ved et forkert svar får barnet et forsøg mere. Efter andet forkerte svar gennemgår læreren trinene, og “Jeg forstår det stadig ikke” forklarer det på en anden måde.',
       'Stjerner tæller kun svar, der er rigtige i første forsøg: 9 eller 10 giver 3 stjerner, 7 eller 8 giver 2, og en færdig runde giver altid 1. En opgave, som barnet fik hjælp til, får en gul cirkel. Et tryk på cirklen giver en opgave, der ligner; et rigtigt svar gør cirklen grøn, men giver ikke flere stjerner.',
       'Den blandede udfordring bruger kun niveauer, som barnet er nået til. Opgaver, som barnet fik hjælp til, kommer igen under “Øv igen” efter 1, så 3 og så 7 dage.',
@@ -5204,9 +5294,9 @@ const SV = (() => {
     topicMeta: (s, m, n) => `${s} av ${m} stjärnor · ${n} nivåer`,
     mixedTitle: 'Blandad utmaning', mixedText: '10 överraskningsfrågor från nivåerna du har kommit till.', letsGo: 'Kör!',
     grownups: 'För vuxna',
-    gu: ['Number Buddies har 50 mattenivåer med 10 uppgifter i varje. Plus och Minus har 15 nivåer var, från små tal upp till uppställning med fyrsiffriga tal. Gångertabeller och Division har 10 nivåer var.',
-      'Startquizen tar reda på var varje barn ska börja. Den börjar ett steg under barnets skolår och brukar ta ungefär 7 uppgifter. Sedan visar vägen på startsidan nästa nivå.',
-      'En nivå räknas som inlärd med 2 stjärnor (7 eller fler av 10 rätt på första försöket), eller när startquizen eller skolåret hoppar över den. Till och med skolår 3 kommer plus och minus från skolår 1–3 först, och Gångertabeller och Division låses upp när de är inlärda. Från skolår 4 blandas alla fyra ämnena. Under Inställningar kan du låsa upp allt direkt.',
+    gu: ['Number Buddies har 93 mattesteg med 10 uppgifter i varje. Plus och Minus har 15 nivåer var, från små tal upp till uppställning med fyrsiffriga tal. Sedan kommer Gångertabeller och Division, och Klockan, Pengar, Bråk, Mätning, Former och Diagram.',
+      'Startquizen tar reda på var varje barn ska börja. Den börjar ett steg under barnets skolår och brukar ta 4 till 8 uppgifter (aldrig fler än 13). Sedan visar ”I dag” på startsidan nästa steg, sedan Öva igen, och ett minispel när båda är klara.',
+      'En nivå räknas som inlärd med 2 stjärnor (7 eller fler av 10 rätt på första försöket), eller när startquizen eller skolåret hoppar över den. Till och med skolår 3 kommer plus och minus från skolår 1–3 först, och Gångertabeller, Division och Bråk låses upp när de är inlärda. Från skolår 4 blandas allt. Under Inställningar kan du låsa upp allt direkt.',
       'Varje nivå börjar med en kort lektion som visar <b>vad</b> man ska göra och <b>varför</b> det fungerar. Vid fel svar får barnet ett försök till. Efter andra felet visar läraren stegen, och “Jag förstår fortfarande inte” förklarar på ett annat sätt.',
       'Stjärnor räknas bara för svar som är rätt på första försöket: 9 eller 10 ger 3 stjärnor, 7 eller 8 ger 2, och en avslutad omgång ger alltid 1. En uppgift som barnet fick hjälp med får en gul cirkel. Ett tryck på cirkeln ger en liknande uppgift; rätt svar gör cirkeln grön, men ger inga fler stjärnor.',
       'Den blandade utmaningen använder bara nivåer som barnet har kommit till. Uppgifter som barnet fick hjälp med kommer tillbaka under “Öva igen” efter 1, sedan 3 och sedan 7 dagar.',
@@ -5405,9 +5495,9 @@ const ID = (() => {
     topicMeta: (s, m, n) => `${s} dari ${m} bintang · ${n} level`,
     mixedTitle: 'Tantangan campuran', mixedText: '10 soal kejutan dari level yang sudah kamu capai.', letsGo: 'Ayo!',
     grownups: 'Untuk orang tua',
-    gu: ['Number Buddies punya 50 level matematika, masing-masing berisi 10 soal. Penjumlahan dan Pengurangan masing-masing punya 15 level, dari angka kecil sampai cara bersusun dengan bilangan empat angka. Perkalian dan Pembagian masing-masing punya 10 level.',
-      'Kuis awal mencari tempat mulai yang tepat untuk setiap anak. Kuis dimulai satu langkah di bawah tahun sekolah anak dan biasanya sekitar 7 soal. Setelah itu, jalur di beranda menunjukkan level berikutnya.',
-      'Sebuah level dihitung sudah dikuasai dengan 2 bintang (7 atau lebih dari 10 soal benar pada percobaan pertama), atau jika dilewati oleh kuis awal atau tahun sekolah. Sampai Tahun 3, penjumlahan dan pengurangan Tahun 1–3 didahulukan, dan Perkalian serta Pembagian terbuka setelah level-level itu dikuasai. Mulai Tahun 4, keempat pelajaran dicampur. Di Pengaturan, semua pelajaran bisa langsung dibuka.',
+    gu: ['Number Buddies punya 93 langkah matematika, masing-masing berisi 10 soal. Penjumlahan dan Pengurangan masing-masing punya 15 level, dari angka kecil sampai cara bersusun dengan bilangan empat angka. Lalu ada Perkalian dan Pembagian, serta Waktu, Uang, Pecahan, Pengukuran, Bangun, dan Diagram.',
+      'Kuis awal mencari tempat mulai yang tepat untuk setiap anak. Kuis dimulai satu langkah di bawah tahun sekolah anak dan biasanya 4 sampai 8 soal (tidak pernah lebih dari 13). Setelah itu, “Hari ini” di beranda menunjukkan langkah berikutnya, lalu Latihan lagi, dan gim mini setelah keduanya selesai.',
+      'Sebuah level dihitung sudah dikuasai dengan 2 bintang (7 atau lebih dari 10 soal benar pada percobaan pertama), atau jika dilewati oleh kuis awal atau tahun sekolah. Sampai Tahun 3, penjumlahan dan pengurangan Tahun 1–3 didahulukan, dan Perkalian, Pembagian, serta Pecahan terbuka setelah level-level itu dikuasai. Mulai Tahun 4, semuanya dicampur. Di Pengaturan, semua pelajaran bisa langsung dibuka.',
       'Setiap level dimulai dengan pelajaran singkat yang menunjukkan <b>apa</b> yang harus dilakukan dan <b>mengapa</b> caranya berhasil. Jika jawabannya salah, anak boleh mencoba sekali lagi. Setelah salah kedua, guru menjelaskan langkah-langkahnya, dan “Aku masih belum paham” menjelaskan dengan cara lain.',
       'Bintang hanya dihitung dari jawaban yang benar pada percobaan pertama: 9 atau 10 memberi 3 bintang, 7 atau 8 memberi 2, dan ronde yang selesai selalu memberi 1. Soal yang perlu bantuan diberi lingkaran kuning. Mengetuk lingkaran itu memberi soal yang mirip; jika benar, lingkarannya menjadi hijau, tetapi bintangnya tidak bertambah.',
       'Tantangan campuran hanya memakai level yang sudah dicapai anak. Soal yang perlu bantuan muncul lagi di “Latihan lagi” setelah 1, lalu 3, lalu 7 hari.',
@@ -5665,23 +5755,23 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     tip_pad: 'Tap the numbers to type your answer. Then press Check.', tip_letters: 'Tap the letters to spell it. Then press Check.', tip_pick: 'Tap the spelling you think is right.',
     tip_how: "Stuck? Tap “Show me how”, and I'll help you step by step.", tip_circle: 'See the yellow circle? Tap it to try a question like it again.', tip_path: "This is your next step. Tap Start when you're ready!",
     gameName: 'Buddy in Space', gameLabel: 'Mini-game', gamePlay: 'Play', gameStop: 'Stop',
-    gameLocked: n => `Learn 3 levels (2 or 3 stars) to unlock the mini-games. You have ${n} of 3.`,
+    gameLocked: n => `Finish Today, or learn 3 levels (2 or 3 stars), to open the mini-games. You have ${n} of 3 levels.`,
     gamePlays: n => n === 1 ? 'You have 1 game to play.' : `You have ${n} games to play.`,
-    gameNone: 'Learn a new level with 2 or 3 stars to earn another game.', gameBest: n => `Best score: ${n}`,
+    gameNone: 'Finish Today to earn your next game. Learning a new level earns one too.', gameBest: n => `Best score: ${n}`,
     gameHow: 'Tap under an asteroid to shoot it. Hit the right answer!',
     gameTimeUp: 'Time is up!', gameOut: 'Your shields are used up!', gameNewBest: 'New best score!',
     gameResult: n => n === 1 ? 'You hit 1 right answer.' : `You hit ${n} right answers.`,
     gameAgain: n => `Play again (${n} left)`, gameEarned: 'You earned a mini-game!',
     gameScoreAria: n => `${n} points`, gameShieldsAria: n => `${n} shields left`,
     gamesLabel: 'Mini-games',
-    gamesHelp: 'The mini-games open once 3 levels are learnt (2 or 3 stars). After that, each new level learnt earns one more game of about 1½ minutes. The games practise maths and spelling your child has already reached.',
+    gamesHelp: 'The mini-games open the first time Today is finished, or once 3 levels are learnt (2 or 3 stars). Each finished Today earns a game of about 1½ minutes, and so does each new level learnt. The games practise maths and spelling your child has already reached.',
     gamesTitle: 'Pick a game', gamePick: 'Pick another game',
     gameNames: { space: 'Buddy in Space', clock: 'Set the clock', shop: 'Corner shop', pizza: 'Pizza party', jug: 'Fill the jug', snake: 'Counting snake', mole: 'Whack-a-mole', build: 'Word builder', spot: 'Spot the spelling', fruit: 'Catch the fruit', bubbles: 'Bubble pop', hop: 'Hop the number line', memory: 'Memory pairs', letters: 'Letter catcher' },
     gameHows: { clock: 'Drag the clock hands to show the time. Then press Check.', shop: 'Tap coins to pay exactly the right amount. Then press Pay.', pizza: 'Tap slices to put topping on the right part of the pizza. Then press Check.', jug: 'Hold the pour button to fill the jug to the right line. Then press Check.', snake: 'Tap the numbers in order to feed the snake.', mole: 'Bonk the mole with the right answer!', build: 'Tap the letters in the right order to spell the word.', spot: 'Tap the word that is spelled right.', fruit: 'Move the basket with your finger. Catch only the fruit that fits the rule!', bubbles: 'Pop the bubbles that make the number at the top.', hop: 'Tap how far your buddy should hop to land on the flag.', memory: 'Turn over two cards. Find a sum and its answer.', letters: 'Look at the word. Then catch its letters in the right order.' },
     gameResults: { clock: n => n === 1 ? 'You set 1 clock right.' : `You set ${n} clocks right.`, shop: n => n === 1 ? 'You paid exactly right 1 time.' : `You paid exactly right ${n} times.`, pizza: n => n === 1 ? 'You made 1 pizza right.' : `You made ${n} pizzas right.`, jug: n => n === 1 ? 'You filled 1 jug right.' : `You filled ${n} jugs right.`, snake: n => n === 1 ? 'You fed the snake 1 number.' : `You fed the snake ${n} numbers.`, mole: n => n === 1 ? 'You bonked 1 right mole.' : `You bonked ${n} right moles.`, build: n => n === 1 ? 'You built 1 word.' : `You built ${n} words.`, spot: n => n === 1 ? 'You spotted 1 right spelling.' : `You spotted ${n} right spellings.`, fruit: n => n === 1 ? 'You caught 1 right fruit.' : `You caught ${n} right fruits.`, bubbles: n => n === 1 ? 'You popped 1 right bubble.' : `You popped ${n} right bubbles.`, hop: n => n === 1 ? 'You landed on the flag 1 time.' : `You landed on the flag ${n} times.`, memory: n => n === 1 ? 'You found 1 pair.' : `You found ${n} pairs.`, letters: n => n === 1 ? 'You spelled 1 word.' : `You spelled ${n} words.` },
     mgEven: 'Catch the even numbers', mgOdd: 'Catch the odd numbers', mgMore: k => `Catch numbers bigger than ${k}`, mgLess: k => `Catch numbers smaller than ${k}`, mgTable: k => `Catch numbers in the ${k} times table`,
     mgMake: n => `Pop the bubbles that make ${n}`, mgHop: (a, b) => `Hop from ${a} to ${b}`, mgPairs: (n, m) => `Pairs found: ${n} of ${m}`, mgDone: 'All pairs found!', mgLook: 'Look:', mgHear: 'Hear the word',
-    introGamesTitle: 'Earn mini-games!', introGames1: 'Learn 3 levels (get 2 or 3 stars), and the mini-games open.', introGames2: 'After that, every new level you learn earns you another game to play.',
+    introGamesTitle: 'Earn mini-games!', introGames1: 'Finish your small steps for Today, and you earn a mini-game.', introGames2: 'Every new level you learn earns you another one!',
     mgNewRule: 'New rule!', mgNewWord: 'New word!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `${h} o'clock` : m === 15 ? `quarter past ${h}` : m === 30 ? `half past ${h}` : m === 45 ? `quarter to ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Set the clock to ${s}`, mgPay: p => `Pay exactly ${p}`, mgPayBtn: 'Pay', mgGave: v => `You gave ${v}.`,
@@ -5786,23 +5876,23 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     tip_pad: 'Tryk på tallene for at skrive dit svar. Tryk så på Tjek.', tip_letters: 'Tryk på bogstaverne for at stave det. Tryk så på Tjek.', tip_pick: 'Tryk på den stavemåde, du tror er rigtig.',
     tip_how: 'Går du i stå? Tryk på “Vis mig hvordan”, så hjælper jeg dig trin for trin.', tip_circle: 'Kan du se den gule cirkel? Tryk på den for at prøve en opgave, der ligner.', tip_path: 'Det her er dit næste skridt. Tryk på Start, når du er klar!',
     gameName: 'Ven i rummet', gameLabel: 'Minispil', gamePlay: 'Spil', gameStop: 'Stop',
-    gameLocked: n => `Lær 3 niveauer (2 eller 3 stjerner) for at låse minispillene op. Du har ${n} af 3.`,
+    gameLocked: n => `Bliv færdig med I dag, eller lær 3 niveauer (2 eller 3 stjerner), for at åbne minispillene. Du har ${n} af 3 niveauer.`,
     gamePlays: n => n === 1 ? 'Du har 1 spil at spille.' : `Du har ${n} spil at spille.`,
-    gameNone: 'Lær et nyt niveau med 2 eller 3 stjerner for at tjene et spil mere.', gameBest: n => `Bedste score: ${n}`,
+    gameNone: 'Bliv færdig med I dag for at tjene dit næste spil. Et nyt niveau, du lærer, giver også et.', gameBest: n => `Bedste score: ${n}`,
     gameHow: 'Tryk under en asteroide for at skyde den. Ram det rigtige svar!',
     gameTimeUp: 'Tiden er gået!', gameOut: 'Dine skjolde er brugt op!', gameNewBest: 'Ny rekord!',
     gameResult: n => n === 1 ? 'Du ramte 1 rigtigt svar.' : `Du ramte ${n} rigtige svar.`,
     gameAgain: n => `Spil igen (${n} tilbage)`, gameEarned: 'Du har tjent et minispil!',
     gameScoreAria: n => `${n} point`, gameShieldsAria: n => `${n} skjolde tilbage`,
     gamesLabel: 'Minispil',
-    gamesHelp: 'Minispillene låses op, når 3 niveauer er lært (2 eller 3 stjerner). Derefter giver hvert nyt niveau, der bliver lært, ét spil mere på cirka 1½ minut. Spillene øver matematik og stavning, som barnet allerede er nået til.',
+    gamesHelp: 'Minispillene åbner første gang I dag er klaret, eller når 3 niveauer er lært (2 eller 3 stjerner). Hver dag, hvor I dag bliver klaret, giver et spil på cirka 1½ minut, og det gør hvert nyt niveau, der bliver lært, også. Spillene øver matematik og stavning, som barnet allerede er nået til.',
     gamesTitle: 'Vælg et spil', gamePick: 'Vælg et andet spil',
     gameNames: { space: 'Ven i rummet', clock: 'Stil uret', shop: 'Købmanden', pizza: 'Pizzafest', jug: 'Fyld kanden', snake: 'Tælleslangen', mole: 'Muldvarpejagt', build: 'Ordbyggeren', spot: 'Find stavemåden', fruit: 'Grib frugten', bubbles: 'Boblepop', hop: 'Hop på tallinjen', memory: 'Vendespil', letters: 'Bogstavfangeren' },
     gameHows: { clock: 'Træk i viserne, så uret viser tiden. Tryk så på Tjek.', shop: 'Tryk på mønterne for at betale præcis det rigtige beløb. Tryk så på Betal.', pizza: 'Tryk på stykkerne for at komme fyld på den rigtige del af pizzaen. Tryk så på Tjek.', jug: 'Hold hældeknappen nede for at fylde kanden til den rigtige streg. Tryk så på Tjek.', snake: 'Tryk på tallene i rækkefølge for at fodre slangen.', mole: 'Bank på muldvarpen med det rigtige svar!', build: 'Tryk på bogstaverne i den rigtige rækkefølge for at stave ordet.', spot: 'Tryk på ordet, der er stavet rigtigt.', fruit: 'Flyt kurven med fingeren. Grib kun den frugt, der passer til reglen!', bubbles: 'Pop boblerne, der giver tallet øverst.', hop: 'Tryk på, hvor langt din makker skal hoppe for at lande på flaget.', memory: 'Vend to kort. Find et regnestykke og dets svar.', letters: 'Se på ordet. Grib så bogstaverne i den rigtige rækkefølge.' },
     gameResults: { clock: n => n === 1 ? 'Du stillede 1 ur rigtigt.' : `Du stillede ${n} ure rigtigt.`, shop: n => n === 1 ? 'Du betalte præcis rigtigt 1 gang.' : `Du betalte præcis rigtigt ${n} gange.`, pizza: n => n === 1 ? 'Du lavede 1 pizza rigtigt.' : `Du lavede ${n} pizzaer rigtigt.`, jug: n => n === 1 ? 'Du fyldte 1 kande rigtigt.' : `Du fyldte ${n} kander rigtigt.`, snake: n => `Du fodrede slangen med ${n} tal.`, mole: n => n === 1 ? 'Du ramte 1 rigtig muldvarp.' : `Du ramte ${n} rigtige muldvarpe.`, build: n => `Du byggede ${n} ord.`, spot: n => n === 1 ? 'Du fandt 1 rigtig stavemåde.' : `Du fandt ${n} rigtige stavemåder.`, fruit: n => n === 1 ? 'Du greb 1 rigtig frugt.' : `Du greb ${n} rigtige frugter.`, bubbles: n => n === 1 ? 'Du poppede 1 rigtig boble.' : `Du poppede ${n} rigtige bobler.`, hop: n => n === 1 ? 'Du landede på flaget 1 gang.' : `Du landede på flaget ${n} gange.`, memory: n => n === 1 ? 'Du fandt 1 par.' : `Du fandt ${n} par.`, letters: n => n === 1 ? 'Du stavede 1 ord.' : `Du stavede ${n} ord.` },
     mgEven: 'Grib de lige tal', mgOdd: 'Grib de ulige tal', mgMore: k => `Grib tal, der er større end ${k}`, mgLess: k => `Grib tal, der er mindre end ${k}`, mgTable: k => `Grib tal i ${k}-tabellen`,
     mgMake: n => `Pop boblerne, der giver ${n}`, mgHop: (a, b) => `Hop fra ${a} til ${b}`, mgPairs: (n, m) => `Par fundet: ${n} af ${m}`, mgDone: 'Alle par er fundet!', mgLook: 'Se:', mgHear: 'Hør ordet',
-    introGamesTitle: 'Tjen minispil!', introGames1: 'Lær 3 niveauer (få 2 eller 3 stjerner), så åbner minispillene.', introGames2: 'Derefter giver hvert nyt niveau, du lærer, dig et spil mere.',
+    introGamesTitle: 'Tjen minispil!', introGames1: 'Bliv færdig med dine små skridt for I dag, så tjener du et minispil.', introGames2: 'Hvert nyt niveau, du lærer, giver dig et mere!',
     mgNewRule: 'Ny regel!', mgNewWord: 'Nyt ord!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `klokken ${h}` : m === 15 ? `kvart over ${h}` : m === 30 ? `halv ${nx}` : m === 45 ? `kvart i ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Stil uret på ${s}`, mgPay: p => `Betal præcis ${p}`, mgPayBtn: 'Betal', mgGave: v => `Du gav ${v}.`,
@@ -5907,23 +5997,23 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     tip_pad: 'Tryck på siffrorna för att skriva ditt svar. Tryck sedan på Kolla.', tip_letters: 'Tryck på bokstäverna för att stava det. Tryck sedan på Kolla.', tip_pick: 'Tryck på den stavning du tror är rätt.',
     tip_how: 'Kör du fast? Tryck på “Visa mig hur”, så hjälper jag dig steg för steg.', tip_circle: 'Ser du den gula cirkeln? Tryck på den för att prova en liknande uppgift.', tip_path: 'Det här är ditt nästa steg. Tryck på Börja när du är redo!',
     gameName: 'Kompis i rymden', gameLabel: 'Minispel', gamePlay: 'Spela', gameStop: 'Stopp',
-    gameLocked: n => `Lär dig 3 nivåer (2 eller 3 stjärnor) för att låsa upp minispelen. Du har ${n} av 3.`,
+    gameLocked: n => `Bli klar med I dag, eller lär dig 3 nivåer (2 eller 3 stjärnor), för att öppna minispelen. Du har ${n} av 3 nivåer.`,
     gamePlays: n => n === 1 ? 'Du har 1 spel att spela.' : `Du har ${n} spel att spela.`,
-    gameNone: 'Lär dig en ny nivå med 2 eller 3 stjärnor för att tjäna ett spel till.', gameBest: n => `Bästa poäng: ${n}`,
+    gameNone: 'Bli klar med I dag för att tjäna ditt nästa spel. En ny nivå som du lär dig ger också ett.', gameBest: n => `Bästa poäng: ${n}`,
     gameHow: 'Tryck under en asteroid för att skjuta den. Träffa rätt svar!',
     gameTimeUp: 'Tiden är slut!', gameOut: 'Dina sköldar är slut!', gameNewBest: 'Nytt rekord!',
     gameResult: n => n === 1 ? 'Du träffade 1 rätt svar.' : `Du träffade ${n} rätta svar.`,
     gameAgain: n => `Spela igen (${n} kvar)`, gameEarned: 'Du har tjänat ett minispel!',
     gameScoreAria: n => `${n} poäng`, gameShieldsAria: n => `${n} sköldar kvar`,
     gamesLabel: 'Minispel',
-    gamesHelp: 'Minispelen låses upp när 3 nivåer är inlärda (2 eller 3 stjärnor). Sedan ger varje ny inlärd nivå ett spel till på ungefär 1½ minut. Spelen övar matte och stavning som barnet redan har kommit till.',
+    gamesHelp: 'Minispelen öppnas första gången I dag är klart, eller när 3 nivåer är inlärda (2 eller 3 stjärnor). Varje dag då I dag blir klart ger ett spel på ungefär 1½ minut, och det gör varje ny inlärd nivå också. Spelen övar matte och stavning som barnet redan har kommit till.',
     gamesTitle: 'Välj ett spel', gamePick: 'Välj ett annat spel',
     gameNames: { space: 'Kompis i rymden', clock: 'Ställ klockan', shop: 'Affären', pizza: 'Pizzafest', jug: 'Fyll kannan', snake: 'Räkneormen', mole: 'Mullvadsjakt', build: 'Ordbyggaren', spot: 'Hitta stavningen', fruit: 'Fånga frukten', bubbles: 'Bubbelpop', hop: 'Hoppa på tallinjen', memory: 'Memory', letters: 'Bokstavsfångaren' },
     gameHows: { clock: 'Dra i visarna så att klockan visar tiden. Tryck sedan på Kolla.', shop: 'Tryck på mynten för att betala exakt rätt summa. Tryck sedan på Betala.', pizza: 'Tryck på bitarna för att lägga topping på rätt del av pizzan. Tryck sedan på Kolla.', jug: 'Håll in häll-knappen för att fylla kannan till rätt streck. Tryck sedan på Kolla.', snake: 'Tryck på talen i ordning för att mata ormen.', mole: 'Bonka mullvaden med rätt svar!', build: 'Tryck på bokstäverna i rätt ordning för att stava ordet.', spot: 'Tryck på ordet som är rätt stavat.', fruit: 'Flytta korgen med fingret. Fånga bara frukt som passar regeln!', bubbles: 'Poppa bubblorna som blir talet högst upp.', hop: 'Tryck på hur långt din kompis ska hoppa för att landa på flaggan.', memory: 'Vänd två kort. Hitta en uträkning och dess svar.', letters: 'Titta på ordet. Fånga sedan bokstäverna i rätt ordning.' },
     gameResults: { clock: n => n === 1 ? 'Du ställde 1 klocka rätt.' : `Du ställde ${n} klockor rätt.`, shop: n => n === 1 ? 'Du betalade exakt rätt 1 gång.' : `Du betalade exakt rätt ${n} gånger.`, pizza: n => n === 1 ? 'Du gjorde 1 pizza rätt.' : `Du gjorde ${n} pizzor rätt.`, jug: n => n === 1 ? 'Du fyllde 1 kanna rätt.' : `Du fyllde ${n} kannor rätt.`, snake: n => `Du matade ormen med ${n} tal.`, mole: n => n === 1 ? 'Du bonkade 1 rätt mullvad.' : `Du bonkade ${n} rätta mullvadar.`, build: n => `Du byggde ${n} ord.`, spot: n => n === 1 ? 'Du hittade 1 rätt stavning.' : `Du hittade ${n} rätta stavningar.`, fruit: n => n === 1 ? 'Du fångade 1 rätt frukt.' : `Du fångade ${n} rätta frukter.`, bubbles: n => n === 1 ? 'Du poppade 1 rätt bubbla.' : `Du poppade ${n} rätta bubblor.`, hop: n => n === 1 ? 'Du landade på flaggan 1 gång.' : `Du landade på flaggan ${n} gånger.`, memory: n => n === 1 ? 'Du hittade 1 par.' : `Du hittade ${n} par.`, letters: n => n === 1 ? 'Du stavade 1 ord.' : `Du stavade ${n} ord.` },
     mgEven: 'Fånga de jämna talen', mgOdd: 'Fånga de udda talen', mgMore: k => `Fånga tal som är större än ${k}`, mgLess: k => `Fånga tal som är mindre än ${k}`, mgTable: k => `Fånga tal i ${k}:ans tabell`,
     mgMake: n => `Poppa bubblorna som blir ${n}`, mgHop: (a, b) => `Hoppa från ${a} till ${b}`, mgPairs: (n, m) => `Par hittade: ${n} av ${m}`, mgDone: 'Alla par är hittade!', mgLook: 'Titta:', mgHear: 'Lyssna på ordet',
-    introGamesTitle: 'Tjäna minispel!', introGames1: 'Lär dig 3 nivåer (få 2 eller 3 stjärnor), så öppnas minispelen.', introGames2: 'Sedan ger varje ny nivå du lär dig ett spel till.',
+    introGamesTitle: 'Tjäna minispel!', introGames1: 'Bli klar med dina små steg för I dag, så tjänar du ett minispel.', introGames2: 'Varje ny nivå du lär dig ger dig ett till!',
     mgNewRule: 'Ny regel!', mgNewWord: 'Nytt ord!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `klockan ${h}` : m === 15 ? `kvart över ${h}` : m === 30 ? `halv ${nx}` : m === 45 ? `kvart i ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Ställ klockan på ${s}`, mgPay: p => `Betala exakt ${p}`, mgPayBtn: 'Betala', mgGave: v => `Du gav ${v}.`,
@@ -6028,23 +6118,23 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     tip_pad: 'Ketuk angkanya untuk menulis jawabanmu. Lalu tekan Periksa.', tip_letters: 'Ketuk hurufnya untuk mengejanya. Lalu tekan Periksa.', tip_pick: 'Ketuk ejaan yang menurutmu benar.',
     tip_how: 'Bingung? Ketuk “Tunjukkan caranya”, dan aku akan membantumu langkah demi langkah.', tip_circle: 'Lihat lingkaran kuning itu? Ketuk untuk mencoba soal yang mirip lagi.', tip_path: 'Ini langkahmu berikutnya. Ketuk Mulai kalau kamu sudah siap!',
     gameName: 'Sahabat di Luar Angkasa', gameLabel: 'Gim mini', gamePlay: 'Main', gameStop: 'Berhenti',
-    gameLocked: n => `Kuasai 3 level (2 atau 3 bintang) untuk membuka gim mini. Kamu punya ${n} dari 3.`,
+    gameLocked: n => `Selesaikan Hari ini, atau kuasai 3 level (2 atau 3 bintang), untuk membuka gim mini. Kamu punya ${n} dari 3 level.`,
     gamePlays: n => n === 1 ? 'Kamu punya 1 gim untuk dimainkan.' : `Kamu punya ${n} gim untuk dimainkan.`,
-    gameNone: 'Kuasai level baru dengan 2 atau 3 bintang untuk mendapat satu gim lagi.', gameBest: n => `Skor terbaik: ${n}`,
+    gameNone: 'Selesaikan Hari ini untuk mendapat gim berikutnya. Menguasai level baru juga memberi satu gim.', gameBest: n => `Skor terbaik: ${n}`,
     gameHow: 'Ketuk di bawah asteroid untuk menembaknya. Kenai jawaban yang benar!',
     gameTimeUp: 'Waktu habis!', gameOut: 'Perisaimu sudah habis!', gameNewBest: 'Skor terbaik baru!',
     gameResult: n => n === 1 ? 'Kamu mengenai 1 jawaban benar.' : `Kamu mengenai ${n} jawaban benar.`,
     gameAgain: n => `Main lagi (sisa ${n})`, gameEarned: 'Kamu mendapat satu gim mini!',
     gameScoreAria: n => `${n} poin`, gameShieldsAria: n => `Sisa ${n} perisai`,
     gamesLabel: 'Gim mini',
-    gamesHelp: 'Gim mini terbuka setelah 3 level dikuasai (2 atau 3 bintang). Setelah itu, setiap level baru yang dikuasai memberi satu gim lagi, sekitar 1½ menit. Gim ini melatih matematika dan ejaan yang sudah dicapai anak.',
+    gamesHelp: 'Gim mini terbuka saat Hari ini pertama kali selesai, atau setelah 3 level dikuasai (2 atau 3 bintang). Setiap Hari ini yang selesai memberi satu gim sekitar 1½ menit, begitu juga setiap level baru yang dikuasai. Gim ini melatih matematika dan ejaan yang sudah dicapai anak.',
     gamesTitle: 'Pilih gim', gamePick: 'Pilih gim lain',
     gameNames: { space: 'Sahabat di Luar Angkasa', clock: 'Atur Jam', shop: 'Warung', pizza: 'Pesta Pizza', jug: 'Isi Teko', snake: 'Ular Berhitung', mole: 'Pukul Tikus Tanah', build: 'Penyusun Kata', spot: 'Temukan Ejaan', fruit: 'Tangkap Buah', bubbles: 'Letus Gelembung', hop: 'Lompat di Garis Bilangan', memory: 'Pasangan Memori', letters: 'Penangkap Huruf' },
     gameHows: { clock: 'Geser jarum jam agar menunjukkan waktunya. Lalu tekan Periksa.', shop: 'Ketuk koin untuk membayar dengan uang pas. Lalu tekan Bayar.', pizza: 'Ketuk potongan untuk memberi topping pada bagian pizza yang benar. Lalu tekan Periksa.', jug: 'Tahan tombol tuang untuk mengisi teko sampai garis yang benar. Lalu tekan Periksa.', snake: 'Ketuk angka secara berurutan untuk memberi makan ular.', mole: 'Pukul tikus tanah yang membawa jawaban benar!', build: 'Ketuk huruf dengan urutan yang benar untuk mengeja kata.', spot: 'Ketuk kata yang ejaannya benar.', fruit: 'Gerakkan keranjang dengan jarimu. Tangkap hanya buah yang sesuai aturan!', bubbles: 'Letuskan gelembung yang hasilnya angka di atas.', hop: 'Ketuk seberapa jauh sahabatmu harus melompat agar mendarat di bendera.', memory: 'Buka dua kartu. Temukan soal dan jawabannya.', letters: 'Lihat katanya. Lalu tangkap hurufnya dengan urutan yang benar.' },
     gameResults: { clock: n => `Kamu mengatur ${n} jam dengan benar.`, shop: n => `Kamu membayar pas ${n} kali.`, pizza: n => `Kamu membuat ${n} pizza dengan benar.`, jug: n => `Kamu mengisi ${n} teko dengan benar.`, snake: n => `Kamu memberi makan ular ${n} angka.`, mole: n => `Kamu memukul ${n} tikus tanah yang benar.`, build: n => `Kamu menyusun ${n} kata.`, spot: n => `Kamu menemukan ${n} ejaan yang benar.`, fruit: n => `Kamu menangkap ${n} buah yang benar.`, bubbles: n => `Kamu meletuskan ${n} gelembung yang benar.`, hop: n => `Kamu mendarat di bendera ${n} kali.`, memory: n => `Kamu menemukan ${n} pasangan.`, letters: n => `Kamu mengeja ${n} kata.` },
     mgEven: 'Tangkap bilangan genap', mgOdd: 'Tangkap bilangan ganjil', mgMore: k => `Tangkap bilangan yang lebih dari ${k}`, mgLess: k => `Tangkap bilangan yang kurang dari ${k}`, mgTable: k => `Tangkap bilangan kelipatan ${k}`,
     mgMake: n => `Letuskan gelembung yang hasilnya ${n}`, mgHop: (a, b) => `Lompat dari ${a} ke ${b}`, mgPairs: (n, m) => `Pasangan ketemu: ${n} dari ${m}`, mgDone: 'Semua pasangan ketemu!', mgLook: 'Lihat:', mgHear: 'Dengar katanya',
-    introGamesTitle: 'Dapatkan gim mini!', introGames1: 'Kuasai 3 level (dapatkan 2 atau 3 bintang), lalu gim mini terbuka.', introGames2: 'Setelah itu, setiap level baru yang kamu kuasai memberimu satu gim lagi.',
+    introGamesTitle: 'Dapatkan gim mini!', introGames1: 'Selesaikan langkah-langkah kecilmu untuk Hari ini, dan kamu mendapat gim mini.', introGames2: 'Setiap level baru yang kamu kuasai memberimu satu lagi!',
     mgNewRule: 'Aturan baru!', mgNewWord: 'Kata baru!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `pukul ${h}` : m === 15 ? `pukul ${h} lewat seperempat` : m === 30 ? `pukul setengah ${nx}` : m === 45 ? `pukul ${nx} kurang seperempat` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Atur jam ke ${s}`, mgPay: p => `Bayar pas ${p}`, mgPayBtn: 'Bayar', mgGave: v => `Kamu memberi ${v}.`,
@@ -8776,18 +8866,14 @@ const SCREENS = {
     if (!store.introSeen) { INTRO = null; return show('onboard', { step: 'intro', mode: 'once' }); }
     const t = tr(), nm = store.name, lists = myListTopics(), sp = shownSpellTopics();
     app.innerHTML = `${topbar()}
-    <section class="hero">
-      <div class="hero-cast">${charWrap('hoot', 'happy', 'lg')}${charWrap('daisy', 'happy', 'lg')}</div>
-      <div class="bubble">
-        <p class="bubble-who">${tName('hoot')} &amp; ${tName('daisy')}</p>
-        <h1>${nm ? t.helloName(esc(nm)) : t.helloAnon}</h1>
-        <p>${t.heroIntro}</p>
-      </div>
-    </section>
-    ${syncWarn()}${keepTip()}${schoolCard()}
+    ${buddyHero()}
+    ${syncWarn()}${schoolCard()}
     ${resumeCard()}
-    ${pathCard()}
-    ${reviewCards()}
+    ${todayCard()}
+    ${reviewCards(todayRec().done.includes('more') ? null : moreRound())}
+    ${buddyRoundCard()}
+    ${gameCard()}
+    ${weekCard()}
     ${lists.length ? `<h2 class="section-title">${t.myLists}</h2><section class="topics">${lists.map(topicCard).join('')}</section>` : ''}
     <h2 class="section-title">${t.mathsSection}</h2>
     <section class="topics">${mathTopics().map(topicCard).join('')}</section>
@@ -8796,14 +8882,14 @@ const SCREENS = {
       <div class="mixed-text"><h3>${t.mixedTitle}</h3><p>${t.mixedText}</p></div>
       <button class="btn" data-act="practice" data-id="mixed" style="--tc:var(--div)">${t.letsGo}</button>
     </section>
-    ${gameCard()}
-    ${friendsCard()}${weekCard()}
+    ${friendsCard()}
     ${sp.length ? `<h2 class="section-title">${t.spellSection}</h2>${lists.length ? '' : `<p class="cl-hint">${t.clHint}</p>`}<section class="topics">${sp.map(topicCard).join('')}</section>` : ''}
+    ${keepNote()}
     <section class="gu-entry"><button class="btn btn-soft" data-act="grownups">${t.grownups}</button></section>
     <footer class="site-foot">${t.footNote}${ON_SITE ? ` · <a href="privacy.html">${t.privacy}</a>` : ''}</footer>`;
     // the first visit to the home screen: point at the next step
     if ($('#fr-mini')) fillFriendsCard();
-    if ($('.path-card [data-act]') && useTip('path')) { coach('.path-card .btn'); const mt = $('.path-card .mixed-text'); if (mt) mt.insertAdjacentHTML('beforeend', `<p class="tip-line">${t.tip_path}</p>`); speak(t.tip_path, 'hoot'); }
+    if ($('.dy-step.next [data-act]') && useTip('path')) { coach('.dy-step.next .btn'); const mt = $('.dy-step.next .dy-txt'); if (mt) mt.insertAdjacentHTML('beforeend', `<span class="tip-line">${t.tip_path}</span>`); speak(t.tip_path, 'hoot'); }
   },
   topic({ id }) {
     const t = tr(), tp = TOPICS.find(x => x.id === id), tid = tp.teacher;
@@ -8840,12 +8926,14 @@ const SCREENS = {
       </div>
       <div class="lesson-main">
         <div id="stepper" class="stepper"></div>
-        <div class="lesson-go" id="lesson-go"><button class="btn btn-big" data-act="practice" data-id="${l.id}">${t.start10}</button></div>
+        <section class="dy-yt" id="dy-yt" hidden></section>
+        <div class="lesson-go" id="lesson-go"><button class="btn btn-big" data-act="practice" data-id="${l.id}">${roundLen() === 5 ? t.start5 : t.start10}</button></div>
       </div>
     </div>`;
     const ex = l.examples.map(explain);
     const steps = ex.flatMap((e, i) => i === 0 ? e.steps : [{ say: t.biggerOne, v: qVis(l.examples[i]) }, ...e.steps]);
-    mountStepper({ title: t.tryTogether, steps, why: null, tid, onDone: () => $('#lesson-go')?.classList.add('ready'), problem: l.examples[l.examples.length - 1] });
+    if (!keepStep) YT = null;
+    mountStepper({ title: t.tryTogether, steps, why: null, tid, onDone: () => ytStart(l), problem: l.examples[l.examples.length - 1] });
     if (keepStep) { ST.i = Math.min(keepStep, steps.length - 1); renderStepper(false); }
     else speak(lt.what, tid);
   },
@@ -8857,10 +8945,10 @@ const SCREENS = {
       S = { id, list, i: r.i, input: '', tries: 0, helped: false, first: r.first, marks: r.marks.slice(), done: false, keepHelp: r.help === r.i };
     } else {
       let list;
-      if (id === 'mixed') list = shuffle(mixedLevels(true).flatMap(l => l.problems)).slice(0, 10);
-      else if (isReviewId(id)) list = shuffle(reviewDue(id)).slice(0, 10).map(r => ({ ...r.q }));
+      if (id === 'mixed') list = shuffle(mixedLevels(true).flatMap(l => l.problems)).slice(0, roundLen());
+      else if (isReviewId(id)) list = shuffle(reviewDue(id)).slice(0, roundLen()).map(r => ({ ...r.q }));
       else if (findLevel(id).words) list = spellRound(findLevel(id));
-      else list = shuffle(findLevel(id).problems);
+      else list = withWarmUp(id, shuffle(findLevel(id).problems).slice(0, roundLen()));
       if (!list.length) { toast(tr().reviewNone); show('home'); return; }
       S = { id, list, i: 0, input: '', tries: 0, helped: false, first: 0, marks: [], done: false };
     }
@@ -8875,7 +8963,7 @@ const SCREENS = {
     const path = fullPath(), at = l ? path.indexOf(l.id) : -1;   // (the learning path with Time, Money... slotted in)
     const pathAfter = at < 0 ? null : path.slice(at + 1).map(findLevel).find(x => x && !levelDone(x) && !lockInfo(x.topic));
     const next = !l ? null : at >= 0 ? pathAfter || null : l.topic.levels[l.topic.levels.indexOf(l) + 1];
-    const earnedGame = S.newPass && gameLeft() > 0;
+    const earnedGame = (S.newPass || S.todayDone) && gameLeft() > 0;
     const fixedN = S.marks.filter(m => m === 'fixed').length, head = t.head[n - 1], msg = t.msg[n - 1](first, S.list.length) + (fixedN ? ' ' + t.fixedMore(fixedN) : '');
     app.innerHTML = `${topbar()}
     <section class="results" style="${tcStyle(tid)}">
@@ -8884,15 +8972,16 @@ const SCREENS = {
       <h1 style="font-size:clamp(34px,6vw,52px)">${head}</h1>
       <p style="max-width:52ch">${msg}${S.improved && l ? t.newBest : ''}</p>
       ${S.unlocked ? `<p class="unlocked">${LOCK_SVG} ${t.unlockedNow}</p>` : ''}
-      ${earnedGame ? `<p class="unlocked">🚀 ${t.gameEarned}</p>` : ''}
+      ${earnedGame && !S.todayDone ? `<p class="unlocked">🚀 ${t.gameEarned}</p>` : ''}
+      ${resultsExtras(id, tid)}
       <div class="pdots res-dots" role="group">${dotsHtml()}</div>
       ${S.marks.includes('help') ? `<p class="res-hint">${t.redoHint}</p>` : ''}
       <section class="redo-card" id="redo-card" hidden></section>
       <div class="res-actions">
         ${next && n >= 2 ? `<button class="btn btn-big" data-act="lesson" data-id="${next.id}">${t.nextLevel}</button>` : ''}
-        <button class="btn ${next && n >= 2 ? 'btn-soft' : 'btn-big'}" data-act="practice" data-id="${id}">${t.playAgain}</button>
+        <button class="btn ${(next && n >= 2) || earnedGame ? 'btn-soft' : 'btn-big'}" data-act="practice" data-id="${id}">${t.playAgain}</button>
         ${l ? `<button class="btn btn-soft" data-act="lesson" data-id="${id}">${t.seeLesson}</button>` : ''}
-        ${earnedGame ? `<button class="btn btn-soft" data-act="games">${t.gamesTitle}</button>` : ''}
+        ${earnedGame ? `<button class="btn ${next && n >= 2 ? 'btn-soft' : 'btn-big'}" data-act="games">${t.gamePlay}</button>` : ''}
         <button class="btn btn-soft" data-act="home">${t.home}</button>
       </div>
     </section>`;
@@ -8933,7 +9022,7 @@ function topicCard(tp) {
     <span class="topic-text">
       <span class="topic-title">${topicTitle(tp)}</span>
       <span class="topic-teacher">${t.withTeacher(tName(tp.teacher))}</span>
-      ${tp.soon ? `<span class="lock">${t.soon}</span>` : `<span class="topic-meta">${tp.custom ? t.clCardMeta(st, tp.levels[0].words.length) : t.topicMeta(st, tp.levels.length * 3, tp.levels.length)}</span>`}
+      ${tp.soon ? `<span class="lock">${t.soon}</span>` : `<span class="topic-meta">${tp.custom ? t.clCardMeta(st, tp.levels[0].words.length) : t.topicMeta2(tp.levels.filter(l => levelDone(l)).length, tp.levels.length, st)}</span>`}
     </span>
   </button>`;
 }
@@ -9007,7 +9096,7 @@ function renderPractice(fresh) {
   const t = tr(), p = cur(), tid = teacherFor(p), redo = S.mode === 'redo';
   if (fresh) { S.input = ''; S.tries = 0; S.helped = !!S.keepHelp; S.keepHelp = false; S.done = false; S.badPicks = []; }
   const info = roundInfo(S.id), title = info.title;
-  const greet = redo ? t.redoLabel(S.rk + 1) : S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') : pick(t.greetNext);
+  const greet = redo ? t.redoLabel(S.rk + 1) : S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') + (p.warm ? ' ' + t.warmUp : '') : pick(t.greetNext);
   app.innerHTML = `${topbar()}
   <div class="practice${p.sp ? ' spelling' : ''}" style="${tcStyle(tid)}">
     <div class="pr-top">
@@ -9167,7 +9256,7 @@ function check() {
       S.marks[S.i] = firstTry ? 'ok' : 'help'; document.querySelectorAll('.coach').forEach(e => e.classList.remove('coach'));
       if (isReviewId(S.id)) reviewResult(p, firstTry); else if (!firstTry) reviewAdd(p);
       const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
-      teacherSay(firstTry ? `${pick(t.praise(nm))} ${p.sp ? t.spelledAs(p.w) : fullEq(p) + '.'}` : pick(t.praiseHelp), 'joy');
+      teacherSay((firstTry ? `${pick(t.praise(nm))} ${p.sp ? t.spelledAs(p.w) : fullEq(p) + '.'}` : pick(t.praiseHelp)) + noticeLine(p, firstTry), 'joy');
       if (S.i === S.list.length - 1) finishRound(); else saveRound();
     }
     markDone();
@@ -9579,10 +9668,10 @@ function pathCard() {
       <span class="path-bar" aria-hidden="true"><i style="width:${Math.round(done / PATH.length * 100)}%"></i></span></div>
     <button class="btn" data-act="${store.best[l.id] === 1 ? 'practice' : 'lesson'}" data-id="${l.id}">${store.best[l.id] === 1 ? t.againBtn : t.pathStart}</button></section>`;
 }
-function reviewCards() {
+function reviewCards(skip) {   // (skip: the one already in Today)
   const t = tr();
   return ['review', ...LANG_IDS.map(l => 'review-sp-' + l)].map(id => {
-    const n = reviewDue(id).length; if (!n) return '';
+    const n = reviewDue(id).length; if (!n || id === skip) return '';
     const info = roundInfo(id), sub = info.lang ? topicTitle(spellSubjects().find(x => x.lang === info.lang)) : t.mathsSection;
     return `<section class="mixed review-card" style="${tcStyle(info.tid)}">${charWrap(info.tid, 'happy', 'sm')}
       <div class="mixed-text"><h3>${t.reviewTitle} · ${sub}</h3><p>${t.reviewText(n)}</p></div>
@@ -9709,7 +9798,12 @@ document.addEventListener('keydown', e => {
 const GAME_NEED = 3, GAME_SECS = 90, GAME_LANES = 4, GAME_SHIELDS = 5;
 // levels learnt with stars (2 or 3); each one from the third on earns a game
 const threeStars = () => allLevels().filter(l => (store.best[l.id] || 0) >= PASS).length;
-const gameLeft = () => store.gamesOff ? 0 : Math.max(0, threeStars() - GAME_NEED + 1 - ((store.game || {}).used || 0) + ((store.game || {}).back || 0));
+// every finished "Today" earns a game too (counted in daily, dused and dback); a grown-up can choose one game a day only
+const levelGamesLeft = () => store.gamesDaily ? 0 : Math.max(0, threeStars() - GAME_NEED + 1 - ((store.game || {}).used || 0) + ((store.game || {}).back || 0));
+const dailyLeft = () => { const g = store.game || {}; return Math.max(0, (g.daily || 0) - (g.dused || 0) + (g.dback || 0)); };
+const gameLeft = () => store.gamesOff ? 0 : levelGamesLeft() + dailyLeft();
+const gamesOpen = () => threeStars() >= GAME_NEED || ((store.game || {}).daily || 0) > 0;
+let gameFrom = 'level';   // which kind of play the game now running used
 const GAME_LIST = ['space', 'fruit', 'bubbles', 'hop', 'memory', 'clock', 'shop', 'pizza', 'jug', 'snake', 'mole', 'letters', 'build', 'spot'];
 const GAME_ICON = { space: '🚀', fruit: '🍎', bubbles: '🎈', hop: '🐸', memory: '🃏', clock: '🕐', shop: '🪙', pizza: '🍕', jug: '🥤', snake: '🐍', mole: '🐹', letters: '🔤', build: '🧩', spot: '🔍' };
 const gameBest = id => ((store.game || {}).bests || {})[id] || (id === 'space' ? (store.game || {}).best || 0 : 0);
@@ -9720,13 +9814,13 @@ function gameSaveBest(id, score) {
 }
 function gameCard() {
   if (store.gamesOff) return '';
-  const t = tr(), have = threeStars(), left = gameLeft(), open = have >= GAME_NEED;
+  const t = tr(), have = threeStars(), left = gameLeft(), open = gamesOpen();
   return `<section class="mixed game-card${open ? '' : ' locked'}" id="games" style="--tc:var(--div)">
     <div class="game-art" aria-hidden="true">${buddySvg('joy')}</div>
     <div class="mixed-text"><span class="path-label">${t.gameLabel}</span><h3>${t.gamesTitle}</h3>
       <p>${!open ? t.gameLocked(have) : left ? t.gamePlays(left) : t.gameNone}</p></div>
-    ${open ? `<div class="game-grid">${GAME_LIST.map(g => `<button class="game-tile" data-act="game" data-g="${g}"${left ? '' : ' disabled'}>
-      <span class="gt-ic" aria-hidden="true">${GAME_ICON[g]}</span><span class="gt-name">${t.gameNames[g]}</span>${gameBest(g) ? `<span class="gt-best">${t.gameBest(gameBest(g))}</span>` : ''}</button>`).join('')}</div>`
+    ${open ? `<div class="game-grid dy-suggest">${gameSuggest().map(g => gameTile(g, left)).join('')}</div>
+      <div class="dy-all"><button class="btn btn-soft btn-small" data-act="games">${t.gamesAll}</button></div>`
       : `<span class="game-lock" aria-hidden="true">${LOCK_SVG}</span>`}
   </section>`;
 }
@@ -9836,9 +9930,9 @@ function gameMiss() {
 function gameOver(why) {
   if (!G) return;
   cancelAnimationFrame(G.raf);
-  const score = G.score, id = G.kind || 'space', best = gameSaveBest(id, score);
+  const score = G.score, id = G.kind || 'space', best = gameSaveBest(id, score), wkBest = gameWeekBest(id, score);
   G = null;
-  show('gameEnd', { id, score, why, best });
+  show('gameEnd', { id, score, why, best, wkBest });
 }
 document.addEventListener('visibilitychange', () => {
   if (!G) return;
@@ -10399,14 +10493,14 @@ Object.assign(SCREENS, {
     </div>`;
     gameStart();
   },
-  gameEnd({ id = 'space', score = 0, why = 'time', best = false }) {
+  gameEnd({ id = 'space', score = 0, why = 'time', best = false, wkBest = false }) {
     const t = tr(), left = gameLeft();
     app.innerHTML = `${topbar()}
     <section class="results game-end" style="--tc:var(--div)">
       <div class="cw cw-lg">${buddySvg('joy')}</div>
       <h1 style="font-size:clamp(30px,6vw,48px)">${why === 'time' ? t.gameTimeUp : t.gameOut}</h1>
       <p class="muted">${GAME_ICON[id]} ${t.gameNames[id]}</p>
-      <p>${(t.gameResults[id] || t.gameResult)(score)}${best && score >= 3 ? ' ' + t.gameNewBest : ''}</p>
+      <p>${(t.gameResults[id] || t.gameResult)(score)}${best && score >= 3 ? ' ' + t.gameNewBest : wkBest && score >= 3 ? ' ' + t.gameNewWkBest : ''}</p>
       <div class="res-actions">
         ${left ? `<button class="btn btn-big" data-act="game" data-g="${id}">${t.gameAgain(left)}</button><button class="btn btn-soft" data-act="games">${t.gamePick}</button>` : ''}
         <button class="btn ${left ? 'btn-soft' : 'btn-big'}" data-act="home">${t.home}</button>
@@ -10418,12 +10512,17 @@ Object.assign(SCREENS, {
 });
 Object.assign(ACTIONS, {
   // a game is used up when it starts, so leaving early does not give a free one
-  game: d => { if (G) { cancelAnimationFrame(G.raf); G = null; } if (!gameLeft()) return show('home'); store.game = { ...(store.game || {}), used: ((store.game || {}).used || 0) + 1 }; save(); show('game', { g: GAME_LIST.includes(d && d.g) ? d.g : 'space' }); },
-  games: () => { show('home'); const el = $('#games'); if (el) el.scrollIntoView({ block: 'center' }); },
+  game: d => {
+    if (G) { cancelAnimationFrame(G.raf); G = null; } if (!gameLeft()) return show('home');
+    const g = store.game || {}; gameFrom = dailyLeft() ? 'daily' : 'level';   // a day's game is used first
+    store.game = gameFrom === 'daily' ? { ...g, dused: (g.dused || 0) + 1 } : { ...g, used: (g.used || 0) + 1 }; save();
+    show('game', { g: GAME_LIST.includes(d && d.g) ? d.g : 'space' });
+  },
+  games: () => show('games'),
   'mg-hear': () => { if (G && G.word) speak(G.word, SPELL_TEACHER[G.wl] || 'fern', G.wl); },
   'game-stop': () => {
     if (G) {
-      if (performance.now() - G.t0 < 15000 && !G.score) store.game = { ...(store.game || {}), back: ((store.game || {}).back || 0) + 1 };
+      if (performance.now() - G.t0 < 15000 && !G.score) { const g = store.game || {}; store.game = gameFrom === 'daily' ? { ...g, dback: (g.dback || 0) + 1 } : { ...g, back: (g.back || 0) + 1 }; }
       cancelAnimationFrame(G.raf); G = null; save();
     }
     show('home');
@@ -10622,7 +10721,7 @@ const tipSeen = k => !!(store.tips && store.tips[k]);
 function useTip(k) { if (tipSeen(k)) return false; store.tips = { ...(store.tips || {}), [k]: 1 }; save(); return true; }
 // only one thing is pointed at at a time
 function coach(...sels) { document.querySelectorAll('.coach').forEach(e => e.classList.remove('coach')); sels.forEach(q => { const el = $(q); if (el) el.classList.add('coach'); }); }
-const OB_STEPS = ['lang', 'intro', 'name', 'avatar', 'year', 'place'];
+const OB_STEPS = ['lang', 'name', 'avatar', 'intro', 'year', 'place'];
 /* The welcome story: the teachers step on stage one by one, then three promises.
    It plays after the language is picked (so it is in the right language), once per child,
    and grown-ups can replay it from the settings. */
@@ -10631,10 +10730,11 @@ const INTRO_SCENES = 5;
 function introScene(i) {
   const t = tr();
   if (i === 0) return { cast: ['hoot'], who: 'hoot', say: t.intro1(t.brand, tName('hoot')) };
-  if (i === 1) return { cast: ['daisy', 'whiskers', 'sparkle'], who: 'daisy', say: [t.intro2a(tName('daisy')), t.intro2b(tName('whiskers')), t.intro2c(tName('sparkle'))].join(' '), lines: [['daisy', t.intro2a(tName('daisy'))], ['whiskers', t.intro2b(tName('whiskers'))], ['sparkle', t.intro2c(tName('sparkle'))]] };
+  if (i === 1) return { cast: ['daisy', 'whiskers', 'sparkle'], who: 'daisy', say: [t.intro2a(tName('daisy')), t.intro2b(tName('whiskers')), t.intro2c(tName('sparkle')), t.intro2d].join(' '), lines: [['daisy', t.intro2a(tName('daisy'))], ['whiskers', t.intro2b(tName('whiskers'))], ['sparkle', t.intro2c(tName('sparkle'))], ['hoot', t.intro2d]] };
   if (i === 2) return { cast: ['fern', 'pjuske', 'olle', 'uli'], who: 'fern', say: t.intro3, wave: true };
   if (i === 3) return { cast: ['hoot'], who: 'hoot', say: [t.introPromises, t.promise1, t.promise2, t.promise3].join(' '), promises: true };
-  return { cast: ['sparkle'], who: 'sparkle', say: `${t.introGames1} ${t.introGames2}`, games: true };
+  const av = avatarOf(store);
+  return { cast: [av], who: av, say: `${t.introBuddy(tName(av))} ${t.introGames1} ${t.introGames2}`, games: true };
 }
 function renderIntro(mode) {
   const t = tr();
@@ -10646,7 +10746,7 @@ function renderIntro(mode) {
   const body = sc.promises
     ? `<ol class="intro-promises">${[['steps', t.promise1], ['circle', t.promise2], ['star', t.promise3]].map(([ic, txt], k) => `<li style="--d:${.4 + k * .5}s"><span class="ip-ic ip-${ic}" aria-hidden="true">${ic === 'star' ? ICON.star(true) : ic === 'circle' ? '↻' : '1·2·3'}</span><span>${txt}</span></li>`).join('')}</ol>`
     : sc.lines ? `<ul class="intro-lines">${sc.lines.map(([c, txt], k) => `<li style="--d:${k * .35}s;${tcStyle(c)}"><i class="il-dot" aria-hidden="true"></i>${txt}</li>`).join('')}</ul>`
-    : sc.games ? `<h1 class="ob-q">${t.introGamesTitle}</h1><p class="intro-say">${t.introGames1}</p><p>${t.introGames2}</p>
+    : sc.games ? `<h1 class="ob-q">${t.introGamesTitle}</h1><p class="intro-say">${t.introBuddy(tName(avatarOf(store)))}</p><p>${t.introGames1} ${t.introGames2}</p>
       <div class="intro-games" aria-hidden="true">${GAME_LIST.map((g, k) => `<span style="--d:${.3 + k * .12}s">${GAME_ICON[g]}</span>`).join('')}</div>`
     : `<p class="intro-say">${sc.say}</p>`;
   app.innerHTML = `${obTopbar()}
@@ -10740,10 +10840,11 @@ Object.assign(SCREENS, {
     const t = tr(), nx = pathNext(), from = S.from;
     const where = nx ? `${topicTitle(nx.l.topic)}: ${lvlText(nx.l).title}` : '';
     const msg = nx ? t.plDone(`<b>${where}</b>`) : t.plDoneAll;
+    const known = knownSummary();
     app.innerHTML = `${obTopbar()}<section class="results" style="--tc:var(--div)">${charWrap('sparkle', 'joy', 'lg')}
-      <h1 style="font-size:clamp(30px,5vw,44px)">${t.plGreat(esc(store.name))}</h1><p style="max-width:52ch">${msg}</p>
+      <h1 style="font-size:clamp(30px,5vw,44px)">${t.plGreat(esc(store.name))}</h1>${known}<p style="max-width:52ch">${msg}</p>
       <div class="res-actions"><button class="btn btn-big" data-act="${from === 'parent' ? 'grownups' : 'home'}">${from === 'parent' ? t.backToGrownups : t.plDoneBtn}</button></div></section>`;
-    confetti(40); speak(`${t.plGreat(store.name)} ${msg.replace(/<[^>]+>/g, '')}`, 'sparkle');
+    confetti(40); speak(`${t.plGreat(store.name)} ${known.replace(/<[^>]+>/g, '')} ${msg.replace(/<[^>]+>/g, '')}`, 'sparkle');
   },
   kids() {
     const t = tr();
@@ -10823,7 +10924,7 @@ function paKids(editId, askId) {
       <span class="kid-av">${charSvg(avatarOf(k))}</span>
       <span class="kid-text"><b>${esc(k.name || '?')}${k.id === store.id ? ` <span class="tag">${t.playingNow}</span>` : ''}</b>
         <span>${k.year ? t.yearN(k.year) + ' · ' : ''}${t.starsAria(kidStars(k))}</span>
-        ${nx ? `<span class="muted">${t.progNext(`${topicTitle(nx.l.topic)}: ${lvlText(nx.l).title}`)}</span>` : ''}</span>
+        ${nx ? `<span class="muted">${t.progNext(`${topicTitle(nx.l.topic)}: ${lvlText(nx.l).title}`)}</span>` : ''}${k.onboarded ? todayKidLine(k) : ''}</span>
       <span class="kid-actions">
         ${k.id !== store.id ? `<button class="btn btn-small" data-act="kid-play" data-id="${k.id}">${t.playAs(esc(k.name || '?'))}</button>` : `<button class="btn btn-small" data-act="home">${t.playAs(esc(k.name || '?'))}</button>`}
         <button class="btn btn-small btn-soft" data-act="kid-edit" data-id="${k.id}">${t.edit}</button>
@@ -10877,8 +10978,9 @@ function paSettings() {
     <label class="check-row" for="unlock-all"><input type="checkbox" id="unlock-all"${store.unlockAll ? ' checked' : ''}> ${t.unlockAllLabel}</label>
     <p class="muted">${t.unlockAllHelp}</p>
     <label class="check-row" for="games-on"><input type="checkbox" id="games-on"${store.gamesOff ? '' : ' checked'}> ${t.gamesLabel}</label>
-    <label class="check-row" for="easy-read"><input type="checkbox" id="easy-read"${store.easyRead ? ' checked' : ''}> ${t.easyReadLabel}</label>
     <p class="muted">${t.gamesHelp}</p>
+    ${dailySettings()}
+    <label class="check-row" for="easy-read"><input type="checkbox" id="easy-read"${store.easyRead ? ' checked' : ''}> ${t.easyReadLabel}</label>
     <div class="confirm-row" id="reset-row"><button class="btn btn-small btn-soft" data-act="reset-ask">${t.resetBtn}</button></div>
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="intro-replay">${t.introReplay}</button></div>
     <div class="confirm-row"><button class="btn btn-small btn-soft" data-act="pin-change">${t.pinChange}</button></div>
@@ -11076,7 +11178,7 @@ function weekSummary(k) {
   const name = l => `${topicTitle(l.topic)}: ${lvlText(l).title}`;
   return `<section class="pa-card week-sum"><h3>${t.sumTitle}</h3>
     <p>${t.sumWeek(new Set(w.days || []).size, w.rounds || 0, w.stars || 0)}</p>
-    ${learnt.length ? `<h4>${t.sumLearnt}</h4><ul>${learnt.map(l => `<li>${name(l)}</li>`).join('')}</ul>` : ''}
+    ${learnt.length ? `<h4>${t.sumLearnt}</h4><ul>${learnt.map(l => `<li>${name(l)}</li>`).join('')}</ul><p class="muted">${t.askChild(esc(k.name || '?'), lvlText(learnt[learnt.length - 1]).title)}</p>` : ''}
     ${tricky.length ? `<h4>${t.sumTricky}</h4><ul>${tricky.map(l => `<li><b>${name(l)}</b>${lvlText(l).goal ? ` · ${lvlText(l).goal}` : ''}</li>`).join('')}</ul><p class="muted">${t.sumIdea}</p>`
       : `<p class="muted">${t.sumNoTricky}</p>`}
   </section>`;
@@ -11128,23 +11230,47 @@ const OUTFITS = [
   { id: 'flower', need: 30, at: 'head', svg: '<g transform="translate(140 38)"><circle cx="0" cy="-10" r="8" fill="#FF8FB1"/><circle cx="9.5" cy="-3" r="8" fill="#FF8FB1"/><circle cx="6" cy="8" r="8" fill="#FF8FB1"/><circle cx="-6" cy="8" r="8" fill="#FF8FB1"/><circle cx="-9.5" cy="-3" r="8" fill="#FF8FB1"/><circle r="6.5" fill="#FFD23F" stroke="#E0A800" stroke-width="2"/></g>' },
   { id: 'scarf', need: 50, at: 'neck', svg: '<path d="M60 148 Q100 168 140 148 L140 162 Q100 182 60 162 Z" fill="#E8553D" stroke="#B5371F" stroke-width="2.5"/><path d="M118 164 L130 198 L114 198 L108 168 Z" fill="#D94A33" stroke="#B5371F" stroke-width="2.5"/>' },
   { id: 'crown', need: 80, at: 'head', svg: '<path d="M68 44 L72 12 L87 28 L100 4 L113 28 L128 12 L132 44 Z" fill="#FFD23F" stroke="#C99700" stroke-width="2.5" stroke-linejoin="round"/><circle cx="100" cy="30" r="5" fill="#E8553D"/><circle cx="80" cy="36" r="3.5" fill="#3E7BFA"/><circle cx="120" cy="36" r="3.5" fill="#3E7BFA"/>' },
-  { id: 'medal', need: 120, at: 'neck', svg: '<path d="M88 118 L100 152 L112 118" stroke="#3E7BFA" stroke-width="9" fill="none" stroke-linejoin="round"/><circle cx="100" cy="162" r="13" fill="#FFD23F" stroke="#C99700" stroke-width="3"/><path d="M100 154 l3 6 6 1 -4.5 4 1 6.5 -5.5 -3 -5.5 3 1 -6.5 -4.5 -4 6 -1 Z" fill="#FFF3B0"/>' }
+  { id: 'medal', need: 120, at: 'neck', svg: '<path d="M88 118 L100 152 L112 118" stroke="#3E7BFA" stroke-width="9" fill="none" stroke-linejoin="round"/><circle cx="100" cy="162" r="13" fill="#FFD23F" stroke="#C99700" stroke-width="3"/><path d="M100 154 l3 6 6 1 -4.5 4 1 6.5 -5.5 -3 -5.5 3 1 -6.5 -4.5 -4 6 -1 Z" fill="#FFF3B0"/>' },
+  // more, added after the game design review: things for the face, little pets, and badges for learning a whole subject
+  { id: 'bow', need: 10, at: 'head', svg: '<g transform="translate(126 30)"><path d="M0 0 L-20 -12 L-20 12 Z M0 0 L20 -12 L20 12 Z" fill="#FF6FA8" stroke="#C2306A" stroke-width="2.5" stroke-linejoin="round"/><circle r="6" fill="#FF9CC4" stroke="#C2306A" stroke-width="2.5"/></g>' },
+  { id: 'glasses', need: 40, at: 'face', svg: '<circle cx="78" cy="108" r="21" fill="rgba(255,255,255,.14)" stroke="#2B2B3A" stroke-width="5"/><circle cx="122" cy="108" r="21" fill="rgba(255,255,255,.14)" stroke="#2B2B3A" stroke-width="5"/><path d="M99 105 Q100 100 101 105" fill="none" stroke="#2B2B3A" stroke-width="5" stroke-linecap="round"/><path d="M57 104 L44 98 M143 104 L156 98" stroke="#2B2B3A" stroke-width="5" stroke-linecap="round"/>' },
+  { id: 'sunhat', need: 65, at: 'head', svg: '<ellipse cx="100" cy="42" rx="60" ry="11" fill="#F2C66D" stroke="#B98A2E" stroke-width="2.5"/><path d="M70 42 Q72 6 100 6 Q128 6 130 42 Z" fill="#F7D488" stroke="#B98A2E" stroke-width="2.5"/><path d="M71 34 Q100 40 129 34 L130 42 Q100 47 70 42 Z" fill="#E8553D"/>' },
+  { id: 'phones', need: 100, at: 'face', svg: '<path d="M48 104 Q48 26 100 26 Q152 26 152 104" fill="none" stroke="#3B3F58" stroke-width="9" stroke-linecap="round"/><rect x="34" y="92" width="22" height="34" rx="10" fill="#3E7BFA" stroke="#2448A8" stroke-width="2.5"/><rect x="144" y="92" width="22" height="34" rx="10" fill="#3E7BFA" stroke="#2448A8" stroke-width="2.5"/>' },
+  { id: 'shades', need: 160, at: 'face', svg: '<path d="M55 96 H99 V108 Q99 124 78 124 Q57 124 55 108 Z M101 96 H145 V108 Q143 124 122 124 Q101 124 101 108 Z" fill="#1F2233" stroke="#0E101A" stroke-width="3" stroke-linejoin="round"/><path d="M62 102 L74 102 M108 102 L120 102" stroke="#7BD3FF" stroke-width="3" stroke-linecap="round"/><path d="M55 98 L44 94 M145 98 L156 94" stroke="#0E101A" stroke-width="4" stroke-linecap="round"/>' },
+  { id: 'wizard', need: 220, at: 'head', svg: '<ellipse cx="100" cy="42" rx="44" ry="8" fill="#5B3FC4" stroke="#3A2590" stroke-width="2.5"/><path d="M72 42 L108 -34 L128 42 Z" fill="#7A5AF0" stroke="#3A2590" stroke-width="2.5" stroke-linejoin="round"/><path d="M104 6 l2.5 5 5.5 .8 -4 3.8 1 5.4 -5 -2.6 -5 2.6 1 -5.4 -4 -3.8 5.5 -.8 Z" fill="#FFE066"/><circle cx="90" cy="28" r="3" fill="#FFE066"/>' },
+  { id: 'ladybird', need: 280, at: 'side', svg: '<g transform="translate(172 188)"><ellipse rx="18" ry="15" fill="#E8553D" stroke="#7A1E10" stroke-width="2.5"/><path d="M0 -15 V15" stroke="#7A1E10" stroke-width="2.5"/><circle cx="-8" cy="-4" r="3.5" fill="#1B1B1B"/><circle cx="8" cy="-3" r="3.5" fill="#1B1B1B"/><circle cx="-6" cy="7" r="3" fill="#1B1B1B"/><circle cx="7" cy="8" r="3" fill="#1B1B1B"/><circle cx="-17" cy="-6" r="7" fill="#1B1B1B"/><circle cx="-19" cy="-8" r="1.6" fill="#fff"/></g>' },
+  { id: 'snail', need: 350, at: 'side', svg: '<g transform="translate(170 192)"><path d="M-26 12 Q-30 -2 -18 2 L22 10 Q28 12 22 16 L-22 16 Z" fill="#B7E36B" stroke="#5C8A1E" stroke-width="2.5" stroke-linejoin="round"/><circle cx="4" cy="-2" r="15" fill="#F2A65A" stroke="#A35A16" stroke-width="2.5"/><path d="M4 -2 m-8 0 a8 8 0 1 0 8 -8 a4 4 0 1 0 -4 4" fill="none" stroke="#A35A16" stroke-width="2.5"/><path d="M-22 4 L-26 -10 M-18 3 L-17 -11" stroke="#5C8A1E" stroke-width="2.5" stroke-linecap="round"/><circle cx="-26" cy="-11" r="2.5" fill="#5C8A1E"/><circle cx="-17" cy="-12" r="2.5" fill="#5C8A1E"/></g>' },
+  { id: 'pizza', badge: 'frac', at: 'head', svg: '<path d="M76 44 L100 -2 L124 44 Z" fill="#F6C453" stroke="#B9822A" stroke-width="2.5" stroke-linejoin="round"/><path d="M74 40 Q100 50 126 40 L124 46 Q100 56 76 46 Z" fill="#C98B3A" stroke="#8A5A1E" stroke-width="2"/><circle cx="100" cy="22" r="5" fill="#D9452B"/><circle cx="91" cy="35" r="4.5" fill="#D9452B"/><circle cx="109" cy="34" r="4.5" fill="#D9452B"/>' },
+  { id: 'clockb', badge: 'time', at: 'neck', svg: '<path d="M88 118 L100 150 L112 118" stroke="#3ECFA0" stroke-width="9" fill="none" stroke-linejoin="round"/><circle cx="100" cy="162" r="14" fill="#FFFFFF" stroke="#2A8C6C" stroke-width="3"/><path d="M100 162 V153 M100 162 L107 166" stroke="#1F2233" stroke-width="3" stroke-linecap="round"/>' },
+  { id: 'coinb', badge: 'money', at: 'neck', svg: '<path d="M88 118 L100 150 L112 118" stroke="#E8553D" stroke-width="9" fill="none" stroke-linejoin="round"/><circle cx="100" cy="162" r="14" fill="#FFD23F" stroke="#C99700" stroke-width="3"/><circle cx="100" cy="162" r="8" fill="none" stroke="#C99700" stroke-width="2.5"/>' },
+  { id: 'starb', badge: 'mul', at: 'neck', svg: '<path d="M88 118 L100 150 L112 118" stroke="#7A5AF0" stroke-width="9" fill="none" stroke-linejoin="round"/><path d="M100 147 l4.6 9.4 10.4 1.5 -7.5 7.3 1.8 10.3 -9.3 -4.9 -9.3 4.9 1.8 -10.3 -7.5 -7.3 10.4 -1.5 Z" fill="#FFD23F" stroke="#C99700" stroke-width="2.5" stroke-linejoin="round"/>' },
+  { id: 'shapeb', badge: 'shape', at: 'neck', svg: '<path d="M88 118 L100 150 L112 118" stroke="#3E7BFA" stroke-width="9" fill="none" stroke-linejoin="round"/><circle cx="100" cy="162" r="14" fill="#FFFFFF" stroke="#2448A8" stroke-width="3"/><path d="M92 168 L99 155 L106 168 Z" fill="#FF6FA8"/><rect x="101" y="160" width="8" height="8" fill="#3ECFA0"/>' }
 ];
+const OUTFIT_SLOTS = ['side', 'neck', 'face', 'head'];   // drawn in this order, so hats go on top
 // where each buddy's head and neck are, so things sit in the right place
 const BUDDY_FIT = { hoot: { head: [0, -4], neck: [0, 0] }, daisy: { head: [0, 12], neck: [0, 0] }, whiskers: { head: [0, 14], neck: [0, 0] }, sparkle: { head: [0, 10], neck: [0, 0] },
   fern: { head: [0, 16], neck: [0, 0] }, pjuske: { head: [0, 12], neck: [0, 2] }, olle: { head: [0, 18], neck: [0, 2] }, uli: { head: [0, 16], neck: [0, 0] } };
-const outfitOpen = o => totalStars() >= o.need;
-// a buddy wearing one thing (hats a little bigger, sitting on the head)
-function dressedSvg(tid, mood, id) {
-  const svg = charSvg(tid, mood), o = OUTFITS.find(x => x.id === id);
-  if (!o) return svg;
+// where each buddy's eyes are (height, and the distance between them), for glasses and headphones
+const BUDDY_EYES = { hoot: [96, 54], daisy: [106, 42], whiskers: [108, 44], sparkle: [108, 44], fern: [106, 44], pjuske: [114, 38], olle: [104, 40], uli: [106, 34] };
+// stars open most things; a badge opens when every level of its subject is learnt
+const outfitOpen = o => o.badge ? (TOPICS.find(t => t.id === o.badge) || { levels: [] }).levels.every(l => levelDone(l)) : totalStars() >= o.need;
+// what a child wears: one thing per place (head, face, neck, beside). Earlier versions kept one thing in `outfit`.
+const wearOf = k => k.wear && typeof k.wear === 'object' ? k.wear : (() => { const o = OUTFITS.find(x => x.id === k.outfit); return o ? { [o.at]: o.id } : {}; })();
+function outfitG(tid, o) {
+  if (o.at === 'face') { const [y, w] = BUDDY_EYES[tid] || [108, 44]; return `<g class="outfit" transform="translate(100 ${y}) scale(${w / 44}) translate(-100 -108)">${o.svg}</g>`; }
   const [dx, dy] = (BUDDY_FIT[tid] || {})[o.at] || [0, 0], grow = o.at === 'head' ? ' translate(100 44) scale(1.35) translate(-100 -44)' : '';
-  return svg.replace('<svg class="char', '<svg class="char dressed').replace(/<\/svg>$/, `<g class="outfit" transform="translate(${dx} ${dy})${grow}">${o.svg}</g></svg>`);
+  return `<g class="outfit" transform="translate(${dx} ${dy})${grow}">${o.svg}</g>`;
+}
+// a buddy wearing some things (hats a little bigger, sitting on the head)
+function dressedSvg(tid, mood, ids) {
+  const svg = charSvg(tid, mood), want = [].concat(ids || []), os = OUTFIT_SLOTS.flatMap(at => OUTFITS.filter(x => x.at === at && want.includes(x.id)));
+  if (!os.length) return svg;
+  return svg.replace('<svg class="char', '<svg class="char dressed').replace(/<\/svg>$/, `${os.map(o => outfitG(tid, o)).join('')}</svg>`);
 }
 // the child's own buddy, wearing what they chose (only things they have earned)
 function buddySvg(mood = 'happy', k = store) {
-  const o = OUTFITS.find(x => x.id === k.outfit);
-  return dressedSvg(avatarOf(k), mood, o && k === store && outfitOpen(o) ? o.id : null);
+  const ids = k === store ? Object.values(wearOf(k)).filter(id => { const o = OUTFITS.find(x => x.id === id); return o && outfitOpen(o); }) : [];
+  return dressedSvg(avatarOf(k), mood, ids);
 }
 SCREENS.dress = function () {
   const t = tr(), have = totalStars();
@@ -11155,16 +11281,21 @@ SCREENS.dress = function () {
     <div class="dress-show"><div class="cw cw-lg">${buddySvg('joy')}</div></div>
     <p>${t.dressHave(have)}</p>
     <div class="dress-grid">
-      <button class="dress-tile" data-act="wear" data-id="" aria-pressed="${!store.outfit}"><span class="dt-buddy" aria-hidden="true">${charSvg(avatarOf(store), 'happy')}</span><span>${t.dressNone}</span></button>
-      ${OUTFITS.map(o => outfitOpen(o)
-        ? `<button class="dress-tile" data-act="wear" data-id="${o.id}" aria-pressed="${store.outfit === o.id}"><span class="dt-buddy" aria-hidden="true">${dressedSvg(avatarOf(store), 'happy', o.id)}</span><span>${t.outfits[o.id]}</span></button>`
-        : `<button class="dress-tile locked" disabled><span class="dt-ic" aria-hidden="true">${LOCK_SVG}</span><span>${t.outfits[o.id]}</span><span class="muted">${t.dressNeeds(o.need)}</span></button>`).join('')}
+      <button class="dress-tile" data-act="wear" data-id="" aria-pressed="${!Object.keys(wearOf(store)).length}"><span class="dt-buddy" aria-hidden="true">${charSvg(avatarOf(store), 'happy')}</span><span>${t.dressNone}</span></button>
+      ${OUTFITS.slice().sort((a, b) => (a.need || 999) - (b.need || 999)).map(o => outfitOpen(o)
+        ? `<button class="dress-tile" data-act="wear" data-id="${o.id}" aria-pressed="${wearOf(store)[o.at] === o.id}"><span class="dt-buddy" aria-hidden="true">${dressedSvg(avatarOf(store), 'happy', o.id)}</span><span>${t.outfits[o.id]}</span></button>`
+        : `<button class="dress-tile locked" disabled><span class="dt-ic" aria-hidden="true">${LOCK_SVG}</span><span>${t.outfits[o.id]}</span><span class="muted">${o.badge ? t.dressBadge(topicTitle(TOPICS.find(x => x.id === o.badge))) : t.dressNeeds(o.need)}</span></button>`).join('')}
     </div>
   </section>`;
 };
 Object.assign(ACTIONS, {
   dress: () => show('dress'),
-  wear: d => { store.outfit = d.id || null; save(); show('dress'); }
+  // one thing per place: tapping something worn takes it off; the hat (or else the neck thing) is also kept as `outfit` for older versions
+  wear: d => {
+    const o = OUTFITS.find(x => x.id === d.id), w = { ...wearOf(store) };
+    if (!o) { for (const k of Object.keys(w)) delete w[k]; } else if (w[o.at] === o.id) delete w[o.at]; else w[o.at] = o.id;
+    store.wear = w; store.outfit = w.head || w.neck || null; save(); show('dress');
+  }
 });
 
 /* texts, in all four languages */
@@ -11229,12 +11360,751 @@ Object.assign(ACTIONS, {
   };
   for (const [l, v] of Object.entries(T)) Object.assign(I18N[l], v);
 })();
+/* ---------- Every day (from the game design review, 23 October 2026) ----------
+   A small "Today" to finish, the child's own buddy with something new to say each day, praise that
+   notices, the journey so far, "Your turn" in lessons, and a weekly "spot my mistakes" round.
+   Nothing here can break or be lost: a missed day simply stays empty. */
+
+/* ---------- Today: the next step, then Practise again (or a Mixed challenge when nothing is waiting),
+   and spelling when a grown-up chose it. Finishing them earns a game. ---------- */
+const dayId = (ms = Date.now()) => { const d = new Date(ms); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const yesterdayId = () => { const d = new Date(); d.setDate(d.getDate() - 1); return dayId(d.getTime()); };
+// today's record: which steps are done, whether today is finished, the levels learnt today (and yesterday's)
+function todayRec(k = store) {
+  if (k.today && k.today.d === dayId()) return k.today;
+  const y = k.today && k.today.d === yesterdayId() ? k.today.l || [] : [];
+  return { d: dayId(), done: [], fin: 0, l: [], y };
+}
+const todaySlots = (k = store) => ['step', 'more', ...(k.todaySpell && withKid(k, shownSpellTopics).length ? ['spell'] : [])];
+// the second step: questions waiting in Practise again, otherwise a Mixed challenge
+const moreRound = () => ['review', ...LANG_IDS.map(l => 'review-sp-' + l)].find(id => reviewDue(id).length) || 'mixed';
+// a finished round fills the first matching step of today
+function todayCount(id) {
+  const special = id === 'buddy' || isSpecialRound(id), l = special ? null : findLevel(id);
+  const kinds = special ? ['more'] : l && isSpellTopic(l.topic) ? ['spell', 'step'] : ['step'];
+  const r = todayRec(), slots = todaySlots(), k = kinds.find(x => slots.includes(x) && !r.done.includes(x));
+  store.today = { ...r, done: k ? [...r.done, k] : r.done.slice(), l: [...new Set([...(r.l || []), ...(l && S.newPass ? [l.id] : [])])] };
+  if (!r.fin && slots.every(x => store.today.done.includes(x))) {
+    store.today.fin = 1; S.todayDone = true;
+    if (!store.gamesOff) store.game = { ...(store.game || {}), daily: ((store.game || {}).daily || 0) + 1 };
+  }
+}
+// a level with 1 star twice in a row gets a gentle offer on the results screen
+function stuckCount() {
+  if (isSpecialRound(S.id)) return;
+  const st = { ...(store.stuck || {}) };
+  if ((store.best[S.id] || 0) >= PASS) delete st[S.id]; else st[S.id] = (st[S.id] || 0) + 1;
+  store.stuck = st;
+}
+{ const base = finishRound; finishRound = function () { base(); todayCount(S.id); stuckCount(); save(); }; }
+
+function todayCard() {
+  if (!store.onboarded) return '';
+  const t = tr(), r = todayRec(), slots = todaySlots(), nx = pathNext(), rs = savedRound(), next = slots.find(x => !r.done.includes(x));
+  const row = (k, title, sub, btn) => `<li class="dy-step${r.done.includes(k) ? ' done' : ''}${k === next ? ' next' : ''}">
+      <span class="dy-dot" aria-hidden="true">${r.done.includes(k) ? '✓' : slots.indexOf(k) + 1}</span>
+      <span class="dy-txt"><b>${title}</b><span>${sub}</span></span>${btn}</li>`;
+  const go = (act, id, label, soft) => `<button class="btn btn-small${soft ? ' btn-soft' : ''}" data-act="${act}" data-id="${id}">${label}</button>`;
+  const rows = slots.map(k => {
+    const soft = r.done.includes(k) || k !== next;
+    if (k === 'step') {
+      if (!nx) return row(k, t.pathDone, t.pathDoneText, go('practice', 'mixed', t.letsGo, soft));
+      const l = nx.l, again = store.best[l.id] === 1, cont = rs && rs.id === l.id;
+      return row(k, `${topicTitle(l.topic)}: ${lvlText(l).title}`, `${t.tdStep} · ${t.pathStep(pathDoneCount() + 1, PATH.length)}`,
+        go(cont || again ? 'practice' : 'lesson', l.id, cont ? t.resumeBtn : again ? t.againBtn : t.pathStart, soft));
+    }
+    if (k === 'more') {
+      const id = moreRound(), n = id === 'mixed' ? 0 : reviewDue(id).length;
+      return row(k, id === 'mixed' ? t.mixedTitle : t.reviewTitle, id === 'mixed' ? t.tdMixed : t.reviewText(n), go('practice', id, t.letsGo, soft));
+    }
+    const tp = shownSpellTopics().find(x => x.lang === store.lang) || shownSpellTopics()[0];
+    return row(k, topicTitle(tp), t.tdSpell, go('topic', tp.id, t.letsGo, soft));
+  }).join('');
+  const reward = store.gamesOff ? '' : `<li class="dy-step reward${r.fin ? ' done' : ''}"><span class="dy-dot" aria-hidden="true">🎮</span><span class="dy-txt"><b>${t.tdReward}</b></span></li>`;
+  return `<section class="dy-today${r.fin ? ' fin' : ''}" style="--tc:var(--add)">
+    <div class="dy-head"><span class="path-label">${t.todayTitle}</span><h2>${r.fin ? t.tdDoneTitle : store.gamesOff ? t.todaySubNoGame : t.todaySub}</h2></div>
+    ${r.fin ? `<p class="dy-fin">${t.tdDoneText} ${tomorrowHint()}</p>${gameLeft() ? `<div class="confirm-row"><button class="btn" data-act="games">${t.gamePlay}</button></div>` : ''}` : ''}
+    <ol class="dy-steps">${rows}${reward}</ol>
+    <div class="dy-foot"><button class="btn-link" data-act="journey">${t.jyBtn} →</button></div>
+  </section>`;
+}
+// questions in Practise again that come back tomorrow
+const dueTomorrow = () => { const end = startOfDay(Date.now()) + 2 * DAY; return store.review.filter(x => reviewValid(x) && x.due > Date.now() && x.due < end).length; };
+function tomorrowHint() {
+  const t = tr(), n = dueTomorrow(), day = (new Date().getDay() + 6) % 7;
+  return n ? t.dyTomorrowReview(n) : day === 3 && buddyRoundOpen(Date.now() + DAY) ? t.dyTomorrowFriday : t.dyTomorrowLine;
+}
+// the child's own buddy on the home screen, with something new to say each day
+const dayNum = () => Math.round(startOfDay(Date.now()) / DAY);
+function buddyLine() {
+  const t = tr(), r = todayRec(), y = (r.y || []).map(findLevel).filter(Boolean)[0];
+  const all = t.dyLines, x = all[(dayNum() + hashStr(store.id || '')) % all.length];
+  const fact = typeof x === 'string' ? x : `${x.q} <button class="btn-link dy-reveal" data-act="dy-reveal" data-a="${esc(x.a)}">${t.dyTellMe}</button>`;
+  return (y ? t.dyYesterday(lvlText(y).title) + ' ' : '') + fact;
+}
+function buddyHero() {
+  const t = tr(), fin = todayRec().fin, av = avatarOf(store), line = fin ? t.dyNap : buddyLine();
+  lastSaid = { text: line, tid: av };
+  return `<section class="hero dy-hero">
+    <div class="dy-buddy" data-act="dress" role="button" aria-label="${t.dressBtn}"><div class="cw cw-lg">${buddySvg(fin ? 'sleepy' : 'happy')}</div></div>
+    <div class="bubble"><p class="bubble-who">${tName(av)}</p><h1>${store.name ? t.helloName(esc(store.name)) : t.helloAnon}</h1>
+      <div class="say-row"><p id="dy-say">${line}</p>${replayBtn()}</div></div>
+  </section>`;
+}
+// for grown-ups: the "keep progress safe" note as one short line that opens when tapped
+function keepNote() {
+  const full = keepTip(); if (!full) return '';
+  const t = tr();
+  return `<section class="dy-gnote" id="dy-gnote"><span class="tag">${t.keepNote}</span> <span>${t.keepTitle}</span> <button class="btn-link" data-act="keep-more">${t.keepMore}</button></section>`;
+}
+
+/* ---------- a warm-up: a full round of a level starts with one question from the level before, once that is learnt ---------- */
+function withWarmUp(id, list) {
+  const l = findLevel(id), i = l.topic.levels.indexOf(l), prev = i > 0 ? l.topic.levels[i - 1] : null;
+  if (!prev || prev.words || list.length < 10 || !levelDone(prev)) return list;
+  let q = null;
+  try { q = prev.gen ? prev.gen(Math.random) : null; } catch (e) {}
+  q = q || pick(prev.problems);
+  return q ? [{ ...q, lv: prev.id, warm: true }, ...list.slice(1)] : list;
+}
+
+/* ---------- praise that notices, and small moments inside a round ---------- */
+function noticeLine(p, firstTry) {
+  const t = tr(), len = S.list.length; S.run = firstTry ? (S.run || 0) + 1 : 0;
+  let say = '';
+  if (!S.noticed) {
+    const before = firstTry && p.lv && store.review.some(r => r.k === revKey(p)) && !isReviewId(S.id) || firstTry && isReviewId(S.id);
+    if (before) say = t.ntBefore;
+    else if (!firstTry && S.tries > 0) say = t.ntKept;
+    else if (S.run === 3) say = t.ntRun3;
+    if (say) S.noticed = true;
+  }
+  if (len >= 8 && S.i === len / 2 - 1) say += (say ? ' ' : '') + t.ntHalf(len / 2);
+  return say ? ' ' + say : '';
+}
+// the next small goal, shown when a round is finished
+function nextGoal(skipTomorrow) {
+  const t = tr(), have = totalStars(), o = OUTFITS.filter(x => x.need && have < x.need).sort((a, b) => a.need - b.need)[0];
+  if (o && o.need - have <= 15) return t.dyGoalOutfit(o.need - have, t.outfits[o.id]);
+  if (!store.gamesOff && !gamesOpen()) return t.dyGoalGames(GAME_NEED - threeStars());
+  const n = skipTomorrow ? 0 : dueTomorrow(); return n ? t.dyTomorrowReview(n) : '';
+}
+function resultsExtras(id, tid) {
+  const t = tr(), l = isSpecialRound(id) ? null : findLevel(id), out = [];
+  if (S.todayDone) out.push(`<p class="unlocked">🌟 ${store.gamesOff ? t.dyDoneNowNoGame : t.dyDoneNow} ${tomorrowHint()}</p>`);
+  else { const r = todayRec(), left = todaySlots().filter(x => !r.done.includes(x)).length; if (r.done.length && left) out.push(`<p class="dy-goal">${store.gamesOff ? t.dyLeftNoGame(left) : t.dyLeft(left)}</p>`); }
+  const g = nextGoal(S.todayDone); if (g) out.push(`<p class="dy-goal">${g}</p>`);
+  if (l && (store.stuck || {})[id] >= 2 && (store.best[id] || 0) < PASS)
+    out.push(`<section class="dy-stuck"><p>${t.dyStuck}</p><div class="confirm-row"><button class="btn btn-small" data-act="lesson" data-id="${id}">${t.dyStuckLesson}</button><button class="btn btn-small btn-soft" data-act="dy-other" data-id="${id}">${t.dyStuckOther}</button></div></section>`);
+  const tr8 = t.traits[Object.values(SPELL_TEACHER).includes(tid) ? 'spell' : tid] || t.traits.spell;
+  out.push(`<p class="dy-trait">${tr8[(dayNum() + (S.first || 0)) % tr8.length]}</p>`);
+  return out.join('');
+}
+
+/* ---------- the journey: every step of the path, with the buddy where the child is now ---------- */
+const topicSign = tp => tp.id === 'mul' ? XS() : tp.id === 'div' ? DS() : tp.sign;
+SCREENS.journey = function () {
+  const t = tr(), nx = pathNext(), here = nx ? nx.l.id : null, ls = fullPath().map(findLevel).filter(Boolean);
+  const seen = new Set();   // a landmark where each subject first appears
+  const items = ls.map((l, k) => {
+    const mark = seen.has(l.topic) ? '' : `<li class="jy-mark" style="${tcStyle(l.topic.teacher)}"><span class="jy-sign" aria-hidden="true">${topicSign(l.topic)}</span>${topicTitle(l.topic)}</li>`;
+    seen.add(l.topic);
+    const done = levelDone(l), lock = !!lockInfo(l.topic), at = l.id === here, name = `${topicTitle(l.topic)}: ${lvlText(l).title}`;
+    return mark + `<li class="jy-step${done ? ' done' : ''}${at ? ' here' : ''}${lock ? ' locked' : ''}" style="${tcStyle(l.topic.teacher)};--x:${Math.round(Math.sin(k * .8) * 70)}px">
+      <button class="jy-dot" ${lock ? 'disabled' : `data-act="lesson" data-id="${l.id}"`} aria-label="${k + 1}. ${esc(name.replace(/<[^>]+>/g, ''))}${done ? ' · ' + t.jyLearnt : ''}">${done ? '✓' : lock ? LOCK_SVG : `<span class="jy-s">${topicSign(l.topic)}</span>`}</button>
+      ${at ? `<span class="jy-buddy" aria-hidden="true">${buddySvg('joy')}</span><span class="jy-here"><b>${t.jyHere}</b>${lvlText(l).title}</span>` : ''}</li>`;
+  }).join('');
+  app.innerHTML = `${topbar()}
+  <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
+  <section class="jy-page"><h1>${t.jyTitle}</h1><p>${t.jyCount(ls.filter(l => levelDone(l)).length, ls.length)}</p>
+    <ol class="jy-path">${items}<li class="jy-mark jy-end" style="--tc:var(--div)">🏁 ${t.jyEnd}</li></ol></section>`;
+  setTimeout(() => { const h = $('.jy-step.here'); if (h && screen === 'journey') h.scrollIntoView({ block: 'center' }); }, 30);   // (after show() goes to the top)
+};
+
+/* ---------- "Your turn" in a lesson: after the worked example, the child tries one like it ---------- */
+let YT = null;
+function yourTurnFor(l) {
+  if (!l || l.words || isSpellTopic(l.topic)) return null;
+  const ex = { ...l.examples[0], lv: l.id };
+  let p = null;
+  try { if (l.gen) p = similarTo(ex); } catch (e) {}
+  if (!p || qKey(p) === qKey(ex)) p = shuffle(l.problems).find(q => qKey(q) !== qKey(ex)) || null;
+  if (!p || (p.lq && p.fmt === 'pick') || !Number.isInteger(answerOf(p))) return null;
+  return { ...p, lv: l.id };
+}
+function ytRender(msg) {
+  const t = tr(), el = $('#dy-yt'); if (!el || !YT) return;
+  const p = YT.p, box = `<span class="ans-box${YT.input ? ' filled' : ''}${YT.ok ? ' right' : ''}">${YT.input || '<i class="caret"></i>'}</span>`;
+  el.hidden = false;
+  if (!$('#yt-top')) el.innerHTML = '<div id="yt-top"></div><div id="yt-steps" class="stepper" hidden></div>';
+  $('#yt-top').innerHTML = `<h3>${t.ytTitle}</h3>
+    <div class="st-say">${charWrap(YT.tid, YT.ok ? 'joy' : 'happy', 'sm')}<p id="yt-say">${msg || t.ytSay}</p>${replayBtn()}</div>
+    <div class="dy-yt-q">${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}${p.lq ? qVis(p) : ''}<div class="q" style="--n:${qLen(p)}">${p.lq ? `<span class="lr-short">${LQ[p.s].short(p, lqX(p))}</span> = ${box}` : p.story != null ? box : qHtmlWith(p, box)}</div></div>
+    ${YT.ok ? '' : `<div class="pad dy-pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button class="key" data-act="yt-key" data-k="${n}">${n}</button>`).join('')}
+      <button class="key key-sm" data-act="yt-key" data-k="clear">${t.clear}</button><button class="key" data-act="yt-key" data-k="0">0</button><button class="key key-sm" data-act="yt-key" data-k="back" aria-label="${t.delLast}">⌫</button></div>
+    <div class="pr-actions"><button class="btn btn-soft" data-act="yt-how">${t.showHow}</button><button class="btn" data-act="yt-check">${t.check}</button></div>`}`;
+}
+// the sum with the answer box in the place of the missing number
+function qHtmlWith(p, box) {
+  const op = `<span class="op">${opSym(p.op)}</span>`, A = p.missing === 'a' ? box : `<span>${p.a}</span>`, B = p.missing === 'b' ? box : `<span>${p.b}</span>`;
+  return `${A}${op}${B}${p.c != null ? `<span class="op">+</span><span>${p.c}</span>` : ''}<span>=</span>${p.missing ? `<span>${resOf(p)}</span>` : box}`;
+}
+function ytStart(l) {
+  if (YT && YT.l === l.id && $('#yt-top')) return;   // (the last lesson step shown again)
+  const p = yourTurnFor(l); if (!p) { $('#lesson-go')?.classList.add('ready'); return; }
+  YT = { p, l: l.id, input: '', tries: 0, ok: false, tid: l.topic.teacher };
+  ytRender(); speak(`${tr().ytTitle} ${tr().ytSay}`, YT.tid);
+  $('#dy-yt').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+}
+function ytHow() {
+  const p = YT.p, e = explain(p), el = $('#yt-steps'); el.hidden = false;
+  mountStepper({ title: tr().ytTitle, steps: e.steps, why: e.why, tid: YT.tid, el, onDone: () => $('#lesson-go')?.classList.add('ready'), problem: p });
+  speak(e.steps[0].say, YT.tid);
+}
+Object.assign(ACTIONS, {
+  'yt-key': d => { if (!YT || YT.ok) return; YT.input = d.k === 'clear' ? '' : d.k === 'back' ? YT.input.slice(0, -1) : YT.input.length < 6 ? (YT.input === '0' ? '' : YT.input) + d.k : YT.input; ytRender($('#yt-say')?.innerHTML); },
+  'yt-check': () => {
+    if (!YT || YT.ok) return;
+    const t = tr();
+    if (YT.input === '') { ytRender(t.typeFirst); return; }
+    if (Number(YT.input) === answerOf(YT.p)) { YT.ok = true; ytRender(t.ytRight); confetti(20); speak(t.ytRight, YT.tid); $('#lesson-go')?.classList.add('ready'); return; }
+    YT.tries++; YT.input = '';
+    if (YT.tries === 1) { ytRender(t.ytAgain); speak(t.ytAgain, YT.tid); } else { ytRender(t.ytTogether); ytHow(); }
+  },
+  'yt-how': () => { if (YT) ytHow(); },
+  journey: () => show('journey'),
+  'dy-reveal': (d, b) => { b.outerHTML = `<b>${esc(d.a)}</b>`; },
+  'keep-more': () => { const el = $('#dy-gnote'); if (el) el.outerHTML = keepTip(); },
+  // a different step for today, for a level that stays tricky
+  'dy-other': d => {
+    const cur = findLevel(d.id), alt = fullPath().map(findLevel).find(x => x && x.topic !== cur.topic && !levelDone(x) && !lockInfo(x.topic));
+    alt ? show('lesson', { id: alt.id }) : show('practice', { id: 'mixed' });
+  }
+});
+
+/* ---------- a game for every day of practice, a choice of three, and this week's best ---------- */
+const GAME_FOR = { time: 'clock', money: 'shop', frac: 'pizza', meas: 'jug', mul: 'snake', div: 'snake', add: 'space', sub: 'bubbles', shape: 'memory', chart: 'hop' };
+function gameSuggest() {
+  const last = store.round ? null : (todayRec().l || [])[0];
+  const lv = findLevel(store.lastLv || last || ''), tp = lv && lv.topic;
+  const first = tp ? (isSpellTopic(tp) ? 'spot' : GAME_FOR[tp.id]) : null;
+  const rest = GAME_LIST.filter(g => g !== first), n = dayNum();
+  return [...new Set([first, rest[n % rest.length], rest[(n + 5) % rest.length], rest[(n + 9) % rest.length]].filter(Boolean))].slice(0, 3);
+}
+const wkBests = () => { const w = (store.game || {}).wk; return w && w.id === weekId() ? w.b || {} : {}; };
+function gameWeekBest(id, score) {
+  const b = wkBests(), was = b[id] || 0;
+  if (score > was) { store.game = { ...(store.game || {}), wk: { id: weekId(), b: { ...b, [id]: score } } }; save(); }
+  return score > was && score > 0;
+}
+const gameTile = (g, left) => `<button class="game-tile" data-act="game" data-g="${g}"${left ? '' : ' disabled'}>
+  <span class="gt-ic" aria-hidden="true">${GAME_ICON[g]}</span><span class="gt-name">${tr().gameNames[g]}</span>${wkBests()[g] ? `<span class="gt-best">${tr().gameWkBest(wkBests()[g])}</span>` : gameBest(g) ? `<span class="gt-best">${tr().gameBest(gameBest(g))}</span>` : ''}</button>`;
+SCREENS.games = function () {
+  const t = tr(), left = gameLeft();
+  if (store.gamesOff || !gamesOpen()) return show('home');
+  app.innerHTML = `${topbar()}
+  <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
+  <section class="mixed game-card" style="--tc:var(--div)"><div class="game-art" aria-hidden="true">${buddySvg('joy')}</div>
+    <div class="mixed-text"><span class="path-label">${t.gameLabel}</span><h3>${t.gamesAll}</h3><p>${left ? t.gamePlays(left) : t.gameNone}</p></div>
+    <div class="game-grid">${GAME_LIST.map(g => gameTile(g, left)).join('')}</div></section>`;
+};
+// remember the subject of the last finished round, so the suggested game can match it
+{ const base = recordStars; recordStars = function () { base(); if (!isSpecialRound(S.id) && findLevel(S.id)) store.lastLv = S.id; }; }
+
+/* ---------- once a week, from Friday: spot the buddy's mistakes ---------- */
+const BR_N = 6;
+// open from Friday until it is done; one not done last week waits until it is
+function buddyRoundOpen(ms = Date.now()) {
+  if (!store.onboarded || !mixedLevels().length) return false;
+  const day = (new Date(ms).getDay() + 6) % 7, wk = weekId(ms), last = weekId(ms - 7 * DAY);
+  return store.bweek !== wk && (day >= 4 || (store.bweek !== last && !!store.bweek));
+}
+function buddyRoundCard() {
+  if (!buddyRoundOpen()) return '';
+  const t = tr(), av = avatarOf(store);
+  return `<section class="mixed dy-br-card" style="${tcStyle(av)}"><div class="cw cw-sm">${buddySvg('think')}</div>
+    <div class="mixed-text"><span class="path-label">${t.brLabel}</span><h3>${t.brTitle}</h3><p>${t.brCard(tName(av))}</p></div>
+    <button class="btn" data-act="br-start">${t.letsGo}</button></section>`;
+}
+let BR = null;
+function brNext() {
+  const p = gameQuestion(), ans = answerOf(p), wrong = Math.random() < .5;
+  const shown = wrong ? gameWrong(ans, 1)[0] : ans;
+  BR.q = { p, ans, shown: shown == null ? ans : shown, wrong: wrong && shown != null && shown !== ans };
+  BR.answered = false; brRender();
+}
+function brRender(msg) {
+  const t = tr(), av = avatarOf(store), q = BR.q, eqs = `${q.p.a} ${opSym(q.p.op)} ${q.p.b} = ${q.shown}`;
+  app.innerHTML = `${topbar()}
+  <div class="crumbs"><button class="btn-link" data-act="home">${t.stop}</button><span>· ${t.brTitle} · ${BR.i + 1} / ${BR_N}</span></div>
+  <section class="dy-br" style="${tcStyle(av)}">
+    <section class="talk">${charWrap(av, BR.answered ? 'joy' : 'think', 'md')}<div class="bubble"><p class="bubble-who">${tName(av)}</p><div class="say-row"><p id="br-say">${msg || t.brQ}</p>${replayBtn()}</div></div></section>
+    <div class="qcard"><div class="eq">${eqs}</div></div>
+    <div class="res-actions">${BR.answered ? `<button class="btn btn-big" data-act="br-next">${BR.i + 1 >= BR_N ? t.seeStars : t.nextQ}</button>`
+      : `<button class="btn btn-big" style="--tc:var(--good)" data-act="br-say" data-v="1">${t.brRight}</button><button class="btn btn-big" style="--tc:var(--oops)" data-act="br-say" data-v="0">${t.brWrong}</button>`}</div>
+  </section>`;
+  speak((msg || t.brQ) + (BR.answered ? '' : ' ' + eqs), av);
+}
+SCREENS.buddy = function () { S = { id: 'buddy' }; if (!BR) { BR = { i: 0, caught: 0, right: 0 }; brNext(); } else brRender(); };
+Object.assign(ACTIONS, {
+  'br-start': () => { BR = null; show('buddy'); },
+  'br-say': d => {
+    if (!BR || BR.answered) return;
+    const t = tr(), q = BR.q, saidRight = d.v === '1', ok = saidRight === !q.wrong;
+    BR.answered = true; if (ok) BR.right++; if (ok && q.wrong) BR.caught++;
+    if (ok) confetti(14);
+    brRender(ok ? (q.wrong ? t.brCaught(q.ans) : t.brYes) : (q.wrong ? t.brMissed(q.ans) : t.brWasRight));
+  },
+  'br-next': () => {
+    if (!BR) return show('home');
+    if (++BR.i < BR_N) return brNext();
+    const t = tr(), av = avatarOf(store), n = BR.right;
+    S = { id: 'buddy' }; store.bweek = weekId(); todayCount('buddy'); wkAdd(0); save();
+    app.innerHTML = `${topbar()}<section class="results" style="${tcStyle(av)}"><div class="cw cw-lg">${buddySvg('joy')}</div>
+      <h1 style="font-size:clamp(30px,6vw,46px)">${t.brEndTitle}</h1><p style="max-width:52ch">${t.brEnd(n, BR_N)}</p>${resultsExtras('buddy', av)}
+      <div class="res-actions">${S.todayDone && gameLeft() ? `<button class="btn btn-big" data-act="games">${t.gamePlay}</button>` : ''}<button class="btn ${S.todayDone && gameLeft() ? 'btn-soft' : 'btn-big'}" data-act="home">${t.home}</button></div></section>`;
+    confetti(30); speak(`${t.brEndTitle} ${t.brEnd(n, BR_N)}`, av); BR = null;
+  }
+});
+
+/* ---------- the starting quiz: celebrate what the child already knows ---------- */
+function knownSummary() {
+  const t = tr(), parts = mathTopics().map(tp => [tp, tp.levels.filter(l => levelSkipped(l)).length]).filter(([, n]) => n > 0);
+  return parts.length ? `<p class="dy-known">${t.plKnown(parts.slice(0, 4).map(([tp, n]) => t.plKnownItem(topicTitle(tp), n)).join(', '))}</p>` : '';
+}
+
+/* ---------- grown-ups: Today on the children tab, and the settings for rounds, games and spelling ---------- */
+function todayKidLine(k) {
+  const t = tr(), r = withKid(k, todayRec), slots = withKid(k, todaySlots);
+  return `<span class="muted">${r.fin ? t.tdKidDone : t.tdKid(r.done.length, slots.length)}</span>`;
+}
+const roundLen = () => store.roundLen === 5 ? 5 : 10;
+function dailySettings() {
+  const t = tr();
+  return `<label class="check-row" for="games-daily"><input type="checkbox" id="games-daily"${store.gamesDaily ? ' checked' : ''}> ${t.gamesDailyLabel}</label>
+    <label class="field" for="round-len"><span>${t.roundLenLabel}</span><select id="round-len">${[10, 5].map(n => `<option value="${n}"${roundLen() === n ? ' selected' : ''}>${t.roundLenN(n)}</option>`).join('')}</select></label>
+    <label class="check-row" for="today-spell"><input type="checkbox" id="today-spell"${store.todaySpell ? ' checked' : ''}> ${t.todaySpellLabel}</label>
+    <p class="muted">${t.todayHelp}</p>`;
+}
+app.addEventListener('change', e => {
+  const id = e.target.id;
+  if (id === 'games-daily') { store.gamesDaily = e.target.checked; save(); }
+  else if (id === 'round-len') { store.roundLen = +e.target.value === 5 ? 5 : 10; save(); }
+  else if (id === 'today-spell') { store.todaySpell = e.target.checked; save(); }
+});
+
+/* ---------- saving on two devices: today's steps, the daily games and this week's best scores ---------- */
+{
+  const base = mergeKid;
+  mergeKid = function (a, r) {
+    const out = base(a, r);
+    if (!a || !r || (a.resetAt || 0) !== (r.resetAt || 0)) return out;
+    if (a.today || r.today) {
+      const x = a.today || {}, y = r.today || {};
+      out.today = x.d === y.d ? { ...x, ...y, done: [...new Set([...(x.done || []), ...(y.done || [])])].sort(), fin: Math.max(x.fin || 0, y.fin || 0), l: [...new Set([...(x.l || []), ...(y.l || [])])].sort() }
+        : ((x.d || '') > (y.d || '') ? x : y);
+    }
+    if (a.game || r.game) {
+      const x = a.game || {}, y = r.game || {}, mx = k => Math.max(x[k] || 0, y[k] || 0);
+      const g = { ...out.game };
+      for (const k of ['daily', 'dused', 'dback']) if (x[k] || y[k]) g[k] = mx(k);
+      if (x.wk || y.wk) {
+        const u = x.wk || {}, v = y.wk || {}, b = { ...(v.b || {}) };
+        if (u.id === v.id) { for (const [k, s] of Object.entries(u.b || {})) b[k] = Math.max(b[k] || 0, s); g.wk = { id: u.id, b }; }
+        else g.wk = (u.id || '') > (v.id || '') ? u : v;
+      }
+      out.game = g;
+    }
+    if ((a.bweek || '') !== (r.bweek || '')) out.bweek = (a.bweek || '') > (r.bweek || '') ? a.bweek : r.bweek;
+    return out;
+  };
+}
+/* ---------- texts for Today, the buddy's daily facts and riddles, the journey, Your turn, praise that notices,
+   the weekly "spot my mistakes" round and the new things to wear (all four languages) ---------- */
+(function () {
+  const T = {
+    en: {
+      todayTitle: 'Today', todaySub: 'A few small steps, then a game!', todaySubNoGame: 'A few small steps for today',
+      tdStep: 'Next step', tdMixed: 'A few surprise questions from levels you know.', tdSpell: 'One spelling round',
+      tdReward: 'Then: a mini-game!', tdDoneTitle: "That's today done!", tdDoneText: 'You can stop here. Extra rounds are a bonus.',
+      tdKid: (d, n) => `Today: ${d} of ${n} steps`, tdKidDone: 'Today: done ✓',
+      dyDoneNow: "That's today done! You earned a game.", dyDoneNowNoGame: "That's today done! You can stop here.",
+      dyLeft: n => n === 1 ? 'One more step today, then a game!' : `${n} more steps today, then a game!`,
+      dyLeftNoGame: n => n === 1 ? 'One more step today.' : `${n} more steps today.`,
+      dyTomorrowReview: n => `Tomorrow, Practise again has ${n} ${n === 1 ? 'question' : 'questions'} waiting for you.`,
+      dyTomorrowFriday: 'Tomorrow I have a special round for you: spot my mistakes!',
+      dyTomorrowLine: "Tomorrow I'll have something new to tell you.",
+      dyNap: "Phew, what a day! I'm having a little nap. See you tomorrow!",
+      dyYesterday: x => `Yesterday you learnt “${x}”. Clever!`, dyTellMe: 'Tell me!',
+      dyGoalOutfit: (n, x) => `${n} more ${n === 1 ? 'star' : 'stars'} for the ${x.toLowerCase()}!`,
+      dyGoalGames: n => `Finish Today, or learn ${n} more ${n === 1 ? 'level' : 'levels'}, to open the mini-games!`,
+      dyStuck: "This level is a tricky one. That's OK: tricky things take a few tries.",
+      dyStuckLesson: 'Look at the lesson together', dyStuckOther: 'Try something else today',
+      traits: {
+        hoot: ["Here's a fact: brains grow stronger every time they practise. Hoo-hoo!", 'A fact for you: every mistake helps your brain learn something new.'],
+        daisy: ["That round deserves a snack! I'd share my apple with you.", 'Mmm, that was as good as a picnic!'],
+        whiskers: ['Oh my whiskers! What a round!', 'Stop everything! That was amazing!'],
+        sparkle: ['I spotted a pattern: every round makes you a little better.', 'Fair and square: you earned every one of those stars.'],
+        spell: ['Letter by letter, you did it!', 'Words are like puzzles, and you are a puzzle solver.']
+      },
+      ntRun3: 'Three in a row without help!', ntKept: 'You kept going and got it!',
+      ntBefore: 'You needed help with this one before. Not any more!', ntHalf: n => `Halfway! ${n} to go.`,
+      warmUp: 'A warm-up first, from the level before.', start5: 'Start 5 questions',
+      jyTitle: 'Your journey', jyBtn: 'My journey', jyCount: (d, n) => `${d} of ${n} steps learnt. Every step counts!`,
+      jyHere: 'You are here', jyLearnt: 'learnt', jyEnd: 'The end of the path (for now)!',
+      plKnown: x => `You already know a lot: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'level' : 'levels'})`,
+      topicMeta2: (d, n, s) => `${d} of ${n} levels learnt · ${s} ${s === 1 ? 'star' : 'stars'}`,
+      ytTitle: 'Your turn!', ytSay: 'Now you try one like it. Take your time.', ytRight: "You did it! Now you're ready for the questions.",
+      ytAgain: 'Nearly! Have another go.', ytTogether: "Let's work it out together.",
+      brLabel: 'Special round', brTitle: 'Spot my mistakes!', brCard: n => `${n} has done some sums, but some are wrong. Can you spot them?`,
+      brQ: 'Here is my answer. Am I right?', brRight: 'Right ✓', brWrong: 'Oops ✗', brYes: 'Yes, that one was right. Phew!',
+      brCaught: a => `You caught my mistake! It should be ${a}.`, brMissed: a => `Oh, that one was wrong. It should be ${a}.`, brWasRight: 'Actually, that one was right!',
+      brEndTitle: 'Thank you!', brEnd: (n, m) => `You checked ${m} sums and got ${n} right. You're a great teacher!`,
+      gamesDailyLabel: 'One mini-game a day only (when Today is finished), not one per level learnt',
+      roundLenLabel: 'Questions per round', roundLenN: n => `${n} questions`,
+      todaySpellLabel: 'Spelling is part of Today',
+      todayHelp: 'Today is a small daily goal: the next step on the path, then Practise again (or a short Mixed challenge), and spelling if ticked. Finishing it earns a mini-game. Missed days simply stay empty; nothing is lost.',
+      askChild: (n, x) => `Idea: ask ${n} to teach you “${x}”.`,
+      keepNote: 'For grown-ups', keepMore: 'Read more',
+      gamePlay: 'Play a game!', gamesAll: 'All games', gameWkBest: n => `This week: ${n}`, gameNewWkBest: 'Best this week!',
+      outfits: { bow: 'Bow', glasses: 'Glasses', sunhat: 'Sun hat', phones: 'Headphones', shades: 'Sunglasses', wizard: 'Wizard hat', ladybird: 'Ladybird', snail: 'Snail',
+        pizza: 'Pizza hat', clockb: 'Clock badge', coinb: 'Coin badge', starb: 'Times tables star', shapeb: 'Shape badge' },
+      dressBadge: x => `Learn all of ${x}`,
+      intro2d: 'And there is more: clocks, coins, fractions, shapes and charts!',
+      introBuddy: n => `And ${n} is your very own buddy, here to play with you!`,
+      dyLines: [
+        'Did you know? An octopus has three hearts.',
+        'Did you know? Your heart beats about 100,000 times every day.',
+        { q: 'Riddle: what goes up but never comes down?', a: 'Your age!' },
+        'Did you know? There are 1,440 minutes in one day.',
+        'Did you know? Bees build their honeycomb out of hexagons: shapes with 6 sides.',
+        { q: 'Riddle: I am thinking of a number. If you double it, you get 12. What is it?', a: '6' },
+        'Did you know? If you add up all the numbers from 1 to 10, you get 55.',
+        'Did you know? A spider has 8 legs, so 3 spiders have 24 legs.',
+        { q: 'Riddle: what gets wetter the more it dries?', a: 'A towel!' },
+        'Did you know? Any number times 0 is 0.',
+        'Did you know? Butterflies taste with their feet.',
+        { q: 'Riddle: how many legs do 3 cats have altogether?', a: '12' },
+        'Did you know? Owls can turn their heads almost all the way round.',
+        'Did you know? Sharks lived on Earth before there were any trees.',
+        { q: 'Riddle: what has lots of teeth but cannot bite?', a: 'A comb!' },
+        'Did you know? A day on Venus is longer than a whole year on Venus.',
+        'Did you know? Light from the Sun takes about 8 minutes to reach us.',
+        { q: 'Riddle: what is half of a half?', a: 'A quarter!' },
+        'Did you know? A grown-up has 206 bones. Babies have even more!',
+        'Did you know? From 9 × 1 to 9 × 10, the digits of each answer add up to 9: 18 is 1 + 8.',
+        { q: 'Riddle: which is heavier, a kilo of feathers or a kilo of stones?', a: 'They weigh the same: a kilo each!' },
+        'Did you know? An even number plus an even number is always even.',
+        'Did you know? Koalas can sleep for up to 20 hours a day.',
+        { q: 'Riddle: what comes next? 5, 10, 15, 20, …', a: '25' },
+        'Did you know? Snails have thousands of tiny teeth.',
+        'Did you know? The minute hand of a clock goes all the way round 24 times a day.',
+        { q: 'Riddle: how many minutes are there in half an hour?', a: '30' },
+        'Did you know? Penguins cannot fly, but they are super fast swimmers.',
+        "Did you know? A hummingbird's heart can beat more than 1,000 times a minute.",
+        { q: 'Riddle: I am a flat shape with no corners at all. What am I?', a: 'A circle!' },
+        'Did you know? Elephants cannot jump.',
+        'Did you know? Zero was first used as a number in India, about 1,400 years ago.',
+        { q: 'Riddle: how many days are there in two weeks?', a: '14' },
+        'Did you know? A year has 52 weeks and 1 more day (2 in a leap year).',
+        'Did you know? Starfish do not have a brain.',
+        { q: 'Riddle: what has a face and two hands, but no arms or legs?', a: 'A clock!' },
+        'Did you know? Ants can carry things much heavier than themselves.',
+        'Did you know? Honey can stay good to eat for thousands of years.',
+        { q: 'Riddle: you have 3 apples and take away 2. How many apples do YOU have?', a: '2: the ones you took!' },
+        'Did you know? Half of 100 is 50, and half of 50 is 25.',
+        "Did you know? A giraffe's tongue can be about 50 centimetres long."
+      ]
+    },
+    da: {
+      todayTitle: 'I dag', todaySub: 'Et par små skridt, og så et spil!', todaySubNoGame: 'Et par små skridt i dag',
+      tdStep: 'Næste skridt', tdMixed: 'Et par overraskelsesopgaver fra niveauer, du kender.', tdSpell: 'En runde stavning',
+      tdReward: 'Bagefter: et minispil!', tdDoneTitle: 'Så er du færdig for i dag!', tdDoneText: 'Du kan stoppe her. Ekstra runder er en bonus.',
+      tdKid: (d, n) => `I dag: ${d} af ${n} skridt`, tdKidDone: 'I dag: færdig ✓',
+      dyDoneNow: 'Så er du færdig for i dag! Du har tjent et spil.', dyDoneNowNoGame: 'Så er du færdig for i dag! Du kan stoppe her.',
+      dyLeft: n => n === 1 ? 'Ét skridt mere i dag, så får du et spil!' : `${n} skridt mere i dag, så får du et spil!`,
+      dyLeftNoGame: n => n === 1 ? 'Ét skridt mere i dag.' : `${n} skridt mere i dag.`,
+      dyTomorrowReview: n => `I morgen venter der ${n} ${n === 1 ? 'opgave' : 'opgaver'} på dig i Øv igen.`,
+      dyTomorrowFriday: 'I morgen har jeg en særlig runde til dig: find mine fejl!',
+      dyTomorrowLine: 'I morgen har jeg noget nyt at fortælle dig.',
+      dyNap: 'Puha, sikken en dag! Jeg tager en lille lur. Vi ses i morgen!',
+      dyYesterday: x => `I går lærte du “${x}”. Godt gået!`, dyTellMe: 'Fortæl!',
+      dyGoalOutfit: (n, x) => `${n} ${n === 1 ? 'stjerne' : 'stjerner'} mere, så får du: ${x}!`,
+      dyGoalGames: n => `Bliv færdig med I dag, eller lær ${n} ${n === 1 ? 'niveau' : 'niveauer'} mere, for at åbne minispillene!`,
+      dyStuck: 'Det her niveau er svært. Det er helt okay: svære ting tager et par forsøg.',
+      dyStuckLesson: 'Se lektionen sammen', dyStuckOther: 'Prøv noget andet i dag',
+      traits: {
+        hoot: ['Vidste du det? Hjernen bliver stærkere, hver gang den øver sig. Hu-hu!', 'Vidste du det? Hver fejl hjælper din hjerne med at lære noget nyt.'],
+        daisy: ['Den runde fortjener en snack! Jeg deler gerne mit æble med dig.', 'Mmm, det var lige så godt som en skovtur!'],
+        whiskers: ['Åh, mine knurhår! Sikken en runde!', 'Stop alt! Det var fantastisk!'],
+        sparkle: ['Jeg har fundet et mønster: hver runde gør dig lidt bedre.', 'Helt fair: du har fortjent hver eneste stjerne.'],
+        spell: ['Bogstav for bogstav, du klarede det!', 'Ord er som puslespil, og du er god til at løse dem.']
+      },
+      ntRun3: 'Tre i træk uden hjælp!', ntKept: 'Du blev ved og fik den!',
+      ntBefore: 'Du fik hjælp til den her før. Ikke mere!', ntHalf: n => `Halvvejs! ${n} tilbage.`,
+      warmUp: 'Først en opvarmning fra niveauet før.', start5: 'Start 5 opgaver',
+      jyTitle: 'Din rejse', jyBtn: 'Min rejse', jyCount: (d, n) => `${d} af ${n} skridt er lært. Hvert skridt tæller!`,
+      jyHere: 'Du er her', jyLearnt: 'lært', jyEnd: 'Enden af vejen (indtil videre)!',
+      plKnown: x => `Du kan allerede en masse: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'niveau' : 'niveauer'})`,
+      topicMeta2: (d, n, s) => `${d} af ${n} niveauer lært · ${s} ${s === 1 ? 'stjerne' : 'stjerner'}`,
+      ytTitle: 'Din tur!', ytSay: 'Nu prøver du en, der ligner. Tag dig god tid.', ytRight: 'Du klarede det! Nu er du klar til opgaverne.',
+      ytAgain: 'Tæt på! Prøv en gang til.', ytTogether: 'Lad os regne den ud sammen.',
+      brLabel: 'Særlig runde', brTitle: 'Find mine fejl!', brCard: n => `${n} har regnet nogle stykker, men nogle er forkerte. Kan du finde dem?`,
+      brQ: 'Her er mit svar. Har jeg ret?', brRight: 'Rigtigt ✓', brWrong: 'Ups ✗', brYes: 'Ja, den var rigtig. Puha!',
+      brCaught: a => `Du fandt min fejl! Det skal være ${a}.`, brMissed: a => `Åh, den var forkert. Det skal være ${a}.`, brWasRight: 'Faktisk var den rigtig!',
+      brEndTitle: 'Tak!', brEnd: (n, m) => `Du tjekkede ${m} regnestykker og havde ${n} rigtige. Du er en god lærer!`,
+      gamesDailyLabel: 'Kun ét minispil om dagen (når I dag er klaret), ikke ét for hvert lært niveau',
+      roundLenLabel: 'Opgaver pr. runde', roundLenN: n => `${n} opgaver`,
+      todaySpellLabel: 'Stavning er en del af I dag',
+      todayHelp: 'I dag er et lille dagligt mål: næste skridt på vejen, derefter Øv igen (eller en kort blandet udfordring) og stavning, hvis det er valgt. Når det er klaret, får barnet et minispil. Dage uden øvning står bare tomme; intet går tabt.',
+      askChild: (n, x) => `Idé: bed ${n} om at lære dig “${x}”.`,
+      keepNote: 'For voksne', keepMore: 'Læs mere',
+      gamePlay: 'Spil et spil!', gamesAll: 'Alle spil', gameWkBest: n => `Denne uge: ${n}`, gameNewWkBest: 'Ugens bedste!',
+      outfits: { bow: 'Sløjfe', glasses: 'Briller', sunhat: 'Solhat', phones: 'Høretelefoner', shades: 'Solbriller', wizard: 'Troldmandshat', ladybird: 'Mariehøne', snail: 'Snegl',
+        pizza: 'Pizzahat', clockb: 'Urmærke', coinb: 'Møntmærke', starb: 'Gangestjerne', shapeb: 'Figurmærke' },
+      dressBadge: x => `Lær hele ${x}`,
+      intro2d: 'Og der er mere: ure, mønter, brøker, figurer og diagrammer!',
+      introBuddy: n => `Og ${n} er din helt egen makker, som spiller med dig!`,
+      dyLines: [
+        'Vidste du det? En blæksprutte har tre hjerter.',
+        'Vidste du det? Dit hjerte slår cirka 100.000 gange hver dag.',
+        { q: 'Gåde: hvad går op, men kommer aldrig ned?', a: 'Din alder!' },
+        'Vidste du det? Der er 1.440 minutter i et døgn.',
+        'Vidste du det? Bier bygger deres voksceller som sekskanter: figurer med 6 sider.',
+        { q: 'Gåde: jeg tænker på et tal. Hvis du fordobler det, får du 12. Hvad er tallet?', a: '6' },
+        'Vidste du det? Hvis du lægger alle tallene fra 1 til 10 sammen, får du 55.',
+        'Vidste du det? En edderkop har 8 ben, så 3 edderkopper har 24 ben.',
+        { q: 'Gåde: hvad bliver vådere, jo mere det tørrer?', a: 'Et håndklæde!' },
+        'Vidste du det? Et hvilket som helst tal gange 0 er 0.',
+        'Vidste du det? Sommerfugle smager med fødderne.',
+        { q: 'Gåde: hvor mange ben har 3 katte i alt?', a: '12' },
+        'Vidste du det? Ugler kan dreje hovedet næsten hele vejen rundt.',
+        'Vidste du det? Hajer levede på Jorden, før der fandtes træer.',
+        { q: 'Gåde: hvad har mange tænder, men kan ikke bide?', a: 'En kam!' },
+        'Vidste du det? Et døgn på Venus er længere end et helt år på Venus.',
+        'Vidste du det? Lyset fra Solen er cirka 8 minutter om at nå hen til os.',
+        { q: 'Gåde: hvad er en halv af en halv?', a: 'En fjerdedel!' },
+        'Vidste du det? En voksen har 206 knogler. Babyer har endnu flere!',
+        'Vidste du det? Fra 9 · 1 til 9 · 10 giver cifrene i svaret tilsammen 9: 18 er 1 + 8.',
+        { q: 'Gåde: hvad er tungest, et kilo fjer eller et kilo sten?', a: 'De vejer det samme: et kilo hver!' },
+        'Vidste du det? Et lige tal plus et lige tal giver altid et lige tal.',
+        'Vidste du det? Koalaer kan sove op til 20 timer om dagen.',
+        { q: 'Gåde: hvad kommer bagefter? 5, 10, 15, 20, …', a: '25' },
+        'Vidste du det? Snegle har tusindvis af bittesmå tænder.',
+        'Vidste du det? Et urs minutviser går hele vejen rundt 24 gange i døgnet.',
+        { q: 'Gåde: hvor mange minutter er der i en halv time?', a: '30' },
+        'Vidste du det? Pingviner kan ikke flyve, men de svømmer superhurtigt.',
+        'Vidste du det? En kolibris hjerte kan slå over 1.000 gange i minuttet.',
+        { q: 'Gåde: jeg er en flad figur helt uden hjørner. Hvad er jeg?', a: 'En cirkel!' },
+        'Vidste du det? Elefanter kan ikke hoppe.',
+        'Vidste du det? Nul blev først brugt som et tal i Indien for cirka 1.400 år siden.',
+        { q: 'Gåde: hvor mange dage er der på to uger?', a: '14' },
+        'Vidste du det? Et år har 52 uger og 1 dag mere (2 i et skudår).',
+        'Vidste du det? Søstjerner har ikke nogen hjerne.',
+        { q: 'Gåde: hvilket tal er 1 mere end 99?', a: '100' },
+        'Vidste du det? Myrer kan bære ting, der er meget tungere end dem selv.',
+        'Vidste du det? Honning kan holde sig spiselig i tusindvis af år.',
+        { q: 'Gåde: du har 3 æbler og tager 2 væk. Hvor mange æbler har DU?', a: '2: dem, du tog!' },
+        'Vidste du det? Halvdelen af 100 er 50, og halvdelen af 50 er 25.',
+        'Vidste du det? En girafs tunge kan være cirka 50 centimeter lang.'
+      ]
+    },
+    sv: {
+      todayTitle: 'I dag', todaySub: 'Några små steg, och sedan ett spel!', todaySubNoGame: 'Några små steg i dag',
+      tdStep: 'Nästa steg', tdMixed: 'Några överraskningsuppgifter från nivåer du kan.', tdSpell: 'En omgång stavning',
+      tdReward: 'Sedan: ett minispel!', tdDoneTitle: 'Nu är du klar för i dag!', tdDoneText: 'Du kan sluta här. Extra omgångar är en bonus.',
+      tdKid: (d, n) => `I dag: ${d} av ${n} steg`, tdKidDone: 'I dag: klart ✓',
+      dyDoneNow: 'Nu är du klar för i dag! Du har tjänat ett spel.', dyDoneNowNoGame: 'Nu är du klar för i dag! Du kan sluta här.',
+      dyLeft: n => n === 1 ? 'Ett steg till i dag, sedan får du ett spel!' : `${n} steg till i dag, sedan får du ett spel!`,
+      dyLeftNoGame: n => n === 1 ? 'Ett steg till i dag.' : `${n} steg till i dag.`,
+      dyTomorrowReview: n => `I morgon väntar ${n} ${n === 1 ? 'uppgift' : 'uppgifter'} på dig i Öva igen.`,
+      dyTomorrowFriday: 'I morgon har jag en särskild omgång till dig: hitta mina fel!',
+      dyTomorrowLine: 'I morgon har jag något nytt att berätta.',
+      dyNap: 'Puh, vilken dag! Jag tar en liten tupplur. Vi ses i morgon!',
+      dyYesterday: x => `I går lärde du dig ”${x}”. Snyggt!`, dyTellMe: 'Berätta!',
+      dyGoalOutfit: (n, x) => `${n} ${n === 1 ? 'stjärna' : 'stjärnor'} till, så får du: ${x}!`,
+      dyGoalGames: n => `Bli klar med I dag, eller lär dig ${n} ${n === 1 ? 'nivå' : 'nivåer'} till, för att öppna minispelen!`,
+      dyStuck: 'Den här nivån är knepig. Det är helt okej: knepiga saker tar några försök.',
+      dyStuckLesson: 'Titta på lektionen tillsammans', dyStuckOther: 'Prova något annat i dag',
+      traits: {
+        hoot: ['Visste du? Hjärnan blir starkare varje gång den övar. Ho-ho!', 'Visste du? Varje misstag hjälper hjärnan att lära sig något nytt.'],
+        daisy: ['Den omgången förtjänar ett mellanmål! Jag delar gärna mitt äpple med dig.', 'Mmm, det var lika gott som en picknick!'],
+        whiskers: ['Åh, mina morrhår! Vilken omgång!', 'Stopp och belägg! Det där var fantastiskt!'],
+        sparkle: ['Jag hittade ett mönster: varje omgång gör dig lite bättre.', 'Helt rättvist: du har förtjänat varenda stjärna.'],
+        spell: ['Bokstav för bokstav, du klarade det!', 'Ord är som pussel, och du är bra på att lösa dem.']
+      },
+      ntRun3: 'Tre i rad utan hjälp!', ntKept: 'Du fortsatte och klarade det!',
+      ntBefore: 'Du behövde hjälp med den här förut. Inte nu längre!', ntHalf: n => `Halvvägs! ${n} kvar.`,
+      warmUp: 'Först en uppvärmning från nivån innan.', start5: 'Starta 5 uppgifter',
+      jyTitle: 'Din resa', jyBtn: 'Min resa', jyCount: (d, n) => `${d} av ${n} steg är inlärda. Varje steg räknas!`,
+      jyHere: 'Du är här', jyLearnt: 'inlärd', jyEnd: 'Slutet på vägen (än så länge)!',
+      plKnown: x => `Du kan redan massor: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'nivå' : 'nivåer'})`,
+      topicMeta2: (d, n, s) => `${d} av ${n} nivåer inlärda · ${s} ${s === 1 ? 'stjärna' : 'stjärnor'}`,
+      ytTitle: 'Din tur!', ytSay: 'Nu provar du en som liknar den. Ta god tid på dig.', ytRight: 'Du klarade det! Nu är du redo för uppgifterna.',
+      ytAgain: 'Nästan! Försök en gång till.', ytTogether: 'Vi räknar ut det tillsammans.',
+      brLabel: 'Särskild omgång', brTitle: 'Hitta mina fel!', brCard: n => `${n} har räknat några tal, men några är fel. Kan du hitta dem?`,
+      brQ: 'Här är mitt svar. Har jag rätt?', brRight: 'Rätt ✓', brWrong: 'Hoppsan ✗', brYes: 'Ja, det var rätt. Puh!',
+      brCaught: a => `Du hittade mitt fel! Det ska vara ${a}.`, brMissed: a => `Oj, det där var fel. Det ska vara ${a}.`, brWasRight: 'Faktiskt var det rätt!',
+      brEndTitle: 'Tack!', brEnd: (n, m) => `Du kollade ${m} tal och hade ${n} rätt. Du är en bra lärare!`,
+      gamesDailyLabel: 'Bara ett minispel om dagen (när I dag är klart), inte ett för varje inlärd nivå',
+      roundLenLabel: 'Uppgifter per omgång', roundLenN: n => `${n} uppgifter`,
+      todaySpellLabel: 'Stavning är en del av I dag',
+      todayHelp: 'I dag är ett litet dagligt mål: nästa steg på vägen, sedan Öva igen (eller en kort blandad utmaning) och stavning om det är ikryssat. När det är klart får barnet ett minispel. Dagar utan övning står bara tomma; inget går förlorat.',
+      askChild: (n, x) => `Idé: be ${n} att lära dig ”${x}”.`,
+      keepNote: 'För vuxna', keepMore: 'Läs mer',
+      gamePlay: 'Spela ett spel!', gamesAll: 'Alla spel', gameWkBest: n => `Den här veckan: ${n}`, gameNewWkBest: 'Veckans bästa!',
+      outfits: { bow: 'Rosett', glasses: 'Glasögon', sunhat: 'Solhatt', phones: 'Hörlurar', shades: 'Solglasögon', wizard: 'Trollkarlshatt', ladybird: 'Nyckelpiga', snail: 'Snigel',
+        pizza: 'Pizzahatt', clockb: 'Klockmärke', coinb: 'Myntmärke', starb: 'Gångerstjärna', shapeb: 'Formmärke' },
+      dressBadge: x => `Lär dig hela ${x}`,
+      intro2d: 'Och det finns mer: klockor, mynt, bråk, former och diagram!',
+      introBuddy: n => `Och ${n} är din alldeles egna kompis, som spelar med dig!`,
+      dyLines: [
+        'Visste du? En bläckfisk har tre hjärtan.',
+        'Visste du? Ditt hjärta slår ungefär 100 000 gånger varje dag.',
+        { q: 'Gåta: vad går upp men kommer aldrig ner?', a: 'Din ålder!' },
+        'Visste du? Det finns 1 440 minuter på ett dygn.',
+        'Visste du? Bin bygger sina vaxkakor av sexhörningar: former med 6 sidor.',
+        { q: 'Gåta: jag tänker på ett tal. Om du dubblar det får du 12. Vilket tal är det?', a: '6' },
+        'Visste du? Om du lägger ihop alla tal från 1 till 10 blir det 55.',
+        'Visste du? En spindel har 8 ben, så 3 spindlar har 24 ben.',
+        { q: 'Gåta: vad blir blötare ju mer den torkar?', a: 'En handduk!' },
+        'Visste du? Vilket tal som helst gånger 0 blir 0.',
+        'Visste du? Fjärilar smakar med fötterna.',
+        { q: 'Gåta: hur många ben har 3 katter tillsammans?', a: '12' },
+        'Visste du? Ugglor kan vrida huvudet nästan hela varvet runt.',
+        'Visste du? Hajar fanns på jorden innan det fanns några träd.',
+        { q: 'Gåta: vad har många tänder men kan inte bita?', a: 'En kam!' },
+        'Visste du? Ett dygn på Venus är längre än ett helt år på Venus.',
+        'Visste du? Ljuset från solen tar ungefär 8 minuter att nå oss.',
+        { q: 'Gåta: vad är hälften av en halv?', a: 'En fjärdedel!' },
+        'Visste du? En vuxen har 206 ben i kroppen. Bebisar har ännu fler!',
+        'Visste du? Från 9 · 1 till 9 · 10 blir siffrorna i svaret tillsammans 9: 18 är 1 + 8.',
+        { q: 'Gåta: vad är tyngst, ett kilo fjädrar eller ett kilo stenar?', a: 'De väger lika mycket: ett kilo var!' },
+        'Visste du? Ett jämnt tal plus ett jämnt tal blir alltid ett jämnt tal.',
+        'Visste du? Koalor kan sova upp till 20 timmar om dagen.',
+        { q: 'Gåta: vad kommer sedan? 5, 10, 15, 20, …', a: '25' },
+        'Visste du? Sniglar har tusentals pyttesmå tänder.',
+        'Visste du? En klockas minutvisare går hela varvet runt 24 gånger per dygn.',
+        { q: 'Gåta: hur många minuter är en halvtimme?', a: '30' },
+        'Visste du? Pingviner kan inte flyga, men de simmar jättesnabbt.',
+        'Visste du? En kolibris hjärta kan slå mer än 1 000 gånger i minuten.',
+        { q: 'Gåta: jag är en platt form helt utan hörn. Vad är jag?', a: 'En cirkel!' },
+        'Visste du? Elefanter kan inte hoppa.',
+        'Visste du? Noll användes först som ett tal i Indien, för ungefär 1 400 år sedan.',
+        { q: 'Gåta: hur många dagar är två veckor?', a: '14' },
+        'Visste du? Ett år har 52 veckor och 1 dag till (2 under ett skottår).',
+        'Visste du? Sjöstjärnor har ingen hjärna.',
+        { q: 'Gåta: vilket tal är 1 mer än 99?', a: '100' },
+        'Visste du? Myror kan bära saker som är mycket tyngre än de själva.',
+        'Visste du? Honung kan hålla sig ätbar i tusentals år.',
+        { q: 'Gåta: du har 3 äpplen och tar bort 2. Hur många äpplen har DU?', a: '2: de du tog!' },
+        'Visste du? Hälften av 100 är 50, och hälften av 50 är 25.',
+        'Visste du? En giraffs tunga kan vara ungefär 50 centimeter lång.'
+      ]
+    },
+    id: {
+      todayTitle: 'Hari ini', todaySub: 'Beberapa langkah kecil, lalu sebuah gim!', todaySubNoGame: 'Beberapa langkah kecil hari ini',
+      tdStep: 'Langkah berikutnya', tdMixed: 'Beberapa soal kejutan dari level yang sudah kamu kenal.', tdSpell: 'Satu ronde ejaan',
+      tdReward: 'Lalu: gim mini!', tdDoneTitle: 'Hari ini sudah selesai!', tdDoneText: 'Kamu boleh berhenti di sini. Ronde tambahan itu bonus.',
+      tdKid: (d, n) => `Hari ini: ${d} dari ${n} langkah`, tdKidDone: 'Hari ini: selesai ✓',
+      dyDoneNow: 'Hari ini sudah selesai! Kamu mendapat satu gim.', dyDoneNowNoGame: 'Hari ini sudah selesai! Kamu boleh berhenti di sini.',
+      dyLeft: n => n === 1 ? 'Satu langkah lagi hari ini, lalu sebuah gim!' : `${n} langkah lagi hari ini, lalu sebuah gim!`,
+      dyLeftNoGame: n => n === 1 ? 'Satu langkah lagi hari ini.' : `${n} langkah lagi hari ini.`,
+      dyTomorrowReview: n => `Besok, ${n} soal menunggumu di Latihan lagi.`,
+      dyTomorrowFriday: 'Besok aku punya ronde khusus untukmu: temukan kesalahanku!',
+      dyTomorrowLine: 'Besok aku punya sesuatu yang baru untuk diceritakan.',
+      dyNap: 'Fiuh, hari yang hebat! Aku mau tidur siang sebentar. Sampai besok!',
+      dyYesterday: x => `Kemarin kamu menguasai “${x}”. Pintar!`, dyTellMe: 'Kasih tahu!',
+      dyGoalOutfit: (n, x) => `${n} bintang lagi, dan kamu dapat: ${x}!`,
+      dyGoalGames: n => `Selesaikan Hari ini, atau kuasai ${n} level lagi, untuk membuka gim mini!`,
+      dyStuck: 'Level ini memang sulit. Tidak apa-apa: hal yang sulit butuh beberapa kali mencoba.',
+      dyStuckLesson: 'Lihat pelajarannya bersama', dyStuckOther: 'Coba yang lain hari ini',
+      traits: {
+        hoot: ['Tahukah kamu? Otak jadi makin kuat setiap kali berlatih. Hu-hu!', 'Tahukah kamu? Setiap kesalahan membantu otakmu belajar hal baru.'],
+        daisy: ['Ronde itu pantas dapat camilan! Aku mau berbagi apelku denganmu.', 'Hmm, itu seenak piknik!'],
+        whiskers: ['Astaga, kumisku! Ronde yang hebat!', 'Berhenti semuanya! Itu luar biasa!'],
+        sparkle: ['Aku menemukan pola: setiap ronde membuatmu sedikit lebih hebat.', 'Adil dan jujur: kamu pantas mendapat setiap bintang itu.'],
+        spell: ['Huruf demi huruf, kamu berhasil!', 'Kata-kata itu seperti teka-teki, dan kamu pandai memecahkannya.']
+      },
+      ntRun3: 'Tiga benar berturut-turut tanpa bantuan!', ntKept: 'Kamu terus mencoba dan berhasil!',
+      ntBefore: 'Dulu kamu perlu bantuan untuk soal ini. Sekarang tidak lagi!', ntHalf: n => `Setengah jalan! Tinggal ${n} lagi.`,
+      warmUp: 'Pemanasan dulu, dari level sebelumnya.', start5: 'Mulai 5 soal',
+      jyTitle: 'Perjalananmu', jyBtn: 'Perjalananku', jyCount: (d, n) => `${d} dari ${n} langkah sudah dikuasai. Setiap langkah berarti!`,
+      jyHere: 'Kamu di sini', jyLearnt: 'dikuasai', jyEnd: 'Akhir jalan (untuk sekarang)!',
+      plKnown: x => `Kamu sudah tahu banyak: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} level)`,
+      topicMeta2: (d, n, s) => `${d} dari ${n} level dikuasai · ${s} bintang`,
+      ytTitle: 'Giliranmu!', ytSay: 'Sekarang coba satu yang mirip. Pelan-pelan saja.', ytRight: 'Kamu berhasil! Sekarang kamu siap mengerjakan soal-soalnya.',
+      ytAgain: 'Hampir! Coba sekali lagi.', ytTogether: 'Ayo kita kerjakan bersama.',
+      brLabel: 'Ronde khusus', brTitle: 'Temukan kesalahanku!', brCard: n => `${n} sudah mengerjakan beberapa soal, tapi ada yang salah. Bisakah kamu menemukannya?`,
+      brQ: 'Ini jawabanku. Apakah aku benar?', brRight: 'Benar ✓', brWrong: 'Ups ✗', brYes: 'Ya, yang itu benar. Fiuh!',
+      brCaught: a => `Kamu menemukan kesalahanku! Seharusnya ${a}.`, brMissed: a => `Oh, yang itu salah. Seharusnya ${a}.`, brWasRight: 'Sebenarnya yang itu benar!',
+      brEndTitle: 'Terima kasih!', brEnd: (n, m) => `Kamu memeriksa ${m} soal dan ${n} jawabanmu benar. Kamu guru yang hebat!`,
+      gamesDailyLabel: 'Hanya satu gim mini sehari (setelah Hari ini selesai), bukan satu untuk setiap level yang dikuasai',
+      roundLenLabel: 'Soal per ronde', roundLenN: n => `${n} soal`,
+      todaySpellLabel: 'Ejaan termasuk dalam Hari ini',
+      todayHelp: 'Hari ini adalah target kecil setiap hari: langkah berikutnya di jalur, lalu Latihan lagi (atau tantangan campuran yang singkat), dan ejaan jika dicentang. Setelah selesai, anak mendapat satu gim mini. Hari tanpa latihan cukup dibiarkan kosong; tidak ada yang hilang.',
+      askChild: (n, x) => `Ide: minta ${n} mengajarimu “${x}”.`,
+      keepNote: 'Untuk orang dewasa', keepMore: 'Baca selengkapnya',
+      gamePlay: 'Main gim!', gamesAll: 'Semua gim', gameWkBest: n => `Minggu ini: ${n}`, gameNewWkBest: 'Terbaik minggu ini!',
+      outfits: { bow: 'Pita', glasses: 'Kacamata', sunhat: 'Topi pantai', phones: 'Headphone', shades: 'Kacamata hitam', wizard: 'Topi penyihir', ladybird: 'Kepik', snail: 'Siput',
+        pizza: 'Topi pizza', clockb: 'Lencana jam', coinb: 'Lencana koin', starb: 'Bintang perkalian', shapeb: 'Lencana bangun datar' },
+      dressBadge: x => `Kuasai semua ${x}`,
+      intro2d: 'Dan masih ada lagi: jam, koin, pecahan, bangun datar, dan diagram!',
+      introBuddy: n => `Dan ${n} adalah sahabatmu sendiri, yang akan bermain bersamamu!`,
+      dyLines: [
+        'Tahukah kamu? Gurita punya tiga jantung.',
+        'Tahukah kamu? Jantungmu berdetak sekitar 100.000 kali setiap hari.',
+        { q: 'Tebakan: apa yang naik tapi tidak pernah turun?', a: 'Umurmu!' },
+        'Tahukah kamu? Ada 1.440 menit dalam satu hari.',
+        'Tahukah kamu? Lebah membuat sarangnya dari segi enam: bangun dengan 6 sisi.',
+        { q: 'Tebakan: aku memikirkan sebuah bilangan. Kalau dikali dua, hasilnya 12. Bilangan berapa itu?', a: '6' },
+        'Tahukah kamu? Kalau kamu menjumlahkan semua bilangan dari 1 sampai 10, hasilnya 55.',
+        'Tahukah kamu? Laba-laba punya 8 kaki, jadi 3 laba-laba punya 24 kaki.',
+        { q: 'Tebakan: apa yang makin basah saat dipakai mengeringkan?', a: 'Handuk!' },
+        'Tahukah kamu? Bilangan apa pun dikali 0 hasilnya 0.',
+        'Tahukah kamu? Kupu-kupu mengecap rasa dengan kakinya.',
+        { q: 'Tebakan: berapa jumlah kaki 3 ekor kucing?', a: '12' },
+        'Tahukah kamu? Burung hantu bisa memutar kepalanya hampir satu putaran penuh.',
+        'Tahukah kamu? Hiu sudah hidup di Bumi sebelum ada pohon.',
+        { q: 'Tebakan: apa yang punya banyak gigi tapi tidak bisa menggigit?', a: 'Sisir!' },
+        'Tahukah kamu? Satu hari di Venus lebih lama daripada satu tahun di Venus.',
+        'Tahukah kamu? Cahaya Matahari butuh sekitar 8 menit untuk sampai ke kita.',
+        { q: 'Tebakan: berapa setengah dari setengah?', a: 'Seperempat!' },
+        'Tahukah kamu? Orang dewasa punya 206 tulang. Bayi punya lebih banyak lagi!',
+        'Tahukah kamu? Dari 9 × 1 sampai 9 × 10, jumlah angka pada hasilnya selalu 9: 18 itu 1 + 8.',
+        { q: 'Tebakan: mana yang lebih berat, satu kilo bulu atau satu kilo batu?', a: 'Sama beratnya: masing-masing satu kilo!' },
+        'Tahukah kamu? Bilangan genap ditambah bilangan genap selalu genap.',
+        'Tahukah kamu? Koala bisa tidur sampai 20 jam sehari.',
+        { q: 'Tebakan: apa berikutnya? 5, 10, 15, 20, …', a: '25' },
+        'Tahukah kamu? Siput punya ribuan gigi yang sangat kecil.',
+        'Tahukah kamu? Jarum menit jam berputar penuh 24 kali dalam sehari.',
+        { q: 'Tebakan: ada berapa menit dalam setengah jam?', a: '30' },
+        'Tahukah kamu? Penguin tidak bisa terbang, tetapi berenangnya sangat cepat.',
+        'Tahukah kamu? Jantung burung kolibri bisa berdetak lebih dari 1.000 kali per menit.',
+        { q: 'Tebakan: aku bangun datar tanpa sudut sama sekali. Siapa aku?', a: 'Lingkaran!' },
+        'Tahukah kamu? Gajah tidak bisa melompat.',
+        'Tahukah kamu? Angka nol pertama kali dipakai sebagai bilangan di India, sekitar 1.400 tahun yang lalu.',
+        { q: 'Tebakan: ada berapa hari dalam dua minggu?', a: '14' },
+        'Tahukah kamu? Satu tahun ada 52 minggu lebih 1 hari (2 hari pada tahun kabisat).',
+        'Tahukah kamu? Bintang laut tidak punya otak.',
+        { q: 'Tebakan: bilangan berapa yang 1 lebih banyak dari 99?', a: '100' },
+        'Tahukah kamu? Semut bisa mengangkat benda yang jauh lebih berat dari tubuhnya.',
+        'Tahukah kamu? Madu bisa tetap aman dimakan selama ribuan tahun.',
+        { q: 'Tebakan: kamu punya 3 apel lalu mengambil 2. Berapa apel yang KAMU pegang?', a: '2: yang kamu ambil!' },
+        'Tahukah kamu? Setengah dari 100 adalah 50, dan setengah dari 50 adalah 25.',
+        'Tahukah kamu? Lidah jerapah bisa sepanjang sekitar 50 sentimeter.'
+      ]
+    }
+  };
+  // (the names of the new things to wear join the list that is already there)
+  for (const [l, v] of Object.entries(T)) { const { outfits, ...rest } = v; Object.assign(I18N[l], rest); Object.assign(I18N[l].outfits, outfits); }
+})();
 /* ---------- actions for the new screens ---------- */
 function startOnboarding(mode) { show('onboard', { step: 'lang', mode }); }
 function obNext(step) { const i = OB_STEPS.indexOf(step); show('onboard', { step: OB_STEPS[i + 1], mode: S.mode }); }
 Object.assign(ACTIONS, {
-  // Back from the name step goes to the language, not through the story again
-  'ob-go': d => show('onboard', { step: d.step === 'intro' ? 'lang' : d.step, mode: S.mode }),
+  // Back from the school year goes to the buddy, not through the story again
+  'ob-go': d => show('onboard', { step: d.step === 'intro' ? 'avatar' : d.step, mode: S.mode }),
   'intro-next': () => { if (!INTRO) return introDone(); clearTimeout(introTimer); if (INTRO.i >= INTRO_SCENES - 1) return introDone(); INTRO.i++; renderIntro(INTRO.mode); },
   'intro-skip': () => introDone(),
   'intro-replay': () => { INTRO = null; show('onboard', { step: 'intro', mode: 'replay' }); },
@@ -11376,8 +12246,8 @@ app.addEventListener('change', async e => {
 });
 
 function spellRound(l) {
-  // ten questions; a short list of the family's own words goes round twice so every word is also typed
-  const n = Math.min(10, l.words.length * 2);
+  // ten questions (or five); a short list of the family's own words goes round twice so every word is also typed
+  const n = Math.min(roundLen(), l.words.length * 2);
   let pool = shuffle(l.words);
   while (pool.length < n) { const more = shuffle(l.words); if (more.length > 1 && more[0] === pool[pool.length - 1]) more.push(more.shift()); pool = pool.concat(more); }
   return pool.slice(0, n).map((wd, i) => { const k = i * 10 / n; return spItem(wd, k < 3 ? 'pick' : k < 6 ? 'fill' : 'type', l.id); });
