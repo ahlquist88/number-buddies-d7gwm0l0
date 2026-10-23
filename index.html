@@ -3224,17 +3224,19 @@ EXPLAIN.tenths = function (p, X) {
 addLearnTopic({ id: 'frac', teacher: 'sparkle', sign: () => '½', levels: [
   { id: 'fr1', year: 1, after: 's2', gen: r => { const d = RP(r, [2, 4, 4]), n = d === 2 ? 1 : RP(r, [1, 3, 1, 3, 2]); return LQ_ITEM('fracShade', 'pick', n, d, { c: RI(r, 0, 2) }); } },
   { id: 'fr2', year: 2, after: 's7', gen: r => { const d = RP(r, [3, 3, 4, 5, 6, 8, 10]), n = RI(r, 1, d - 1); return LQ_ITEM('fracShade', 'pick', n, d, { c: RI(r, 0, 1) }); } },
-  { id: 'fr3', year: 3, after: 's5', gen: r => { const d = RP(r, [2, 3, 4, 5, 10]), k = RI(r, 2, d === 10 ? 5 : 8), n = r() < .45 ? 1 : RI(r, 1, d - 1); return LQ_ITEM('fracOf', 'num', n, d, { c: d * k }); } },
-  { id: 'fr4', year: 3, after: 'a14', gen: r => {
+  { id: 'fr3', year: 3, after: 'd6', gen: r => { const d = RP(r, [2, 3, 4, 5, 10]), k = RI(r, 2, d === 10 ? 5 : 8), n = r() < .45 ? 1 : RI(r, 1, d - 1); return LQ_ITEM('fracOf', 'num', n, d, { c: d * k }); } },
+  { id: 'fr4', year: 3, after: 'd7', gen: r => {
     if (r() < .5) { const d = RI(r, 4, 10), a = RI(r, 1, d - 1), c = RI(r, 1, d - 1); return a !== c ? LQ_ITEM('fracCompare', 'pick', a, d, { c, x: d, k: r() < .3 ? 'small' : 'big' }) : null; }
     const b = RI(r, 2, 10), d = RI(r, 2, 10); return b !== d ? LQ_ITEM('fracCompare', 'pick', 1, b, { c: 1, x: d, k: r() < .3 ? 'small' : 'big' }) : null; } },
-  { id: 'fr5', year: 3, after: 'm5', gen: r => { const d = RP(r, [2, 2, 3, 4, 5]), n = RI(r, 1, d - 1), m = RI(r, 2, d <= 3 ? 4 : 2); return LQ_ITEM('fracEquiv', 'num', n, d, { c: m }); } },
-  { id: 'fr6', year: 3, after: 'm7', gen: r => { const d = RI(r, 4, 12), a = RI(r, 1, d - 1), sub = r() < .4;
+  { id: 'fr5', year: 3, after: 'm8', gen: r => { const d = RP(r, [2, 2, 3, 4, 5]), n = RI(r, 1, d - 1), m = RI(r, 2, d <= 3 ? 4 : 2); return LQ_ITEM('fracEquiv', 'num', n, d, { c: m }); } },
+  { id: 'fr6', year: 3, after: 'd8', gen: r => { const d = RI(r, 4, 12), a = RI(r, 1, d - 1), sub = r() < .4;
     if (sub) { if (a < 2) return null; const b = RI(r, 1, a - 1); return LQ_ITEM('fracAdd', 'num', a, b, { c: d, k: 'sub' }); }
     const b = RI(r, 1, d - a); return LQ_ITEM('fracAdd', 'num', a, b, { c: d, k: 'add' }); } },
   { id: 'fr7', year: 3, after: 'd9', gen: r => { const k = RP(r, ['count', 'count', 'seq', 'of', 'of']);
     return k === 'of' ? LQ_ITEM('tenths', 'num', RP(r, [1, 1, 2, 3]), 0, { k, c: 10 * RI(r, 2, 10) }) : LQ_ITEM('tenths', 'num', RI(r, 1, k === 'seq' ? 7 : 9), 0, { k }); } }
 ] });
+// like Times tables and Sharing: up to Year 3, Fractions open once the adding and taking-away levels are learnt
+TOPICS.find(t => t.id === 'frac').requires = ['add', 'sub'];
 /* ---------- Measuring: rulers, scales and jugs, changing units, adding and taking away measures, perimeter ---------- */
 /* a ruler from 0 to 15 cm with a pencil lying on it from `from` to `to` (in cm); o.hl lights up the ends */
 function rulerPic(from, to, o = {}) {
@@ -3886,7 +3888,7 @@ addLearnTopic({ id: 'div', levels: [
     redoHint: 'Tap a yellow circle to try a question like it again.', dotOk: 'You got this one right first time!',
     lockedText: (d, t) => `Learn the adding and taking-away levels first (${d} of ${t} done)`,
     lockedToast: n => `${n} is waiting for you! Learn the adding and taking-away levels first.`,
-    unlockedNow: 'You unlocked Times tables and Sharing!', unlockAllLabel: 'Unlock all subjects now',
+    unlockedNow: 'You unlocked Times tables, Sharing and Fractions!', unlockAllLabel: 'Unlock all subjects now',
     dotLabel: (k, st) => `Question ${k}: ${st}`, dotStates: { ok: 'right first time', help: 'needed help, tap to try again', fixed: 'fixed on a new try', cur: 'now', '': 'not yet' },
     stories: {
       '+': [(a, b) => `Professor Hoot has ${a} acorns. He finds ${b} more. How many acorns does he have now?`,
@@ -4009,7 +4011,7 @@ addLearnTopic({ id: 'div', levels: [
     redoHint: 'Tryk på en gul cirkel for at prøve en opgave, der ligner, igen.', dotOk: 'Den her havde du rigtig i første forsøg!',
     lockedText: (d, t) => `Lær niveauerne i plus og minus først (${d} af ${t} klaret)`,
     lockedToast: n => `${n} venter på dig! Lær først niveauerne i plus og minus.`,
-    unlockedNow: 'Du har låst op for Gangetabeller og Division!', unlockAllLabel: 'Lås alle emner op nu',
+    unlockedNow: 'Du har låst op for Gangetabeller, Division og Brøker!', unlockAllLabel: 'Lås alle emner op nu',
     dotLabel: (k, st) => `Opgave ${k}: ${st}`, dotStates: { ok: 'rigtig i første forsøg', help: 'fik hjælp, tryk for at prøve igen', fixed: 'rettet i et nyt forsøg', cur: 'nu', '': 'ikke endnu' },
     stories: {
       '+': [(a, b) => `Professor Uhu har ${a} agern. Han finder ${b} mere. Hvor mange agern har han nu?`,
@@ -5260,7 +5262,7 @@ const SV = (() => {
     redoHint: 'Tryck på en gul cirkel för att prova en liknande uppgift igen.', dotOk: 'Den här hade du rätt på första försöket!',
     lockedText: (d, t) => `Lär dig nivåerna i plus och minus först (${d} av ${t} klara)`,
     lockedToast: n => `${n} väntar på dig! Lär dig först nivåerna i plus och minus.`,
-    unlockedNow: 'Du har låst upp Gångertabeller och Division!', unlockAllLabel: 'Lås upp alla ämnen nu',
+    unlockedNow: 'Du har låst upp Gångertabeller, Division och Bråk!', unlockAllLabel: 'Lås upp alla ämnen nu',
     dotLabel: (k, st) => `Uppgift ${k}: ${st}`, dotStates: { ok: 'rätt på första försöket', help: 'fick hjälp, tryck för att prova igen', fixed: 'fixad med ett nytt försök', cur: 'nu', '': 'inte än' },
     mathsSection: 'Matte', spellSection: 'Stavning', langFixed: 'Svenska',
     stories: {
@@ -5461,7 +5463,7 @@ const ID = (() => {
     redoHint: 'Ketuk lingkaran kuning untuk mencoba soal yang mirip lagi.', dotOk: 'Soal ini kamu jawab benar pada percobaan pertama!',
     lockedText: (d, t) => `Kuasai dulu level penjumlahan dan pengurangan (${d} dari ${t} selesai)`,
     lockedToast: n => `${n} menunggumu! Kuasai dulu level penjumlahan dan pengurangan.`,
-    unlockedNow: 'Kamu sudah membuka Perkalian dan Pembagian!', unlockAllLabel: 'Buka semua pelajaran sekarang',
+    unlockedNow: 'Kamu sudah membuka Perkalian, Pembagian, dan Pecahan!', unlockAllLabel: 'Buka semua pelajaran sekarang',
     dotLabel: (k, st) => `Soal ${k}: ${st}`, dotStates: { ok: 'benar pada percobaan pertama', help: 'perlu bantuan, ketuk untuk mencoba lagi', fixed: 'diperbaiki dengan soal baru', cur: 'sekarang', '': 'belum' },
     mathsSection: 'Matematika', spellSection: 'Ejaan', langFixed: 'Indonesia',
     stories: {
@@ -5646,7 +5648,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
   const merge = (t, src) => { for (const [k, v] of Object.entries(src)) { if (v && typeof v === 'object' && !Array.isArray(v) && typeof v !== 'function' && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = v; } };
   merge(I18N.en, {
     againTag: 'Practise again', againText: 'One star so far. Practise it again to move on.', againBtn: 'Practise', knownTag: 'Already known', progSkipped: n => `(${n} already known)`,
-    unlockAllHelp: 'Opens Times tables and Sharing straight away. Up to Year 3, they open by themselves once the adding and taking-away levels are learnt.',
+    unlockAllHelp: 'Opens Times tables, Sharing and Fractions straight away. Up to Year 3, they open by themselves once the adding and taking-away levels are learnt.',
     plQ: n => `Question ${n}`, fixedMore: n => n === 1 ? 'And you fixed 1 more with a new try. Well done!' : `And you fixed ${n} more with new tries. Well done!`,
     haveAccount: 'I already have a family account', accStandalone: 'Using the app from the iPad home screen? Sign in with email; the Google window cannot open there.',
     accSaveFailed: 'Saving online has stopped for now. Progress is still saved on this device, and the app tries again when the internet is back.',
@@ -5767,7 +5769,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
   });
   merge(I18N.da, {
     againTag: 'Øv igen', againText: 'En stjerne indtil videre. Øv den igen for at komme videre.', againBtn: 'Øv', knownTag: 'Kan allerede', progSkipped: n => `(${n} kan allerede)`,
-    unlockAllHelp: 'Åbner Gangetabeller og Division med det samme. Til og med skoleår 3 åbner de af sig selv, når niveauerne i plus og minus er lært.',
+    unlockAllHelp: 'Åbner Gangetabeller, Division og Brøker med det samme. Til og med skoleår 3 åbner de af sig selv, når niveauerne i plus og minus er lært.',
     plQ: n => `Opgave ${n}`, fixedMore: n => n === 1 ? 'Og du klarede 1 mere med et nyt forsøg. Godt gået!' : `Og du klarede ${n} mere med nye forsøg. Godt gået!`,
     haveAccount: 'Jeg har allerede en familiekonto', accStandalone: 'Bruger du appen fra iPadens hjemmeskærm? Log ind med e-mail; Google-vinduet kan ikke åbne der.',
     accSaveFailed: 'Det er stoppet med at gemme online lige nu. Fremskridt gemmes stadig på denne enhed, og appen prøver igen, når internettet er tilbage.',
@@ -5888,7 +5890,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
   });
   merge(I18N.sv, {
     againTag: 'Öva igen', againText: 'En stjärna hittills. Öva igen för att gå vidare.', againBtn: 'Öva', knownTag: 'Kan redan', progSkipped: n => `(${n} kan redan)`,
-    unlockAllHelp: 'Öppnar Gångertabeller och Division direkt. Till och med skolår 3 öppnas de av sig själva när nivåerna i plus och minus är inlärda.',
+    unlockAllHelp: 'Öppnar Gångertabeller, Division och Bråk direkt. Till och med skolår 3 öppnas de av sig själva när nivåerna i plus och minus är inlärda.',
     plQ: n => `Uppgift ${n}`, fixedMore: n => n === 1 ? 'Och du klarade 1 till med ett nytt försök. Bra jobbat!' : `Och du klarade ${n} till med nya försök. Bra jobbat!`,
     haveAccount: 'Jag har redan ett familjekonto', accStandalone: 'Använder du appen från iPadens hemskärm? Logga in med e-post; Google-fönstret kan inte öppnas där.',
     accSaveFailed: 'Det har slutat spara på nätet för tillfället. Framstegen sparas fortfarande på den här enheten, och appen försöker igen när internet är tillbaka.',
@@ -6009,7 +6011,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
   });
   merge(I18N.id, {
     againTag: 'Latihan lagi', againText: 'Baru satu bintang. Latih lagi supaya bisa lanjut.', againBtn: 'Latihan', knownTag: 'Sudah tahu', progSkipped: n => `(${n} sudah tahu)`,
-    unlockAllHelp: 'Langsung membuka Perkalian dan Pembagian. Sampai Tahun 3, keduanya terbuka sendiri setelah level penjumlahan dan pengurangan dikuasai.',
+    unlockAllHelp: 'Langsung membuka Perkalian, Pembagian, dan Pecahan. Sampai Tahun 3, ketiganya terbuka sendiri setelah level penjumlahan dan pengurangan dikuasai.',
     plQ: n => `Soal ${n}`, fixedMore: n => `Dan kamu berhasil memperbaiki ${n} lagi dengan percobaan baru. Hebat!`,
     haveAccount: 'Aku sudah punya akun keluarga', accStandalone: 'Memakai aplikasi dari layar utama iPad? Masuk dengan email; jendela Google tidak bisa terbuka di sana.',
     accSaveFailed: 'Penyimpanan online berhenti untuk sementara. Kemajuan tetap tersimpan di perangkat ini, dan aplikasi mencoba lagi saat internet kembali.',
