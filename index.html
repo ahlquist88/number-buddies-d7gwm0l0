@@ -13,6 +13,20 @@
 </head>
 <body>
 <title>Number Buddies</title>
+<script>
+/* Very old browsers (before iOS 15) cannot run this app. Say so instead of showing a blank page. Plain old-style code on purpose. */
+(function () {
+  var ok = true;
+  try { new Function('var a = {}; return a?.b ?? 1;'); } catch (e) { ok = false; }
+  if (ok) return;
+  var m = { en: 'Number Buddies needs a newer browser. Please update this iPad or phone (iOS 15 or newer), or open the page in another browser.',
+    da: 'Talvennerne kræver en nyere browser. Opdater venligst denne iPad eller telefon (iOS 15 eller nyere), eller åbn siden i en anden browser.',
+    sv: 'Sifferkompisarna behöver en nyare webbläsare. Uppdatera den här iPaden eller telefonen (iOS 15 eller senare), eller öppna sidan i en annan webbläsare.',
+    id: 'Sahabat Angka butuh browser yang lebih baru. Perbarui iPad atau ponsel ini (iOS 15 atau lebih baru), atau buka halaman ini di browser lain.' };
+  var l = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  document.addEventListener('DOMContentLoaded', function () { document.body.innerHTML = '<p style="font:20px sans-serif;padding:24px;max-width:600px">' + (m[l] || m.en) + '</p>'; });
+})();
+</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 @font-face{font-family:'Andika';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/andika-400-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
@@ -825,6 +839,10 @@ button,.key,.topic{touch-action:manipulation;-webkit-tap-highlight-color:transpa
 .fr-form label{display:block;margin:4px 0}
 .fr-code-show{font-size:18px;margin:0} .fr-code-show b{font-family:var(--font-display);letter-spacing:3px;font-size:24px}
 @media (max-width:600px){ .fr-list li{flex-wrap:wrap} .fr-nums{flex-basis:100%;text-align:left;padding-left:78px} .fr-mini .fr-nums{max-width:none} }
+/* ---------- saving notes ---------- */
+.sync-warn{margin:0;background:#FFF1D6;color:#5A3A00;border-radius:14px;padding:10px 14px;font-weight:700}
+.keep-tip{flex-wrap:wrap}
+.keep-btns{display:flex;gap:8px;flex-wrap:wrap}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -931,9 +949,23 @@ function cleanDB(d) {
    in the cloud too: the signed-in claude.ai account, or a free family account on the website.
    Only the signed-in grown-up can read their own family record. */
 let cloud = null, cloudBusy = false, cloudDirty = false, cloudTimer = null, cloudFailed = false;
+// what each child looked like at its last save, so a save stamps exactly the children that changed
+// (also a child a grown-up edits while another child is playing)
+const kidSnap = {};
+const kidShape = k => JSON.stringify({ ...k, savedAt: 0, rev: 0 });
+function snapKids() { for (const k of Object.values(DB.kids)) kidSnap[k.id] = kidShape(k); }
+snapKids();
+let saveWarned = false;
+function saveLocal() {
+  try { localStorage.setItem(KEY2, JSON.stringify(DB)); }
+  catch (e) { if (!saveWarned) { saveWarned = true; try { toast(tr().saveLocalFailed); } catch (e2) {} } }   // full, or private browsing
+}
 function save() {
-  store.savedAt = Date.now(); DB.savedAt = store.savedAt;
-  try { localStorage.setItem(KEY2, JSON.stringify(DB)); } catch (e) {}
+  const now = Date.now();
+  // a changed child gets a fresh time and one more on its save counter; the counter decides which copy is newer
+  for (const k of Object.values(DB.kids)) { const j = kidShape(k); if (kidSnap[k.id] !== j) { k.savedAt = now; k.rev = (k.rev || 0) + 1; kidSnap[k.id] = j; } }
+  DB.savedAt = now;
+  saveLocal();
   if (cloud) { clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 600); }
 }
 const cloudCopy = () => {
@@ -949,22 +981,44 @@ async function pushCloud() {
   try { await cloud.set(cloudCopy()); }
   catch (e) {
     const c = e && e.code;
-    if (c === 'unavailable') { cloudDirty = true; await new Promise(r => setTimeout(r, 1500 + Math.random() * 1000)); }
-    else if (c !== 'resource_exhausted') { cloud = null; cloudFailed = true; } // no write access in this view: keep using this device only
+    if (c === 'unavailable' || c === 'resource-exhausted' || c === 'deadline-exceeded') { cloudDirty = true; await new Promise(r => setTimeout(r, 1500 + Math.random() * 1000)); }
+    else { cloud = null; cloudFailed = true; } // no write access in this view: keep using this device only (it retries when back online)
   }
   cloudBusy = false;
   if (cloudDirty && cloud) { cloudDirty = false; pushCloud(); }
 }
-/* one child's progress from two devices: the best stars of both, everything else from the newer copy */
+/* One child's progress from two devices.
+   - Stars: the best of both.
+   - This week's practice, game plays and best scores: the higher numbers and every day played.
+   - Tips and the welcome story: seen on either device counts.
+   - Everything else: from the newer copy. "Newer" is decided by the save counter, and the time
+     only breaks a tie, so a device with a wrong clock cannot always win. */
+const newerOf = (a, r) => (r.rev || 0) !== (a.rev || 0) ? ((r.rev || 0) > (a.rev || 0) ? r : a) : ((r.savedAt || 0) > (a.savedAt || 0) ? r : a);
 function mergeKid(a, r) {
   if (!a) return r; if (!r) return a;
   // a reset wins over a copy that has not seen it yet, even if that copy saved later
   if ((r.resetAt || 0) > (a.resetAt || 0)) return { ...a, ...r };
   if ((a.resetAt || 0) > (r.resetAt || 0)) return { ...r, ...a };
+  const w = newerOf(a, r), o = w === a ? r : a;
   const best = { ...(r.best || {}) };
   for (const [k, v] of Object.entries(a.best || {})) best[k] = Math.max(best[k] || 0, v);
-  const w = (r.savedAt || 0) > (a.savedAt || 0) ? r : a;
-  return { ...a, ...w, best, savedAt: Math.max(a.savedAt || 0, r.savedAt || 0) };
+  const out = { ...o, ...w, best };
+  const at = Math.max(a.savedAt || 0, r.savedAt || 0), rv = Math.max(a.rev || 0, r.rev || 0);
+  if (at) out.savedAt = at; if (rv) out.rev = rv;
+  if (a.wk || r.wk) {
+    const x = a.wk || {}, y = r.wk || {};
+    out.wk = x.id === y.id ? { id: x.id, rounds: Math.max(x.rounds || 0, y.rounds || 0), stars: Math.max(x.stars || 0, y.stars || 0), days: [...new Set([...(x.days || []), ...(y.days || [])])].sort() }
+      : ((x.id || '') > (y.id || '') ? x : y);
+  }
+  if (a.game || r.game) {
+    const x = a.game || {}, y = r.game || {}, bests = { ...(y.bests || {}) };
+    for (const [g, v] of Object.entries(x.bests || {})) bests[g] = Math.max(bests[g] || 0, v);
+    out.game = { ...x, ...y, used: Math.max(x.used || 0, y.used || 0), back: Math.max(x.back || 0, y.back || 0), best: Math.max(x.best || 0, y.best || 0), bests };
+  }
+  if (a.tips || r.tips) out.tips = { ...(o.tips || {}), ...(w.tips || {}) };
+  if (a.introSeen || r.introSeen) out.introSeen = true;
+  if (a.onboarded || r.onboarded) out.onboarded = true;
+  return out;
 }
 const blankKid = k => !k.name && !Object.keys(k.best || {}).length && !k.onboarded;
 function mergeRemote(r) {
@@ -988,9 +1042,10 @@ function mergeRemote(r) {
   }
   cleanDB(DB);
   store = DB.kids[DB.active];
+  snapKids();
   if (typeof buildCustomTopics === 'function') buildCustomTopics();
 }
-/* ref: { get() → the saved record or null, set(record) } */
+/* ref: { get() → the saved record or null, set(record), and optionally watch(onChange) → stop } */
 async function attachCloud(ref) {
   const before = JSON.stringify(DB), prevLang = store.lang, prevKid = DB.active;
   const data = await ref.get();
@@ -999,7 +1054,29 @@ async function attachCloud(ref) {
   save();
   if (JSON.stringify({ ...DB, savedAt: 0 }) !== JSON.stringify({ ...JSON.parse(before), savedAt: 0 })) refreshAfterSync(prevLang, prevKid);
   const note = document.getElementById('sync-note'); if (note) note.textContent = tr().syncCloud;
+  // from now on, hear about every save another device makes, instead of only reading once at the start
+  if (ref.watch && !ref.watching) ref.watching = ref.watch(onRemote);
 }
+// the same content written in a fixed order, so two copies can be compared (which device is "active" and when it saved do not count)
+const canon = v => Array.isArray(v) ? '[' + v.map(canon).join(',') + ']'
+  : v && typeof v === 'object' ? '{' + Object.keys(v).sort().filter(k => v[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(v[k])).join(',') + '}'
+  : JSON.stringify(v === undefined ? null : v);
+const recordShape = d => canon({ ...d, savedAt: 0, active: 0 });
+// another device saved: merge its copy in, keep this device's own changes, and send ours back only when something differs
+function onRemote(data) {
+  if (!data || !cloud) return;
+  const before = recordShape(DB), prevLang = store.lang, prevKid = DB.active;
+  mergeRemote(data); saveLocal();
+  if (recordShape(DB) !== before) {
+    const typing = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+    if (!typing) refreshAfterSync(prevLang, prevKid);
+  }
+  if (recordShape(cloudCopy()) !== recordShape(data)) { clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 600); }
+}
+// claude.ai storage cannot tell us about changes: read again whenever the app comes back to the front
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && cloud && !cloud.watching) cloud.get().then(onRemote).catch(() => {});
+});
 async function connectCloud() {
   try {
     if (!window.claude || !window.claude.use) return;
@@ -1208,6 +1285,7 @@ const I18N = {
     voiceLabel: 'Lærerstemme (dansk)', voiceAuto: 'Automatisk', voiceTry: 'Prøv den', voiceSample: 'Hej! Sådan kommer jeg til at læse matematikken op for dig.',
     voiceNone: 'Der er ingen danske stemmer på denne enhed. Tilføj en under Indstillinger → Tilgængelighed, i indstillingerne for oplæsning og stemmer.',
     askQ: (q, missing) => missing ? q : `${q} er lig med hvad?`,
+    tensW: n => n === 1 ? '1 tier' : `${n} tiere`, onesW: n => n === 1 ? '1 ener' : `${n} enere`,
     place: ['enere', 'tiere', 'hundreder', 'tusinder'], one: ['ener', 'tier', 'hundreder', 'tusinder'], def: ['enerne', 'tierne', 'hundrederne', 'tusinderne'], lab: ['E', 'T', 'H', 'Tu'],
     tensLbl: 'tiere', onesLbl: 'enere', checkLbl: 'tjek', numberLine: 'Tallinje', colAdd: 'Plus i opstilling', colSub: 'Minus i opstilling',
     blocksAria: (n, h, t, o) => `${n}: ${h ? h + ' hundreder, ' : ''}${t} tiere og ${o} enere`, splitAria: (w, a, b) => `${w} delt op i ${a} og ${b}`,
@@ -4119,7 +4197,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     unlockAllHelp: 'Opens Times tables and Sharing straight away. Up to Year 3, they open by themselves once the adding and taking-away levels are learnt.',
     plQ: n => `Question ${n}`, fixedMore: n => n === 1 ? 'And you fixed 1 more with a new try. Well done!' : `And you fixed ${n} more with new tries. Well done!`,
     haveAccount: 'I already have a family account', accStandalone: 'Using the app from the iPad home screen? Sign in with email; the Google window cannot open there.',
-    accSaveFailed: 'Saving online has stopped. Progress is still saved on this device. Close and reopen the app to try again.',
+    accSaveFailed: 'Saving online has stopped for now. Progress is still saved on this device, and the app tries again when the internet is back.',
     trickyLabel: w => `Tricky letters in ${w}`,
     mistakesHint: 'For each word, tap the first and the last tricky letter. If only one letter is tricky, tap it twice. The app then makes wrong spellings by changing those letters. Tap ↻ for different wrong spellings, or × to remove a word.',
     colIntro: l => `Write the numbers in columns: ${l}. Line the digits up carefully.`, andWord: 'and',
@@ -4171,6 +4249,9 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     frTitle: 'Friends this week', frSeeAll: 'See all', frYou: 'You', frByDays: 'Most days', frByStars: 'Most stars', frByRounds: 'Most rounds',
     frRow: (s, r, d) => `★ ${s} · ${r} ${r === 1 ? 'round' : 'rounds'} · ${d} ${d === 1 ? 'day' : 'days'}`,
     frWeekNote: 'A new week starts every Monday.', frEmpty: 'No friends yet. Ask a grown-up to add one.', frLoading: 'Loading…',
+    saveLocalFailed: 'This device could not save progress (it may be full, or in private browsing).',
+    keepTitle: 'Keep progress safe', keepOk: 'Got it', keepAcc: 'Family account',
+    keepText: b => `Some browsers, like Safari on an iPad, delete a website's saved progress after a week without a visit. To keep it safe, add ${b} to the home screen (Share → Add to Home Screen), or ask a grown-up to make a free family account.`,
     obNew: "There's something new: your own profile! It only takes a minute.",
     obLangQ: 'Which language do you want to play in?', obNameQ: "What's your name?", obAvatarQ: 'Pick a buddy to be you!',
     obYearQ: 'Which school year are you in?', yearN: n => `Year ${n}`, ageHint: n => `age ${n + 4}–${n + 5}`, yearUnsure: 'Not sure',
@@ -4236,7 +4317,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     unlockAllHelp: 'Åbner Gangetabeller og Division med det samme. Til og med skoleår 3 åbner de af sig selv, når niveauerne i plus og minus er lært.',
     plQ: n => `Opgave ${n}`, fixedMore: n => n === 1 ? 'Og du klarede 1 mere med et nyt forsøg. Godt gået!' : `Og du klarede ${n} mere med nye forsøg. Godt gået!`,
     haveAccount: 'Jeg har allerede en familiekonto', accStandalone: 'Bruger du appen fra iPadens hjemmeskærm? Log ind med e-mail; Google-vinduet kan ikke åbne der.',
-    accSaveFailed: 'Det er stoppet med at gemme online. Fremskridt gemmes stadig på denne enhed. Luk appen, og åbn den igen for at prøve igen.',
+    accSaveFailed: 'Det er stoppet med at gemme online lige nu. Fremskridt gemmes stadig på denne enhed, og appen prøver igen, når internettet er tilbage.',
     trickyLabel: w => `Svære bogstaver i ${w}`,
     mistakesHint: 'Tryk på det første og det sidste svære bogstav i hvert ord. Er kun ét bogstav svært, så tryk på det to gange. Appen laver så forkerte stavemåder ved at ændre de bogstaver. Tryk på ↻ for andre forkerte stavemåder, eller på × for at fjerne et ord.',
     colIntro: l => `Stil tallene op under hinanden: ${l}. Sørg for, at cifrene står lige under hinanden.`, andWord: 'og',
@@ -4288,6 +4369,9 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     frTitle: 'Venner denne uge', frSeeAll: 'Se alle', frYou: 'Dig', frByDays: 'Flest dage', frByStars: 'Flest stjerner', frByRounds: 'Flest runder',
     frRow: (s, r, d) => `★ ${s} · ${r} ${r === 1 ? 'runde' : 'runder'} · ${d} ${d === 1 ? 'dag' : 'dage'}`,
     frWeekNote: 'En ny uge starter hver mandag.', frEmpty: 'Ingen venner endnu. Bed en voksen om at tilføje en.', frLoading: 'Henter…',
+    saveLocalFailed: 'Denne enhed kunne ikke gemme fremskridt (den er måske fuld eller i privat browsing).',
+    keepTitle: 'Pas på fremskridtene', keepOk: 'Forstået', keepAcc: 'Familiekonto',
+    keepText: b => `Nogle browsere, fx Safari på en iPad, sletter en hjemmesides gemte fremskridt efter en uge uden besøg. Læg ${b} på hjemmeskærmen (Del → Føj til hjemmeskærm), eller bed en voksen om at lave en gratis familiekonto.`,
     obNew: 'Der er noget nyt: din egen profil! Det tager kun et minut.',
     obLangQ: 'Hvilket sprog vil du spille på?', obNameQ: 'Hvad hedder du?', obAvatarQ: 'Vælg en ven, der skal være dig!',
     obYearQ: 'Hvilket skoleår går du i?', yearN: n => `Skoleår ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Ved ikke',
@@ -4353,7 +4437,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     unlockAllHelp: 'Öppnar Gångertabeller och Division direkt. Till och med skolår 3 öppnas de av sig själva när nivåerna i plus och minus är inlärda.',
     plQ: n => `Uppgift ${n}`, fixedMore: n => n === 1 ? 'Och du klarade 1 till med ett nytt försök. Bra jobbat!' : `Och du klarade ${n} till med nya försök. Bra jobbat!`,
     haveAccount: 'Jag har redan ett familjekonto', accStandalone: 'Använder du appen från iPadens hemskärm? Logga in med e-post; Google-fönstret kan inte öppnas där.',
-    accSaveFailed: 'Det har slutat spara på nätet. Framstegen sparas fortfarande på den här enheten. Stäng appen och öppna den igen för att försöka igen.',
+    accSaveFailed: 'Det har slutat spara på nätet för tillfället. Framstegen sparas fortfarande på den här enheten, och appen försöker igen när internet är tillbaka.',
     trickyLabel: w => `Svåra bokstäver i ${w}`,
     mistakesHint: 'Tryck på den första och den sista svåra bokstaven i varje ord. Om bara en bokstav är svår, tryck på den två gånger. Appen gör sedan felstavningar genom att ändra de bokstäverna. Tryck på ↻ för andra felstavningar, eller på × för att ta bort ett ord.',
     colIntro: l => `Ställ upp talen: ${l}. Se till att siffrorna står rakt under varandra.`, andWord: 'och',
@@ -4405,6 +4489,9 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     frTitle: 'Vänner den här veckan', frSeeAll: 'Se alla', frYou: 'Du', frByDays: 'Flest dagar', frByStars: 'Flest stjärnor', frByRounds: 'Flest omgångar',
     frRow: (s, r, d) => `★ ${s} · ${r} ${r === 1 ? 'omgång' : 'omgångar'} · ${d} ${d === 1 ? 'dag' : 'dagar'}`,
     frWeekNote: 'En ny vecka börjar varje måndag.', frEmpty: 'Inga vänner än. Be en vuxen lägga till en.', frLoading: 'Hämtar…',
+    saveLocalFailed: 'Den här enheten kunde inte spara framstegen (den kan vara full eller i privat läge).',
+    keepTitle: 'Skydda framstegen', keepOk: 'Jag förstår', keepAcc: 'Familjekonto',
+    keepText: b => `Vissa webbläsare, till exempel Safari på en iPad, raderar en webbplats sparade framsteg efter en vecka utan besök. Lägg ${b} på hemskärmen (Dela → Lägg till på hemskärmen), eller be en vuxen skapa ett gratis familjekonto.`,
     obNew: 'Det finns något nytt: din egen profil! Det tar bara en minut.',
     obLangQ: 'Vilket språk vill du spela på?', obNameQ: 'Vad heter du?', obAvatarQ: 'Välj en kompis som får vara du!',
     obYearQ: 'Vilket skolår går du i?', yearN: n => `Skolår ${n}`, ageHint: n => `${n + 4}–${n + 5} år`, yearUnsure: 'Vet inte',
@@ -4470,7 +4557,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     unlockAllHelp: 'Langsung membuka Perkalian dan Pembagian. Sampai Tahun 3, keduanya terbuka sendiri setelah level penjumlahan dan pengurangan dikuasai.',
     plQ: n => `Soal ${n}`, fixedMore: n => `Dan kamu berhasil memperbaiki ${n} lagi dengan percobaan baru. Hebat!`,
     haveAccount: 'Aku sudah punya akun keluarga', accStandalone: 'Memakai aplikasi dari layar utama iPad? Masuk dengan email; jendela Google tidak bisa terbuka di sana.',
-    accSaveFailed: 'Penyimpanan online berhenti. Kemajuan tetap tersimpan di perangkat ini. Tutup lalu buka lagi aplikasinya untuk mencoba lagi.',
+    accSaveFailed: 'Penyimpanan online berhenti untuk sementara. Kemajuan tetap tersimpan di perangkat ini, dan aplikasi mencoba lagi saat internet kembali.',
     trickyLabel: w => `Huruf sulit di ${w}`,
     mistakesHint: 'Di setiap kata, ketuk huruf sulit yang pertama dan yang terakhir. Jika hanya satu huruf yang sulit, ketuk huruf itu dua kali. Aplikasi lalu membuat ejaan salah dengan mengubah huruf-huruf itu. Ketuk ↻ untuk ejaan salah yang lain, atau × untuk menghapus kata.',
     colIntro: l => `Tulis angkanya bersusun: ${l}. Pastikan angkanya lurus di bawah satu sama lain.`, andWord: 'dan',
@@ -4522,6 +4609,9 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     frTitle: 'Teman minggu ini', frSeeAll: 'Lihat semua', frYou: 'Kamu', frByDays: 'Hari terbanyak', frByStars: 'Bintang terbanyak', frByRounds: 'Ronde terbanyak',
     frRow: (s, r, d) => `★ ${s} · ${r} ronde · ${d} hari`,
     frWeekNote: 'Minggu baru dimulai setiap hari Senin.', frEmpty: 'Belum ada teman. Minta orang dewasa menambahkannya.', frLoading: 'Memuat…',
+    saveLocalFailed: 'Perangkat ini tidak bisa menyimpan kemajuan (mungkin penuh, atau dalam mode pribadi).',
+    keepTitle: 'Jaga kemajuanmu', keepOk: 'Mengerti', keepAcc: 'Akun keluarga',
+    keepText: b => `Beberapa browser, seperti Safari di iPad, menghapus kemajuan yang tersimpan setelah seminggu tidak dikunjungi. Tambahkan ${b} ke layar utama (Bagikan → Tambahkan ke Layar Utama), atau minta orang dewasa membuat akun keluarga gratis.`,
     obNew: 'Ada yang baru: profilmu sendiri! Hanya butuh satu menit.',
     obLangQ: 'Kamu mau bermain dalam bahasa apa?', obNameQ: 'Siapa namamu?', obAvatarQ: 'Pilih teman yang akan menjadi kamu!',
     obYearQ: 'Kamu di tahun sekolah berapa?', yearN: n => `Tahun ${n}`, ageHint: n => `usia ${n + 4}–${n + 5}`, yearUnsure: 'Belum tahu',
@@ -4706,7 +4796,7 @@ function spellLangFor(name, params) {
   else if (['lesson', 'practice', 'results'].includes(name) && id && id !== 'mixed') { if (String(id).startsWith('review-sp-')) return id.slice(10); tp = findLevel(id)?.topic; }
   return isSpellTopic(tp) ? tp.lang : null;
 }
-function show(name, params = {}) { hush(); if (!GROWNUP_SCREENS.includes(name)) gateUntil = 0; screen = name; S = params; forced = spellLangFor(name, params); applyLang(); SCREENS[name](params); window.scrollTo({ top: 0 }); }
+function show(name, params = {}) { if (G && name !== 'game') { cancelAnimationFrame(G.raf); G = null; } hush(); if (!GROWNUP_SCREENS.includes(name)) gateUntil = 0; screen = name; S = params; forced = spellLangFor(name, params); applyLang(); SCREENS[name](params); window.scrollTo({ top: 0 }); }
 
 const SCREENS = {
   home() {
@@ -4722,6 +4812,7 @@ const SCREENS = {
         <p>${t.heroIntro}</p>
       </div>
     </section>
+    ${syncWarn()}${keepTip()}
     ${resumeCard()}
     ${pathCard()}
     ${reviewCards()}
@@ -5062,6 +5153,15 @@ function wkAdd(stars) {
   store.wk = { id: w.id, rounds: (w.rounds || 0) + 1, stars: (w.stars || 0) + Math.max(0, stars), days: [...new Set([...(w.days || []), day])] };
 }
 const lockedNow = () => TOPICS.some(tp => lockInfo(tp));
+const syncWarn = () => cloudFailed && fb && fb.user ? `<p class="sync-warn" role="status">${tr().accSaveFailed}</p>` : '';
+// Safari deletes a website's saved data after 7 days without a visit (not for an app on the home screen, and an account keeps a copy)
+function keepTip() {
+  const home = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  if (!ON_SITE || DEV.keepTipDone || home || (fb && fb.user) || Object.keys(store.best).length < 2) return '';
+  const t = tr();
+  return `<section class="mixed keep-tip" style="--tc:var(--add)"><div class="mixed-text"><h3>${t.keepTitle}</h3><p>${t.keepText(t.brand)}</p></div>
+    <div class="keep-btns"><button class="btn btn-small" data-act="keep-ok">${t.keepOk}</button><button class="btn btn-small btn-soft" data-act="keep-acc">${t.keepAcc}</button></div></section>`;
+}
 function refreshAfterSync(prevLang, prevKid) {
   if (prevKid && prevKid !== DB.active && (screen === 'onboard' || !GROWNUP_SCREENS.includes(screen))) { show(Object.values(DB.kids).filter(k => k.onboarded).length > 1 ? 'kids' : 'home'); return; }
   if (store.lang !== prevLang && !forced) { const l = store.lang; store.lang = prevLang; switchLang(l); return; }
@@ -5511,7 +5611,7 @@ function reviewCards() {
 const GAME_NEED = 3, GAME_SECS = 90, GAME_LANES = 4, GAME_SHIELDS = 5;
 // levels learnt with stars (2 or 3); each one from the third on earns a game
 const threeStars = () => allLevels().filter(l => (store.best[l.id] || 0) >= PASS).length;
-const gameLeft = () => store.gamesOff ? 0 : Math.max(0, threeStars() - GAME_NEED + 1 - ((store.game || {}).used || 0));
+const gameLeft = () => store.gamesOff ? 0 : Math.max(0, threeStars() - GAME_NEED + 1 - ((store.game || {}).used || 0) + ((store.game || {}).back || 0));
 const GAME_LIST = ['space', 'fruit', 'bubbles', 'hop', 'memory', 'clock', 'shop', 'pizza', 'jug', 'snake', 'mole', 'letters', 'build', 'spot'];
 const GAME_ICON = { space: '🚀', fruit: '🍎', bubbles: '🎈', hop: '🐸', memory: '🃏', clock: '🕐', shop: '🪙', pizza: '🍕', jug: '🥤', snake: '🐍', mole: '🐹', letters: '🔤', build: '🧩', spot: '🔍' };
 const gameBest = id => ((store.game || {}).bests || {})[id] || (id === 'space' ? (store.game || {}).best || 0 : 0);
@@ -5624,6 +5724,7 @@ function gameFire(lane) {
   }
 }
 function gameHurt() {
+  if (!G || G.shields <= 0) return;   // already out: the end screen is on its way
   G.shields--; gameBar();
   G.sp.classList.remove('hurt'); void G.sp.offsetWidth; G.sp.classList.add('hurt');
   if (G.shields <= 0) setTimeout(() => G && gameOver('shields'), 500);
@@ -6180,7 +6281,9 @@ Object.assign(ACTIONS, {
   'mg-coin': d => { if (G && G.kind === 'shop') MG.shop.add(+d.v); },
   'mg-uncoin': d => { if (G && G.kind === 'shop') MG.shop.remove(+d.i); },
   'mg-empty': () => { if (G && G.kind === 'jug') MG.jug.empty(); },
-  'mg-say': () => sayWord()
+  'mg-say': () => sayWord(),
+  'keep-ok': () => { DEV.keepTipDone = true; saveDev(); show('home'); },
+  'keep-acc': () => { DEV.keepTipDone = true; saveDev(); show('parent', { tab: 'account' }); }
 });
 
 Object.assign(SCREENS, {
@@ -6222,7 +6325,7 @@ Object.assign(ACTIONS, {
   'mg-hear': () => { if (G && G.word) speak(G.word, SPELL_TEACHER[G.wl] || 'fern', G.wl); },
   'game-stop': () => {
     if (G) {
-      if (performance.now() - G.t0 < 15000 && !G.score) store.game = { ...(store.game || {}), used: Math.max(0, ((store.game || {}).used || 0) - 1) };
+      if (performance.now() - G.t0 < 15000 && !G.score) store.game = { ...(store.game || {}), back: ((store.game || {}).back || 0) + 1 };
       cancelAnimationFrame(G.raf); G = null; save();
     }
     show('home');
@@ -6303,6 +6406,7 @@ async function fillFriendsCard() {
 // the grown-up area: one card per child
 async function paFriends() {
   const t = tr();
+  if (!fb && FIREBASE_CONFIG && !viaClaude) initFirebase();
   if (!FIREBASE_CONFIG || viaClaude) return `<section class="pa-card"><h3>${t.tabFriends}</h3><p>${t.frSite}</p></section>`;
   if (!fb || !fb.user) return `<section class="pa-card"><h3>${t.tabFriends}</h3><p>${t.frAccount}</p><div class="confirm-row"><button class="btn btn-small" data-act="pa-tab" data-tab="account">${t.frGoAccount}</button></div></section>`;
   let reqs = [];
@@ -6355,7 +6459,7 @@ app.addEventListener('submit', async e => {
     let c = null; try { c = await FRI.getCode(code); } catch (err) { return frMsg(k.id, t.frErr); }
     if (!c || !(c.expires > Date.now())) return frMsg(k.id, t.frBadCode);
     if (c.pid === k.fr.pid) return frMsg(k.id, t.frOwnCode);
-    if ((k.fr.friends || []).some(x => x.pid === c.pid)) return frMsg(k.id, t.frAlready(esc(frNick(c.nick))));
+    if ((k.fr.friends || []).some(x => x.pid === c.pid)) return frMsg(k.id, t.frAlready(frNick(c.nick)));
     // typing the code is this family's yes: this child's card opens to the other family now
     k.fr.friends = [...(k.fr.friends || []), { pid: c.pid, owner: c.owner, nick: frNick(c.nick), avatar: frAvatar(c.avatar), state: 'wait' }];
     k.fr.viewers = [...new Set([...(k.fr.viewers || []), c.owner])]; save();
@@ -6363,7 +6467,7 @@ app.addEventListener('submit', async e => {
       await frPublish(k, true);
       await FRI.addRequest(`${c.pid}_${k.fr.pid}`, { to: c.pid, toOwner: c.owner, from: k.fr.pid, fromOwner: FRI.uid(), fromNick: k.fr.nick, fromAvatar: avatarOf(k), code, created: Date.now() });
     } catch (err) { return frMsg(k.id, t.frErr); }
-    frReload(); toast(t.frSent(esc(frNick(c.nick))));
+    frReload(); toast(t.frSent(frNick(c.nick)));
   }
 });
 Object.assign(ACTIONS, {
@@ -6684,6 +6788,7 @@ function paSettings() {
 }
 function paAccount() {
   const t = tr();
+  if (!fb && FIREBASE_CONFIG && !viaClaude) initFirebase();
   let body;
   if (viaClaude) body = `<p>${t.accClaude}</p>`;
   else if (!FIREBASE_CONFIG) body = `<p>${t.accLocal}</p><p class="muted">${t.accSoon}</p>`;
@@ -6795,7 +6900,26 @@ Object.assign(SCREENS, {
 
 /* ---------- free family accounts (website only; claude.ai keeps progress in the Claude account) ---------- */
 let fb = null;
-async function initFirebase() {
+/* Firebase (about 700 KB) is loaded only for families who use an account: this device signed in before,
+   or a grown-up opens the account area. Families who never sign in never download it. */
+let fbStarting = null;
+async function fbWanted() {
+  if (!FIREBASE_CONFIG || viaClaude || (window.claude && window.claude.use)) return false;
+  if (DEV.fbUsed) return true;
+  try { if (indexedDB.databases) return (await indexedDB.databases()).some(d => d.name === 'firebaseLocalStorageDb'); } catch (e) {}
+  return true;   // this browser cannot tell: load it, as before
+}
+function initFirebase() { if (!fbStarting) fbStarting = startFirebase(); return fbStarting; }
+function fbAttach(user) {
+  const F = fb.F, ref = F.doc(fb.db, 'families', user.uid);
+  return attachCloud({
+    get: async () => { const s = await F.getDoc(ref); return s.exists() ? s.data() : null; },
+    set: d => F.setDoc(ref, d),
+    watch: cb => F.onSnapshot(ref, x => { if (!x.metadata.hasPendingWrites && x.exists()) cb(x.data()); }, () => {})
+  }).then(() => { cloudFailed = false; }).catch(() => { cloudFailed = true; });   // e.g. no internet at that moment: tried again when back online
+}
+addEventListener('online', () => { if (fb && fb.user && !cloud) fbAttach(fb.user).then(() => { if (screen === 'home') SCREENS.home(S); }); else if (cloud) pushCloud(); });
+async function startFirebase() {
   if (!FIREBASE_CONFIG || viaClaude || (window.claude && window.claude.use)) return;
   try {
     const base = 'https://www.gstatic.com/firebasejs/10.12.2/';
@@ -6805,15 +6929,14 @@ async function initFirebase() {
     U.onAuthStateChanged(auth, async user => {
       fb.user = user;
       if (user) {
-        const ref = F.doc(db, 'families', user.uid);
-        try { await attachCloud({ get: async () => { const s = await F.getDoc(ref); return s.exists() ? s.data() : null; }, set: d => F.setDoc(ref, d) }); cloudFailed = false; } catch (e) { cloudFailed = true; }   // e.g. no internet at that moment
-      } else cloud = null;
+        DEV.fbUsed = true; saveDev(); await fbAttach(user);
+      } else { if (cloud && typeof cloud.watching === 'function') cloud.watching(); cloud = null; }
       if (screen === 'parent' && (S.tab === 'account' || S.tab === 'friends')) SCREENS.parent(S);
       if (screen === 'signin') SCREENS.signin(S);
       if (screen === 'home' && user) { SCREENS.home(S); frPublish(store); }
     });
     if (screen === 'parent' && S.tab === 'account') SCREENS.parent(S);
-  } catch (e) { fb = null; }
+  } catch (e) { fb = null; fbStarting = null; }
 }
 Object.assign(SCREENS, {
   signin() {
@@ -6982,10 +7105,19 @@ function spellRound(l) {
   return pool.slice(0, n).map((wd, i) => { const k = i * 10 / n; return spItem(wd, k < 3 ? 'pick' : k < 6 ? 'fill' : 'type', l.id); });
 }
 
+// a text missing in Danish, Swedish or Indonesian falls back to English instead of showing "undefined"; the checks list them
+const TEXT_GAPS = [];
+function fillGaps(dst, src, path) {
+  for (const [k, v] of Object.entries(src)) {
+    if (dst[k] === undefined) { dst[k] = v; TEXT_GAPS.push(path + k); }
+    else if (v && typeof v === 'object' && !Array.isArray(v) && dst[k] && typeof dst[k] === 'object' && !Array.isArray(dst[k])) fillGaps(dst[k], v, path + k + '.');
+  }
+}
+for (const l of ['da', 'sv', 'id']) fillGaps(I18N[l], I18N.en, l + ': ');
 buildCustomTopics();
 applyLang();
 show(Object.values(DB.kids).filter(k => k.onboarded).length > 1 ? 'kids' : 'home');
-connectCloud().then(initFirebase);
+connectCloud().then(async () => { if (await fbWanted()) initFirebase(); });
 </script>
 
 </body>
