@@ -1078,6 +1078,7 @@ html.easy-read #app .q,html.easy-read #app .g-q,html.easy-read #app .tile,html.e
 .jy-s{color:var(--tc);font-size:20px;line-height:1;display:grid;place-items:center}
 .jy-s svg{width:20px;height:20px}
 .jy-step.done .jy-dot{background:var(--tc);color:#fff}
+.jy-step.known .jy-dot{background:var(--tc-soft);color:var(--tc);border-width:3px;box-shadow:none;width:44px;height:44px}   /* already known: lighter than learnt with stars */
 .jy-step.locked .jy-dot{opacity:.5;border-style:dashed}
 .jy-step.here .jy-dot{width:62px;height:62px;box-shadow:0 0 0 6px var(--tc-soft),var(--shadow)}
 .jy-buddy{position:absolute;right:calc(100% + 6px);top:50%;width:64px;transform:translateY(-55%)}
@@ -11509,14 +11510,15 @@ SCREENS.journey = function () {
   const items = ls.map((l, k) => {
     const mark = seen.has(l.topic) ? '' : `<li class="jy-mark" style="${tcStyle(l.topic.teacher)}"><span class="jy-sign" aria-hidden="true">${topicSign(l.topic)}</span>${topicTitle(l.topic)}</li>`;
     seen.add(l.topic);
-    const done = levelDone(l), lock = !!lockInfo(l.topic), at = l.id === here, name = `${topicTitle(l.topic)}: ${lvlText(l).title}`;
-    return mark + `<li class="jy-step${done ? ' done' : ''}${at ? ' here' : ''}${lock ? ' locked' : ''}" style="${tcStyle(l.topic.teacher)};--x:${Math.round(Math.sin(k * .8) * 70)}px">
-      <button class="jy-dot" ${lock ? 'disabled' : `data-act="lesson" data-id="${l.id}"`} aria-label="${k + 1}. ${esc(name.replace(/<[^>]+>/g, ''))}${done ? ' · ' + t.jyLearnt : ''}">${done ? '✓' : lock ? LOCK_SVG : `<span class="jy-s">${topicSign(l.topic)}</span>`}</button>
+    // learnt with stars, or already known (the starting quiz or the school year skipped it): they look different
+    const done = levelDone(l), known = done && (store.best[l.id] || 0) < PASS, lock = !!lockInfo(l.topic), at = l.id === here, name = `${topicTitle(l.topic)}: ${lvlText(l).title}`;
+    return mark + `<li class="jy-step${done ? ' done' : ''}${known ? ' known' : ''}${at ? ' here' : ''}${lock ? ' locked' : ''}" style="${tcStyle(l.topic.teacher)};--x:${Math.round(Math.sin(k * .8) * 70)}px">
+      <button class="jy-dot" ${lock ? 'disabled' : `data-act="lesson" data-id="${l.id}"`} aria-label="${k + 1}. ${esc(name.replace(/<[^>]+>/g, ''))}${known ? ' · ' + t.jyKnown : done ? ' · ' + t.jyLearnt : ''}">${done ? '✓' : lock ? LOCK_SVG : `<span class="jy-s">${topicSign(l.topic)}</span>`}</button>
       ${at ? `<span class="jy-buddy" aria-hidden="true">${buddySvg('joy')}</span><span class="jy-here"><b>${t.jyHere}</b>${lvlText(l).title}</span>` : ''}</li>`;
   }).join('');
   app.innerHTML = `${topbar()}
   <div class="crumbs"><button class="btn-link" data-act="home">${t.home}</button></div>
-  <section class="jy-page"><h1>${t.jyTitle}</h1><p>${t.jyCount(ls.filter(l => levelDone(l)).length, ls.length)}</p>
+  <section class="jy-page"><h1>${t.jyTitle}</h1><p>${t.jyCount(ls.filter(l => (store.best[l.id] || 0) >= PASS).length, ls.filter(l => levelDone(l) && (store.best[l.id] || 0) < PASS).length, ls.filter(l => !levelDone(l)).length)}</p>
     <ol class="jy-path">${items}<li class="jy-mark jy-end" style="--tc:var(--div)">🏁 ${t.jyEnd}</li></ol></section>`;
   setTimeout(() => { const h = $('.jy-step.here'); if (h && screen === 'journey') h.scrollIntoView({ block: 'center' }); }, 30);   // (after show() goes to the top)
 };
@@ -11750,7 +11752,7 @@ app.addEventListener('change', e => {
       ntRun3: 'Three in a row without help!', ntKept: 'You kept going and got it!',
       ntBefore: 'You needed help with this one before. Not any more!', ntHalf: n => `Halfway! ${n} to go.`,
       warmUp: 'A warm-up first, from the level before.', start5: 'Start 5 questions',
-      jyTitle: 'Your journey', jyBtn: 'My journey', jyCount: (d, n) => `${d} of ${n} steps learnt. Every step counts!`,
+      jyTitle: 'Your journey', jyBtn: 'My journey', jyCount: (a, k, n) => `You learnt ${a} ${a === 1 ? 'step' : 'steps'}.${k ? ` You already knew ${k}.` : ''} ${n ? `${n} to go!` : 'You did them all!'}`, jyKnown: 'already known',
       jyHere: 'You are here', jyLearnt: 'learnt', jyEnd: 'The end of the path (for now)!',
       plKnown: x => `You already know a lot: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'level' : 'levels'})`,
       topicMeta2: (d, n, s) => `${d} of ${n} levels learnt · ${s} ${s === 1 ? 'star' : 'stars'}`,
@@ -11843,7 +11845,7 @@ app.addEventListener('change', e => {
       ntRun3: 'Tre i træk uden hjælp!', ntKept: 'Du blev ved og fik den!',
       ntBefore: 'Du fik hjælp til den her før. Ikke mere!', ntHalf: n => `Halvvejs! ${n} tilbage.`,
       warmUp: 'Først en opvarmning fra niveauet før.', start5: 'Start 5 opgaver',
-      jyTitle: 'Din rejse', jyBtn: 'Min rejse', jyCount: (d, n) => `${d} af ${n} skridt er lært. Hvert skridt tæller!`,
+      jyTitle: 'Din rejse', jyBtn: 'Min rejse', jyCount: (a, k, n) => `Du har lært ${a} skridt.${k ? ` Du kunne allerede ${k}.` : ''} ${n ? `${n} tilbage!` : 'Du har klaret dem alle!'}`, jyKnown: 'kunne du allerede',
       jyHere: 'Du er her', jyLearnt: 'lært', jyEnd: 'Enden af vejen (indtil videre)!',
       plKnown: x => `Du kan allerede en masse: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'niveau' : 'niveauer'})`,
       topicMeta2: (d, n, s) => `${d} af ${n} niveauer lært · ${s} ${s === 1 ? 'stjerne' : 'stjerner'}`,
@@ -11936,7 +11938,7 @@ app.addEventListener('change', e => {
       ntRun3: 'Tre i rad utan hjälp!', ntKept: 'Du fortsatte och klarade det!',
       ntBefore: 'Du behövde hjälp med den här förut. Inte nu längre!', ntHalf: n => `Halvvägs! ${n} kvar.`,
       warmUp: 'Först en uppvärmning från nivån innan.', start5: 'Starta 5 uppgifter',
-      jyTitle: 'Din resa', jyBtn: 'Min resa', jyCount: (d, n) => `${d} av ${n} steg är inlärda. Varje steg räknas!`,
+      jyTitle: 'Din resa', jyBtn: 'Min resa', jyCount: (a, k, n) => `Du har lärt dig ${a} steg.${k ? ` Du kunde redan ${k}.` : ''} ${n ? `${n} kvar!` : 'Du har klarat alla!'}`, jyKnown: 'kunde du redan',
       jyHere: 'Du är här', jyLearnt: 'inlärd', jyEnd: 'Slutet på vägen (än så länge)!',
       plKnown: x => `Du kan redan massor: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'nivå' : 'nivåer'})`,
       topicMeta2: (d, n, s) => `${d} av ${n} nivåer inlärda · ${s} ${s === 1 ? 'stjärna' : 'stjärnor'}`,
@@ -12029,7 +12031,7 @@ app.addEventListener('change', e => {
       ntRun3: 'Tiga benar berturut-turut tanpa bantuan!', ntKept: 'Kamu terus mencoba dan berhasil!',
       ntBefore: 'Dulu kamu perlu bantuan untuk soal ini. Sekarang tidak lagi!', ntHalf: n => `Setengah jalan! Tinggal ${n} lagi.`,
       warmUp: 'Pemanasan dulu, dari level sebelumnya.', start5: 'Mulai 5 soal',
-      jyTitle: 'Perjalananmu', jyBtn: 'Perjalananku', jyCount: (d, n) => `${d} dari ${n} langkah sudah dikuasai. Setiap langkah berarti!`,
+      jyTitle: 'Perjalananmu', jyBtn: 'Perjalananku', jyCount: (a, k, n) => `Kamu sudah menguasai ${a} langkah.${k ? ` Kamu sudah tahu ${k}.` : ''} ${n ? `Tinggal ${n} lagi!` : 'Kamu sudah menyelesaikan semuanya!'}`, jyKnown: 'sudah tahu',
       jyHere: 'Kamu di sini', jyLearnt: 'dikuasai', jyEnd: 'Akhir jalan (untuk sekarang)!',
       plKnown: x => `Kamu sudah tahu banyak: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} level)`,
       topicMeta2: (d, n, s) => `${d} dari ${n} level dikuasai · ${s} bintang`,

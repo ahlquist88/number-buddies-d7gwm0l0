@@ -1,5 +1,5 @@
-/* Number Buddies offline helper, version 0b5679a28678 (made by build_site.py) */
-const CACHE = 'nb-0b5679a28678';
+/* Number Buddies offline helper, version 8c9746bd7148 (made by build_site.py) */
+const CACHE = 'nb-8c9746bd7148';
 const FILES = ["./", "./index.html", "./privacy.html", "./manifest.webmanifest", "./fonts/andika-400-latin-ext.woff2", "./fonts/andika-400-latin.woff2", "./fonts/andika-700-latin-ext.woff2", "./fonts/andika-700-latin.woff2", "./fonts/fredoka-latin-ext.woff2", "./fonts/fredoka-latin.woff2", "./icons/apple-touch-icon.png", "./icons/favicon-32.png", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png"];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys()
