@@ -5749,10 +5749,10 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     ex: { jumpAdd: { s1one: (a, b) => `Start at ${a} on the number line and jump +${b}.` }, jumpSub: { s1one: (a, b) => `Start at ${a} on the number line and jump back ${b}.` },
       partitionAdd: { s1b: (n, pn) => `Split ${n} into its parts: ${n} = ${pn}.` }, columnSub: { whyNone: 'We take away one column at a time, starting with the ones. Here every top digit was big enough, so nothing needed exchanging.' } },
     introSkip: 'Skip', introStart: "Let's begin", introReplay: 'Watch the welcome again',
-    intro1: (b, n) => `Welcome to ${b}! I'm ${n}, and I help with adding. We are a team of teachers, and we help you understand maths, not just get the answer right.`,
-    intro2a: n => `I'm ${n}. I help with taking away.`, intro2b: n => `I'm ${n}. Times tables are my thing!`, intro2c: n => `I'm ${n}. I love sharing things fairly.`,
-    intro3: 'And we help with spelling, in four languages! Hello!',
-    introPromises: 'Our three promises', promise1: "If you get stuck, we show you how, step by step.", promise2: 'Mistakes are fine. A yellow circle means you can try again.', promise3: 'Every round earns stars, and every day you get a little better.',
+    intro1: (b, n) => `Hoo-hoo! Welcome to ${b}! I'm ${n}, and I help with adding. We're a team of teachers. We'll show you how maths works, not just the answers.`,
+    intro2a: n => `Woof! I'm ${n}. Taking away is my favourite game!`, intro2b: n => `And I'm ${n}. Times tables? I'm a star at them. Ta-da!`, intro2c: n => `I'm ${n}. I love sharing things out fairly.`,
+    intro3: 'And we help with spelling, in four languages! Hello! Hej! Hej! Halo!',
+    introPromises: 'Our three promises', promise1: "If you get stuck, we show you how, step by step.", promise2: 'Mistakes are how we learn. A yellow circle means you can try again.', promise3: 'Every round earns stars, and every day you get a little better.',
     tip_pad: 'Tap the numbers to type your answer. Then press Check.', tip_letters: 'Tap the letters to spell it. Then press Check.', tip_pick: 'Tap the spelling you think is right.',
     tip_how: "Stuck? Tap “Show me how”, and I'll help you step by step.", tip_circle: 'See the yellow circle? Tap it to try a question like it again.', tip_path: "This is your next step. Tap Start when you're ready!",
     gameName: 'Buddy in Space', gameLabel: 'Mini-game', gamePlay: 'Play', gameStop: 'Stop',
@@ -5760,7 +5760,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gamePlays: n => n === 1 ? 'You have 1 game to play.' : `You have ${n} games to play.`,
     gameNone: 'Finish Today to earn your next game. Learning a new level earns one too.', gameBest: n => `Best score: ${n}`,
     gameHow: 'Tap under an asteroid to shoot it. Hit the right answer!',
-    gameTimeUp: 'Time is up!', gameOut: 'Your shields are used up!', gameNewBest: 'New best score!',
+    gameTimeUp: 'Time is up!', gameOut: 'Out of shields! Good game!', gameNewBest: 'New best score!',
     gameResult: n => n === 1 ? 'You hit 1 right answer.' : `You hit ${n} right answers.`,
     gameAgain: n => `Play again (${n} left)`, gameEarned: 'You earned a mini-game!',
     gameScoreAria: n => `${n} points`, gameShieldsAria: n => `${n} shields left`,
@@ -5772,7 +5772,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gameResults: { clock: n => n === 1 ? 'You set 1 clock right.' : `You set ${n} clocks right.`, shop: n => n === 1 ? 'You paid exactly right 1 time.' : `You paid exactly right ${n} times.`, pizza: n => n === 1 ? 'You made 1 pizza right.' : `You made ${n} pizzas right.`, jug: n => n === 1 ? 'You filled 1 jug right.' : `You filled ${n} jugs right.`, snake: n => n === 1 ? 'You fed the snake 1 number.' : `You fed the snake ${n} numbers.`, mole: n => n === 1 ? 'You bonked 1 right mole.' : `You bonked ${n} right moles.`, build: n => n === 1 ? 'You built 1 word.' : `You built ${n} words.`, spot: n => n === 1 ? 'You spotted 1 right spelling.' : `You spotted ${n} right spellings.`, fruit: n => n === 1 ? 'You caught 1 right fruit.' : `You caught ${n} right fruits.`, bubbles: n => n === 1 ? 'You popped 1 right bubble.' : `You popped ${n} right bubbles.`, hop: n => n === 1 ? 'You landed on the flag 1 time.' : `You landed on the flag ${n} times.`, memory: n => n === 1 ? 'You found 1 pair.' : `You found ${n} pairs.`, letters: n => n === 1 ? 'You spelled 1 word.' : `You spelled ${n} words.` },
     mgEven: 'Catch the even numbers', mgOdd: 'Catch the odd numbers', mgMore: k => `Catch numbers bigger than ${k}`, mgLess: k => `Catch numbers smaller than ${k}`, mgTable: k => `Catch numbers in the ${k} times table`,
     mgMake: n => `Pop the bubbles that make ${n}`, mgHop: (a, b) => `Hop from ${a} to ${b}`, mgPairs: (n, m) => `Pairs found: ${n} of ${m}`, mgDone: 'All pairs found!', mgLook: 'Look:', mgHear: 'Hear the word',
-    introGamesTitle: 'Earn mini-games!', introGames1: 'Finish your small steps for Today, and you earn a mini-game.', introGames2: 'Every new level you learn earns you another one!',
+    introGamesTitle: 'Earn mini-games!', introGames1: 'Finish your small steps each day, and we play a game together.', introGames2: 'Every new level you learn earns you another one!',
     mgNewRule: 'New rule!', mgNewWord: 'New word!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `${h} o'clock` : m === 15 ? `quarter past ${h}` : m === 30 ? `half past ${h}` : m === 45 ? `quarter to ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Set the clock to ${s}`, mgPay: p => `Pay exactly ${p}`, mgPayBtn: 'Pay', mgGave: v => `You gave ${v}.`,
@@ -5806,7 +5806,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     obPlaceGo: "Let's go", obPlaceSkip: 'Skip for now', next: 'Next', cancel: 'Cancel',
     plTitle: 'Warm-up', plFirst: "Here's the first one. Take your time.", plNext: ['Here comes the next one.', 'Try this one.', 'And this one?'],
     plGood: ['Got it!', 'Nice!', 'Well done!'], plOk: ["That's okay!", 'Good try!', 'No problem!'], plDontKnow: "I don't know yet",
-    plGreat: n => n ? `Great work, ${n}!` : 'Great work!', plDone: x => `You'll start with ${x}. Your path shows the next step every time.`,
+    plGreat: n => n ? `Great work, ${n}! Now I know just where to start.` : 'Great work! Now I know just where to start.', plDone: x => `You'll start with ${x}. Your path shows the next step every time.`,
     plDoneAll: 'Wow, you already know everything on the path! Try the mixed challenge, or practise any level you like.',
     plDoneBtn: "Let's start", backToGrownups: 'Back to grown-ups', whoPlays: "Who's playing?",
     nextUp: 'Next up', pathStep: (i, n) => `step ${i} of ${n}`, pathStart: 'Start',
@@ -5870,10 +5870,10 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     ex: { jumpAdd: { s1one: (a, b) => `Start ved ${a} på tallinjen, og hop +${b}.` }, jumpSub: { s1one: (a, b) => `Start ved ${a} på tallinjen, og hop ${b} tilbage.` },
       partitionAdd: { s1b: (n, pn) => `Del ${n} op i sine dele: ${n} = ${pn}.` }, columnSub: { whyNone: 'Vi trækker fra én kolonne ad gangen og starter med enerne. Her var hvert tal øverst stort nok, så der skulle ikke veksles.' } },
     introSkip: 'Spring over', introStart: 'Lad os starte', introReplay: 'Se velkomsten igen',
-    intro1: (b, n) => `Velkommen til ${b}! Jeg er ${n}, og jeg hjælper med plus. Vi er et hold af lærere, og vi hjælper dig med at forstå matematik, ikke bare med at få det rigtige svar.`,
-    intro2a: n => `Jeg er ${n}. Jeg hjælper med minus.`, intro2b: n => `Jeg er ${n}. Gangetabeller er lige mig!`, intro2c: n => `Jeg er ${n}. Jeg elsker at dele ligeligt.`,
-    intro3: 'Og vi hjælper med stavning, på fire sprog! Hej!',
-    introPromises: 'Vores tre løfter', promise1: 'Hvis du går i stå, viser vi dig hvordan, trin for trin.', promise2: 'Det er helt okay at lave fejl. En gul cirkel betyder, at du kan prøve igen.', promise3: 'Hver runde giver stjerner, og hver dag bliver du lidt bedre.',
+    intro1: (b, n) => `Uhu! Velkommen til ${b}! Jeg er ${n}, og jeg hjælper med plus. Vi er et hold af lærere. Vi viser dig, hvordan matematik virker, ikke bare svarene.`,
+    intro2a: n => `Vov! Jeg er ${n}. Minus er min yndlingsleg!`, intro2b: n => `Og jeg er ${n}. Gangetabeller? Dem er jeg en stjerne til. Ta-da!`, intro2c: n => `Jeg er ${n}. Jeg elsker at dele ting ligeligt ud.`,
+    intro3: 'Og vi hjælper med stavning, på fire sprog! Hello! Hej! Hej! Halo!',
+    introPromises: 'Vores tre løfter', promise1: 'Hvis du går i stå, viser vi dig hvordan, trin for trin.', promise2: 'Fejl er noget, vi lærer af. En gul cirkel betyder, at du kan prøve igen.', promise3: 'Hver runde giver stjerner, og hver dag bliver du lidt bedre.',
     tip_pad: 'Tryk på tallene for at skrive dit svar. Tryk så på Tjek.', tip_letters: 'Tryk på bogstaverne for at stave det. Tryk så på Tjek.', tip_pick: 'Tryk på den stavemåde, du tror er rigtig.',
     tip_how: 'Går du i stå? Tryk på “Vis mig hvordan”, så hjælper jeg dig trin for trin.', tip_circle: 'Kan du se den gule cirkel? Tryk på den for at prøve en opgave, der ligner.', tip_path: 'Det her er dit næste skridt. Tryk på Start, når du er klar!',
     gameName: 'Ven i rummet', gameLabel: 'Minispil', gamePlay: 'Spil', gameStop: 'Stop',
@@ -5881,7 +5881,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gamePlays: n => n === 1 ? 'Du har 1 spil at spille.' : `Du har ${n} spil at spille.`,
     gameNone: 'Bliv færdig med I dag for at tjene dit næste spil. Et nyt niveau, du lærer, giver også et.', gameBest: n => `Bedste score: ${n}`,
     gameHow: 'Tryk under en asteroide for at skyde den. Ram det rigtige svar!',
-    gameTimeUp: 'Tiden er gået!', gameOut: 'Dine skjolde er brugt op!', gameNewBest: 'Ny rekord!',
+    gameTimeUp: 'Tiden er gået!', gameOut: 'Ikke flere skjolde! Godt spillet!', gameNewBest: 'Ny rekord!',
     gameResult: n => n === 1 ? 'Du ramte 1 rigtigt svar.' : `Du ramte ${n} rigtige svar.`,
     gameAgain: n => `Spil igen (${n} tilbage)`, gameEarned: 'Du har tjent et minispil!',
     gameScoreAria: n => `${n} point`, gameShieldsAria: n => `${n} skjolde tilbage`,
@@ -5893,7 +5893,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gameResults: { clock: n => n === 1 ? 'Du stillede 1 ur rigtigt.' : `Du stillede ${n} ure rigtigt.`, shop: n => n === 1 ? 'Du betalte præcis rigtigt 1 gang.' : `Du betalte præcis rigtigt ${n} gange.`, pizza: n => n === 1 ? 'Du lavede 1 pizza rigtigt.' : `Du lavede ${n} pizzaer rigtigt.`, jug: n => n === 1 ? 'Du fyldte 1 kande rigtigt.' : `Du fyldte ${n} kander rigtigt.`, snake: n => `Du fodrede slangen med ${n} tal.`, mole: n => n === 1 ? 'Du ramte 1 rigtig muldvarp.' : `Du ramte ${n} rigtige muldvarpe.`, build: n => `Du byggede ${n} ord.`, spot: n => n === 1 ? 'Du fandt 1 rigtig stavemåde.' : `Du fandt ${n} rigtige stavemåder.`, fruit: n => n === 1 ? 'Du greb 1 rigtig frugt.' : `Du greb ${n} rigtige frugter.`, bubbles: n => n === 1 ? 'Du poppede 1 rigtig boble.' : `Du poppede ${n} rigtige bobler.`, hop: n => n === 1 ? 'Du landede på flaget 1 gang.' : `Du landede på flaget ${n} gange.`, memory: n => n === 1 ? 'Du fandt 1 par.' : `Du fandt ${n} par.`, letters: n => n === 1 ? 'Du stavede 1 ord.' : `Du stavede ${n} ord.` },
     mgEven: 'Grib de lige tal', mgOdd: 'Grib de ulige tal', mgMore: k => `Grib tal, der er større end ${k}`, mgLess: k => `Grib tal, der er mindre end ${k}`, mgTable: k => `Grib tal i ${k}-tabellen`,
     mgMake: n => `Pop boblerne, der giver ${n}`, mgHop: (a, b) => `Hop fra ${a} til ${b}`, mgPairs: (n, m) => `Par fundet: ${n} af ${m}`, mgDone: 'Alle par er fundet!', mgLook: 'Se:', mgHear: 'Hør ordet',
-    introGamesTitle: 'Tjen minispil!', introGames1: 'Bliv færdig med dine små skridt for I dag, så tjener du et minispil.', introGames2: 'Hvert nyt niveau, du lærer, giver dig et mere!',
+    introGamesTitle: 'Tjen minispil!', introGames1: 'Bliv færdig med dine små skridt hver dag, så spiller vi et spil sammen.', introGames2: 'Hvert nyt niveau, du lærer, giver dig et mere!',
     mgNewRule: 'Ny regel!', mgNewWord: 'Nyt ord!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `klokken ${h}` : m === 15 ? `kvart over ${h}` : m === 30 ? `halv ${nx}` : m === 45 ? `kvart i ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Stil uret på ${s}`, mgPay: p => `Betal præcis ${p}`, mgPayBtn: 'Betal', mgGave: v => `Du gav ${v}.`,
@@ -5927,7 +5927,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     obPlaceGo: 'Kom så', obPlaceSkip: 'Spring over', next: 'Næste', cancel: 'Annuller',
     plTitle: 'Opvarmning', plFirst: 'Her er den første. Tag dig god tid.', plNext: ['Her kommer den næste.', 'Prøv den her.', 'Og den her?'],
     plGood: ['Sådan!', 'Flot!', 'Godt gået!'], plOk: ['Det gør ikke noget!', 'Godt forsøgt!', 'Intet problem!'], plDontKnow: 'Det kan jeg ikke endnu',
-    plGreat: n => n ? `Flot klaret, ${n}!` : 'Flot klaret!', plDone: x => `Du starter med ${x}. Din vej viser dig næste skridt hver gang.`,
+    plGreat: n => n ? `Flot klaret, ${n}! Nu ved jeg lige, hvor vi skal starte.` : 'Flot klaret! Nu ved jeg lige, hvor vi skal starte.', plDone: x => `Du starter med ${x}. Din vej viser dig næste skridt hver gang.`,
     plDoneAll: 'Wow, du kan allerede alt på vejen! Prøv den blandede udfordring, eller øv det niveau, du har lyst til.',
     plDoneBtn: 'Lad os starte', backToGrownups: 'Tilbage til voksne', whoPlays: 'Hvem spiller?',
     nextUp: 'Næste skridt', pathStep: (i, n) => `skridt ${i} af ${n}`, pathStart: 'Start',
@@ -5991,10 +5991,10 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     ex: { jumpAdd: { s1one: (a, b) => `Börja på ${a} på tallinjen och hoppa +${b}.` }, jumpSub: { s1one: (a, b) => `Börja på ${a} på tallinjen och hoppa ${b} bakåt.` },
       partitionAdd: { s1b: (n, pn) => `Dela upp ${n} i sina delar: ${n} = ${pn}.` }, columnSub: { whyNone: 'Vi subtraherar en kolumn i taget och börjar med entalen. Här var varje siffra överst tillräckligt stor, så ingen växling behövdes.' } },
     introSkip: 'Hoppa över', introStart: 'Nu börjar vi', introReplay: 'Se välkomsten igen',
-    intro1: (b, n) => `Välkommen till ${b}! Jag är ${n}, och jag hjälper till med plus. Vi är ett gäng lärare, och vi hjälper dig att förstå matte, inte bara att få rätt svar.`,
-    intro2a: n => `Jag är ${n}. Jag hjälper till med minus.`, intro2b: n => `Jag är ${n}. Gångertabeller är min grej!`, intro2c: n => `Jag är ${n}. Jag älskar att dela rättvist.`,
-    intro3: 'Och vi hjälper till med stavning, på fyra språk! Hej!',
-    introPromises: 'Våra tre löften', promise1: 'Om du kör fast visar vi dig hur, steg för steg.', promise2: 'Det är okej att göra fel. En gul cirkel betyder att du kan försöka igen.', promise3: 'Varje omgång ger stjärnor, och varje dag blir du lite bättre.',
+    intro1: (b, n) => `Uhu! Välkommen till ${b}! Jag är ${n}, och jag hjälper till med plus. Vi är ett gäng lärare. Vi visar dig hur matte fungerar, inte bara svaren.`,
+    intro2a: n => `Voff! Jag är ${n}. Minus är min favoritlek!`, intro2b: n => `Och jag är ${n}. Gångertabeller? Där är jag en stjärna. Ta-da!`, intro2c: n => `Jag är ${n}. Jag älskar att dela ut saker rättvist.`,
+    intro3: 'Och vi hjälper till med stavning, på fyra språk! Hello! Hej! Hej! Halo!',
+    introPromises: 'Våra tre löften', promise1: 'Om du kör fast visar vi dig hur, steg för steg.', promise2: 'Fel är något vi lär oss av. En gul cirkel betyder att du kan försöka igen.', promise3: 'Varje omgång ger stjärnor, och varje dag blir du lite bättre.',
     tip_pad: 'Tryck på siffrorna för att skriva ditt svar. Tryck sedan på Kolla.', tip_letters: 'Tryck på bokstäverna för att stava det. Tryck sedan på Kolla.', tip_pick: 'Tryck på den stavning du tror är rätt.',
     tip_how: 'Kör du fast? Tryck på “Visa mig hur”, så hjälper jag dig steg för steg.', tip_circle: 'Ser du den gula cirkeln? Tryck på den för att prova en liknande uppgift.', tip_path: 'Det här är ditt nästa steg. Tryck på Börja när du är redo!',
     gameName: 'Kompis i rymden', gameLabel: 'Minispel', gamePlay: 'Spela', gameStop: 'Stopp',
@@ -6002,7 +6002,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gamePlays: n => n === 1 ? 'Du har 1 spel att spela.' : `Du har ${n} spel att spela.`,
     gameNone: 'Bli klar med I dag för att tjäna ditt nästa spel. En ny nivå som du lär dig ger också ett.', gameBest: n => `Bästa poäng: ${n}`,
     gameHow: 'Tryck under en asteroid för att skjuta den. Träffa rätt svar!',
-    gameTimeUp: 'Tiden är slut!', gameOut: 'Dina sköldar är slut!', gameNewBest: 'Nytt rekord!',
+    gameTimeUp: 'Tiden är slut!', gameOut: 'Inga sköldar kvar! Bra spelat!', gameNewBest: 'Nytt rekord!',
     gameResult: n => n === 1 ? 'Du träffade 1 rätt svar.' : `Du träffade ${n} rätta svar.`,
     gameAgain: n => `Spela igen (${n} kvar)`, gameEarned: 'Du har tjänat ett minispel!',
     gameScoreAria: n => `${n} poäng`, gameShieldsAria: n => `${n} sköldar kvar`,
@@ -6014,7 +6014,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gameResults: { clock: n => n === 1 ? 'Du ställde 1 klocka rätt.' : `Du ställde ${n} klockor rätt.`, shop: n => n === 1 ? 'Du betalade exakt rätt 1 gång.' : `Du betalade exakt rätt ${n} gånger.`, pizza: n => n === 1 ? 'Du gjorde 1 pizza rätt.' : `Du gjorde ${n} pizzor rätt.`, jug: n => n === 1 ? 'Du fyllde 1 kanna rätt.' : `Du fyllde ${n} kannor rätt.`, snake: n => `Du matade ormen med ${n} tal.`, mole: n => n === 1 ? 'Du bonkade 1 rätt mullvad.' : `Du bonkade ${n} rätta mullvadar.`, build: n => `Du byggde ${n} ord.`, spot: n => n === 1 ? 'Du hittade 1 rätt stavning.' : `Du hittade ${n} rätta stavningar.`, fruit: n => n === 1 ? 'Du fångade 1 rätt frukt.' : `Du fångade ${n} rätta frukter.`, bubbles: n => n === 1 ? 'Du poppade 1 rätt bubbla.' : `Du poppade ${n} rätta bubblor.`, hop: n => n === 1 ? 'Du landade på flaggan 1 gång.' : `Du landade på flaggan ${n} gånger.`, memory: n => n === 1 ? 'Du hittade 1 par.' : `Du hittade ${n} par.`, letters: n => n === 1 ? 'Du stavade 1 ord.' : `Du stavade ${n} ord.` },
     mgEven: 'Fånga de jämna talen', mgOdd: 'Fånga de udda talen', mgMore: k => `Fånga tal som är större än ${k}`, mgLess: k => `Fånga tal som är mindre än ${k}`, mgTable: k => `Fånga tal i ${k}:ans tabell`,
     mgMake: n => `Poppa bubblorna som blir ${n}`, mgHop: (a, b) => `Hoppa från ${a} till ${b}`, mgPairs: (n, m) => `Par hittade: ${n} av ${m}`, mgDone: 'Alla par är hittade!', mgLook: 'Titta:', mgHear: 'Lyssna på ordet',
-    introGamesTitle: 'Tjäna minispel!', introGames1: 'Bli klar med dina små steg för I dag, så tjänar du ett minispel.', introGames2: 'Varje ny nivå du lär dig ger dig ett till!',
+    introGamesTitle: 'Tjäna minispel!', introGames1: 'Bli klar med dina små steg varje dag, så spelar vi ett spel tillsammans.', introGames2: 'Varje ny nivå du lär dig ger dig ett till!',
     mgNewRule: 'Ny regel!', mgNewWord: 'Nytt ord!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `klockan ${h}` : m === 15 ? `kvart över ${h}` : m === 30 ? `halv ${nx}` : m === 45 ? `kvart i ${nx}` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Ställ klockan på ${s}`, mgPay: p => `Betala exakt ${p}`, mgPayBtn: 'Betala', mgGave: v => `Du gav ${v}.`,
@@ -6048,7 +6048,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     obPlaceGo: 'Kör!', obPlaceSkip: 'Hoppa över', next: 'Nästa', cancel: 'Avbryt',
     plTitle: 'Uppvärmning', plFirst: 'Här är den första. Ta god tid på dig.', plNext: ['Här kommer nästa.', 'Prova den här.', 'Och den här?'],
     plGood: ['Snyggt!', 'Bra!', 'Bra jobbat!'], plOk: ['Det gör inget!', 'Bra försök!', 'Inga problem!'], plDontKnow: 'Det kan jag inte än',
-    plGreat: n => n ? `Bra jobbat, ${n}!` : 'Bra jobbat!', plDone: x => `Du börjar med ${x}. Din väg visar nästa steg varje gång.`,
+    plGreat: n => n ? `Bra jobbat, ${n}! Nu vet jag precis var vi ska börja.` : 'Bra jobbat! Nu vet jag precis var vi ska börja.', plDone: x => `Du börjar med ${x}. Din väg visar nästa steg varje gång.`,
     plDoneAll: 'Wow, du kan redan allt på vägen! Prova den blandade utmaningen, eller öva på vilken nivå du vill.',
     plDoneBtn: 'Nu börjar vi', backToGrownups: 'Tillbaka till vuxna', whoPlays: 'Vem spelar?',
     nextUp: 'Nästa steg', pathStep: (i, n) => `steg ${i} av ${n}`, pathStart: 'Börja',
@@ -6112,10 +6112,10 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     ex: { jumpAdd: { s1one: (a, b) => `Mulai dari ${a} di garis bilangan, lalu lompat +${b}.` }, jumpSub: { s1one: (a, b) => `Mulai dari ${a} di garis bilangan, lalu lompat mundur ${b}.` },
       partitionAdd: { s1b: (n, pn) => `Pecah ${n} menjadi bagian-bagiannya: ${n} = ${pn}.` }, columnSub: { whyNone: 'Kita mengurangi satu kolom setiap kali, mulai dari satuan. Di sini setiap angka di atas sudah cukup besar, jadi tidak perlu meminjam.' } },
     introSkip: 'Lewati', introStart: 'Ayo mulai', introReplay: 'Lihat sambutan lagi',
-    intro1: (b, n) => `Selamat datang di ${b}! Aku ${n}, dan aku membantu penjumlahan. Kami adalah tim guru. Kami membantumu memahami matematika, bukan hanya mendapat jawaban yang benar.`,
-    intro2a: n => `Aku ${n}. Aku membantu pengurangan.`, intro2b: n => `Aku ${n}. Perkalian adalah kesukaanku!`, intro2c: n => `Aku ${n}. Aku suka membagi dengan adil.`,
-    intro3: 'Dan kami membantu ejaan, dalam empat bahasa! Halo!',
-    introPromises: 'Tiga janji kami', promise1: 'Kalau kamu bingung, kami tunjukkan caranya, langkah demi langkah.', promise2: 'Salah itu tidak apa-apa. Lingkaran kuning artinya kamu bisa mencoba lagi.', promise3: 'Setiap ronde memberi bintang, dan setiap hari kamu jadi sedikit lebih hebat.',
+    intro1: (b, n) => `Hu-hu! Selamat datang di ${b}! Aku ${n}, dan aku membantu penjumlahan. Kami adalah tim guru. Kami akan menunjukkan cara kerja matematika, bukan hanya jawabannya.`,
+    intro2a: n => `Guk guk! Aku ${n}. Pengurangan adalah permainan kesukaanku!`, intro2b: n => `Dan aku ${n}. Perkalian? Aku jagonya. Ta-da!`, intro2c: n => `Aku ${n}. Aku suka membagi dengan adil.`,
+    intro3: 'Dan kami membantu ejaan, dalam empat bahasa! Hello! Hej! Hej! Halo!',
+    introPromises: 'Tiga janji kami', promise1: 'Kalau kamu bingung, kami tunjukkan caranya, langkah demi langkah.', promise2: 'Dari kesalahan kita belajar. Lingkaran kuning artinya kamu bisa mencoba lagi.', promise3: 'Setiap ronde memberi bintang, dan setiap hari kamu jadi sedikit lebih hebat.',
     tip_pad: 'Ketuk angkanya untuk menulis jawabanmu. Lalu tekan Periksa.', tip_letters: 'Ketuk hurufnya untuk mengejanya. Lalu tekan Periksa.', tip_pick: 'Ketuk ejaan yang menurutmu benar.',
     tip_how: 'Bingung? Ketuk “Tunjukkan caranya”, dan aku akan membantumu langkah demi langkah.', tip_circle: 'Lihat lingkaran kuning itu? Ketuk untuk mencoba soal yang mirip lagi.', tip_path: 'Ini langkahmu berikutnya. Ketuk Mulai kalau kamu sudah siap!',
     gameName: 'Sahabat di Luar Angkasa', gameLabel: 'Gim mini', gamePlay: 'Main', gameStop: 'Berhenti',
@@ -6123,7 +6123,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gamePlays: n => n === 1 ? 'Kamu punya 1 gim untuk dimainkan.' : `Kamu punya ${n} gim untuk dimainkan.`,
     gameNone: 'Selesaikan Hari ini untuk mendapat gim berikutnya. Menguasai level baru juga memberi satu gim.', gameBest: n => `Skor terbaik: ${n}`,
     gameHow: 'Ketuk di bawah asteroid untuk menembaknya. Kenai jawaban yang benar!',
-    gameTimeUp: 'Waktu habis!', gameOut: 'Perisaimu sudah habis!', gameNewBest: 'Skor terbaik baru!',
+    gameTimeUp: 'Waktu habis!', gameOut: 'Perisai habis! Permainan yang bagus!', gameNewBest: 'Skor terbaik baru!',
     gameResult: n => n === 1 ? 'Kamu mengenai 1 jawaban benar.' : `Kamu mengenai ${n} jawaban benar.`,
     gameAgain: n => `Main lagi (sisa ${n})`, gameEarned: 'Kamu mendapat satu gim mini!',
     gameScoreAria: n => `${n} poin`, gameShieldsAria: n => `Sisa ${n} perisai`,
@@ -6135,7 +6135,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     gameResults: { clock: n => `Kamu mengatur ${n} jam dengan benar.`, shop: n => `Kamu membayar pas ${n} kali.`, pizza: n => `Kamu membuat ${n} pizza dengan benar.`, jug: n => `Kamu mengisi ${n} teko dengan benar.`, snake: n => `Kamu memberi makan ular ${n} angka.`, mole: n => `Kamu memukul ${n} tikus tanah yang benar.`, build: n => `Kamu menyusun ${n} kata.`, spot: n => `Kamu menemukan ${n} ejaan yang benar.`, fruit: n => `Kamu menangkap ${n} buah yang benar.`, bubbles: n => `Kamu meletuskan ${n} gelembung yang benar.`, hop: n => `Kamu mendarat di bendera ${n} kali.`, memory: n => `Kamu menemukan ${n} pasangan.`, letters: n => `Kamu mengeja ${n} kata.` },
     mgEven: 'Tangkap bilangan genap', mgOdd: 'Tangkap bilangan ganjil', mgMore: k => `Tangkap bilangan yang lebih dari ${k}`, mgLess: k => `Tangkap bilangan yang kurang dari ${k}`, mgTable: k => `Tangkap bilangan kelipatan ${k}`,
     mgMake: n => `Letuskan gelembung yang hasilnya ${n}`, mgHop: (a, b) => `Lompat dari ${a} ke ${b}`, mgPairs: (n, m) => `Pasangan ketemu: ${n} dari ${m}`, mgDone: 'Semua pasangan ketemu!', mgLook: 'Lihat:', mgHear: 'Dengar katanya',
-    introGamesTitle: 'Dapatkan gim mini!', introGames1: 'Selesaikan langkah-langkah kecilmu untuk Hari ini, dan kamu mendapat gim mini.', introGames2: 'Setiap level baru yang kamu kuasai memberimu satu lagi!',
+    introGamesTitle: 'Dapatkan gim mini!', introGames1: 'Selesaikan langkah-langkah kecilmu setiap hari, lalu kita main gim bersama.', introGames2: 'Setiap level baru yang kamu kuasai memberimu satu lagi!',
     mgNewRule: 'Aturan baru!', mgNewWord: 'Kata baru!',
     clockSay: (h, m) => { const nx = h % 12 + 1; return m === 0 ? `pukul ${h}` : m === 15 ? `pukul ${h} lewat seperempat` : m === 30 ? `pukul setengah ${nx}` : m === 45 ? `pukul ${nx} kurang seperempat` : `${h}:${String(m).padStart(2, '0')}`; },
     mgClock: s => `Atur jam ke ${s}`, mgPay: p => `Bayar pas ${p}`, mgPayBtn: 'Bayar', mgGave: v => `Kamu memberi ${v}.`,
@@ -6169,7 +6169,7 @@ const LANGS = ['en', 'da', 'sv', 'id'];
     obPlaceGo: 'Ayo!', obPlaceSkip: 'Lewati dulu', next: 'Lanjut', cancel: 'Batal',
     plTitle: 'Pemanasan', plFirst: 'Ini soal pertama. Santai saja.', plNext: ['Ini soal berikutnya.', 'Coba yang ini.', 'Kalau yang ini?'],
     plGood: ['Benar!', 'Bagus!', 'Hebat!'], plOk: ['Tidak apa-apa!', 'Usaha yang bagus!', 'Tidak masalah!'], plDontKnow: 'Aku belum tahu',
-    plGreat: n => n ? `Kerja bagus, ${n}!` : 'Kerja bagus!', plDone: x => `Kamu akan mulai dengan ${x}. Jalurmu selalu menunjukkan langkah berikutnya.`,
+    plGreat: n => n ? `Kerja bagus, ${n}! Sekarang aku tahu harus mulai dari mana.` : 'Kerja bagus! Sekarang aku tahu harus mulai dari mana.', plDone: x => `Kamu akan mulai dengan ${x}. Jalurmu selalu menunjukkan langkah berikutnya.`,
     plDoneAll: 'Wah, kamu sudah tahu semua yang ada di jalur! Coba tantangan campuran, atau latih level mana saja yang kamu mau.',
     plDoneBtn: 'Ayo mulai', backToGrownups: 'Kembali ke orang tua', whoPlays: 'Siapa yang bermain?',
     nextUp: 'Langkah berikutnya', pathStep: (i, n) => `langkah ${i} dari ${n}`, pathStart: 'Mulai',
@@ -8965,7 +8965,7 @@ const SCREENS = {
     const pathAfter = at < 0 ? null : path.slice(at + 1).map(findLevel).find(x => x && !levelDone(x) && !lockInfo(x.topic));
     const next = !l ? null : at >= 0 ? pathAfter || null : l.topic.levels[l.topic.levels.indexOf(l) + 1];
     const earnedGame = (S.newPass || S.todayDone) && gameLeft() > 0;
-    const fixedN = S.marks.filter(m => m === 'fixed').length, head = t.head[n - 1], msg = t.msg[n - 1](first, S.list.length) + (fixedN ? ' ' + t.fixedMore(fixedN) : '');
+    const fixedN = S.marks.filter(m => m === 'fixed').length, rl = resultsLines(n, first, S.list.length), head = rl.head, msg = rl.msg + (fixedN ? ' ' + t.fixedMore(fixedN) : '');
     app.innerHTML = `${topbar()}
     <section class="results" style="${tcStyle(tid)}">
       ${charWrap(tid, 'joy', 'lg')}
@@ -9097,7 +9097,8 @@ function renderPractice(fresh) {
   const t = tr(), p = cur(), tid = teacherFor(p), redo = S.mode === 'redo';
   if (fresh) { S.input = ''; S.tries = 0; S.helped = !!S.keepHelp; S.keepHelp = false; S.done = false; S.badPicks = []; }
   const info = roundInfo(S.id), title = info.title;
-  const greet = redo ? t.redoLabel(S.rk + 1) : S.i === 0 ? t.greetFirst(store.name ? esc(store.name) : '') + (p.warm ? ' ' + t.warmUp : '') : pick(t.greetNext);
+  const greet = redo ? t.redoLabel(S.rk + 1) : fresh || S.greet == null ? (S.greet = greetLine(p)) : S.greet;
+  const ask = p.sp ? spellAsk(p) : p.lq ? lqAsk(p) : p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
   app.innerHTML = `${topbar()}
   <div class="practice${p.sp ? ' spelling' : ''}" style="${tcStyle(tid)}">
     <div class="pr-top">
@@ -9112,7 +9113,7 @@ function renderPractice(fresh) {
         <section class="redo-card" id="redo-card" hidden></section>
         <section class="talk" id="pr-talk">
           ${charWrap(tid, S.done ? 'joy' : 'happy', 'md')}
-          <div class="bubble"><p class="bubble-who">${tName(tid)}</p><div class="say-row"><p id="pr-say">${greet}</p>${replayBtn()}</div></div>
+          <div class="bubble"><p class="bubble-who">${tName(tid)}</p><div class="say-row"><p id="pr-say">${greet || ask}</p>${replayBtn()}</div></div>
         </section>
         <div class="qcard${redo ? ' redo' : ''}${p.sp ? ' spell' : p.lq ? ' lr-card' : ''}"><span class="q-label">${redo ? t.redoLabel(S.rk + 1) : t.questionN(S.i + 1, S.list.length)}</span>${p.sp ? spellCardTop(p) : p.lq ? lqCardTop(p) : p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q${p.sp ? ' q-spell' : p.lq ? ' lr-q' : ''}" id="q" style="--n:${qLen(p)}" aria-live="polite">${qHtml(p, S.done ? 'right' : '')}</div></div>
         <section class="explain" id="explain" hidden><div id="stepper" class="stepper"></div></section>
@@ -9132,7 +9133,6 @@ function renderPractice(fresh) {
     </div>
   </div>`;
   if (S.done) markDone();
-  const ask = p.sp ? spellAsk(p) : p.lq ? lqAsk(p) : p.story != null ? storyText(p) : t.askQ(qText(p), p.missing);
   // the very first question of each kind: show where to tap
   let tip = '';
   if (fresh && !redo) {
@@ -9140,7 +9140,7 @@ function renderPractice(fresh) {
     if (useTip(k)) {
       tip = t['tip_' + k];
       if (k === 'pick' || k === 'lpick') coach('.opts'); else coach('#pad', '#check-btn');
-      $('#pr-say').innerHTML = `${greet} ${tip}`;
+      $('#pr-say').innerHTML = `${greet || ask} ${tip}`;
     }
   }
   if (fresh) speak(`${greet} ${ask}${tip ? ' ' + tip : ''}`, tid);
@@ -9250,14 +9250,13 @@ function check() {
     confetti(firstTry ? 28 : 14);
     if (S.mode === 'redo') {
       if (firstTry) S.marks[S.rk] = 'fixed';
-      teacherSay(firstTry ? pick(t.fixedPraise) : pick(t.praiseHelp), 'joy');
+      teacherSay(firstTry ? lineFrom('fixed', [...t.fixedPraise, ...t.fixedPraiseMore]) : lineFrom('help', [...t.praiseHelp, ...t.praiseHelpMore]), 'joy');
       if (S.finished) { recordStars(); save(); } else saveRound();
     } else {
       if (firstTry) S.first++;
       S.marks[S.i] = firstTry ? 'ok' : 'help'; document.querySelectorAll('.coach').forEach(e => e.classList.remove('coach'));
       if (isReviewId(S.id)) reviewResult(p, firstTry); else if (!firstTry) reviewAdd(p);
-      const nm = store.name && Math.random() < .35 ? `, ${esc(store.name)}` : '';
-      teacherSay((firstTry ? `${pick(t.praise(nm))} ${p.sp ? t.spelledAs(p.w) : fullEq(p) + '.'}` : pick(t.praiseHelp)) + noticeLine(p, firstTry), 'joy');
+      teacherSay(praiseLine(p, firstTry), 'joy');
       if (S.i === S.list.length - 1) finishRound(); else saveRound();
     }
     markDone();
@@ -9268,9 +9267,9 @@ function check() {
     updateQ('wrong');
     // learning-topic questions can name the typical mistake kindly ("the short hand shows the hour")
     const hint = p.lq && S.tries === 1 ? lqHint(p, Number(S.input)) : '';
-    if (S.tries === 1 && useTip('how')) { teacherSay(`${hint || pick(t.retry)} ${t.tip_how}`, 'think'); coach('[data-act="howto"]'); }
-    else if (S.tries === 1) teacherSay((hint || pick(t.retry)) + t.orShow, 'think');
-    else { teacherSay(p.sp ? t.togetherSp || t.together : t.together, 'think'); openHowTo(); }
+    if (S.tries === 1 && useTip('how')) { teacherSay(`${retryLine(p, hint)} ${t.tip_how}`, 'think'); coach('[data-act="howto"]'); }
+    else if (S.tries === 1) teacherSay(retryLine(p, hint) + t.orShow, 'think');
+    else { teacherSay(togetherLine(p), 'think'); openHowTo(); }
     const bad = S.input;
     setTimeout(() => { if (!S.done && S.input === bad && $('#q')) { S.input = ''; updateQ(); } }, 900);
   }
@@ -10495,20 +10494,23 @@ Object.assign(SCREENS, {
     gameStart();
   },
   gameEnd({ id = 'space', score = 0, why = 'time', best = false, wkBest = false }) {
-    const t = tr(), left = gameLeft();
+    const t = tr(), left = gameLeft(), av = avatarOf(store);
+    if (!S.endHead) S.endHead = why === 'time' ? lineFrom('timeUp', [t.gameTimeUp, ...t.timeUpMore]) : lineFrom('out', [t.gameOut, ...t.outMore]);
+    if (!S.endExtra) S.endExtra = lineFrom('gExtra', t.gExtra);
+    const scoreLine = score ? (t.gameResults[id] || t.gameResult)(score) : t.gameZero;
     app.innerHTML = `${topbar()}
     <section class="results game-end" style="--tc:var(--div)">
       <div class="cw cw-lg">${buddySvg('joy')}</div>
-      <h1 style="font-size:clamp(30px,6vw,48px)">${why === 'time' ? t.gameTimeUp : t.gameOut}</h1>
+      <h1 style="font-size:clamp(30px,6vw,48px)">${S.endHead}</h1>
       <p class="muted">${GAME_ICON[id]} ${t.gameNames[id]}</p>
-      <p>${(t.gameResults[id] || t.gameResult)(score)}${best && score >= 3 ? ' ' + t.gameNewBest : wkBest && score >= 3 ? ' ' + t.gameNewWkBest : ''}</p>
+      <p>${scoreLine}${best && score >= 3 ? ' ' + t.gameNewBest : wkBest && score >= 3 ? ' ' + t.gameNewWkBest : ''} ${S.endExtra}</p>
       <div class="res-actions">
         ${left ? `<button class="btn btn-big" data-act="game" data-g="${id}">${t.gameAgain(left)}</button><button class="btn btn-soft" data-act="games">${t.gamePick}</button>` : ''}
         <button class="btn ${left ? 'btn-soft' : 'btn-big'}" data-act="home">${t.home}</button>
       </div>
     </section>`;
     if (score) confetti(Math.min(60, 12 + score * 4));
-    speak(`${why === 'time' ? t.gameTimeUp : t.gameOut} ${(t.gameResults[id] || t.gameResult)(score)}${best && score >= 3 ? ' ' + t.gameNewBest : ''}`, 'hoot');
+    speak(`${S.endHead} ${scoreLine}${best && score >= 3 ? ' ' + t.gameNewBest : ''} ${S.endExtra}`, av);
   }
 });
 Object.assign(ACTIONS, {
@@ -10824,7 +10826,7 @@ Object.assign(SCREENS, {
       <div class="pr-top"><b style="font-family:var(--font-display)">${t.plTitle}</b><span class="muted">${t.plQ(PL.asked + 1)}</span></div>
       <div class="pr-grid">
         <div class="pr-left">
-          <section class="talk" id="pr-talk">${charWrap('sparkle', 'happy', 'md')}<div class="bubble"><p class="bubble-who">${tName('sparkle')}</p><div class="say-row"><p id="pr-say">${PL.asked ? pick(t.plNext) : t.plFirst}</p>${replayBtn()}</div></div></section>
+          <section class="talk" id="pr-talk">${charWrap('sparkle', 'happy', 'md')}<div class="bubble"><p class="bubble-who">${tName('sparkle')}</p><div class="say-row"><p id="pr-say">${PL.asked ? lineFrom('plNext', [...t.plNext, ...t.plNextMore]) : lineFrom('plFirst', [t.plFirst, ...t.plFirstMore])}</p>${replayBtn()}</div></div></section>
           <div class="qcard">${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}<div class="q" id="q" style="--n:${qLen(p)}" aria-live="polite">${qHtml(p)}</div></div>
         </div>
         <div class="pr-right">
@@ -10878,7 +10880,7 @@ function plAnswer(knew) {
   const right = knew && Number(S.input) === answerOf(p);
   S.done = true; PL.asked++; if (right) PL.right++;
   updateQ(right ? 'right' : '');
-  const say = right ? pick(t.plGood) : pick(t.plOk);
+  const say = right ? lineFrom('plGood', [...t.plGood, ...t.plGoodMore]) : lineFrom('plOk', [...t.plOk, ...t.plOkMore]);
   $('#pr-say').innerHTML = say; speak(say, 'sparkle');
   setTimeout(() => {
     if (screen !== 'placement') return;
@@ -11470,19 +11472,6 @@ function withWarmUp(id, list) {
 }
 
 /* ---------- praise that notices, and small moments inside a round ---------- */
-function noticeLine(p, firstTry) {
-  const t = tr(), len = S.list.length; S.run = firstTry ? (S.run || 0) + 1 : 0;
-  let say = '';
-  if (!S.noticed) {
-    const before = firstTry && p.lv && store.review.some(r => r.k === revKey(p)) && !isReviewId(S.id) || firstTry && isReviewId(S.id);
-    if (before) say = t.ntBefore;
-    else if (!firstTry && S.tries > 0) say = t.ntKept;
-    else if (S.run === 3) say = t.ntRun3;
-    if (say) S.noticed = true;
-  }
-  if (len >= 8 && S.i === len / 2 - 1) say += (say ? ' ' : '') + t.ntHalf(len / 2);
-  return say ? ' ' + say : '';
-}
 // the next small goal, shown when a round is finished
 function nextGoal(skipTomorrow) {
   const t = tr(), have = totalStars(), o = OUTFITS.filter(x => x.need && have < x.need).sort((a, b) => a.need - b.need)[0];
@@ -11498,7 +11487,8 @@ function resultsExtras(id, tid) {
   if (l && (store.stuck || {})[id] >= 2 && (store.best[id] || 0) < PASS)
     out.push(`<section class="dy-stuck"><p>${t.dyStuck}</p><div class="confirm-row"><button class="btn btn-small" data-act="lesson" data-id="${id}">${t.dyStuckLesson}</button><button class="btn btn-small btn-soft" data-act="dy-other" data-id="${id}">${t.dyStuckOther}</button></div></section>`);
   const tr8 = t.traits[Object.values(SPELL_TEACHER).includes(tid) ? 'spell' : tid] || t.traits.spell;
-  out.push(`<p class="dy-trait">${tr8[(dayNum() + (S.first || 0)) % tr8.length]}</p>`);
+  if (S.traitI == null) S.traitI = +lineFrom('trait', tr8.map((_, i) => String(i)));   // (kept if the screen is drawn again)
+  out.push(`<p class="dy-trait">${tr8[S.traitI % tr8.length]}</p>`);
   return out.join('');
 }
 
@@ -11540,7 +11530,7 @@ function ytRender(msg) {
   el.hidden = false;
   if (!$('#yt-top')) el.innerHTML = '<div id="yt-top"></div><div id="yt-steps" class="stepper" hidden></div>';
   $('#yt-top').innerHTML = `<h3>${t.ytTitle}</h3>
-    <div class="st-say">${charWrap(YT.tid, YT.ok ? 'joy' : 'happy', 'sm')}<p id="yt-say">${msg || t.ytSay}</p>${replayBtn()}</div>
+    <div class="st-say">${charWrap(YT.tid, YT.ok ? 'joy' : 'happy', 'sm')}<p id="yt-say">${msg || YT.say}</p>${replayBtn()}</div>
     <div class="dy-yt-q">${p.story != null ? `<p class="story">${storyText(p)}</p>` : ''}${p.lq ? qVis(p) : ''}<div class="q" style="--n:${qLen(p)}">${p.lq ? `<span class="lr-short">${LQ[p.s].short(p, lqX(p))}</span> = ${box}` : p.story != null ? box : qHtmlWith(p, box)}</div></div>
     ${YT.ok ? '' : `<div class="pad dy-pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button class="key" data-act="yt-key" data-k="${n}">${n}</button>`).join('')}
       <button class="key key-sm" data-act="yt-key" data-k="clear">${t.clear}</button><button class="key" data-act="yt-key" data-k="0">0</button><button class="key key-sm" data-act="yt-key" data-k="back" aria-label="${t.delLast}">⌫</button></div>
@@ -11554,8 +11544,8 @@ function qHtmlWith(p, box) {
 function ytStart(l) {
   if (YT && YT.l === l.id && $('#yt-top')) return;   // (the last lesson step shown again)
   const p = yourTurnFor(l); if (!p) { $('#lesson-go')?.classList.add('ready'); return; }
-  YT = { p, l: l.id, input: '', tries: 0, ok: false, tid: l.topic.teacher };
-  ytRender(); speak(`${tr().ytTitle} ${tr().ytSay}`, YT.tid);
+  YT = { p, l: l.id, input: '', tries: 0, ok: false, tid: l.topic.teacher, say: lineFrom('ytSay', tr().ytSayL) };
+  ytRender(); speak(`${tr().ytTitle} ${YT.say}`, YT.tid);
   $('#dy-yt').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
 }
 function ytHow() {
@@ -11569,9 +11559,9 @@ Object.assign(ACTIONS, {
     if (!YT || YT.ok) return;
     const t = tr();
     if (YT.input === '') { ytRender(t.typeFirst); return; }
-    if (Number(YT.input) === answerOf(YT.p)) { YT.ok = true; ytRender(t.ytRight); confetti(20); speak(t.ytRight, YT.tid); $('#lesson-go')?.classList.add('ready'); return; }
+    if (Number(YT.input) === answerOf(YT.p)) { const m = lineFrom('ytRight', t.ytRightL); YT.ok = true; ytRender(m); confetti(20); speak(m, YT.tid); $('#lesson-go')?.classList.add('ready'); return; }
     YT.tries++; YT.input = '';
-    if (YT.tries === 1) { ytRender(t.ytAgain); speak(t.ytAgain, YT.tid); } else { ytRender(t.ytTogether); ytHow(); }
+    if (YT.tries === 1) { const m = lineFrom('ytAgain', t.ytAgainL); ytRender(m); speak(m, YT.tid); } else { ytRender(lineFrom('ytTogether', t.ytTogetherL)); ytHow(); }
   },
   'yt-how': () => { if (YT) ytHow(); },
   journey: () => show('journey'),
@@ -11629,10 +11619,12 @@ function buddyRoundCard() {
     <button class="btn" data-act="br-start">${t.letsGo}</button></section>`;
 }
 let BR = null;
+// only plain sums with two numbers: "missing number" and three-number sums cannot be shown as "a + b = answer"
+function brSum() { for (let i = 0; i < 80; i++) { const p = gameQuestion(); if (!p.missing && p.c == null && !p.lq && p.story == null) return p; } return P(7, 5, '+'); }
 function brNext() {
-  const p = gameQuestion(), ans = answerOf(p), wrong = Math.random() < .5;
+  const p = brSum(), ans = answerOf(p), wrong = Math.random() < .5;
   const shown = wrong ? gameWrong(ans, 1)[0] : ans;
-  BR.q = { p, ans, shown: shown == null ? ans : shown, wrong: wrong && shown != null && shown !== ans };
+  BR.q = { p, ans, shown: shown == null ? ans : shown, wrong: wrong && shown != null && shown !== ans, say: lineFrom('brQ', tr().brQL) };
   BR.answered = false; brRender();
 }
 function brRender(msg) {
@@ -11640,12 +11632,12 @@ function brRender(msg) {
   app.innerHTML = `${topbar()}
   <div class="crumbs"><button class="btn-link" data-act="home">${t.stop}</button><span>· ${t.brTitle} · ${BR.i + 1} / ${BR_N}</span></div>
   <section class="dy-br" style="${tcStyle(av)}">
-    <section class="talk">${charWrap(av, BR.answered ? 'joy' : 'think', 'md')}<div class="bubble"><p class="bubble-who">${tName(av)}</p><div class="say-row"><p id="br-say">${msg || t.brQ}</p>${replayBtn()}</div></div></section>
+    <section class="talk">${charWrap(av, BR.answered ? 'joy' : 'think', 'md')}<div class="bubble"><p class="bubble-who">${tName(av)}</p><div class="say-row"><p id="br-say">${msg || q.say}</p>${replayBtn()}</div></div></section>
     <div class="qcard"><div class="eq">${eqs}</div></div>
     <div class="res-actions">${BR.answered ? `<button class="btn btn-big" data-act="br-next">${BR.i + 1 >= BR_N ? t.seeStars : t.nextQ}</button>`
       : `<button class="btn btn-big" style="--tc:var(--good)" data-act="br-say" data-v="1">${t.brRight}</button><button class="btn btn-big" style="--tc:var(--oops)" data-act="br-say" data-v="0">${t.brWrong}</button>`}</div>
   </section>`;
-  speak((msg || t.brQ) + (BR.answered ? '' : ' ' + eqs), av);
+  speak((msg || q.say) + (BR.answered ? '' : ' ' + eqs), av);
 }
 SCREENS.buddy = function () { S = { id: 'buddy' }; if (!BR) { BR = { i: 0, caught: 0, right: 0 }; brNext(); } else brRender(); };
 Object.assign(ACTIONS, {
@@ -11655,17 +11647,18 @@ Object.assign(ACTIONS, {
     const t = tr(), q = BR.q, saidRight = d.v === '1', ok = saidRight === !q.wrong;
     BR.answered = true; if (ok) BR.right++; if (ok && q.wrong) BR.caught++;
     if (ok) confetti(14);
-    brRender(ok ? (q.wrong ? t.brCaught(q.ans) : t.brYes) : (q.wrong ? t.brMissed(q.ans) : t.brWasRight));
+    const a = { a: q.ans, sum: `${q.p.a} ${opSym(q.p.op)} ${q.p.b} = ${q.ans}` };
+    brRender(ok ? (q.wrong ? lineFrom('brCaught', t.brCaughtL, a) : lineFrom('brYes', t.brYesL)) : (q.wrong ? lineFrom('brMissed', t.brMissedL, a) : lineFrom('brWasRight', t.brWasRightL, a)));
   },
   'br-next': () => {
     if (!BR) return show('home');
     if (++BR.i < BR_N) return brNext();
-    const t = tr(), av = avatarOf(store), n = BR.right;
+    const t = tr(), av = avatarOf(store), n = BR.right, end = lineFrom('brEnd', t.brEndL, { n, m: BR_N });
     S = { id: 'buddy' }; store.bweek = weekId(); todayCount('buddy'); wkAdd(0); save();
     app.innerHTML = `${topbar()}<section class="results" style="${tcStyle(av)}"><div class="cw cw-lg">${buddySvg('joy')}</div>
-      <h1 style="font-size:clamp(30px,6vw,46px)">${t.brEndTitle}</h1><p style="max-width:52ch">${t.brEnd(n, BR_N)}</p>${resultsExtras('buddy', av)}
+      <h1 style="font-size:clamp(30px,6vw,46px)">${t.brEndTitle}</h1><p style="max-width:52ch">${end}</p>${resultsExtras('buddy', av)}
       <div class="res-actions">${S.todayDone && gameLeft() ? `<button class="btn btn-big" data-act="games">${t.gamePlay}</button>` : ''}<button class="btn ${S.todayDone && gameLeft() ? 'btn-soft' : 'btn-big'}" data-act="home">${t.home}</button></div></section>`;
-    confetti(30); speak(`${t.brEndTitle} ${t.brEnd(n, BR_N)}`, av); BR = null;
+    confetti(30); speak(`${t.brEndTitle} ${end}`, av); BR = null;
   }
 });
 
@@ -11742,26 +11735,16 @@ app.addEventListener('change', e => {
       dyGoalGames: n => `Finish Today, or learn ${n} more ${n === 1 ? 'level' : 'levels'}, to open the mini-games!`,
       dyStuck: "This level is a tricky one. That's OK: tricky things take a few tries.",
       dyStuckLesson: 'Look at the lesson together', dyStuckOther: 'Try something else today',
-      traits: {
-        hoot: ["Here's a fact: brains grow stronger every time they practise. Hoo-hoo!", 'A fact for you: every mistake helps your brain learn something new.'],
-        daisy: ["That round deserves a snack! I'd share my apple with you.", 'Mmm, that was as good as a picnic!'],
-        whiskers: ['Oh my whiskers! What a round!', 'Stop everything! That was amazing!'],
-        sparkle: ['I spotted a pattern: every round makes you a little better.', 'Fair and square: you earned every one of those stars.'],
-        spell: ['Letter by letter, you did it!', 'Words are like puzzles, and you are a puzzle solver.']
-      },
-      ntRun3: 'Three in a row without help!', ntKept: 'You kept going and got it!',
-      ntBefore: 'You needed help with this one before. Not any more!', ntHalf: n => `Halfway! ${n} to go.`,
+      ntBefore: 'You needed help with this one before. Not any more!',
       warmUp: 'A warm-up first, from the level before.', start5: 'Start 5 questions',
       jyTitle: 'Your journey', jyBtn: 'My journey', jyCount: (a, k, n) => `You learnt ${a} ${a === 1 ? 'step' : 'steps'}.${k ? ` You already knew ${k}.` : ''} ${n ? `${n} to go!` : 'You did them all!'}`, jyKnown: 'already known',
       jyHere: 'You are here', jyLearnt: 'learnt', jyEnd: 'The end of the path (for now)!',
       plKnown: x => `You already know a lot: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'level' : 'levels'})`,
       topicMeta2: (d, n, s) => `${d} of ${n} levels learnt · ${s} ${s === 1 ? 'star' : 'stars'}`,
-      ytTitle: 'Your turn!', ytSay: 'Now you try one like it. Take your time.', ytRight: "You did it! Now you're ready for the questions.",
-      ytAgain: 'Nearly! Have another go.', ytTogether: "Let's work it out together.",
+      ytTitle: 'Your turn!',
       brLabel: 'Special round', brTitle: 'Spot my mistakes!', brCard: n => `${n} has done some sums, but some are wrong. Can you spot them?`,
-      brQ: 'Here is my answer. Am I right?', brRight: 'Right ✓', brWrong: 'Oops ✗', brYes: 'Yes, that one was right. Phew!',
-      brCaught: a => `You caught my mistake! It should be ${a}.`, brMissed: a => `Oh, that one was wrong. It should be ${a}.`, brWasRight: 'Actually, that one was right!',
-      brEndTitle: 'Thank you!', brEnd: (n, m) => `You checked ${m} sums and got ${n} right. You're a great teacher!`,
+      brRight: 'Right ✓', brWrong: 'Oops ✗',
+      brEndTitle: 'Thank you!',
       gamesDailyLabel: 'One mini-game a day only (when Today is finished), not one per level learnt',
       roundLenLabel: 'Questions per round', roundLenN: n => `${n} questions`,
       todaySpellLabel: 'Spelling is part of Today',
@@ -11773,7 +11756,7 @@ app.addEventListener('change', e => {
         pizza: 'Pizza hat', clockb: 'Clock badge', coinb: 'Coin badge', starb: 'Times tables star', shapeb: 'Shape badge' },
       dressBadge: x => `Learn all of ${x}`,
       intro2d: 'And there is more: clocks, coins, fractions, shapes and charts!',
-      introBuddy: n => `And ${n} is your very own buddy, here to play with you!`,
+      introBuddy: n => `And I'm ${n}, your very own buddy!`,
       dyLines: [
         'Did you know? An octopus has three hearts.',
         'Did you know? Your heart beats about 100,000 times every day.',
@@ -11835,26 +11818,16 @@ app.addEventListener('change', e => {
       dyGoalGames: n => `Bliv færdig med I dag, eller lær ${n} ${n === 1 ? 'niveau' : 'niveauer'} mere, for at åbne minispillene!`,
       dyStuck: 'Det her niveau er svært. Det er helt okay: svære ting tager et par forsøg.',
       dyStuckLesson: 'Se lektionen sammen', dyStuckOther: 'Prøv noget andet i dag',
-      traits: {
-        hoot: ['Vidste du det? Hjernen bliver stærkere, hver gang den øver sig. Hu-hu!', 'Vidste du det? Hver fejl hjælper din hjerne med at lære noget nyt.'],
-        daisy: ['Den runde fortjener en snack! Jeg deler gerne mit æble med dig.', 'Mmm, det var lige så godt som en skovtur!'],
-        whiskers: ['Åh, mine knurhår! Sikken en runde!', 'Stop alt! Det var fantastisk!'],
-        sparkle: ['Jeg har fundet et mønster: hver runde gør dig lidt bedre.', 'Helt fair: du har fortjent hver eneste stjerne.'],
-        spell: ['Bogstav for bogstav, du klarede det!', 'Ord er som puslespil, og du er god til at løse dem.']
-      },
-      ntRun3: 'Tre i træk uden hjælp!', ntKept: 'Du blev ved og fik den!',
-      ntBefore: 'Du fik hjælp til den her før. Ikke mere!', ntHalf: n => `Halvvejs! ${n} tilbage.`,
+      ntBefore: 'Du fik hjælp til den her før. Ikke mere!',
       warmUp: 'Først en opvarmning fra niveauet før.', start5: 'Start 5 opgaver',
       jyTitle: 'Din rejse', jyBtn: 'Min rejse', jyCount: (a, k, n) => `Du har lært ${a} skridt.${k ? ` Du kunne allerede ${k}.` : ''} ${n ? `${n} tilbage!` : 'Du har klaret dem alle!'}`, jyKnown: 'kunne du allerede',
       jyHere: 'Du er her', jyLearnt: 'lært', jyEnd: 'Enden af vejen (indtil videre)!',
       plKnown: x => `Du kan allerede en masse: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'niveau' : 'niveauer'})`,
       topicMeta2: (d, n, s) => `${d} af ${n} niveauer lært · ${s} ${s === 1 ? 'stjerne' : 'stjerner'}`,
-      ytTitle: 'Din tur!', ytSay: 'Nu prøver du en, der ligner. Tag dig god tid.', ytRight: 'Du klarede det! Nu er du klar til opgaverne.',
-      ytAgain: 'Tæt på! Prøv en gang til.', ytTogether: 'Lad os regne den ud sammen.',
+      ytTitle: 'Din tur!',
       brLabel: 'Særlig runde', brTitle: 'Find mine fejl!', brCard: n => `${n} har regnet nogle stykker, men nogle er forkerte. Kan du finde dem?`,
-      brQ: 'Her er mit svar. Har jeg ret?', brRight: 'Rigtigt ✓', brWrong: 'Ups ✗', brYes: 'Ja, den var rigtig. Puha!',
-      brCaught: a => `Du fandt min fejl! Det skal være ${a}.`, brMissed: a => `Åh, den var forkert. Det skal være ${a}.`, brWasRight: 'Faktisk var den rigtig!',
-      brEndTitle: 'Tak!', brEnd: (n, m) => `Du tjekkede ${m} regnestykker og havde ${n} rigtige. Du er en god lærer!`,
+      brRight: 'Rigtigt ✓', brWrong: 'Ups ✗',
+      brEndTitle: 'Tak!',
       gamesDailyLabel: 'Kun ét minispil om dagen (når I dag er klaret), ikke ét for hvert lært niveau',
       roundLenLabel: 'Opgaver pr. runde', roundLenN: n => `${n} opgaver`,
       todaySpellLabel: 'Stavning er en del af I dag',
@@ -11866,7 +11839,7 @@ app.addEventListener('change', e => {
         pizza: 'Pizzahat', clockb: 'Urmærke', coinb: 'Møntmærke', starb: 'Gangestjerne', shapeb: 'Figurmærke' },
       dressBadge: x => `Lær hele ${x}`,
       intro2d: 'Og der er mere: ure, mønter, brøker, figurer og diagrammer!',
-      introBuddy: n => `Og ${n} er din helt egen makker, som spiller med dig!`,
+      introBuddy: n => `Og jeg er ${n}, din helt egen makker!`,
       dyLines: [
         'Vidste du det? En blæksprutte har tre hjerter.',
         'Vidste du det? Dit hjerte slår cirka 100.000 gange hver dag.',
@@ -11928,26 +11901,16 @@ app.addEventListener('change', e => {
       dyGoalGames: n => `Bli klar med I dag, eller lär dig ${n} ${n === 1 ? 'nivå' : 'nivåer'} till, för att öppna minispelen!`,
       dyStuck: 'Den här nivån är knepig. Det är helt okej: knepiga saker tar några försök.',
       dyStuckLesson: 'Titta på lektionen tillsammans', dyStuckOther: 'Prova något annat i dag',
-      traits: {
-        hoot: ['Visste du? Hjärnan blir starkare varje gång den övar. Ho-ho!', 'Visste du? Varje misstag hjälper hjärnan att lära sig något nytt.'],
-        daisy: ['Den omgången förtjänar ett mellanmål! Jag delar gärna mitt äpple med dig.', 'Mmm, det var lika gott som en picknick!'],
-        whiskers: ['Åh, mina morrhår! Vilken omgång!', 'Stopp och belägg! Det där var fantastiskt!'],
-        sparkle: ['Jag hittade ett mönster: varje omgång gör dig lite bättre.', 'Helt rättvist: du har förtjänat varenda stjärna.'],
-        spell: ['Bokstav för bokstav, du klarade det!', 'Ord är som pussel, och du är bra på att lösa dem.']
-      },
-      ntRun3: 'Tre i rad utan hjälp!', ntKept: 'Du fortsatte och klarade det!',
-      ntBefore: 'Du behövde hjälp med den här förut. Inte nu längre!', ntHalf: n => `Halvvägs! ${n} kvar.`,
+      ntBefore: 'Du behövde hjälp med den här förut. Inte nu längre!',
       warmUp: 'Först en uppvärmning från nivån innan.', start5: 'Starta 5 uppgifter',
       jyTitle: 'Din resa', jyBtn: 'Min resa', jyCount: (a, k, n) => `Du har lärt dig ${a} steg.${k ? ` Du kunde redan ${k}.` : ''} ${n ? `${n} kvar!` : 'Du har klarat alla!'}`, jyKnown: 'kunde du redan',
       jyHere: 'Du är här', jyLearnt: 'inlärd', jyEnd: 'Slutet på vägen (än så länge)!',
       plKnown: x => `Du kan redan massor: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} ${n === 1 ? 'nivå' : 'nivåer'})`,
       topicMeta2: (d, n, s) => `${d} av ${n} nivåer inlärda · ${s} ${s === 1 ? 'stjärna' : 'stjärnor'}`,
-      ytTitle: 'Din tur!', ytSay: 'Nu provar du en som liknar den. Ta god tid på dig.', ytRight: 'Du klarade det! Nu är du redo för uppgifterna.',
-      ytAgain: 'Nästan! Försök en gång till.', ytTogether: 'Vi räknar ut det tillsammans.',
+      ytTitle: 'Din tur!',
       brLabel: 'Särskild omgång', brTitle: 'Hitta mina fel!', brCard: n => `${n} har räknat några tal, men några är fel. Kan du hitta dem?`,
-      brQ: 'Här är mitt svar. Har jag rätt?', brRight: 'Rätt ✓', brWrong: 'Hoppsan ✗', brYes: 'Ja, det var rätt. Puh!',
-      brCaught: a => `Du hittade mitt fel! Det ska vara ${a}.`, brMissed: a => `Oj, det där var fel. Det ska vara ${a}.`, brWasRight: 'Faktiskt var det rätt!',
-      brEndTitle: 'Tack!', brEnd: (n, m) => `Du kollade ${m} tal och hade ${n} rätt. Du är en bra lärare!`,
+      brRight: 'Rätt ✓', brWrong: 'Hoppsan ✗',
+      brEndTitle: 'Tack!',
       gamesDailyLabel: 'Bara ett minispel om dagen (när I dag är klart), inte ett för varje inlärd nivå',
       roundLenLabel: 'Uppgifter per omgång', roundLenN: n => `${n} uppgifter`,
       todaySpellLabel: 'Stavning är en del av I dag',
@@ -11959,7 +11922,7 @@ app.addEventListener('change', e => {
         pizza: 'Pizzahatt', clockb: 'Klockmärke', coinb: 'Myntmärke', starb: 'Gångerstjärna', shapeb: 'Formmärke' },
       dressBadge: x => `Lär dig hela ${x}`,
       intro2d: 'Och det finns mer: klockor, mynt, bråk, former och diagram!',
-      introBuddy: n => `Och ${n} är din alldeles egna kompis, som spelar med dig!`,
+      introBuddy: n => `Och jag är ${n}, din alldeles egna kompis!`,
       dyLines: [
         'Visste du? En bläckfisk har tre hjärtan.',
         'Visste du? Ditt hjärta slår ungefär 100 000 gånger varje dag.',
@@ -12021,26 +11984,16 @@ app.addEventListener('change', e => {
       dyGoalGames: n => `Selesaikan Hari ini, atau kuasai ${n} level lagi, untuk membuka gim mini!`,
       dyStuck: 'Level ini memang sulit. Tidak apa-apa: hal yang sulit butuh beberapa kali mencoba.',
       dyStuckLesson: 'Lihat pelajarannya bersama', dyStuckOther: 'Coba yang lain hari ini',
-      traits: {
-        hoot: ['Tahukah kamu? Otak jadi makin kuat setiap kali berlatih. Hu-hu!', 'Tahukah kamu? Setiap kesalahan membantu otakmu belajar hal baru.'],
-        daisy: ['Ronde itu pantas dapat camilan! Aku mau berbagi apelku denganmu.', 'Hmm, itu seenak piknik!'],
-        whiskers: ['Astaga, kumisku! Ronde yang hebat!', 'Berhenti semuanya! Itu luar biasa!'],
-        sparkle: ['Aku menemukan pola: setiap ronde membuatmu sedikit lebih hebat.', 'Adil dan jujur: kamu pantas mendapat setiap bintang itu.'],
-        spell: ['Huruf demi huruf, kamu berhasil!', 'Kata-kata itu seperti teka-teki, dan kamu pandai memecahkannya.']
-      },
-      ntRun3: 'Tiga benar berturut-turut tanpa bantuan!', ntKept: 'Kamu terus mencoba dan berhasil!',
-      ntBefore: 'Dulu kamu perlu bantuan untuk soal ini. Sekarang tidak lagi!', ntHalf: n => `Setengah jalan! Tinggal ${n} lagi.`,
+      ntBefore: 'Dulu kamu perlu bantuan untuk soal ini. Sekarang tidak lagi!',
       warmUp: 'Pemanasan dulu, dari level sebelumnya.', start5: 'Mulai 5 soal',
       jyTitle: 'Perjalananmu', jyBtn: 'Perjalananku', jyCount: (a, k, n) => `Kamu sudah menguasai ${a} langkah.${k ? ` Kamu sudah tahu ${k}.` : ''} ${n ? `Tinggal ${n} lagi!` : 'Kamu sudah menyelesaikan semuanya!'}`, jyKnown: 'sudah tahu',
       jyHere: 'Kamu di sini', jyLearnt: 'dikuasai', jyEnd: 'Akhir jalan (untuk sekarang)!',
       plKnown: x => `Kamu sudah tahu banyak: ${x}. Wow!`, plKnownItem: (x, n) => `${x} (${n} level)`,
       topicMeta2: (d, n, s) => `${d} dari ${n} level dikuasai · ${s} bintang`,
-      ytTitle: 'Giliranmu!', ytSay: 'Sekarang coba satu yang mirip. Pelan-pelan saja.', ytRight: 'Kamu berhasil! Sekarang kamu siap mengerjakan soal-soalnya.',
-      ytAgain: 'Hampir! Coba sekali lagi.', ytTogether: 'Ayo kita kerjakan bersama.',
+      ytTitle: 'Giliranmu!',
       brLabel: 'Ronde khusus', brTitle: 'Temukan kesalahanku!', brCard: n => `${n} sudah mengerjakan beberapa soal, tapi ada yang salah. Bisakah kamu menemukannya?`,
-      brQ: 'Ini jawabanku. Apakah aku benar?', brRight: 'Benar ✓', brWrong: 'Ups ✗', brYes: 'Ya, yang itu benar. Fiuh!',
-      brCaught: a => `Kamu menemukan kesalahanku! Seharusnya ${a}.`, brMissed: a => `Oh, yang itu salah. Seharusnya ${a}.`, brWasRight: 'Sebenarnya yang itu benar!',
-      brEndTitle: 'Terima kasih!', brEnd: (n, m) => `Kamu memeriksa ${m} soal dan ${n} jawabanmu benar. Kamu guru yang hebat!`,
+      brRight: 'Benar ✓', brWrong: 'Ups ✗',
+      brEndTitle: 'Terima kasih!',
       gamesDailyLabel: 'Hanya satu gim mini sehari (setelah Hari ini selesai), bukan satu untuk setiap level yang dikuasai',
       roundLenLabel: 'Soal per ronde', roundLenN: n => `${n} soal`,
       todaySpellLabel: 'Ejaan termasuk dalam Hari ini',
@@ -12052,7 +12005,7 @@ app.addEventListener('change', e => {
         pizza: 'Topi pizza', clockb: 'Lencana jam', coinb: 'Lencana koin', starb: 'Bintang perkalian', shapeb: 'Lencana bangun datar' },
       dressBadge: x => `Kuasai semua ${x}`,
       intro2d: 'Dan masih ada lagi: jam, koin, pecahan, bangun datar, dan diagram!',
-      introBuddy: n => `Dan ${n} adalah sahabatmu sendiri, yang akan bermain bersamamu!`,
+      introBuddy: n => `Dan aku ${n}, sahabatmu sendiri!`,
       dyLines: [
         'Tahukah kamu? Gurita punya tiga jantung.',
         'Tahukah kamu? Jantungmu berdetak sekitar 100.000 kali setiap hari.',
@@ -12100,6 +12053,433 @@ app.addEventListener('change', e => {
   };
   // (the names of the new things to wear join the list that is already there)
   for (const [l, v] of Object.entries(T)) { const { outfits, ...rest } = v; Object.assign(I18N[l], rest); Object.assign(I18N[l].outfits, outfits); }
+})();
+/* ---------- What the teachers say (from the story review in docs/story-review.md, 24 October 2026) ----------
+   Every teacher has their own voice, lines are dealt like cards so a child doesn't hear the same one again
+   too soon (remembered per child, across rounds and days), and special moments have their own lines. */
+const LINE_KEEP = { praise: 8 };   // how many recent lines are kept back; 2 for every other kind
+const lineId = x => hashStr(String(x)) % 1e6;
+// a line from a list, not one of the recent ones; {name}, {n}, {a}, {f}, {sum} and {subject} are filled in,
+// and lines with {name} are skipped when the name should not be used now. Functions get `args`.
+function lineFrom(key, list, vars = {}, args = []) {
+  const all = (list || []).filter(x => x && (typeof x === 'function' || vars.name || !String(x).includes('{name}')));
+  if (!all.length) return '';
+  const lines = store.lines = store.lines && typeof store.lines === 'object' ? store.lines : {};
+  const recent = Array.isArray(lines[key]) ? lines[key] : [], fresh = all.filter(x => !recent.includes(lineId(x)));
+  const x = pick(fresh.length ? fresh : all), keep = Math.min(LINE_KEEP[key] || 2, all.length - 1);
+  lines[key] = keep > 0 ? [...recent.filter(id => id !== lineId(x)), lineId(x)].slice(-keep) : [];
+  if (typeof x === 'function') return x(...args);
+  return x.replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m);
+}
+const isSpellTeacher = tid => Object.values(SPELL_TEACHER).includes(tid);
+// the child's name at most twice in a round, at good moments
+function nameNow() { if (!store.name || (S.named || 0) >= 2) return ''; return esc(store.name); }
+function usedName(line) { if (store.name && line.includes(esc(store.name))) S.named = (S.named || 0) + 1; return line; }
+
+/* praise for a right answer: the moment first (a strong start, a run, back on track...), then the teacher's own words;
+   the sum is read back about three times in four, before or after the praise */
+function praiseLine(p, firstTry) {
+  const t = tr(), tid = teacherFor(p), len = S.list.length, last = S.i === len - 1, vars = { name: nameNow() };
+  S.run = firstTry ? (S.run || 0) + 1 : 0;
+  let moment = '';
+  if ((S.noticed || 0) < 2 && firstTry) {
+    const before = isReviewId(S.id) || (p.lv && store.review.some(r => r.k === revKey(p)));
+    const key = S.i === 0 ? 'mFirst' : before ? 'mBefore' : S.run === 5 ? 'mRun5' : S.run === 3 ? 'mRun3' : S.missedLast ? 'mBack' : '';
+    if (key) { moment = usedName(lineFrom(key, key === 'mBefore' ? [t.ntBefore, ...t.mBefore] : t[key], vars)); S.noticed = (S.noticed || 0) + 1; }
+  }
+  if (firstTry) S.missedLast = false;   // (after help the next question is "back on track")
+  let say;
+  if (!firstTry) say = lineFrom('help', [...t.praiseHelp, ...t.praiseHelpMore]);
+  else if (moment) say = moment;
+  else {
+    const own = (t.pT || {})[tid] || [], shared = isSpellTeacher(tid) ? t.spShared : [...t.praise(''), ...t.praiseMore];
+    say = lineFrom('praise', own.length && Math.random() < .67 ? own : shared);
+  }
+  if (p.sp) say = Math.random() < .5 ? `${say} ${t.spelledAs(p.w)}` : say;
+  else { const r = Math.random(), sum = fullEq(p) + '.'; say = r < .5 ? `${say} ${sum}` : r < .75 ? `${sum} ${say}` : say; }
+  if (len >= 8 && S.i === len / 2 - 1 && !last) say += ' ' + lineFrom('half', t.mHalf, { n: len / 2 });
+  if (last) say += ' ' + usedName(lineFrom('last', t.mLast, { n: len, name: nameNow() }));
+  return say;
+}
+// what the teacher says before a question: a real greeting for the first one, then only now and then
+function greetLine(p) {
+  const t = tr(), tid = teacherFor(p), info = roundInfo(S.id) || {};
+  if (S.i === 0) {
+    const subject = info.level ? topicTitle(info.level.topic) : info.title || '';
+    const own = (t.gFirstT || {})[tid], name = nameNow(), g = own && Math.random() < .35 ? own : usedName(lineFrom('gFirst', [t.greetFirst, ...t.gFirst], { name, subject }, [name]));
+    return g + (p.warm ? ' ' + t.warmUp : '');
+  }
+  if (S.missedLast) return lineFrom('fresh', t.gFresh);
+  // a plain sum can go without a word; pictures, stories and words get a short line
+  return S.i % 2 === 0 || p.sp || p.lq || p.story != null ? lineFrom('next', [...t.greetNext, ...t.greetNextMore]) : '';
+}
+// after a wrong answer: the subject's own hint if there is one, otherwise a kind nudge in the teacher's voice
+function retryLine(p, hint) {
+  const t = tr(), own = (t.retryT || {})[teacherFor(p)];
+  S.missedLast = true;
+  return hint || lineFrom('retry', [...t.retry, ...t.retryMore, ...(own ? [own] : [])]);
+}
+const togetherLine = p => { const t = tr(); return p.sp ? lineFrom('together', [t.togetherSp, ...t.togetherSpMore]) : lineFrom('together', [t.together, ...t.togetherMore]); };
+// the results screen: a heading and a message for the number of stars, kept while the screen is shown again
+function resultsLines(n, first, len) {
+  const t = tr(), heads = [t.head[n - 1], ...t.headMore[n - 1]], msgs = [t.msg[n - 1], ...t.msgMore[n - 1]];
+  // (picked by number, so the same choice stays if the language is switched on this screen)
+  if (!S.resPick) S.resPick = { h: +lineFrom('head' + n, heads.map((_, i) => String(i))), m: +lineFrom('msg' + n, msgs.map((_, i) => String(i))) };
+  return { head: heads[S.resPick.h % heads.length] || heads[0], msg: (msgs[S.resPick.m % msgs.length] || msgs[0])(first, len) };
+}
+/* ---------- texts for what the teachers say (see voices.js): more praise in each teacher's own voice, lines for special
+   moments, greetings, hints, results, the starting quiz, Your turn, Spot my mistakes and the mini-game endings.
+   They add to the first lines in the older text files (praise, praiseHelp, retry, head, msg...), which stay in use.
+   The Danish, Swedish and Indonesian lines are drafts for a native-speaker check. ---------- */
+(function () {
+  const T = {
+    en: {
+      praiseMore: ['Yes, that\'s it!', 'Exactly right.', 'Nailed it!', 'That\'s the one!', 'Lovely work.', 'Right on the money!', 'Bang on!', 'You\'ve got this.', 'Yes! Well worked out.',
+        'Correct, and so neat!', 'Great thinking!', 'That\'s right, well done!', 'Top answer!', 'You worked that out beautifully.', 'Yes! That\'s exactly it.', 'Perfectly right.',
+        'Ding ding ding! Right answer!', 'What a star!', 'You made that look smooth.', 'Wonderful!', 'Right first time!', 'You knew just what to do.', 'Look at you go!', 'That\'s a yes from me!', 'Smashing!', 'Hooray, that\'s right!'],
+      pT: {
+        hoot: ['Splendid thinking!', 'Hoo-hoo! That\'s right!', 'Marvellous. Simply marvellous.', 'A wise answer!', 'Now that is good thinking.', 'I\'m ruffling my feathers with joy!', 'Exactly as I hoped.',
+          'Correct! You thought that through.', 'Wise as an owl!', 'That\'s a professor-level answer.', 'Oh, very nice indeed.', 'I knew you could. Right!', 'You worked that out like a true scientist.',
+          'Top marks for that one.', 'My spectacles are sparkling. That\'s right!', 'Hoot hoot hooray!', 'Splendid! Your brain is busy today.', 'Yes, and you did it so carefully.',
+          'Right! That\'s how a maths explorer does it.', 'I\'d write that one in my big book. Correct!', 'Excellent. Onwards!', 'You\'re thinking like a professor now.', 'Lovely, careful work.',
+          'That\'s right. I\'m doing a little owl dance.', 'Correct! I could hoot all night about that.'],
+        daisy: ['Woof! That\'s right!', 'Yes! My tail is wagging!', 'You fetched that answer like a pro!', 'Spot on, my friend!', 'Brilliant! That\'s worth a biscuit.', 'Yes, yes, yes!', 'Paws up for that one!',
+          'You did it! I\'m doing zoomies!', 'Right! Let\'s run a lap of the garden!', 'That\'s the one! Good thinking!', 'My ears just went up. That\'s right!', 'Look at that! Perfect!', 'Ooh, lovely work.',
+          'Correct! You\'re on a roll.', 'Yes! Let\'s high-five. Well, high-paw.', 'Fetch that answer? You did!', 'Right! You\'re a champion.', 'I\'m so happy I could chase my tail!',
+          'That\'s right! What a good day.', 'Great job! I\'m bouncing!', 'Gold star from Miss Daisy!', 'Yes! Clever work.', 'Spot on! I\'ll save you a treat.', 'Hooray! Right again!', 'You got it! That made my tail spin!'],
+        whiskers: ['Oh my whiskers! Correct!', 'Purr-fect.', 'Stop the show! That\'s right!', 'Magnificent! Take a bow!', 'Ta-da! Exactly right.', 'My whiskers are twitching with joy!', 'Bravo! Bravo!',
+          'That was simply fabulous.', 'Even I\'m impressed. And I\'m hard to impress!', 'Correct! I\'d give you a standing ovation if I wasn\'t so comfy.', 'Marvellous, darling!', 'What a performance!',
+          'Yes! That deserves a drumroll.', 'Right! Pass me my top hat!', 'Splendid! My tail is doing a happy swish.', 'Correct! I knew you were a star.', 'Encore! Encore!', 'Stupendous!',
+          'Right! Now that\'s what I call maths.', 'I\'m purring like a little engine!', 'Outstanding. I need a moment.', 'Spectacular!', 'Correct! You have my royal approval.',
+          'Yes! Even my nine lives are cheering.', 'Ooh, fancy! That\'s right.'],
+        sparkle: ['Fair and square! That\'s right.', 'That answer is shining!', 'No magic needed. That was all you!', 'Sparkly right!', 'Yes! Everything shared out perfectly.', 'That\'s right, and so fair!',
+          'Your answer is glowing.', 'Ooh, I spotted a star!', 'Correct! My horn is twinkling.', 'That\'s balanced and right.', 'Yes! A rainbow of a right answer.', 'Right! Every part is just where it should be.',
+          'Shiny thinking!', 'Correct! You shared that out like a pro.', 'My mane is all a-sparkle!', 'Yes! Equal groups, happy unicorn.', 'That\'s it! Sparkle approves.', 'Right! I love a fair answer.',
+          'Glittering!', 'You found the pattern. Correct!', 'That\'s right, no tricks, just good thinking.', 'Bright as a star!', 'Correct! I\'m prancing for joy.', 'Yes! Fair shares for everyone.',
+          'Right! That deserves a sprinkle of stardust.'],
+        fern: ['Case closed!', 'Sharp eyes, word detective!', 'You spotted the sneaky letter.', 'Clue found, word solved!', 'Clever as a fox!', 'My ears pricked up. That\'s right!', 'Foxy spelling!',
+          'That tricky letter didn\'t fool you.', 'Word mystery solved!', 'You followed the clues perfectly.', 'Right! I\'m swishing my tail.', 'Every clue, every letter. Correct!',
+          'A detective never misses a letter.', 'You cracked it!', 'Right! Into my notebook it goes.'],
+        pjuske: [], olle: [], uli: []
+      },
+      spShared: ['Letter by letter, perfect!', 'Spelled just right!', 'Every letter in its place.', 'You remembered the tricky bit!', 'That word is all yours now.', 'Lovely spelling!',
+        'Yes, that\'s how it\'s spelled.', 'Not one letter out of place!', 'Words are your friends.', 'Spot on spelling!', 'You spelled that beautifully.', 'Right! You looked carefully.',
+        'That\'s it, letter for letter.', 'Great spelling eyes!', 'Yes! That word is spelled perfectly.'],
+      mFirst: ['What a start!', 'First one, done!', 'Off to a flying start!', 'That\'s how to begin!', 'Great start, {name}!', 'Lovely first answer.', 'One down, nicely done.', 'Ooh, a strong start!',
+        'Brilliant beginning!', 'Started with a smile. Right!'],
+      mBefore: ['That one was tricky before. Now you can do it by yourself!'],
+      mRun3: ['Three in a row, all by yourself!', 'That\'s three right in a row!', 'Three for three!', 'You\'re on a roll!', 'Hat-trick! Three in a row!', 'Three in a row. You\'ve really got this.',
+        'One, two, three, all right!', 'Three right answers in a row!'],
+      mRun5: ['Five in a row! Your brain is warmed up now.', 'Five in a row! Unstoppable!', 'That\'s five right in a row. Wow!', 'High five, for five in a row!', 'Five in a row, {name}!',
+        'Five! You\'ve really learnt this.'],
+      mBack: ['There you go. Back on track!', 'See? You\'ve got it.', 'That\'s the way!', 'Yes! That one went just right.', 'Back in the groove!', 'Lovely, right this time.', 'That\'s more like it!',
+        'And you\'re back!', 'Right! That last one is forgotten already.', 'Great, you shook it off!'],
+      praiseHelpMore: ['You kept going and got there!', 'You got there, step by step.', 'Right! Asking for help is clever.', 'That\'s it! Now you know how.', 'You figured it out. Well done!',
+        'Right! You didn\'t give up.', 'Yes! That\'s how we learn.', 'There it is! Good work.', 'Got it! Next time it\'ll feel easier.'],
+      fixedPraiseMore: ['Look, it went green!', 'That tricky one isn\'t tricky any more.', 'Green! You learnt that one.', 'From yellow to green. Well done!', 'You came back and got it!',
+        'Fixed! That feels good, doesn\'t it?', 'Right! That one\'s yours now.'],
+      mLast: ['And that was the last one!', 'That\'s the whole round done!', 'Last one, done! Let\'s see your stars.', 'And that\'s {n}!', 'Round finished!', 'All done. Let\'s look at your stars!',
+        'That\'s the end of the round. Well played, {name}!', 'The last one! What a round.'],
+      mHalf: ['Halfway! {n} to go.', 'Half done already!', 'That\'s halfway. Keep going!', 'Halfway there. You\'re doing great.', 'Half the round done!'],
+      gFirst: ['Let\'s go! Here\'s the first one.', 'Here we go. Take your time.', 'Hello again! Time for some {subject}.', 'Let\'s warm up those brains.',
+        'First one coming up!', 'Shall we? Here\'s number one.', 'Nice to see you, {name}. Let\'s begin.', 'I\'ve picked some good ones for you today.', 'Ready when you are!', 'Let\'s do this together.',
+        'Hello! I\'ve been waiting for you.'],
+      gFirstT: { hoot: 'Spectacles on? Let\'s begin.', daisy: 'Walkies! I mean… maths! Let\'s go!', whiskers: 'Lights, camera… maths!', sparkle: 'Let\'s make this round sparkle.',
+        fern: 'A new case for the word detective!', pjuske: '', olle: '', uli: '' },
+      greetNextMore: ['Ooh, here\'s a nice one.', 'How about this one?', 'And now…', 'Let\'s see this one.', 'Here\'s another.', 'Ready for the next?', 'Next up!', 'This one\'s for you.', 'Let\'s keep going.',
+        'Here we go again!', 'Have a look at this.', 'And another one.', 'Next, please!', 'What about this?', 'Onward!', 'A fresh one for you.'],
+      gFresh: ['New question, fresh start.', 'Let\'s try a new one.', 'Here\'s a new one.', 'Clean slate!', 'This one\'s brand new.', 'Let\'s go again.'],
+      retryMore: ['Ooh, close. One more try?', 'Hmm, have another look.', 'Almost! Take your time.', 'Not this time. Try again?', 'Let\'s check that once more.', 'So close! Look again.',
+        'That\'s a good try. Have another go.', 'Take a breath, and try again.', 'Hmm, not quite. Count again carefully.'],
+      retryT: { hoot: 'Hmm, let\'s think about that again.', daisy: 'Sniff it out once more!', whiskers: 'Not quite, but the show goes on! Try again.', sparkle: 'Let\'s check that it\'s fair. Try again?' },
+      togetherMore: ['No problem. Let\'s look at it together.', 'Let me show you. Watch this.', 'This one\'s tricky. Let\'s do it together.', 'That\'s all right. I\'ll walk you through it.', 'Let\'s figure it out together.'],
+      togetherSpMore: ['Let\'s spell it together.', 'This word has a sneaky bit. I\'ll show you.', 'No problem. Watch the letters with me.'],
+      headMore: [['You kept going!', 'Round finished!', 'You did the whole round!', 'Good effort!', 'That was a brave round!'],
+        ['Lovely round!', 'Nicely done!', 'You\'re getting there!', 'Well played!', 'That\'s a good one!'],
+        ['Amazing round!', 'Wow, what a round!', 'Three stars!', 'Brilliant work!', 'You really know this!']],
+      msgMore: [[(f, n) => `You got ${f} out of ${n} right first time. This level is a tricky one, and you stuck with it. The lesson can help.`,
+        (f, n) => `${f} out of ${n} right first time. Tricky things take a few tries. Want to look at the lesson together?`,
+        (f, n) => `You got ${f} out of ${n} right first time. Each round makes it a little easier.`,
+        (f, n) => `${f} out of ${n} first time, and you finished the round. That's how learning starts.`],
+      [(f, n) => `${f} out of ${n} right first time. You've learnt this level!`, (f, n) => `You got ${f} out of ${n} right first time. That's a level learnt. Well done!`,
+        (f, n) => `${f} out of ${n} first time. You know this now, and 3 stars are close.`, (f, n) => `You got ${f} out of ${n} right first time. Nearly all of them!`],
+      [(f, n) => `${f} out of ${n} right first time. You could teach this to someone!`, (f, n) => `You got ${f} out of ${n} right first time. Wow!`,
+        (f, n) => `${f} out of ${n}, first time. You've mastered this one.`, (f, n) => `You got ${f} out of ${n} right first time. That's top of the class!`]],
+      traits: {
+        hoot: ["Here's a fact: brains grow stronger every time they practise. Hoo-hoo!", 'A fact for you: every mistake helps your brain learn something new.', "I've written today's round in my big book.",
+          'Did you know owls practise flying for weeks? Practice works for everyone.', "What a lot of thinking. I'm proud of you.", 'That was a round worth hooting about.'],
+        daisy: ["That round deserves a snack! I'd share my apple with you.", 'Mmm, that was as good as a picnic!', 'I need a walk after all that excitement!', "My tail hasn't stopped wagging.",
+          "Let's celebrate with a run round the park!", 'You and me make a great team.'],
+        whiskers: ['Oh my whiskers! What a round!', 'Stop everything! That was amazing!', 'I shall tell all the cats about this.', 'Bravo! I need a little nap after that performance.',
+          'That round deserves a red carpet.', 'Even my whiskers are applauding.'],
+        sparkle: ['I spotted a pattern: every round makes you a little better.', 'Fair and square: you earned every one of those stars.', 'Those stars are real. You made them shine.',
+          'That was a sparkly round.', "No magic, just you. That's the best kind.", 'Every star there is one you earned.'],
+        spell: ['Letter by letter, you did it!', 'Words are like puzzles, and you are a puzzle solver.', 'Every word you learn is yours forever.', 'Those letters are in your head now.',
+          'Spelling is a superpower, and yours is growing.', 'You looked so carefully today.']
+      },
+      plFirstMore: ["Let's start with this one. No hurry.", "Here's one to warm up."],
+      plNextMore: ['How about this?', 'Ooh, and this one?', "Let's see this one."],
+      plGoodMore: ['Yes!', 'Lovely.', "That's right!", 'Spot on!', 'Great!'],
+      plOkMore: ['That helps me find your place.', "Thanks, that's useful to know.", "That's fine. We'll learn it together.", 'Okay! Good to know.', 'No worries at all.'],
+      ytSayL: ['Now you try one like it. Take your time.', 'Your turn! Have a go.', 'Can you do one like that?', 'Now you be the teacher. Try this one.'],
+      ytRightL: ["You did it! Now you're ready for the questions.", "That's it! You've got the idea.", 'Yes! Ready for the real round?', "Perfect. Let's practise!"],
+      ytAgainL: ['Nearly! Have another go.', 'Close! Look at the steps again.', 'Almost. Try once more.'],
+      ytTogetherL: ["Let's work it out together.", "Let's do this one together, step by step."],
+      brQL: ["Here's my answer. Am I right?", 'I worked this one out. Is it right?', 'Check my answer, please!', 'Hmm, I think I got this. Did I?'],
+      brCaughtL: ['You caught my mistake! It should be {a}.', "Oops, you're right! It's {a}.", 'Good catch! The answer is {a}.', 'Ha! You spotted it. It should be {a}.', "Thank you! I'll remember: it's {a}."],
+      brMissedL: ['Oh, that one was wrong. It should be {a}.', "Sneaky! I got that one wrong. It's {a}.", 'That one tricked us both. It should be {a}.', "Hmm, I made a mistake there. It's {a}."],
+      brYesL: ['Yes, that one was right. Phew!', 'Right! I got that one.', 'Phew, I did that one right!', 'Yes! Thanks for checking.'],
+      brWasRightL: ['Actually, that one was right!', 'I got that one right, actually. Check again: {sum}.', 'That one was right. Good thinking to check, though!'],
+      brEndL: ["Thank you! You checked {m} sums and got {n} right. You're a great teacher!", 'Thanks for checking my work! {n} out of {m}.', "You'd make a brilliant teacher. {n} out of {m}!",
+        'My sums are better thanks to you. {n} out of {m}!'],
+      timeUpMore: ["That's the game!", 'Whistle! Game over.', 'And… stop!', "Phew! Time's up!"],
+      outMore: ["That's all the shields. Nice try!", 'Shields gone, but what a game!', 'Last shield used. Well played!'],
+      gameZero: 'That was a tricky one. Want to try again?',
+      gExtra: ['That was fun!', "Let's play again another time!", 'Your best is getting better.', 'I had so much fun with you!', 'What a game!', 'High five, team!']
+    },
+    da: {
+      praiseMore: ['Sådan!', 'Det var lige i øjet!', 'Godt tænkt!', 'Du har styr på det!', 'Ja, præcis!', 'Rigtig flot arbejde.', 'Den sad!', 'Ja! Godt regnet ud.', 'Supergodt!', 'Perfekt!',
+        'Lige præcis!', 'Ja! Det er den!', 'Sejt!', 'Godt fundet ud af!', 'Du kan det her!', 'Wauw!', 'Hurra, rigtigt!', 'Sådan skal det se ud!'],
+      pT: {
+        hoot: ['Uhu! Det er rigtigt!', 'Klogt tænkt!', 'Fremragende!', 'Storartet tænkning!', 'Et klogt svar!', 'Mine fjer pjusker af glæde!', 'Det skriver jeg i min store bog. Rigtigt!',
+          'Du tænker som en professor!', 'Omhyggeligt og rigtigt.', 'Præcis som jeg håbede!'],
+        daisy: ['Vov! Rigtigt!', 'Min hale logrer!', 'Den hentede du flot!', 'Ja, ja, ja!', 'Poterne i vejret for den!', 'Jeg laver glædeshop!', 'Rigtigt! Det fortjener en godbid.',
+          'Mine ører røg helt op. Rigtigt!', 'Hurra! Rigtigt igen!', 'Guldstjerne fra Frøken Daisy!'],
+        whiskers: ['Ih, mine knurhår! Rigtigt!', 'Bravo! Bravo!', 'Jeg spinder af glæde!', 'Stop forestillingen! Det er rigtigt!', 'Ta-da! Helt rigtigt.', 'Storslået! Tag et buk!',
+          'Selv jeg er imponeret!', 'Sikken en forestilling!', 'Ekstranummer! Ekstranummer!', 'Fantastisk, min ven!'],
+        sparkle: ['Dit svar stråler!', 'Ingen magi, det var helt dig!', 'Glimrende rigtigt!', 'Ja! Alt er delt helt lige.', 'Retfærdigt og rigtigt!', 'Mit horn glimter!', 'Du fandt mønstret. Rigtigt!',
+          'Funklende tænkning!', 'Rigtigt! Lige dele til alle.', 'Klar som en stjerne!'],
+        pjuske: ['Hvert bogstav på sin plads. Hyggeligt!', 'Mine pigge kribler, det er rigtigt!', 'Jeg ruller mig sammen af glæde!', 'Pænt og ordentligt!', 'Små bogstaver, stor sejr!',
+          'Rigtigt! Nu laver jeg kakao til os.', 'Det ord passer som en varm sok.', 'Du klarede det! Jeg triller rundt!', 'Hvert bogstav er puttet godt ind.', 'Rigtigt! Min snude vrikker.',
+          'Åh, hvor dejligt!', 'Ja! Helt hyggeligt-perfekt.'],
+        fern: [], olle: [], uli: []
+      },
+      spShared: ['Bogstav for bogstav, perfekt!', 'Stavet helt rigtigt!', 'Hvert bogstav på sin plads.', 'Du huskede det svære sted!', 'Det ord er dit nu.', 'Flot stavet!', 'Ja, sådan staves det.',
+        'Ikke ét bogstav forkert!', 'Du kiggede godt efter!', 'Skarpe staveøjne!'],
+      mFirst: ['Sikken en start!', 'Den første er klaret!', 'Sådan skal man begynde!', 'Flot start, {name}!', 'Godt begyndt!', 'Én klaret, flot!'],
+      mBefore: ['Før var den svær. Nu klarer du den selv!'],
+      mRun3: ['Tre i træk, helt selv!', 'Tre rigtige i træk!', 'Tre ud af tre!', 'Du er godt kørende!', 'En, to, tre, alle rigtige!'],
+      mRun5: ['Fem i træk! Nu er hjernen varmet op.', 'Fem rigtige i træk. Wauw!', 'High five for fem i træk!', 'Fem i træk, {name}!'],
+      mBack: ['Sådan! Tilbage på sporet!', 'Se, du kan det jo!', 'Sådan skal det være!', 'Ja! Den gik lige i skabet.', 'Og du er tilbage!', 'Flot, rigtigt denne gang.'],
+      praiseHelpMore: ['Du blev ved og fik den!', 'Du nåede frem, trin for trin.', 'Rigtigt! Du gav ikke op.', 'Nu ved du, hvordan man gør!', 'Ja! Sådan lærer man.', 'Fik den! Næste gang bliver den lettere.'],
+      fixedPraiseMore: ['Se, den blev grøn!', 'Den svære er ikke svær mere.', 'Fra gul til grøn. Flot!', 'Du kom tilbage og fik den!', 'Rettet! Det føles godt, ikke?'],
+      mLast: ['Og det var den sidste!', 'Hele runden er klaret!', 'Den sidste er klaret! Lad os se dine stjerner.', 'Runden er færdig!', 'Det var den sidste. Sikken en runde!'],
+      mHalf: ['Halvvejs! {n} tilbage.', 'Allerede halvt færdig!', 'Halvvejs. Bliv ved!', 'Halvdelen er klaret!'],
+      gFirst: ['Så går vi i gang! Her er den første.', 'Her kommer den. Tag dig god tid.', 'Hej igen! Nu skal vi øve {subject}.', 'Første opgave på vej!',
+        'Klar, når du er!', 'Lad os gøre det sammen.', 'Hej! Jeg har ventet på dig.'],
+      gFirstT: { hoot: 'Brillerne på? Så begynder vi.', daisy: 'Gåtur! Jeg mener … matematik! Kom så!', whiskers: 'Lys, kamera … matematik!', sparkle: 'Lad os få runden til at glimte.',
+        pjuske: 'Lad os hygge os og stave.', fern: '', olle: '', uli: '' },
+      greetNextMore: ['Uh, her er en god en.', 'Hvad med den her?', 'Lad os se den her.', 'Her er en til.', 'Klar til den næste?', 'Næste!', 'Den her er til dig.', 'Lad os fortsætte.',
+        'Kig på den her.', 'En frisk en til dig.'],
+      gFresh: ['Ny opgave, ny start.', 'Lad os prøve en ny.', 'Her er en ny.', 'Den her er helt ny.'],
+      retryMore: ['Uh, tæt på. Et forsøg mere?', 'Hmm, kig en gang til.', 'Næsten! Tag dig god tid.', 'Lad os tjekke den igen.', 'Så tæt på! Kig igen.', 'Træk vejret, og prøv igen.'],
+      retryT: { hoot: 'Hmm, lad os tænke over den en gang til.', daisy: 'Snus en gang til!', whiskers: 'Ikke helt, men forestillingen fortsætter! Prøv igen.', sparkle: 'Lad os tjekke, om det er fair. Prøv igen?' },
+      togetherMore: ['Intet problem. Lad os se på den sammen.', 'Jeg viser dig det. Kig her.', 'Den her er svær. Lad os tage den sammen.', 'Helt i orden. Jeg går den igennem med dig.'],
+      togetherSpMore: ['Lad os stave det sammen.', 'Det ord har et lumsk sted. Jeg viser dig det.', 'Intet problem. Kig på bogstaverne sammen med mig.'],
+      headMore: [['Du blev ved!', 'Runden er klaret!', 'Du klarede hele runden!', 'Flot kæmpet!'], ['Flot runde!', 'Godt klaret!', 'Du er godt på vej!', 'Godt spillet!'],
+        ['Wauw, sikken en runde!', 'Tre stjerner!', 'Fremragende arbejde!', 'Det kan du virkelig!']],
+      msgMore: [[(f, n) => `Du fik ${f} ud af ${n} rigtige i første forsøg. Det her niveau er svært, og du holdt fast. Lektionen kan hjælpe.`,
+        (f, n) => `${f} ud af ${n} rigtige i første forsøg. Svære ting tager et par forsøg. Skal vi se lektionen sammen?`,
+        (f, n) => `${f} ud af ${n} i første forsøg, og du gjorde runden færdig. Sådan starter man med at lære.`],
+      [(f, n) => `${f} ud af ${n} rigtige i første forsøg. Du har lært det her niveau!`, (f, n) => `Du fik ${f} ud af ${n} rigtige i første forsøg. Niveauet er lært. Godt gået!`,
+        (f, n) => `${f} ud af ${n} i første forsøg. Du kan det nu, og 3 stjerner er tæt på.`],
+      [(f, n) => `${f} ud af ${n} rigtige i første forsøg. Du kunne lære en anden det her!`, (f, n) => `Du fik ${f} ud af ${n} rigtige i første forsøg. Wauw!`,
+        (f, n) => `${f} ud af ${n} i første forsøg. Det her har du helt styr på.`]],
+      traits: {
+        hoot: ['Vidste du det? Hjernen bliver stærkere, hver gang den øver sig. Uhu!', 'Vidste du det? Hver fejl hjælper din hjerne med at lære noget nyt.', 'Jeg har skrevet dagens runde i min store bog.',
+          'Vidste du det? Ugler øver sig i at flyve i ugevis. Øvelse virker for alle.', 'Sikke meget tænkning. Jeg er stolt af dig.', 'Den runde var et uhu værd!'],
+        daisy: ['Den runde fortjener en snack! Jeg deler gerne mit æble med dig.', 'Mmm, det var lige så godt som en skovtur!', 'Jeg trænger til en gåtur efter al den spænding!',
+          'Min hale er ikke holdt op med at logre.', 'Lad os fejre det med en tur rundt i parken!', 'Du og jeg er et godt hold.'],
+        whiskers: ['Åh, mine knurhår! Sikken en runde!', 'Stop alt! Det var fantastisk!', 'Det skal jeg fortælle alle kattene om.', 'Bravo! Jeg trænger til en lille lur efter den forestilling.',
+          'Den runde fortjener en rød løber.', 'Selv mine knurhår klapper.'],
+        sparkle: ['Jeg har fundet et mønster: hver runde gør dig lidt bedre.', 'Helt fair: du har fortjent hver eneste stjerne.', 'Stjernerne er ægte. Du fik dem til at stråle.',
+          'Det var en glimtende runde.', 'Ingen magi, bare dig. Det er den bedste slags.', 'Hver eneste stjerne der har du fortjent.'],
+        spell: ['Bogstav for bogstav, du klarede det!', 'Ord er som puslespil, og du er god til at løse dem.', 'Hvert ord, du lærer, er dit for altid.', 'De bogstaver sidder i dit hoved nu.',
+          'Stavning er en superkraft, og din vokser.', 'Du kiggede så godt efter i dag.']
+      },
+      plFirstMore: ['Lad os starte med den her. Ingen hast.', 'Her er en til at varme op.'],
+      plNextMore: ['Hvad med den her?', 'Uh, og den her?', 'Lad os se den her.'],
+      plGoodMore: ['Ja!', 'Dejligt.', 'Det er rigtigt!', 'Lige i øjet!', 'Super!'],
+      plOkMore: ['Det hjælper mig med at finde dit sted.', 'Tak, det er godt at vide.', 'Det er fint. Vi lærer det sammen.', 'Okay! Godt at vide.', 'Helt i orden.'],
+      ytSayL: ['Nu prøver du en, der ligner. Tag dig god tid.', 'Din tur! Prøv løs.', 'Kan du lave en, der ligner?', 'Nu er du læreren. Prøv den her.'],
+      ytRightL: ['Du klarede det! Nu er du klar til opgaverne.', 'Sådan! Du har fanget idéen.', 'Ja! Klar til den rigtige runde?', 'Perfekt. Lad os øve!'],
+      ytAgainL: ['Tæt på! Prøv en gang til.', 'Tæt på! Kig på trinene igen.', 'Næsten. Prøv en gang mere.'],
+      ytTogetherL: ['Lad os regne den ud sammen.', 'Lad os tage den sammen, trin for trin.'],
+      brQL: ['Her er mit svar. Har jeg ret?', 'Den her har jeg regnet ud. Er den rigtig?', 'Tjek mit svar, tak!', 'Hmm, jeg tror, jeg har den. Har jeg?'],
+      brCaughtL: ['Du fandt min fejl! Det skal være {a}.', 'Ups, du har ret! Det er {a}.', 'Godt set! Svaret er {a}.', 'Ha! Du opdagede den. Det skal være {a}.', 'Tak! Jeg husker det: det er {a}.'],
+      brMissedL: ['Åh, den var forkert. Det skal være {a}.', 'Lumsk! Den fik jeg forkert. Det er {a}.', 'Den snød os begge to. Det skal være {a}.', 'Hmm, der lavede jeg en fejl. Det er {a}.'],
+      brYesL: ['Ja, den var rigtig. Puha!', 'Rigtigt! Den fik jeg.', 'Puha, den regnede jeg rigtigt!', 'Ja! Tak, fordi du tjekkede.'],
+      brWasRightL: ['Faktisk var den rigtig!', 'Den fik jeg faktisk rigtig. Kig igen: {sum}.', 'Den var rigtig. Men godt tænkt at tjekke!'],
+      brEndL: ['Tak! Du tjekkede {m} regnestykker og havde {n} rigtige. Du er en god lærer!', 'Tak, fordi du tjekkede mit arbejde! {n} ud af {m}.', 'Du ville være en super lærer. {n} ud af {m}!',
+        'Mine regnestykker er bedre takket være dig. {n} ud af {m}!'],
+      timeUpMore: ['Så er spillet slut!', 'Fløjt! Spillet er slut.', 'Og … stop!', 'Puha! Tiden er gået!'],
+      outMore: ['Alle skjolde er brugt. Flot forsøg!', 'Skjoldene er væk, men sikke et spil!', 'Sidste skjold er brugt. Godt spillet!'],
+      gameZero: 'Den var svær. Vil du prøve igen?',
+      gExtra: ['Det var sjovt!', 'Lad os spille igen en anden gang!', 'Din rekord bliver bedre og bedre.', 'Jeg havde det så sjovt med dig!', 'Sikke et spil!', 'High five, makker!']
+    },
+    sv: {
+      praiseMore: ['Snyggt!', 'Klockrent!', 'Bra tänkt!', 'Du kan det här!', 'Toppen!', 'Ja, just det!', 'Jättebra jobbat.', 'Mitt i prick!', 'Ja! Bra räknat.', 'Perfekt!', 'Exakt!', 'Ja! Det är den!',
+        'Grymt!', 'Bra löst!', 'Wow!', 'Hurra, rätt!', 'Toppklass!', 'Så ska det se ut!'],
+      pT: {
+        hoot: ['Uhu! Det stämmer!', 'Klokt tänkt!', 'Utmärkt!', 'Storartat tänkt!', 'Ett klokt svar!', 'Mina fjädrar burrar upp sig av glädje!', 'Det skriver jag i min stora bok. Rätt!',
+          'Du tänker som en professor!', 'Noggrant och rätt.', 'Precis som jag hoppades!'],
+        daisy: ['Voff! Rätt!', 'Min svans viftar!', 'Det svaret hämtade du fint!', 'Ja, ja, ja!', 'Tassarna i luften för den!', 'Jag gör glädjeskutt!', 'Rätt! Det är värt en godbit.',
+          'Mina öron spetsades. Rätt!', 'Hurra! Rätt igen!', 'Guldstjärna från Fröken Daisy!'],
+        whiskers: ['Åh, mina morrhår! Rätt!', 'Bravo! Bravo!', 'Jag spinner av glädje!', 'Stoppa föreställningen! Det är rätt!', 'Ta-da! Helt rätt.', 'Magnifikt! Ta en bugning!',
+          'Till och med jag är imponerad!', 'Vilken föreställning!', 'Extranummer! Extranummer!', 'Fantastiskt, min vän!'],
+        sparkle: ['Rättvist och rätt!', 'Ditt svar glittrar!', 'Ingen magi, det var du!', 'Gnistrande rätt!', 'Ja! Allt är delat helt lika.', 'Mitt horn blinkar!', 'Du hittade mönstret. Rätt!',
+          'Glittrande tänkt!', 'Rätt! Lika delar till alla.', 'Klar som en stjärna!'],
+        olle: ['Lugnt och rätt. Precis lagom.', 'Steg för steg genom bokstavsskogen.', 'En stor älgnick för den!', 'Rätt! Mina horn står stolta.', 'Lugnt och riktigt.',
+          'Perfekt, som en stilla morgon i skogen.', 'Du tog god tid på dig, och det lönade sig.', 'Ja. Mycket bra.', 'Det ordet är starkt som en gammal tall.', 'Rätt! Vi vandrar vidare.',
+          'Mmm, fin stavning.', 'Varenda bokstav, lugnt och stadigt.'],
+        fern: [], pjuske: [], uli: []
+      },
+      spShared: ['Bokstav för bokstav, perfekt!', 'Helt rätt stavat!', 'Varje bokstav på sin plats.', 'Du kom ihåg det kluriga stället!', 'Det ordet är ditt nu.', 'Fint stavat!', 'Ja, så stavas det.',
+        'Inte en enda bokstav fel!', 'Du tittade noga!', 'Skarpa stavningsögon!'],
+      mFirst: ['Vilken start!', 'Den första är klar!', 'Så ska man börja!', 'Bra start, {name}!', 'Bra början!', 'En klar, snyggt!'],
+      mBefore: ['Förut var den svår. Nu klarar du den själv!'],
+      mRun3: ['Tre i rad, helt själv!', 'Tre rätt i rad!', 'Tre av tre!', 'Nu rullar det!', 'Ett, två, tre, alla rätt!'],
+      mRun5: ['Fem i rad! Nu är hjärnan uppvärmd.', 'Fem rätt i rad. Wow!', 'High five för fem i rad!', 'Fem i rad, {name}!'],
+      mBack: ['Så där! Tillbaka på banan!', 'Ser du? Du kan det!', 'Så ska det vara!', 'Ja! Den gick hela vägen.', 'Och du är tillbaka!', 'Fint, rätt den här gången.'],
+      praiseHelpMore: ['Du fortsatte och klarade det!', 'Du kom fram, steg för steg.', 'Rätt! Du gav inte upp.', 'Nu vet du hur man gör!', 'Ja! Det är så man lär sig.', 'Klart! Nästa gång blir det lättare.'],
+      fixedPraiseMore: ['Titta, den blev grön!', 'Den kluriga är inte klurig längre.', 'Från gul till grön. Snyggt!', 'Du kom tillbaka och klarade den!', 'Fixat! Det känns bra, eller hur?'],
+      mLast: ['Och det var den sista!', 'Hela omgången är klar!', 'Den sista är klar! Nu tittar vi på dina stjärnor.', 'Omgången är slut!', 'Det var den sista. Vilken omgång!'],
+      mHalf: ['Halvvägs! {n} kvar.', 'Redan halvvägs!', 'Halvvägs. Fortsätt!', 'Halva omgången är klar!'],
+      gFirst: ['Nu kör vi! Här är den första.', 'Här kommer den. Ta god tid på dig.', 'Hej igen! Nu övar vi {subject}.', 'Första uppgiften på väg!',
+        'Redo när du är!', 'Vi gör det tillsammans.', 'Hej! Jag har väntat på dig.'],
+      gFirstT: { hoot: 'Glasögonen på? Då börjar vi.', daisy: 'Promenad! Jag menar … matte! Nu kör vi!', whiskers: 'Ljus, kamera … matte!', sparkle: 'Nu får vi omgången att gnistra.',
+        olle: 'Lugnt och stadigt. Här är första ordet.', fern: '', pjuske: '', uli: '' },
+      greetNextMore: ['Åh, här är en bra.', 'Vad sägs om den här?', 'Vi tittar på den här.', 'Här är en till.', 'Redo för nästa?', 'Nästa!', 'Den här är till dig.', 'Vi fortsätter.', 'Titta på den här.',
+        'En ny till dig.'],
+      gFresh: ['Ny uppgift, ny start.', 'Vi provar en ny.', 'Här är en ny.', 'Den här är helt ny.'],
+      retryMore: ['Åh, nära. Ett försök till?', 'Hmm, titta en gång till.', 'Nästan! Ta god tid på dig.', 'Vi kollar den igen.', 'Så nära! Titta igen.', 'Andas, och försök igen.'],
+      retryT: { hoot: 'Hmm, vi tänker på den en gång till.', daisy: 'Nosa på den en gång till!', whiskers: 'Inte riktigt, men föreställningen fortsätter! Försök igen.', sparkle: 'Vi kollar att det är rättvist. Försök igen?' },
+      togetherMore: ['Inga problem. Vi tittar på den tillsammans.', 'Jag visar dig. Titta här.', 'Den här är klurig. Vi tar den tillsammans.', 'Det är helt okej. Jag går igenom den med dig.'],
+      togetherSpMore: ['Vi stavar det tillsammans.', 'Det ordet har ett lurigt ställe. Jag visar dig.', 'Inga problem. Titta på bokstäverna med mig.'],
+      headMore: [['Du fortsatte!', 'Omgången är klar!', 'Du klarade hela omgången!', 'Bra kämpat!'], ['Fin omgång!', 'Snyggt gjort!', 'Du är på god väg!', 'Bra spelat!'],
+        ['Wow, vilken omgång!', 'Tre stjärnor!', 'Lysande jobbat!', 'Det här kan du verkligen!']],
+      msgMore: [[(f, n) => `Du fick ${f} av ${n} rätt på första försöket. Den här nivån är klurig, och du höll ut. Lektionen kan hjälpa.`,
+        (f, n) => `${f} av ${n} rätt på första försöket. Kluriga saker tar några försök. Ska vi titta på lektionen tillsammans?`,
+        (f, n) => `${f} av ${n} på första försöket, och du gjorde klart omgången. Det är så lärande börjar.`],
+      [(f, n) => `${f} av ${n} rätt på första försöket. Du har lärt dig den här nivån!`, (f, n) => `Du fick ${f} av ${n} rätt på första försöket. Nivån är inlärd. Bra jobbat!`,
+        (f, n) => `${f} av ${n} på första försöket. Nu kan du det, och 3 stjärnor är nära.`],
+      [(f, n) => `${f} av ${n} rätt på första försöket. Du skulle kunna lära någon annan det här!`, (f, n) => `Du fick ${f} av ${n} rätt på första försöket. Wow!`,
+        (f, n) => `${f} av ${n} på första försöket. Det här kan du helt och hållet.`]],
+      traits: {
+        hoot: ['Visste du? Hjärnan blir starkare varje gång den övar. Uhu!', 'Visste du? Varje misstag hjälper hjärnan att lära sig något nytt.', 'Jag har skrivit dagens omgång i min stora bok.',
+          'Visste du? Ugglor övar på att flyga i veckor. Övning fungerar för alla.', 'Så mycket tänkande. Jag är stolt över dig.', 'Den omgången var värd ett uhu!'],
+        daisy: ['Den omgången förtjänar ett mellanmål! Jag delar gärna mitt äpple med dig.', 'Mmm, det var lika gott som en picknick!', 'Jag behöver en promenad efter all spänning!',
+          'Min svans har inte slutat vifta.', 'Vi firar med ett varv runt parken!', 'Du och jag är ett bra lag.'],
+        whiskers: ['Åh, mina morrhår! Vilken omgång!', 'Stopp och belägg! Det där var fantastiskt!', 'Det här ska jag berätta för alla katter.', 'Bravo! Jag behöver en liten tupplur efter den föreställningen.',
+          'Den omgången förtjänar en röd matta.', 'Till och med mina morrhår applåderar.'],
+        sparkle: ['Jag hittade ett mönster: varje omgång gör dig lite bättre.', 'Helt rättvist: du har förtjänat varenda stjärna.', 'Stjärnorna är äkta. Du fick dem att lysa.',
+          'Det var en gnistrande omgång.', 'Ingen magi, bara du. Det är den bästa sorten.', 'Varenda stjärna där har du förtjänat.'],
+        spell: ['Bokstav för bokstav, du klarade det!', 'Ord är som pussel, och du är bra på att lösa dem.', 'Varje ord du lär dig är ditt för alltid.', 'De bokstäverna sitter i ditt huvud nu.',
+          'Stavning är en superkraft, och din växer.', 'Du tittade så noga i dag.']
+      },
+      plFirstMore: ['Vi börjar med den här. Ingen brådska.', 'Här är en att värma upp med.'],
+      plNextMore: ['Vad sägs om den här?', 'Åh, och den här?', 'Vi tittar på den här.'],
+      plGoodMore: ['Ja!', 'Fint.', 'Det är rätt!', 'Mitt i prick!', 'Toppen!'],
+      plOkMore: ['Det hjälper mig att hitta din plats.', 'Tack, det är bra att veta.', 'Det är okej. Vi lär oss det tillsammans.', 'Okej! Bra att veta.', 'Helt okej.'],
+      ytSayL: ['Nu provar du en som liknar den. Ta god tid på dig.', 'Din tur! Prova du.', 'Kan du göra en som liknar den?', 'Nu är du läraren. Prova den här.'],
+      ytRightL: ['Du klarade det! Nu är du redo för uppgifterna.', 'Så ja! Du har förstått idén.', 'Ja! Redo för den riktiga omgången?', 'Perfekt. Nu övar vi!'],
+      ytAgainL: ['Nästan! Försök en gång till.', 'Nära! Titta på stegen igen.', 'Nästan där. Ett försök till.'],
+      ytTogetherL: ['Vi räknar ut det tillsammans.', 'Vi tar den tillsammans, steg för steg.'],
+      brQL: ['Här är mitt svar. Har jag rätt?', 'Den här räknade jag ut. Är den rätt?', 'Kolla mitt svar, tack!', 'Hmm, jag tror att jag har den. Har jag?'],
+      brCaughtL: ['Du hittade mitt fel! Det ska vara {a}.', 'Hoppsan, du har rätt! Det är {a}.', 'Bra upptäckt! Svaret är {a}.', 'Ha! Du såg det. Det ska vara {a}.', 'Tack! Jag ska komma ihåg: det är {a}.'],
+      brMissedL: ['Oj, det där var fel. Det ska vara {a}.', 'Lurigt! Den fick jag fel. Det är {a}.', 'Den lurade oss båda. Det ska vara {a}.', 'Hmm, där gjorde jag fel. Det är {a}.'],
+      brYesL: ['Ja, det var rätt. Puh!', 'Rätt! Den klarade jag.', 'Puh, den räknade jag rätt!', 'Ja! Tack för att du kollade.'],
+      brWasRightL: ['Faktiskt var det rätt!', 'Den hade jag faktiskt rätt på. Titta igen: {sum}.', 'Den var rätt. Men klokt att kolla!'],
+      brEndL: ['Tack! Du kollade {m} tal och hade {n} rätt. Du är en bra lärare!', 'Tack för att du kollade mitt arbete! {n} av {m}.', 'Du skulle bli en toppenlärare. {n} av {m}!',
+        'Mina tal blev bättre tack vare dig. {n} av {m}!'],
+      timeUpMore: ['Spelet är slut!', 'Visselpipa! Spelet är över.', 'Och … stopp!', 'Puh! Tiden är slut!'],
+      outMore: ['Alla sköldar är använda. Bra försök!', 'Sköldarna är borta, men vilket spel!', 'Sista skölden är använd. Bra spelat!'],
+      gameZero: 'Den var klurig. Vill du försöka igen?',
+      gExtra: ['Det var roligt!', 'Vi spelar igen en annan gång!', 'Ditt rekord blir bättre och bättre.', 'Jag hade så roligt med dig!', 'Vilket spel!', 'High five, kompis!']
+    },
+    id: {
+      praiseMore: ['Benar!', 'Mantap!', 'Bagus sekali!', 'Kamu bisa!', 'Keren!', 'Ya, betul!', 'Kerja yang bagus.', 'Pas!', 'Ya! Hitunganmu tepat.', 'Sempurna!', 'Persis!', 'Ya! Itu dia!',
+        'Hore, benar!', 'Jawaban hebat!', 'Wah!', 'Kamu berhasil memecahkannya!', 'Nilai sempurna!', 'Begitu caranya!'],
+      pT: {
+        hoot: ['Hu-hu! Benar!', 'Pemikiran yang bijak!', 'Luar biasa!', 'Cara berpikir yang hebat!', 'Jawaban yang bijak!', 'Buluku sampai mengembang karena senang!', 'Akan kutulis di buku besarku. Benar!',
+          'Kamu berpikir seperti profesor!', 'Teliti dan benar.', 'Persis seperti harapanku!'],
+        daisy: ['Guk guk! Benar!', 'Ekorku bergoyang-goyang!', 'Jawabanmu tepat sekali!', 'Ya, ya, ya!', 'Angkat kaki untuk yang itu!', 'Aku melompat-lompat senang!', 'Benar! Itu pantas dapat camilan.',
+          'Telingaku sampai berdiri. Benar!', 'Hore! Benar lagi!', 'Bintang emas dari Bu Daisy!'],
+        whiskers: ['Wah, kumisku bergetar! Benar!', 'Bravo! Bravo!', 'Aku mendengkur senang!', 'Hentikan pertunjukannya! Itu benar!', 'Ta-da! Benar sekali.', 'Luar biasa! Silakan membungkuk!',
+          'Aku saja sampai terkesan!', 'Pertunjukan yang hebat!', 'Lagi! Lagi!', 'Fantastis, temanku!'],
+        sparkle: ['Adil dan benar!', 'Jawabanmu berkilau!', 'Tanpa sihir, itu semua kamu!', 'Benar dan berkilau!', 'Ya! Semuanya dibagi sama rata.', 'Tandukku berkelip!', 'Kamu menemukan polanya. Benar!',
+          'Pemikiran yang bersinar!', 'Benar! Bagian yang sama untuk semua.', 'Terang seperti bintang!'],
+        uli: ['Hore! Aku berayun kegirangan!', 'Huruf demi huruf, dahan demi dahan!', 'Waktunya pisang!', 'Benar! Aku bergelantungan terbalik saking senangnya.', 'Kamu memanjat sampai ke puncak!',
+          'Sempurna! Ayo berayun ke soal berikutnya.', 'Uuh-uuh! Benar!', 'Kata itu manis seperti mangga.', 'Benar! Tangan panjangku bertepuk tangan.', 'Kamu berhasil! Pesta di hutan!',
+          'Setiap huruf di pohon yang tepat!', 'Ya! Naik, naik, terus naik!'],
+        fern: [], pjuske: [], olle: []
+      },
+      spShared: ['Huruf demi huruf, sempurna!', 'Ejaannya tepat sekali!', 'Setiap huruf di tempatnya.', 'Kamu ingat bagian yang sulit!', 'Kata itu sudah jadi milikmu.', 'Ejaan yang bagus!',
+        'Ya, begitu ejaannya.', 'Tidak ada satu huruf pun yang salah!', 'Kamu memperhatikan dengan teliti!', 'Matamu jeli sekali!'],
+      mFirst: ['Awal yang hebat!', 'Soal pertama, beres!', 'Begitu cara memulai!', 'Awal yang bagus, {name}!', 'Permulaan yang hebat!', 'Satu beres, bagus!'],
+      mBefore: ['Dulu soal ini sulit. Sekarang kamu bisa sendiri!'],
+      mRun3: ['Tiga benar berturut-turut, sendiri!', 'Tiga dari tiga!', 'Kamu sedang lancar!', 'Satu, dua, tiga, semua benar!', 'Tiga jawaban benar berturut-turut!'],
+      mRun5: ['Lima berturut-turut! Otakmu sudah panas sekarang.', 'Lima benar berturut-turut. Wah!', 'Tos untuk lima berturut-turut!', 'Lima berturut-turut, {name}!'],
+      mBack: ['Nah! Kembali ke jalur!', 'Lihat? Kamu bisa!', 'Begitu dong!', 'Ya! Yang itu pas sekali.', 'Dan kamu kembali!', 'Bagus, kali ini benar.'],
+      praiseHelpMore: ['Kamu terus mencoba dan berhasil!', 'Kamu sampai, langkah demi langkah.', 'Benar! Kamu tidak menyerah.', 'Sekarang kamu tahu caranya!', 'Ya! Begitulah cara kita belajar.',
+        'Berhasil! Lain kali akan terasa lebih mudah.'],
+      fixedPraiseMore: ['Lihat, jadi hijau!', 'Soal yang sulit itu sudah tidak sulit lagi.', 'Dari kuning ke hijau. Bagus!', 'Kamu kembali dan berhasil!', 'Sudah diperbaiki! Rasanya senang, kan?'],
+      mLast: ['Dan itu soal terakhir!', 'Satu ronde selesai!', 'Soal terakhir beres! Ayo lihat bintangmu.', 'Rondenya selesai!', 'Itu yang terakhir. Ronde yang hebat!'],
+      mHalf: ['Setengah jalan! Tinggal {n} lagi.', 'Sudah setengah!', 'Setengah jalan. Terus semangat!', 'Setengah ronde selesai!'],
+      gFirst: ['Ayo mulai! Ini soal pertama.', 'Ini dia. Santai saja.', 'Halo lagi! Sekarang kita latihan {subject}.', 'Soal pertama segera datang!',
+        'Aku siap kapan pun kamu siap!', 'Ayo kita kerjakan bersama.', 'Halo! Aku sudah menunggumu.'],
+      gFirstT: { hoot: 'Kacamata sudah dipakai? Ayo mulai.', daisy: 'Jalan-jalan! Eh, maksudku… matematika! Ayo!', whiskers: 'Lampu, kamera… matematika!', sparkle: 'Ayo buat ronde ini berkilau.',
+        uli: 'Ayo kita mulai sambil berayun!', fern: '', pjuske: '', olle: '' },
+      greetNextMore: ['Wah, ini soal yang seru.', 'Bagaimana dengan yang ini?', 'Kita lihat yang ini.', 'Ini satu lagi.', 'Siap untuk berikutnya?', 'Berikutnya!', 'Yang ini untukmu.', 'Ayo lanjut.',
+        'Coba lihat yang ini.', 'Soal baru untukmu.'],
+      gFresh: ['Soal baru, awal baru.', 'Ayo coba yang baru.', 'Ini soal baru.', 'Yang ini masih baru.'],
+      retryMore: ['Wah, hampir. Coba sekali lagi?', 'Hmm, lihat sekali lagi.', 'Hampir! Pelan-pelan saja.', 'Ayo periksa sekali lagi.', 'Dekat sekali! Lihat lagi.', 'Tarik napas, lalu coba lagi.'],
+      retryT: { hoot: 'Hmm, ayo kita pikirkan sekali lagi.', daisy: 'Endus sekali lagi!', whiskers: 'Belum tepat, tapi pertunjukan terus berjalan! Coba lagi.', sparkle: 'Ayo cek apakah sudah adil. Coba lagi?' },
+      togetherMore: ['Tidak masalah. Ayo kita lihat bersama.', 'Aku tunjukkan. Lihat ini.', 'Soal ini sulit. Ayo kerjakan bersama.', 'Tidak apa-apa. Aku temani langkah demi langkah.'],
+      togetherSpMore: ['Ayo kita eja bersama.', 'Kata ini punya bagian yang licik. Aku tunjukkan.', 'Tidak masalah. Lihat huruf-hurufnya bersamaku.'],
+      headMore: [['Kamu terus berusaha!', 'Ronde selesai!', 'Kamu menyelesaikan satu ronde!', 'Usaha yang bagus!'], ['Ronde yang bagus!', 'Bagus sekali!', 'Kamu makin dekat!', 'Main yang bagus!'],
+        ['Wah, ronde yang hebat!', 'Tiga bintang!', 'Kerja yang luar biasa!', 'Kamu benar-benar menguasainya!']],
+      msgMore: [[(f, n) => `Kamu benar ${f} dari ${n} pada percobaan pertama. Level ini memang sulit, dan kamu tetap bertahan. Pelajarannya bisa membantu.`,
+        (f, n) => `${f} dari ${n} benar pada percobaan pertama. Hal yang sulit butuh beberapa kali mencoba. Mau lihat pelajarannya bersama?`,
+        (f, n) => `${f} dari ${n} pada percobaan pertama, dan kamu menyelesaikan rondenya. Begitulah belajar dimulai.`],
+      [(f, n) => `${f} dari ${n} benar pada percobaan pertama. Kamu sudah menguasai level ini!`, (f, n) => `Kamu benar ${f} dari ${n} pada percobaan pertama. Level ini sudah dikuasai. Kerja bagus!`,
+        (f, n) => `${f} dari ${n} pada percobaan pertama. Kamu sudah bisa, dan 3 bintang sudah dekat.`],
+      [(f, n) => `${f} dari ${n} benar pada percobaan pertama. Kamu bisa mengajarkan ini kepada orang lain!`, (f, n) => `Kamu benar ${f} dari ${n} pada percobaan pertama. Wah!`,
+        (f, n) => `${f} dari ${n} pada percobaan pertama. Kamu benar-benar menguasainya.`]],
+      traits: {
+        hoot: ['Tahukah kamu? Otak jadi makin kuat setiap kali berlatih. Hu-hu!', 'Tahukah kamu? Setiap kesalahan membantu otakmu belajar hal baru.', 'Ronde hari ini sudah kutulis di buku besarku.',
+          'Tahukah kamu? Burung hantu berlatih terbang berminggu-minggu. Latihan berhasil untuk semua.', 'Banyak sekali berpikir hari ini. Aku bangga padamu.', 'Ronde itu pantas dirayakan dengan hu-hu!'],
+        daisy: ['Ronde itu pantas dapat camilan! Aku mau berbagi apelku denganmu.', 'Hmm, itu seenak piknik!', 'Aku perlu jalan-jalan setelah semua keseruan ini!', 'Ekorku tidak berhenti bergoyang.',
+          'Ayo rayakan dengan lari keliling taman!', 'Kamu dan aku tim yang hebat.'],
+        whiskers: ['Astaga, kumisku! Ronde yang hebat!', 'Berhenti semuanya! Itu luar biasa!', 'Akan kuceritakan ini ke semua kucing.', 'Bravo! Aku perlu tidur sebentar setelah pertunjukan itu.',
+          'Ronde itu pantas dapat karpet merah.', 'Kumisku saja ikut bertepuk tangan.'],
+        sparkle: ['Aku menemukan pola: setiap ronde membuatmu sedikit lebih hebat.', 'Adil dan jujur: kamu pantas mendapat setiap bintang itu.', 'Bintang-bintang itu asli. Kamu yang membuatnya bersinar.',
+          'Itu ronde yang berkilau.', 'Tanpa sihir, hanya kamu. Itu yang terbaik.', 'Setiap bintang di sana kamu dapatkan sendiri.'],
+        spell: ['Huruf demi huruf, kamu berhasil!', 'Kata-kata itu seperti teka-teki, dan kamu pandai memecahkannya.', 'Setiap kata yang kamu pelajari jadi milikmu selamanya.',
+          'Huruf-huruf itu sekarang ada di kepalamu.', 'Mengeja itu kekuatan super, dan punyamu makin besar.', 'Kamu teliti sekali hari ini.']
+      },
+      plFirstMore: ['Kita mulai dengan yang ini. Tidak perlu buru-buru.', 'Ini satu untuk pemanasan.'],
+      plNextMore: ['Bagaimana dengan yang ini?', 'Wah, dan yang ini?', 'Kita lihat yang ini.'],
+      plGoodMore: ['Ya!', 'Bagus.', 'Itu benar!', 'Tepat!', 'Mantap!'],
+      plOkMore: ['Itu membantuku menemukan tempatmu.', 'Terima kasih, itu berguna.', 'Tidak apa-apa. Kita pelajari bersama.', 'Oke! Bagus untuk diketahui.', 'Santai saja.'],
+      ytSayL: ['Sekarang coba satu yang mirip. Pelan-pelan saja.', 'Giliranmu! Ayo coba.', 'Bisakah kamu mengerjakan yang mirip?', 'Sekarang kamu jadi gurunya. Coba yang ini.'],
+      ytRightL: ['Kamu berhasil! Sekarang kamu siap mengerjakan soal-soalnya.', 'Nah! Kamu sudah paham.', 'Ya! Siap untuk ronde sungguhan?', 'Sempurna. Ayo berlatih!'],
+      ytAgainL: ['Hampir! Coba sekali lagi.', 'Dekat! Lihat langkah-langkahnya lagi.', 'Sedikit lagi. Coba sekali lagi.'],
+      ytTogetherL: ['Ayo kita kerjakan bersama.', 'Ayo kerjakan bersama, langkah demi langkah.'],
+      brQL: ['Ini jawabanku. Apakah aku benar?', 'Aku sudah mengerjakan yang ini. Benar tidak?', 'Tolong periksa jawabanku!', 'Hmm, sepertinya aku bisa. Benar, kan?'],
+      brCaughtL: ['Kamu menemukan kesalahanku! Seharusnya {a}.', 'Ups, kamu benar! Jawabannya {a}.', 'Jeli sekali! Jawabannya {a}.', 'Ha! Kamu menemukannya. Seharusnya {a}.', 'Terima kasih! Akan kuingat: jawabannya {a}.'],
+      brMissedL: ['Oh, yang itu salah. Seharusnya {a}.', 'Licik! Yang itu aku salah. Jawabannya {a}.', 'Yang itu mengecoh kita berdua. Seharusnya {a}.', 'Hmm, aku salah di situ. Jawabannya {a}.'],
+      brYesL: ['Ya, yang itu benar. Fiuh!', 'Benar! Yang itu aku bisa.', 'Fiuh, yang itu aku benar!', 'Ya! Terima kasih sudah memeriksa.'],
+      brWasRightL: ['Sebenarnya yang itu benar!', 'Yang itu sebenarnya aku benar. Lihat lagi: {sum}.', 'Yang itu benar. Tapi bagus kamu memeriksanya!'],
+      brEndL: ['Terima kasih! Kamu memeriksa {m} soal dan {n} jawabanmu benar. Kamu guru yang hebat!', 'Terima kasih sudah memeriksa pekerjaanku! {n} dari {m}.', 'Kamu bisa jadi guru yang hebat. {n} dari {m}!',
+        'Hitunganku jadi lebih baik berkat kamu. {n} dari {m}!'],
+      timeUpMore: ['Permainan selesai!', 'Priit! Permainan berakhir.', 'Dan… berhenti!', 'Fiuh! Waktu habis!'],
+      outMore: ['Semua perisai sudah terpakai. Usaha yang bagus!', 'Perisai habis, tapi permainannya seru!', 'Perisai terakhir terpakai. Main yang bagus!'],
+      gameZero: 'Yang itu sulit. Mau coba lagi?',
+      gExtra: ['Seru sekali!', 'Ayo main lagi lain kali!', 'Skor terbaikmu makin bagus.', 'Aku senang sekali bermain denganmu!', 'Permainan yang hebat!', 'Tos, teman!']
+    }
+  };
+  for (const [l, v] of Object.entries(T)) Object.assign(I18N[l], v);
 })();
 /* ---------- actions for the new screens ---------- */
 function startOnboarding(mode) { show('onboard', { step: 'lang', mode }); }
